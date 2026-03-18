@@ -19,5 +19,9 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Setting initial form values from fetched data in useEffect is a valid pattern
+      'react-hooks/set-state-in-effect': 'off',
+    },
   },
 ])

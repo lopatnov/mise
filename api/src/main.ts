@@ -12,9 +12,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  app.useGlobalPipes(
-    new ValidationPipe({ whitelist: true, transform: true }),
-  );
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const config = new DocumentBuilder()
     .setTitle('Mise API')
@@ -34,4 +32,4 @@ async function bootstrap() {
   console.log(`Mise API running on http://localhost:${port}`);
   console.log(`Swagger UI: http://localhost:${port}/api/docs`);
 }
-bootstrap();
+void bootstrap();

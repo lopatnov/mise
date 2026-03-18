@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Пароль",
+    "passwordMin": "Пароль (мин. 6 символов)",
+    "name": "Имя (необязательно)",
+    "signIn": "Войти",
+    "signingIn": "Вход...",
+    "noAccount": "Нет аккаунта?",
+    "register": "Зарегистрироваться",
+    "createAccount": "Создать аккаунт",
+    "registering": "Регистрация...",
+    "hasAccount": "Уже есть аккаунт?",
+    "invalidCredentials": "Неверный email или пароль",
+    "emailTaken": "Email уже зарегистрирован или ошибка сервера"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Поиск рецептов...",
+      "tagPlaceholder": "Тег",
+      "addButton": "+ Рецепт",
+      "loading": "Загрузка...",
+      "empty": "Рецептов пока нет. Добавьте первый!"
+    },
+    "detail": {
+      "back": "← Назад",
+      "edit": "✏️ Редактировать",
+      "delete": "🗑 Удалить",
+      "loading": "Загрузка...",
+      "notFound": "Рецепт не найден",
+      "addPhoto": "📷 Добавить фото",
+      "prepTime": "⏱ Подготовка: {{min}} мин",
+      "cookTime": "🔥 Готовка: {{min}} мин",
+      "servings": "🍽 Порций:",
+      "reset": "сбросить",
+      "ingredients": "Ингредиенты",
+      "steps": "Шаги приготовления"
+    },
+    "form": {
+      "back": "← Назад",
+      "editTitle": "Редактировать рецепт",
+      "newTitle": "Новый рецепт",
+      "titleLabel": "Название *",
+      "description": "Описание",
+      "servings": "Порций",
+      "prepTime": "Подготовка (мин)",
+      "cookTime": "Готовка (мин)",
+      "category": "Категория",
+      "noCategory": "— без категории —",
+      "rating": "Рейтинг (1–5)",
+      "tags": "Теги (через запятую)",
+      "tagsPlaceholder": "суп, быстро, вегетарианское",
+      "ingredients": "Ингредиенты",
+      "add": "+ Добавить",
+      "ingredientName": "Название",
+      "ingredientQty": "Кол-во",
+      "ingredientUnit": "Ед.",
+      "steps": "Шаги приготовления",
+      "step": "Шаг {{n}}",
+      "saveError": "Ошибка сохранения",
+      "saving": "Сохранение...",
+      "save": "Сохранить",
+      "create": "Создать рецепт"
+    }
+  },
+  "profile": {
+    "back": "← К рецептам",
+    "noName": "Без имени",
+    "recipesCount": "рецептов",
+    "signOut": "Выйти из аккаунта"
+  },
+  "lang": {
+    "select": "Язык"
+  }
+}

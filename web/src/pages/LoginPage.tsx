@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { useAuthStore } from '../store/authStore';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,7 +24,7 @@ export default function LoginPage() {
       setAuth(res.access_token, res.user);
       navigate('/');
     } catch {
-      setError('Неверный email или пароль');
+      setError(t('auth.invalidCredentials'));
     } finally {
       setLoading(false);
     }
@@ -29,25 +32,28 @@ export default function LoginPage() {
 
   return (
     <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 Mise</h1>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+        <LanguageSwitcher />
+      </div>
+      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
-          type="email" placeholder="Email" value={email}
+          type="email" placeholder={t('auth.email')} value={email}
           onChange={(e) => setEmail(e.target.value)} required
           style={inputStyle}
         />
         <input
-          type="password" placeholder="Пароль" value={password}
+          type="password" placeholder={t('auth.password')} value={password}
           onChange={(e) => setPassword(e.target.value)} required
           style={inputStyle}
         />
         {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
         <button type="submit" disabled={loading} style={btnStyle}>
-          {loading ? 'Вход...' : 'Войти'}
+          {loading ? t('auth.signingIn') : t('auth.signIn')}
         </button>
       </form>
       <p style={{ textAlign: 'center', marginTop: 16 }}>
-        Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+        {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
       </p>
     </div>
   );

@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "E-post",
+    "password": "Lösenord",
+    "passwordMin": "Lösenord (min. 6 tecken)",
+    "name": "Namn (valfritt)",
+    "signIn": "Logga in",
+    "signingIn": "Loggar in...",
+    "noAccount": "Inget konto?",
+    "register": "Registrera",
+    "createAccount": "Skapa konto",
+    "registering": "Registrerar...",
+    "hasAccount": "Har du redan ett konto?",
+    "invalidCredentials": "Ogiltig e-post eller lösenord",
+    "emailTaken": "E-post redan registrerad eller serverfel"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Sök recept...",
+      "tagPlaceholder": "Tagg",
+      "addButton": "+ Recept",
+      "loading": "Laddar...",
+      "empty": "Inga recept ännu. Lägg till det första!"
+    },
+    "detail": {
+      "back": "← Tillbaka",
+      "edit": "✏️ Redigera",
+      "delete": "🗑 Radera",
+      "loading": "Laddar...",
+      "notFound": "Receptet hittades inte",
+      "addPhoto": "📷 Lägg till foto",
+      "prepTime": "⏱ Förberedelse: {{min}} min",
+      "cookTime": "🔥 Tillagningstid: {{min}} min",
+      "servings": "🍽 Portioner:",
+      "reset": "återställ",
+      "ingredients": "Ingredienser",
+      "steps": "Tillagningssteg"
+    },
+    "form": {
+      "back": "← Tillbaka",
+      "editTitle": "Redigera recept",
+      "newTitle": "Nytt recept",
+      "titleLabel": "Titel *",
+      "description": "Beskrivning",
+      "servings": "Portioner",
+      "prepTime": "Förberedelsetid (min)",
+      "cookTime": "Tillagningstid (min)",
+      "category": "Kategori",
+      "noCategory": "— ingen kategori —",
+      "rating": "Betyg (1–5)",
+      "tags": "Taggar (kommaseparerade)",
+      "tagsPlaceholder": "soppa, snabbt, vegetarisk",
+      "ingredients": "Ingredienser",
+      "add": "+ Lägg till",
+      "ingredientName": "Namn",
+      "ingredientQty": "Mängd",
+      "ingredientUnit": "Enhet",
+      "steps": "Steg",
+      "step": "Steg {{n}}",
+      "saveError": "Fel vid sparande",
+      "saving": "Sparar...",
+      "save": "Spara",
+      "create": "Skapa recept"
+    }
+  },
+  "profile": {
+    "back": "← Tillbaka till recept",
+    "noName": "Inget namn",
+    "recipesCount": "recept",
+    "signOut": "Logga ut"
+  },
+  "lang": {
+    "select": "Språk"
+  }
+}

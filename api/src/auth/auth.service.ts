@@ -1,6 +1,17 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { Types } from 'mongoose';
 import { UsersService } from '../users/users.service';
+
+interface SignTokenUser {
+  _id: Types.ObjectId;
+  email: string;
+  displayName?: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -19,12 +30,15 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (!user) throw new UnauthorizedException('Invalid credentials');
-    const valid = await this.usersService.validatePassword(password, user.passwordHash);
+    const valid = await this.usersService.validatePassword(
+      password,
+      user.passwordHash,
+    );
     if (!valid) throw new UnauthorizedException('Invalid credentials');
     return this.signToken(user);
   }
 
-  private signToken(user: any) {
+  private signToken(user: SignTokenUser) {
     const payload = { sub: user._id.toString(), email: user.email };
     return {
       access_token: this.jwtService.sign(payload),

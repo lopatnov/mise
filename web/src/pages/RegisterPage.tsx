@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { useAuthStore } from '../store/authStore';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -22,7 +25,7 @@ export default function RegisterPage() {
       setAuth(res.access_token, res.user);
       navigate('/');
     } catch {
-      setError('Email уже зарегистрирован или ошибка сервера');
+      setError(t('auth.emailTaken'));
     } finally {
       setLoading(false);
     }
@@ -30,30 +33,33 @@ export default function RegisterPage() {
 
   return (
     <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 Mise</h1>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+        <LanguageSwitcher />
+      </div>
+      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
-          placeholder="Имя (необязательно)" value={displayName}
+          placeholder={t('auth.name')} value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           style={inputStyle}
         />
         <input
-          type="email" placeholder="Email" value={email}
+          type="email" placeholder={t('auth.email')} value={email}
           onChange={(e) => setEmail(e.target.value)} required
           style={inputStyle}
         />
         <input
-          type="password" placeholder="Пароль (мин. 6 символов)" value={password}
+          type="password" placeholder={t('auth.passwordMin')} value={password}
           onChange={(e) => setPassword(e.target.value)} required minLength={6}
           style={inputStyle}
         />
         {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
         <button type="submit" disabled={loading} style={btnStyle}>
-          {loading ? 'Регистрация...' : 'Создать аккаунт'}
+          {loading ? t('auth.registering') : t('auth.createAccount')}
         </button>
       </form>
       <p style={{ textAlign: 'center', marginTop: 16 }}>
-        Уже есть аккаунт? <Link to="/login">Войти</Link>
+        {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
       </p>
     </div>
   );

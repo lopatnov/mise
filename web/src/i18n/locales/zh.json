@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "邮箱",
+    "password": "密码",
+    "passwordMin": "密码（最少6个字符）",
+    "name": "姓名（可选）",
+    "signIn": "登录",
+    "signingIn": "登录中...",
+    "noAccount": "没有账号？",
+    "register": "注册",
+    "createAccount": "创建账号",
+    "registering": "注册中...",
+    "hasAccount": "已有账号？",
+    "invalidCredentials": "邮箱或密码错误",
+    "emailTaken": "邮箱已注册或服务器错误"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "搜索食谱...",
+      "tagPlaceholder": "标签",
+      "addButton": "+ 食谱",
+      "loading": "加载中...",
+      "empty": "暂无食谱，添加第一个吧！"
+    },
+    "detail": {
+      "back": "← 返回",
+      "edit": "✏️ 编辑",
+      "delete": "🗑 删除",
+      "loading": "加载中...",
+      "notFound": "未找到食谱",
+      "addPhoto": "📷 添加照片",
+      "prepTime": "⏱ 准备：{{min}} 分钟",
+      "cookTime": "🔥 烹饪：{{min}} 分钟",
+      "servings": "🍽 份数：",
+      "reset": "重置",
+      "ingredients": "食材",
+      "steps": "烹饪步骤"
+    },
+    "form": {
+      "back": "← 返回",
+      "editTitle": "编辑食谱",
+      "newTitle": "新建食谱",
+      "titleLabel": "标题 *",
+      "description": "描述",
+      "servings": "份数",
+      "prepTime": "准备时间（分钟）",
+      "cookTime": "烹饪时间（分钟）",
+      "category": "分类",
+      "noCategory": "— 无分类 —",
+      "rating": "评分（1–5）",
+      "tags": "标签（逗号分隔）",
+      "tagsPlaceholder": "汤, 快手菜, 素食",
+      "ingredients": "食材",
+      "add": "+ 添加",
+      "ingredientName": "名称",
+      "ingredientQty": "数量",
+      "ingredientUnit": "单位",
+      "steps": "步骤",
+      "step": "第{{n}}步",
+      "saveError": "保存失败",
+      "saving": "保存中...",
+      "save": "保存",
+      "create": "创建食谱"
+    }
+  },
+  "profile": {
+    "back": "← 返回食谱",
+    "noName": "未设置姓名",
+    "recipesCount": "个食谱",
+    "signOut": "退出登录"
+  },
+  "lang": {
+    "select": "语言"
+  }
+}

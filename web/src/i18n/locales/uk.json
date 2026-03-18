@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Пароль",
+    "passwordMin": "Пароль (мін. 6 символів)",
+    "name": "Ім'я (необов'язково)",
+    "signIn": "Увійти",
+    "signingIn": "Вхід...",
+    "noAccount": "Немає акаунту?",
+    "register": "Зареєструватися",
+    "createAccount": "Створити акаунт",
+    "registering": "Реєстрація...",
+    "hasAccount": "Вже є акаунт?",
+    "invalidCredentials": "Невірний email або пароль",
+    "emailTaken": "Email вже зареєстровано або помилка сервера"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Пошук рецептів...",
+      "tagPlaceholder": "Тег",
+      "addButton": "+ Рецепт",
+      "loading": "Завантаження...",
+      "empty": "Рецептів поки немає. Додайте перший!"
+    },
+    "detail": {
+      "back": "← Назад",
+      "edit": "✏️ Редагувати",
+      "delete": "🗑 Видалити",
+      "loading": "Завантаження...",
+      "notFound": "Рецепт не знайдено",
+      "addPhoto": "📷 Додати фото",
+      "prepTime": "⏱ Підготовка: {{min}} хв",
+      "cookTime": "🔥 Готування: {{min}} хв",
+      "servings": "🍽 Порцій:",
+      "reset": "скинути",
+      "ingredients": "Інгредієнти",
+      "steps": "Кроки приготування"
+    },
+    "form": {
+      "back": "← Назад",
+      "editTitle": "Редагувати рецепт",
+      "newTitle": "Новий рецепт",
+      "titleLabel": "Назва *",
+      "description": "Опис",
+      "servings": "Порцій",
+      "prepTime": "Підготовка (хв)",
+      "cookTime": "Готування (хв)",
+      "category": "Категорія",
+      "noCategory": "— без категорії —",
+      "rating": "Рейтинг (1–5)",
+      "tags": "Теги (через кому)",
+      "tagsPlaceholder": "суп, швидко, вегетаріанське",
+      "ingredients": "Інгредієнти",
+      "add": "+ Додати",
+      "ingredientName": "Назва",
+      "ingredientQty": "Кіл-ть",
+      "ingredientUnit": "Од.",
+      "steps": "Кроки приготування",
+      "step": "Крок {{n}}",
+      "saveError": "Помилка збереження",
+      "saving": "Збереження...",
+      "save": "Зберегти",
+      "create": "Створити рецепт"
+    }
+  },
+  "profile": {
+    "back": "← До рецептів",
+    "noName": "Без імені",
+    "recipesCount": "рецептів",
+    "signOut": "Вийти з акаунту"
+  },
+  "lang": {
+    "select": "Мова"
+  }
+}

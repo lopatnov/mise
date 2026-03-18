@@ -1,4 +1,12 @@
-import { IsString, IsOptional, IsArray, IsNumber, Min, Max, IsMongoId } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsArray,
+  IsNumber,
+  Min,
+  Max,
+  IsMongoId,
+} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -16,31 +24,49 @@ export class StepDto {
 export class CreateRecipeDto {
   @IsString() title: string;
 
-  @ApiPropertyOptional() @IsOptional() @IsString()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
   description?: string;
 
-  @IsOptional() @IsArray() @Type(() => IngredientDto)
+  @IsOptional()
+  @IsArray()
+  @Type(() => IngredientDto)
   ingredients?: IngredientDto[];
 
-  @IsOptional() @IsArray() @Type(() => StepDto)
+  @IsOptional()
+  @IsArray()
+  @Type(() => StepDto)
   steps?: StepDto[];
 
-  @IsOptional() @IsArray() @IsString({ each: true })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
   tags?: string[];
 
-  @IsOptional() @IsMongoId()
+  @IsOptional()
+  @IsMongoId()
   categoryId?: string;
 
-  @IsOptional() @IsNumber() @Min(1) @Max(5)
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Max(5)
   rating?: number;
 
-  @IsOptional() @IsNumber() @Min(0)
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
   prepTime?: number;
 
-  @IsOptional() @IsNumber() @Min(0)
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
   cookTime?: number;
 
-  @IsOptional() @IsNumber() @Min(1)
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
   servings?: number;
 }
 

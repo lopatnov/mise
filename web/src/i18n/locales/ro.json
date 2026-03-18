@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Parolă",
+    "passwordMin": "Parolă (min. 6 caractere)",
+    "name": "Nume (opțional)",
+    "signIn": "Autentificare",
+    "signingIn": "Autentificare...",
+    "noAccount": "Nu ai cont?",
+    "register": "Înregistrare",
+    "createAccount": "Creare cont",
+    "registering": "Înregistrare...",
+    "hasAccount": "Ai deja un cont?",
+    "invalidCredentials": "E-mail sau parolă incorecte",
+    "emailTaken": "E-mail deja înregistrat sau eroare server"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Caută rețete...",
+      "tagPlaceholder": "Etichetă",
+      "addButton": "+ Rețetă",
+      "loading": "Se încarcă...",
+      "empty": "Nu există rețete încă. Adaugă prima!"
+    },
+    "detail": {
+      "back": "← Înapoi",
+      "edit": "✏️ Editează",
+      "delete": "🗑 Șterge",
+      "loading": "Se încarcă...",
+      "notFound": "Rețeta nu a fost găsită",
+      "addPhoto": "📷 Adaugă fotografie",
+      "prepTime": "⏱ Preparare: {{min}} min",
+      "cookTime": "🔥 Gătire: {{min}} min",
+      "servings": "🍽 Porții:",
+      "reset": "resetează",
+      "ingredients": "Ingrediente",
+      "steps": "Pași de preparare"
+    },
+    "form": {
+      "back": "← Înapoi",
+      "editTitle": "Editează rețeta",
+      "newTitle": "Rețetă nouă",
+      "titleLabel": "Titlu *",
+      "description": "Descriere",
+      "servings": "Porții",
+      "prepTime": "Timp de preparare (min)",
+      "cookTime": "Timp de gătire (min)",
+      "category": "Categorie",
+      "noCategory": "— fără categorie —",
+      "rating": "Evaluare (1–5)",
+      "tags": "Etichete (separate prin virgulă)",
+      "tagsPlaceholder": "supă, rapid, vegetarian",
+      "ingredients": "Ingrediente",
+      "add": "+ Adaugă",
+      "ingredientName": "Nume",
+      "ingredientQty": "Cant.",
+      "ingredientUnit": "Unitate",
+      "steps": "Pași",
+      "step": "Pasul {{n}}",
+      "saveError": "Eroare la salvare",
+      "saving": "Se salvează...",
+      "save": "Salvează",
+      "create": "Crează rețeta"
+    }
+  },
+  "profile": {
+    "back": "← Înapoi la rețete",
+    "noName": "Fără nume",
+    "recipesCount": "rețete",
+    "signOut": "Deconectare"
+  },
+  "lang": {
+    "select": "Limbă"
+  }
+}

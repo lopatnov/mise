@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "passwordMin": "Password (min. 6 characters)",
+    "name": "Name (optional)",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "noAccount": "No account?",
+    "register": "Register",
+    "createAccount": "Create account",
+    "registering": "Registering...",
+    "hasAccount": "Already have an account?",
+    "invalidCredentials": "Invalid email or password",
+    "emailTaken": "Email already registered or server error"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Search recipes...",
+      "tagPlaceholder": "Tag",
+      "addButton": "+ Recipe",
+      "loading": "Loading...",
+      "empty": "No recipes yet. Add the first one!"
+    },
+    "detail": {
+      "back": "← Back",
+      "edit": "✏️ Edit",
+      "delete": "🗑 Delete",
+      "loading": "Loading...",
+      "notFound": "Recipe not found",
+      "addPhoto": "📷 Add photo",
+      "prepTime": "⏱ Prep: {{min}} min",
+      "cookTime": "🔥 Cook: {{min}} min",
+      "servings": "🍽 Servings:",
+      "reset": "reset",
+      "ingredients": "Ingredients",
+      "steps": "Preparation steps"
+    },
+    "form": {
+      "back": "← Back",
+      "editTitle": "Edit recipe",
+      "newTitle": "New recipe",
+      "titleLabel": "Title *",
+      "description": "Description",
+      "servings": "Servings",
+      "prepTime": "Prep time (min)",
+      "cookTime": "Cook time (min)",
+      "category": "Category",
+      "noCategory": "— no category —",
+      "rating": "Rating (1–5)",
+      "tags": "Tags (comma-separated)",
+      "tagsPlaceholder": "soup, quick, vegetarian",
+      "ingredients": "Ingredients",
+      "add": "+ Add",
+      "ingredientName": "Name",
+      "ingredientQty": "Qty",
+      "ingredientUnit": "Unit",
+      "steps": "Steps",
+      "step": "Step {{n}}",
+      "saveError": "Save error",
+      "saving": "Saving...",
+      "save": "Save",
+      "create": "Create recipe"
+    }
+  },
+  "profile": {
+    "back": "← Back to recipes",
+    "noName": "No name",
+    "recipesCount": "recipes",
+    "signOut": "Sign out"
+  },
+  "lang": {
+    "select": "Language"
+  }
+}

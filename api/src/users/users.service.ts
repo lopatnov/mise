@@ -12,9 +12,17 @@ export class UsersService {
     return this.userModel.findOne({ email: email.toLowerCase() }).lean();
   }
 
-  async create(email: string, password: string, displayName?: string): Promise<UserDocument> {
+  async create(
+    email: string,
+    password: string,
+    displayName?: string,
+  ): Promise<UserDocument> {
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = new this.userModel({ email: email.toLowerCase(), passwordHash, displayName });
+    const user = new this.userModel({
+      email: email.toLowerCase(),
+      passwordHash,
+      displayName,
+    });
     return user.save();
   }
 

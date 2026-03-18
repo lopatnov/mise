@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
 import type { Recipe } from '../api/recipes';
 import { categoriesApi } from '../api/categories';
 
 export default function RecipeFormPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
   const navigate = useNavigate();
@@ -64,7 +66,7 @@ export default function RecipeFormPage() {
       prepTime: prepTime ? Number(prepTime) : undefined,
       cookTime: cookTime ? Number(cookTime) : undefined,
       rating: rating ? Number(rating) : undefined,
-      tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
+      tags: tags.split(',').map((tag) => tag.trim()).filter(Boolean),
       categoryId: categoryId || undefined,
       ingredients: ingredients.filter((i) => i.name),
       steps: steps.filter(Boolean).map((text, i) => ({ order: i + 1, text })),
@@ -90,59 +92,59 @@ export default function RecipeFormPage() {
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
       <div style={{ marginBottom: 20 }}>
-        <button onClick={() => navigate(-1)} style={linkBtn}>← Назад</button>
+        <button onClick={() => navigate(-1)} style={linkBtn}>{t('recipe.form.back')}</button>
       </div>
-      <h1 style={{ marginBottom: 24 }}>{isEdit ? 'Редактировать рецепт' : 'Новый рецепт'}</h1>
+      <h1 style={{ marginBottom: 24 }}>{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <Field label="Название *">
+        <Field label={t('recipe.form.titleLabel')}>
           <input value={title} onChange={(e) => setTitle(e.target.value)} required style={inputStyle} />
         </Field>
 
-        <Field label="Описание">
+        <Field label={t('recipe.form.description')}>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} style={{ ...inputStyle, resize: 'vertical' }} />
         </Field>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-          <Field label="Порций">
+          <Field label={t('recipe.form.servings')}>
             <input type="number" min={1} value={servings} onChange={(e) => setServings(Number(e.target.value))} style={inputStyle} />
           </Field>
-          <Field label="Подготовка (мин)">
+          <Field label={t('recipe.form.prepTime')}>
             <input type="number" min={0} value={prepTime} onChange={(e) => setPrepTime(e.target.value)} style={inputStyle} />
           </Field>
-          <Field label="Готовка (мин)">
+          <Field label={t('recipe.form.cookTime')}>
             <input type="number" min={0} value={cookTime} onChange={(e) => setCookTime(e.target.value)} style={inputStyle} />
           </Field>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-          <Field label="Категория">
+          <Field label={t('recipe.form.category')}>
             <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={inputStyle}>
-              <option value="">— без категории —</option>
+              <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>{c.icon} {c.name}</option>
               ))}
             </select>
           </Field>
-          <Field label="Рейтинг (1–5)">
+          <Field label={t('recipe.form.rating')}>
             <input type="number" min={1} max={5} value={rating} onChange={(e) => setRating(e.target.value)} style={inputStyle} />
           </Field>
         </div>
 
-        <Field label="Теги (через запятую)">
-          <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="суп, быстро, вегетарианское" style={inputStyle} />
+        <Field label={t('recipe.form.tags')}>
+          <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder={t('recipe.form.tagsPlaceholder')} style={inputStyle} />
         </Field>
 
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>Ингредиенты</label>
-            <button type="button" onClick={addIngredient} style={smallBtn}>+ Добавить</button>
+            <label style={labelStyle}>{t('recipe.form.ingredients')}</label>
+            <button type="button" onClick={addIngredient} style={smallBtn}>{t('recipe.form.add')}</button>
           </div>
           {ingredients.map((ing, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 80px 32px', gap: 6, marginBottom: 6 }}>
-              <input placeholder="Название" value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} style={inputStyle} />
-              <input type="number" placeholder="Кол-во" value={ing.amount} onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))} style={inputStyle} />
-              <input placeholder="Ед." value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} style={inputStyle} />
+              <input placeholder={t('recipe.form.ingredientName')} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} style={inputStyle} />
+              <input type="number" placeholder={t('recipe.form.ingredientQty')} value={ing.amount} onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))} style={inputStyle} />
+              <input placeholder={t('recipe.form.ingredientUnit')} value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} style={inputStyle} />
               <button type="button" onClick={() => removeIngredient(i)} style={{ ...smallBtn, background: '#fee', color: '#c00' }}>×</button>
             </div>
           ))}
@@ -150,8 +152,8 @@ export default function RecipeFormPage() {
 
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>Шаги приготовления</label>
-            <button type="button" onClick={addStep} style={smallBtn}>+ Добавить</button>
+            <label style={labelStyle}>{t('recipe.form.steps')}</label>
+            <button type="button" onClick={addStep} style={smallBtn}>{t('recipe.form.add')}</button>
           </div>
           {steps.map((step, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 32px', gap: 6, marginBottom: 6, alignItems: 'start' }}>
@@ -161,7 +163,7 @@ export default function RecipeFormPage() {
                   value={step}
                   onChange={(e) => updateStep(i, e.target.value)}
                   rows={2}
-                  placeholder={`Шаг ${i + 1}`}
+                  placeholder={t('recipe.form.step', { n: i + 1 })}
                   style={{ ...inputStyle, flex: 1, resize: 'vertical' }}
                 />
               </div>
@@ -170,10 +172,10 @@ export default function RecipeFormPage() {
           ))}
         </div>
 
-        {saveMut.isError && <p style={{ color: 'red' }}>Ошибка сохранения</p>}
+        {saveMut.isError && <p style={{ color: 'red' }}>{t('recipe.form.saveError')}</p>}
 
         <button type="submit" disabled={saveMut.isPending} style={submitBtn}>
-          {saveMut.isPending ? 'Сохранение...' : isEdit ? 'Сохранить' : 'Создать рецепт'}
+          {saveMut.isPending ? t('recipe.form.saving') : isEdit ? t('recipe.form.save') : t('recipe.form.create')}
         </button>
       </form>
     </div>

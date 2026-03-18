@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "passwordMin": "Contraseña (mín. 6 caracteres)",
+    "name": "Nombre (opcional)",
+    "signIn": "Iniciar sesión",
+    "signingIn": "Entrando...",
+    "noAccount": "¿Sin cuenta?",
+    "register": "Registrarse",
+    "createAccount": "Crear cuenta",
+    "registering": "Registrando...",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "invalidCredentials": "Correo o contraseña incorrectos",
+    "emailTaken": "El correo ya está registrado o error del servidor"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Buscar recetas...",
+      "tagPlaceholder": "Etiqueta",
+      "addButton": "+ Receta",
+      "loading": "Cargando...",
+      "empty": "Sin recetas aún. ¡Añade la primera!"
+    },
+    "detail": {
+      "back": "← Volver",
+      "edit": "✏️ Editar",
+      "delete": "🗑 Eliminar",
+      "loading": "Cargando...",
+      "notFound": "Receta no encontrada",
+      "addPhoto": "📷 Añadir foto",
+      "prepTime": "⏱ Preparación: {{min}} min",
+      "cookTime": "🔥 Cocción: {{min}} min",
+      "servings": "🍽 Porciones:",
+      "reset": "restablecer",
+      "ingredients": "Ingredientes",
+      "steps": "Pasos de preparación"
+    },
+    "form": {
+      "back": "← Volver",
+      "editTitle": "Editar receta",
+      "newTitle": "Nueva receta",
+      "titleLabel": "Título *",
+      "description": "Descripción",
+      "servings": "Porciones",
+      "prepTime": "Tiempo de preparación (min)",
+      "cookTime": "Tiempo de cocción (min)",
+      "category": "Categoría",
+      "noCategory": "— sin categoría —",
+      "rating": "Valoración (1–5)",
+      "tags": "Etiquetas (separadas por coma)",
+      "tagsPlaceholder": "sopa, rápido, vegetariano",
+      "ingredients": "Ingredientes",
+      "add": "+ Añadir",
+      "ingredientName": "Nombre",
+      "ingredientQty": "Cant.",
+      "ingredientUnit": "Unidad",
+      "steps": "Pasos",
+      "step": "Paso {{n}}",
+      "saveError": "Error al guardar",
+      "saving": "Guardando...",
+      "save": "Guardar",
+      "create": "Crear receta"
+    }
+  },
+  "profile": {
+    "back": "← Volver a recetas",
+    "noName": "Sin nombre",
+    "recipesCount": "recetas",
+    "signOut": "Cerrar sesión"
+  },
+  "lang": {
+    "select": "Idioma"
+  }
+}

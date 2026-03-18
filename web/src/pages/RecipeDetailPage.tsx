@@ -1,9 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
 
 export default function RecipeDetailPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -26,8 +28,8 @@ export default function RecipeDetailPage() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['recipe', id] }),
   });
 
-  if (isLoading) return <p style={{ padding: 32 }}>Загрузка...</p>;
-  if (!recipe) return <p style={{ padding: 32 }}>Рецепт не найден</p>;
+  if (isLoading) return <p style={{ padding: 32 }}>{t('recipe.detail.loading')}</p>;
+  if (!recipe) return <p style={{ padding: 32 }}>{t('recipe.detail.notFound')}</p>;
 
   const effectiveServings = targetServings ?? recipe.servings;
   const scale = effectiveServings / recipe.servings;
@@ -40,10 +42,10 @@ export default function RecipeDetailPage() {
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
       <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-        <Link to="/">← Назад</Link>
-        <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>✏️ Редактировать</Link>
+        <Link to="/">{t('recipe.detail.back')}</Link>
+        <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>{t('recipe.detail.edit')}</Link>
         <button onClick={() => deleteMut.mutate()} style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}>
-          🗑 Удалить
+          {t('recipe.detail.delete')}
         </button>
       </div>
 
@@ -58,7 +60,7 @@ export default function RecipeDetailPage() {
           onClick={() => fileRef.current?.click()}
           style={{ height: 160, border: '2px dashed #ccc', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginBottom: 20, color: '#888' }}
         >
-          📷 Добавить фото
+          {t('recipe.detail.addPhoto')}
         </div>
       )}
 
@@ -70,14 +72,14 @@ export default function RecipeDetailPage() {
       <h1 style={{ margin: '0 0 8px' }}>{recipe.title}</h1>
 
       <div style={{ display: 'flex', gap: 12, color: '#666', fontSize: 14, marginBottom: 16, flexWrap: 'wrap' }}>
-        {recipe.prepTime && <span>⏱ Подготовка: {recipe.prepTime} мин</span>}
-        {recipe.cookTime && <span>🔥 Готовка: {recipe.cookTime} мин</span>}
+        {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
+        {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
         {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
       </div>
 
       {/* Scaling control */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, padding: '10px 14px', background: '#f5f5f5', borderRadius: 10 }}>
-        <span style={{ fontSize: 14, color: '#555' }}>🍽 Порций:</span>
+        <span style={{ fontSize: 14, color: '#555' }}>{t('recipe.detail.servings')}</span>
         <button
           onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
           style={scaleBtn}
@@ -92,15 +94,15 @@ export default function RecipeDetailPage() {
             onClick={() => setTargetServings(null)}
             style={{ marginLeft: 'auto', fontSize: 12, color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}
           >
-            сбросить
+            {t('recipe.detail.reset')}
           </button>
         )}
       </div>
 
       {recipe.tags.length > 0 && (
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
-          {recipe.tags.map((t) => (
-            <span key={t} style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 10px', borderRadius: 12, fontSize: 13 }}>{t}</span>
+          {recipe.tags.map((tag) => (
+            <span key={tag} style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 10px', borderRadius: 12, fontSize: 13 }}>{tag}</span>
           ))}
         </div>
       )}
@@ -109,7 +111,7 @@ export default function RecipeDetailPage() {
 
       {recipe.ingredients.length > 0 && (
         <section style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>Ингредиенты</h2>
+          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.ingredients')}</h2>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
             {recipe.ingredients.map((ing, i) => (
               <li key={i} style={{ marginBottom: 4 }}>
@@ -122,7 +124,7 @@ export default function RecipeDetailPage() {
 
       {recipe.steps.length > 0 && (
         <section>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>Шаги приготовления</h2>
+          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.steps')}</h2>
           <ol style={{ margin: 0, paddingLeft: 20 }}>
             {recipe.steps
               .sort((a, b) => a.order - b.order)

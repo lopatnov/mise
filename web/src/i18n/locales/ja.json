@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "passwordMin": "パスワード（最低6文字）",
+    "name": "名前（任意）",
+    "signIn": "ログイン",
+    "signingIn": "ログイン中...",
+    "noAccount": "アカウントをお持ちでない方は？",
+    "register": "登録",
+    "createAccount": "アカウントを作成",
+    "registering": "登録中...",
+    "hasAccount": "すでにアカウントをお持ちですか？",
+    "invalidCredentials": "メールアドレスまたはパスワードが間違っています",
+    "emailTaken": "このメールアドレスはすでに登録されているかサーバーエラーです"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "レシピを検索...",
+      "tagPlaceholder": "タグ",
+      "addButton": "+ レシピ",
+      "loading": "読み込み中...",
+      "empty": "まだレシピがありません。最初のレシピを追加しましょう！"
+    },
+    "detail": {
+      "back": "← 戻る",
+      "edit": "✏️ 編集",
+      "delete": "🗑 削除",
+      "loading": "読み込み中...",
+      "notFound": "レシピが見つかりません",
+      "addPhoto": "📷 写真を追加",
+      "prepTime": "⏱ 準備：{{min}}分",
+      "cookTime": "🔥 調理：{{min}}分",
+      "servings": "🍽 人分：",
+      "reset": "リセット",
+      "ingredients": "材料",
+      "steps": "調理手順"
+    },
+    "form": {
+      "back": "← 戻る",
+      "editTitle": "レシピを編集",
+      "newTitle": "新しいレシピ",
+      "titleLabel": "タイトル *",
+      "description": "説明",
+      "servings": "人分",
+      "prepTime": "準備時間（分）",
+      "cookTime": "調理時間（分）",
+      "category": "カテゴリ",
+      "noCategory": "— カテゴリなし —",
+      "rating": "評価（1–5）",
+      "tags": "タグ（カンマ区切り）",
+      "tagsPlaceholder": "スープ, 時短, ベジタリアン",
+      "ingredients": "材料",
+      "add": "+ 追加",
+      "ingredientName": "名前",
+      "ingredientQty": "量",
+      "ingredientUnit": "単位",
+      "steps": "手順",
+      "step": "ステップ{{n}}",
+      "saveError": "保存エラー",
+      "saving": "保存中...",
+      "save": "保存",
+      "create": "レシピを作成"
+    }
+  },
+  "profile": {
+    "back": "← レシピに戻る",
+    "noName": "名前なし",
+    "recipesCount": "レシピ",
+    "signOut": "ログアウト"
+  },
+  "lang": {
+    "select": "言語"
+  }
+}

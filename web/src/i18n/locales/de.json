@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "E-Mail",
+    "password": "Passwort",
+    "passwordMin": "Passwort (min. 6 Zeichen)",
+    "name": "Name (optional)",
+    "signIn": "Anmelden",
+    "signingIn": "Anmeldung...",
+    "noAccount": "Kein Konto?",
+    "register": "Registrieren",
+    "createAccount": "Konto erstellen",
+    "registering": "Registrierung...",
+    "hasAccount": "Bereits ein Konto?",
+    "invalidCredentials": "Ungültige E-Mail oder falsches Passwort",
+    "emailTaken": "E-Mail bereits registriert oder Serverfehler"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Rezepte suchen...",
+      "tagPlaceholder": "Tag",
+      "addButton": "+ Rezept",
+      "loading": "Laden...",
+      "empty": "Noch keine Rezepte. Fügen Sie das erste hinzu!"
+    },
+    "detail": {
+      "back": "← Zurück",
+      "edit": "✏️ Bearbeiten",
+      "delete": "🗑 Löschen",
+      "loading": "Laden...",
+      "notFound": "Rezept nicht gefunden",
+      "addPhoto": "📷 Foto hinzufügen",
+      "prepTime": "⏱ Vorbereitung: {{min}} Min.",
+      "cookTime": "🔥 Kochzeit: {{min}} Min.",
+      "servings": "🍽 Portionen:",
+      "reset": "zurücksetzen",
+      "ingredients": "Zutaten",
+      "steps": "Zubereitungsschritte"
+    },
+    "form": {
+      "back": "← Zurück",
+      "editTitle": "Rezept bearbeiten",
+      "newTitle": "Neues Rezept",
+      "titleLabel": "Titel *",
+      "description": "Beschreibung",
+      "servings": "Portionen",
+      "prepTime": "Vorbereitungszeit (Min.)",
+      "cookTime": "Kochzeit (Min.)",
+      "category": "Kategorie",
+      "noCategory": "— ohne Kategorie —",
+      "rating": "Bewertung (1–5)",
+      "tags": "Tags (kommagetrennt)",
+      "tagsPlaceholder": "Suppe, schnell, vegetarisch",
+      "ingredients": "Zutaten",
+      "add": "+ Hinzufügen",
+      "ingredientName": "Name",
+      "ingredientQty": "Menge",
+      "ingredientUnit": "Einheit",
+      "steps": "Schritte",
+      "step": "Schritt {{n}}",
+      "saveError": "Speicherfehler",
+      "saving": "Speichern...",
+      "save": "Speichern",
+      "create": "Rezept erstellen"
+    }
+  },
+  "profile": {
+    "back": "← Zurück zu Rezepten",
+    "noName": "Kein Name",
+    "recipesCount": "Rezepte",
+    "signOut": "Abmelden"
+  },
+  "lang": {
+    "select": "Sprache"
+  }
+}

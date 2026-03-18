@@ -1,0 +1,78 @@
+{
+  "app": {
+    "title": "🍽 Mise"
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Heslo",
+    "passwordMin": "Heslo (min. 6 znaků)",
+    "name": "Jméno (nepovinné)",
+    "signIn": "Přihlásit se",
+    "signingIn": "Přihlašování...",
+    "noAccount": "Nemáte účet?",
+    "register": "Registrovat se",
+    "createAccount": "Vytvořit účet",
+    "registering": "Registrace...",
+    "hasAccount": "Máte již účet?",
+    "invalidCredentials": "Neplatný e-mail nebo heslo",
+    "emailTaken": "E-mail je již registrován nebo chyba serveru"
+  },
+  "recipe": {
+    "list": {
+      "searchPlaceholder": "Hledat recepty...",
+      "tagPlaceholder": "Štítek",
+      "addButton": "+ Recept",
+      "loading": "Načítání...",
+      "empty": "Zatím žádné recepty. Přidejte první!"
+    },
+    "detail": {
+      "back": "← Zpět",
+      "edit": "✏️ Upravit",
+      "delete": "🗑 Smazat",
+      "loading": "Načítání...",
+      "notFound": "Recept nebyl nalezen",
+      "addPhoto": "📷 Přidat foto",
+      "prepTime": "⏱ Příprava: {{min}} min",
+      "cookTime": "🔥 Vaření: {{min}} min",
+      "servings": "🍽 Porce:",
+      "reset": "resetovat",
+      "ingredients": "Suroviny",
+      "steps": "Postup přípravy"
+    },
+    "form": {
+      "back": "← Zpět",
+      "editTitle": "Upravit recept",
+      "newTitle": "Nový recept",
+      "titleLabel": "Název *",
+      "description": "Popis",
+      "servings": "Porce",
+      "prepTime": "Doba přípravy (min)",
+      "cookTime": "Doba vaření (min)",
+      "category": "Kategorie",
+      "noCategory": "— bez kategorie —",
+      "rating": "Hodnocení (1–5)",
+      "tags": "Štítky (oddělené čárkou)",
+      "tagsPlaceholder": "polévka, rychlé, vegetariánské",
+      "ingredients": "Suroviny",
+      "add": "+ Přidat",
+      "ingredientName": "Název",
+      "ingredientQty": "Množ.",
+      "ingredientUnit": "Jedn.",
+      "steps": "Kroky",
+      "step": "Krok {{n}}",
+      "saveError": "Chyba uložení",
+      "saving": "Ukládání...",
+      "save": "Uložit",
+      "create": "Vytvořit recept"
+    }
+  },
+  "profile": {
+    "back": "← Zpět na recepty",
+    "noName": "Bez jména",
+    "recipesCount": "receptů",
+    "signOut": "Odhlásit se"
+  },
+  "lang": {
+    "select": "Jazyk"
+  }
+}

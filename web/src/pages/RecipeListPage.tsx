@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
 import { useAuthStore } from '../store/authStore';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function RecipeListPage() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const { user } = useAuthStore();
@@ -17,37 +20,40 @@ export default function RecipeListPage() {
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h1 style={{ margin: 0 }}>🍽 Mise</h1>
-        <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
-          <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
-          <span style={smallBtnStyle}>👤</span>
-        </Link>
+        <h1 style={{ margin: 0 }}>{t('app.title')}</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <LanguageSwitcher />
+          <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
+            <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
+            <span style={smallBtnStyle}>👤</span>
+          </Link>
+        </div>
       </header>
 
       <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
         <input
-          placeholder="Поиск рецептов..."
+          placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{ ...inputStyle, flex: 1 }}
         />
         <input
-          placeholder="Тег"
+          placeholder={t('recipe.list.tagPlaceholder')}
           value={tag}
           onChange={(e) => setTag(e.target.value)}
           style={{ ...inputStyle, width: 120 }}
         />
         <Link to="/recipes/new">
-          <button style={btnStyle}>+ Рецепт</button>
+          <button style={btnStyle}>{t('recipe.list.addButton')}</button>
         </Link>
       </div>
 
-      {isLoading && <p>Загрузка...</p>}
+      {isLoading && <p>{t('recipe.list.loading')}</p>}
 
       {data && data.items.length === 0 && (
         <div style={{ textAlign: 'center', padding: 60, color: '#888' }}>
           <p style={{ fontSize: 48 }}>🍳</p>
-          <p>Рецептов пока нет. Добавьте первый!</p>
+          <p>{t('recipe.list.empty')}</p>
         </div>
       )}
 
@@ -74,8 +80,8 @@ export default function RecipeListPage() {
                   </p>
                 )}
                 <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {r.tags.slice(0, 3).map((t) => (
-                    <span key={t} style={tagStyle}>{t}</span>
+                  {r.tags.slice(0, 3).map((tag) => (
+                    <span key={tag} style={tagStyle}>{tag}</span>
                   ))}
                   {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}
                 </div>

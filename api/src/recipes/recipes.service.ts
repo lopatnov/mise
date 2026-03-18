@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Recipe, RecipeDocument } from './recipe.schema';
@@ -6,13 +10,13 @@ import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 
 @Injectable()
 export class RecipesService {
-  constructor(
-    @InjectModel(Recipe.name) private model: Model<RecipeDocument>,
-  ) {}
+  constructor(@InjectModel(Recipe.name) private model: Model<RecipeDocument>) {}
 
   async findAll(userId: string, query: RecipeQueryDto) {
     const { q, tag, category, page = 1, limit = 20 } = query;
-    const filter: any = { authorId: new Types.ObjectId(userId) };
+    const filter: Record<string, unknown> = {
+      authorId: new Types.ObjectId(userId),
+    };
 
     if (q) filter.$text = { $search: q };
     if (tag) filter.tags = tag;
@@ -42,7 +46,9 @@ export class RecipesService {
     return this.model.create({
       ...dto,
       authorId: new Types.ObjectId(userId),
-      categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
+      categoryId: dto.categoryId
+        ? new Types.ObjectId(dto.categoryId)
+        : undefined,
     });
   }
 

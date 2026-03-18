@@ -1,5 +1,8 @@
 import {
-  Controller, Post, UseInterceptors, UploadedFile,
+  Controller,
+  Post,
+  UseInterceptors,
+  UploadedFile,
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
