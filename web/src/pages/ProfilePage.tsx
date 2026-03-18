@@ -9,9 +9,9 @@ export default function ProfilePage() {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
 
-  const { data } = useQuery({
-    queryKey: ['recipes', 'profile-count'],
-    queryFn: () => recipesApi.list({ limit: 1 }),
+  const { data, isLoading } = useQuery({
+    queryKey: ['recipes', '', '', ''],
+    queryFn: () => recipesApi.list(),
   });
 
   function handleLogout() {
@@ -36,7 +36,7 @@ export default function ProfilePage() {
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 28 }}>
           <div style={{ textAlign: 'center', padding: '12px 32px', background: '#f5f9f7', borderRadius: 12 }}>
             <div style={{ fontSize: 28, fontWeight: 700, color: '#2d6a4f' }}>
-              {data?.total ?? '—'}
+              {isLoading ? '…' : (data?.total ?? '—')}
             </div>
             <div style={{ fontSize: 13, color: '#666', marginTop: 2 }}>{t('profile.recipesCount')}</div>
           </div>
