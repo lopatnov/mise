@@ -24,7 +24,8 @@
       "addButton": "+ Rețetă",
       "loading": "Se încarcă...",
       "empty": "Nu există rețete încă. Adaugă prima!",
-      "allCategories": "Toate categoriile"
+      "allCategories": "Toate categoriile",
+      "communityTitle": "Rețete ale comunității"
     },
     "detail": {
       "back": "← Înapoi",
@@ -42,7 +43,8 @@
       "steps": "Pași de preparare",
       "photoUploaded": "Fotografie încărcată",
       "photoError": "Eroare la încărcarea fotografiei",
-      "deleteError": "Eroare la ștergerea rețetei"
+      "deleteError": "Eroare la ștergerea rețetei",
+      "public": "Public"
     },
     "form": {
       "back": "← Înapoi",
@@ -68,7 +70,8 @@
       "saveError": "Eroare la salvare",
       "saving": "Se salvează...",
       "save": "Salvează",
-      "create": "Crează rețeta"
+      "create": "Crează rețeta",
+      "isPublic": "Distribuie cu toți"
     }
   },
   "profile": {

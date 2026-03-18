@@ -76,6 +76,20 @@ export class RecipesService {
     return recipe.save();
   }
 
+  async findPublic(query: RecipeQueryDto) {
+    const { page = 1, limit = 20 } = query;
+    const [items, total] = await Promise.all([
+      this.model
+        .find({ isPublic: true })
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
+      this.model.countDocuments({ isPublic: true }),
+    ]);
+    return { items, total, page, limit };
+  }
+
   async setStepPhoto(
     id: string,
     userId: string,

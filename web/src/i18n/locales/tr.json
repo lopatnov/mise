@@ -24,7 +24,8 @@
       "addButton": "+ Tarif",
       "loading": "Yükleniyor...",
       "empty": "Henüz tarif yok. İlkini ekleyin!",
-      "allCategories": "Tüm kategoriler"
+      "allCategories": "Tüm kategoriler",
+      "communityTitle": "Topluluk tarifleri"
     },
     "detail": {
       "back": "← Geri",
@@ -42,7 +43,8 @@
       "steps": "Hazırlık adımları",
       "photoUploaded": "Fotoğraf yüklendi",
       "photoError": "Fotoğraf yüklenemedi",
-      "deleteError": "Tarif silinemedi"
+      "deleteError": "Tarif silinemedi",
+      "public": "Herkese açık"
     },
     "form": {
       "back": "← Geri",
@@ -68,7 +70,8 @@
       "saveError": "Kaydetme hatası",
       "saving": "Kaydediliyor...",
       "save": "Kaydet",
-      "create": "Tarif oluştur"
+      "create": "Tarif oluştur",
+      "isPublic": "Herkesle paylaş"
     }
   },
   "profile": {

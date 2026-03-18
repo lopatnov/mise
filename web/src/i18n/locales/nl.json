@@ -24,7 +24,8 @@
       "addButton": "+ Recept",
       "loading": "Laden...",
       "empty": "Nog geen recepten. Voeg de eerste toe!",
-      "allCategories": "Alle categorieën"
+      "allCategories": "Alle categorieën",
+      "communityTitle": "Community recepten"
     },
     "detail": {
       "back": "← Terug",
@@ -42,7 +43,8 @@
       "steps": "Bereidingsstappen",
       "photoUploaded": "Foto geüpload",
       "photoError": "Fout bij uploaden foto",
-      "deleteError": "Fout bij verwijderen recept"
+      "deleteError": "Fout bij verwijderen recept",
+      "public": "Openbaar"
     },
     "form": {
       "back": "← Terug",
@@ -68,7 +70,8 @@
       "saveError": "Fout bij opslaan",
       "saving": "Opslaan...",
       "save": "Opslaan",
-      "create": "Recept aanmaken"
+      "create": "Recept aanmaken",
+      "isPublic": "Delen met iedereen"
     }
   },
   "profile": {

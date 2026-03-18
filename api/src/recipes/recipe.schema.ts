@@ -44,6 +44,9 @@ export class Recipe {
   @Prop()
   photoUrl: string;
 
+  @Prop({ default: false })
+  isPublic: boolean;
+
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   authorId: Types.ObjectId;
 }

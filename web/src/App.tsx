@@ -8,6 +8,7 @@ import RecipeDetailPage from './pages/RecipeDetailPage';
 import RecipeFormPage from './pages/RecipeFormPage';
 import ProfilePage from './pages/ProfilePage';
 import ToastContainer from './components/Toast';
+import Footer from './components/Footer';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
+      <Footer />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

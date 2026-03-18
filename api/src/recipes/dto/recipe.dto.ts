@@ -2,6 +2,7 @@ import {
   IsString,
   IsOptional,
   IsArray,
+  IsBoolean,
   IsNumber,
   Min,
   Max,
@@ -68,6 +69,10 @@ export class CreateRecipeDto {
   @IsNumber()
   @Min(1)
   servings?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isPublic?: boolean;
 }
 
 export class RecipeQueryDto {

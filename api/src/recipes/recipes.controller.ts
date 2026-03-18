@@ -22,6 +22,7 @@ import {
   CurrentUser,
   type JwtUser,
 } from '../common/decorators/current-user.decorator';
+import { Public } from '../common/decorators/public.decorator';
 
 @ApiTags('recipes')
 @ApiBearerAuth()
@@ -40,6 +41,12 @@ export class RecipesController {
   @Post()
   create(@CurrentUser() user: JwtUser, @Body() dto: CreateRecipeDto) {
     return this.service.create(user.userId, dto);
+  }
+
+  @Public()
+  @Get('public')
+  findPublic(@Query() query: RecipeQueryDto) {
+    return this.service.findPublic(query);
   }
 
   @Get(':id')

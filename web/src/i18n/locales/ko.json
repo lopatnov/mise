@@ -24,7 +24,8 @@
       "addButton": "+ 레시피",
       "loading": "불러오는 중...",
       "empty": "레시피가 없습니다. 첫 번째를 추가하세요!",
-      "allCategories": "모든 카테고리"
+      "allCategories": "모든 카테고리",
+      "communityTitle": "커뮤니티 레시피"
     },
     "detail": {
       "back": "← 뒤로",
@@ -42,7 +43,8 @@
       "steps": "조리 과정",
       "photoUploaded": "사진이 업로드되었습니다",
       "photoError": "사진 업로드 실패",
-      "deleteError": "레시피 삭제 실패"
+      "deleteError": "레시피 삭제 실패",
+      "public": "공개"
     },
     "form": {
       "back": "← 뒤로",
@@ -68,7 +70,8 @@
       "saveError": "저장 오류",
       "saving": "저장 중...",
       "save": "저장",
-      "create": "레시피 만들기"
+      "create": "레시피 만들기",
+      "isPublic": "모두와 공유하기"
     }
   },
   "profile": {

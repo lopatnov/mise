@@ -24,7 +24,8 @@
       "addButton": "+ Recept",
       "loading": "Načítání...",
       "empty": "Zatím žádné recepty. Přidejte první!",
-      "allCategories": "Všechny kategorie"
+      "allCategories": "Všechny kategorie",
+      "communityTitle": "Komunitní recepty"
     },
     "detail": {
       "back": "← Zpět",
@@ -42,7 +43,8 @@
       "steps": "Postup přípravy",
       "photoUploaded": "Foto nahráno",
       "photoError": "Chyba nahrávání fotografie",
-      "deleteError": "Chyba mazání receptu"
+      "deleteError": "Chyba mazání receptu",
+      "public": "Veřejný"
     },
     "form": {
       "back": "← Zpět",
@@ -68,7 +70,8 @@
       "saveError": "Chyba uložení",
       "saving": "Ukládání...",
       "save": "Uložit",
-      "create": "Vytvořit recept"
+      "create": "Vytvořit recept",
+      "isPublic": "Sdílet se všemi"
     }
   },
   "profile": {

@@ -24,7 +24,8 @@
       "addButton": "+ Recept",
       "loading": "Betöltés...",
       "empty": "Még nincsenek receptek. Adja hozzá az elsőt!",
-      "allCategories": "Összes kategória"
+      "allCategories": "Összes kategória",
+      "communityTitle": "Közösségi receptek"
     },
     "detail": {
       "back": "← Vissza",
@@ -42,7 +43,8 @@
       "steps": "Elkészítési lépések",
       "photoUploaded": "Fotó feltöltve",
       "photoError": "Hiba a fotó feltöltésekor",
-      "deleteError": "Hiba a recept törlésekor"
+      "deleteError": "Hiba a recept törlésekor",
+      "public": "Nyilvános"
     },
     "form": {
       "back": "← Vissza",
@@ -68,7 +70,8 @@
       "saveError": "Mentési hiba",
       "saving": "Mentés...",
       "save": "Mentés",
-      "create": "Recept létrehozása"
+      "create": "Recept létrehozása",
+      "isPublic": "Megosztás mindenkivel"
     }
   },
   "profile": {

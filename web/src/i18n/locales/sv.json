@@ -24,7 +24,8 @@
       "addButton": "+ Recept",
       "loading": "Laddar...",
       "empty": "Inga recept ännu. Lägg till det första!",
-      "allCategories": "Alla kategorier"
+      "allCategories": "Alla kategorier",
+      "communityTitle": "Communityrecept"
     },
     "detail": {
       "back": "← Tillbaka",
@@ -42,7 +43,8 @@
       "steps": "Tillagningssteg",
       "photoUploaded": "Foto uppladdad",
       "photoError": "Fel vid uppladdning av foto",
-      "deleteError": "Fel vid radering av recept"
+      "deleteError": "Fel vid radering av recept",
+      "public": "Offentlig"
     },
     "form": {
       "back": "← Tillbaka",
@@ -68,7 +70,8 @@
       "saveError": "Fel vid sparande",
       "saving": "Sparar...",
       "save": "Spara",
-      "create": "Skapa recept"
+      "create": "Skapa recept",
+      "isPublic": "Dela med alla"
     }
   },
   "profile": {

@@ -15,6 +15,7 @@ export interface Recipe {
   cookTime?: number;
   servings: number;
   photoUrl?: string;
+  isPublic?: boolean;
   createdAt: string;
 }
 
@@ -49,6 +50,8 @@ export const recipesApi = {
     form.append('photo', file);
     return api.post<Recipe>(`/recipes/${id}/photo`, form).then((r) => r.data);
   },
+  listPublic: (query?: RecipeQuery) =>
+    api.get<RecipesPage>('/recipes/public', { params: query }).then((r) => r.data),
   uploadStepPhoto: (id: string, order: number, file: File) => {
     const form = new FormData();
     form.append('photo', file);

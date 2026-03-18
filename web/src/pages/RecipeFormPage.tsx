@@ -22,6 +22,7 @@ export default function RecipeFormPage() {
   const [rating, setRating] = useState('');
   const [tags, setTags] = useState('');
   const [categoryId, setCategoryId] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   const [ingredients, setIngredients] = useState([{ name: '', amount: 1, unit: '' }]);
   const [steps, setSteps] = useState(['']);
 
@@ -43,6 +44,7 @@ export default function RecipeFormPage() {
       setRating(existing.rating?.toString() ?? '');
       setTags(existing.tags.join(', '));
       setCategoryId(existing.categoryId ?? '');
+      setIsPublic(existing.isPublic ?? false);
       if (existing.ingredients.length) setIngredients(existing.ingredients);
       if (existing.steps.length) setSteps(existing.steps.map((s) => s.text));
     }
@@ -68,6 +70,7 @@ export default function RecipeFormPage() {
       rating: rating ? Number(rating) : undefined,
       tags: tags.split(',').map((tag) => tag.trim()).filter(Boolean),
       categoryId: categoryId || undefined,
+      isPublic,
       ingredients: ingredients.filter((i) => i.name),
       steps: steps.filter(Boolean).map((text, i) => ({ order: i + 1, text })),
     });
@@ -171,6 +174,11 @@ export default function RecipeFormPage() {
             </div>
           ))}
         </div>
+
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, color: '#444' }}>
+          <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+          {t('recipe.form.isPublic')}
+        </label>
 
         {saveMut.isError && <p style={{ color: 'red' }}>{t('recipe.form.saveError')}</p>}
 

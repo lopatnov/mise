@@ -4,6 +4,9 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
 import { useToast } from '../store/toastStore';
+import Lightbox from '../components/Lightbox';
+
+const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 export default function RecipeDetailPage() {
   const { t } = useTranslation();
@@ -14,6 +17,9 @@ export default function RecipeDetailPage() {
   const stepFileRef = useRef<HTMLInputElement>(null);
   const pendingStepOrder = useRef<number | null>(null);
   const [targetServings, setTargetServings] = useState<number | null>(null);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [mainPhotoHover, setMainPhotoHover] = useState(false);
+  const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
   const toast = useToast();
 
   const { data: recipe, isLoading } = useQuery({
@@ -54,6 +60,8 @@ export default function RecipeDetailPage() {
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
+      {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
+
       <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
         <Link to="/">{t('recipe.detail.back')}</Link>
         <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>{t('recipe.detail.edit')}</Link>
@@ -62,32 +70,33 @@ export default function RecipeDetailPage() {
         </button>
       </div>
 
+      {/* Main photo */}
       <div
-        onClick={() => fileRef.current?.click()}
-        style={{ position: 'relative', cursor: 'pointer', marginBottom: 20, borderRadius: 12, overflow: 'hidden' }}
+        style={{ position: 'relative', marginBottom: 20, borderRadius: 12, overflow: 'hidden' }}
+        onMouseEnter={() => setMainPhotoHover(true)}
+        onMouseLeave={() => setMainPhotoHover(false)}
       >
         {recipe.photoUrl ? (
           <>
             <img
-              src={`${import.meta.env.VITE_API_URL ?? ''}${recipe.photoUrl}`}
+              src={`${API_URL}${recipe.photoUrl}`}
               alt={recipe.title}
-              style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block' }}
+              onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl!}`)}
+              style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
             />
-            <div style={{
-              position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'background 0.15s',
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.35)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '1'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '0'; }}
-            >
-              <span style={{ color: '#fff', fontSize: 14, fontWeight: 500, opacity: 0, transition: 'opacity 0.15s' }}>
-                {t('recipe.detail.changePhoto')}
-              </span>
-            </div>
+            {mainPhotoHover && (
+              <button
+                onClick={() => fileRef.current?.click()}
+                title={t('recipe.detail.changePhoto')}
+                style={replacePhotoBtn}
+              >📷</button>
+            )}
           </>
         ) : (
-          <div style={{ height: 160, border: '2px dashed #ccc', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
+          <div
+            onClick={() => fileRef.current?.click()}
+            style={{ height: 160, border: '2px dashed #ccc', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', cursor: 'pointer' }}
+          >
             {t('recipe.detail.addPhoto')}
           </div>
         )}
@@ -114,25 +123,17 @@ export default function RecipeDetailPage() {
         {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
         {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
         {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
+        {recipe.isPublic && <span style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 8px', borderRadius: 10, fontSize: 12 }}>🌐 {t('recipe.detail.public')}</span>}
       </div>
 
       {/* Scaling control */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, padding: '10px 14px', background: '#f5f5f5', borderRadius: 10 }}>
         <span style={{ fontSize: 14, color: '#555' }}>{t('recipe.detail.servings')}</span>
-        <button
-          onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
-          style={scaleBtn}
-        >−</button>
+        <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} style={scaleBtn}>−</button>
         <span style={{ fontWeight: 600, fontSize: 16, minWidth: 28, textAlign: 'center' }}>{effectiveServings}</span>
-        <button
-          onClick={() => setTargetServings(effectiveServings + 1)}
-          style={scaleBtn}
-        >+</button>
+        <button onClick={() => setTargetServings(effectiveServings + 1)} style={scaleBtn}>+</button>
         {scale !== 1 && (
-          <button
-            onClick={() => setTargetServings(null)}
-            style={{ marginLeft: 'auto', fontSize: 12, color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}
-          >
+          <button onClick={() => setTargetServings(null)} style={{ marginLeft: 'auto', fontSize: 12, color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}>
             {t('recipe.detail.reset')}
           </button>
         )}
@@ -181,23 +182,23 @@ export default function RecipeDetailPage() {
                   </div>
                   {step.photoUrl && (
                     <div
-                      onClick={() => { pendingStepOrder.current = step.order; stepFileRef.current?.click(); }}
-                      style={{ position: 'relative', marginTop: 8, cursor: 'pointer', borderRadius: 8, overflow: 'hidden' }}
+                      style={{ position: 'relative', marginTop: 8, borderRadius: 8, overflow: 'hidden' }}
+                      onMouseEnter={() => setHoveredStepOrder(step.order)}
+                      onMouseLeave={() => setHoveredStepOrder(null)}
                     >
                       <img
-                        src={`${import.meta.env.VITE_API_URL ?? ''}${step.photoUrl}`}
+                        src={`${API_URL}${step.photoUrl}`}
                         alt=""
-                        style={{ width: '100%', maxHeight: 240, objectFit: 'cover', display: 'block' }}
+                        onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl!}`)}
+                        style={{ width: '100%', maxHeight: 240, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
                       />
-                      <div
-                        style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.35)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '1'; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '0'; }}
-                      >
-                        <span style={{ color: '#fff', fontSize: 13, opacity: 0, transition: 'opacity 0.15s' }}>
-                          {t('recipe.detail.changePhoto')}
-                        </span>
-                      </div>
+                      {hoveredStepOrder === step.order && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); pendingStepOrder.current = step.order; stepFileRef.current?.click(); }}
+                          title={t('recipe.detail.changePhoto')}
+                          style={replacePhotoBtn}
+                        >📷</button>
+                      )}
                     </div>
                   )}
                 </li>
@@ -212,5 +213,13 @@ export default function RecipeDetailPage() {
 const scaleBtn: React.CSSProperties = {
   width: 28, height: 28, borderRadius: '50%', border: '1px solid #ccc',
   background: '#fff', cursor: 'pointer', fontSize: 16, lineHeight: 1,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+};
+
+const replacePhotoBtn: React.CSSProperties = {
+  position: 'absolute', bottom: 10, right: 10,
+  background: 'rgba(0,0,0,0.5)', border: 'none',
+  color: '#fff', fontSize: 16, width: 36, height: 36,
+  borderRadius: '50%', cursor: 'pointer',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
 };

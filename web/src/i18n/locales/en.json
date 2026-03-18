@@ -24,7 +24,8 @@
       "addButton": "+ Recipe",
       "loading": "Loading...",
       "empty": "No recipes yet. Add the first one!",
-      "allCategories": "All categories"
+      "allCategories": "All categories",
+      "communityTitle": "Community recipes"
     },
     "detail": {
       "back": "← Back",
@@ -42,7 +43,8 @@
       "steps": "Preparation steps",
       "photoUploaded": "Photo uploaded",
       "photoError": "Failed to upload photo",
-      "deleteError": "Failed to delete recipe"
+      "deleteError": "Failed to delete recipe",
+      "public": "Public"
     },
     "form": {
       "back": "← Back",
@@ -68,7 +70,8 @@
       "saveError": "Save error",
       "saving": "Saving...",
       "save": "Save",
-      "create": "Create recipe"
+      "create": "Create recipe",
+      "isPublic": "Share with everyone"
     }
   },
   "profile": {

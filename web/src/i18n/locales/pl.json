@@ -24,7 +24,8 @@
       "addButton": "+ Przepis",
       "loading": "Ładowanie...",
       "empty": "Brak przepisów. Dodaj pierwszy!",
-      "allCategories": "Wszystkie kategorie"
+      "allCategories": "Wszystkie kategorie",
+      "communityTitle": "Przepisy społeczności"
     },
     "detail": {
       "back": "← Wróć",
@@ -42,7 +43,8 @@
       "steps": "Kroki przygotowania",
       "photoUploaded": "Zdjęcie przesłane",
       "photoError": "Błąd przesyłania zdjęcia",
-      "deleteError": "Błąd usuwania przepisu"
+      "deleteError": "Błąd usuwania przepisu",
+      "public": "Publiczny"
     },
     "form": {
       "back": "← Wróć",
@@ -68,7 +70,8 @@
       "saveError": "Błąd zapisu",
       "saving": "Zapisywanie...",
       "save": "Zapisz",
-      "create": "Utwórz przepis"
+      "create": "Utwórz przepis",
+      "isPublic": "Udostępnij wszystkim"
     }
   },
   "profile": {

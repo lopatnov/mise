@@ -24,7 +24,8 @@
       "addButton": "+ 食谱",
       "loading": "加载中...",
       "empty": "暂无食谱，添加第一个吧！",
-      "allCategories": "所有分类"
+      "allCategories": "所有分类",
+      "communityTitle": "社区食谱"
     },
     "detail": {
       "back": "← 返回",
@@ -42,7 +43,8 @@
       "steps": "烹饪步骤",
       "photoUploaded": "照片上传成功",
       "photoError": "照片上传失败",
-      "deleteError": "删除食谱失败"
+      "deleteError": "删除食谱失败",
+      "public": "公开"
     },
     "form": {
       "back": "← 返回",
@@ -68,7 +70,8 @@
       "saveError": "保存失败",
       "saving": "保存中...",
       "save": "保存",
-      "create": "创建食谱"
+      "create": "创建食谱",
+      "isPublic": "与所有人分享"
     }
   },
   "profile": {
