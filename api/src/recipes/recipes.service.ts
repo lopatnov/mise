@@ -75,4 +75,20 @@ export class RecipesService {
     recipe.photoUrl = photoUrl;
     return recipe.save();
   }
+
+  async setStepPhoto(
+    id: string,
+    userId: string,
+    order: number,
+    photoUrl: string,
+  ) {
+    const recipe = await this.model.findById(id);
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    if (recipe.authorId.toString() !== userId) throw new ForbiddenException();
+    const step = recipe.steps.find((s) => s.order === order);
+    if (!step) throw new NotFoundException('Step not found');
+    step.photoUrl = photoUrl;
+    recipe.markModified('steps');
+    return recipe.save();
+  }
 }

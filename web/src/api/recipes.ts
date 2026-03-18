@@ -1,7 +1,7 @@
 import { api } from './client';
 
 export interface Ingredient { name: string; amount: number; unit: string; }
-export interface Step { order: number; text: string; }
+export interface Step { order: number; text: string; photoUrl?: string; }
 export interface Recipe {
   _id: string;
   title: string;
@@ -48,5 +48,12 @@ export const recipesApi = {
     const form = new FormData();
     form.append('photo', file);
     return api.post<Recipe>(`/recipes/${id}/photo`, form).then((r) => r.data);
+  },
+  uploadStepPhoto: (id: string, order: number, file: File) => {
+    const form = new FormData();
+    form.append('photo', file);
+    return api
+      .post<Recipe>(`/recipes/${id}/steps/${order}/photo`, form)
+      .then((r) => r.data);
   },
 };

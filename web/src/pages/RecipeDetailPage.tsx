@@ -11,6 +11,8 @@ export default function RecipeDetailPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
+  const stepFileRef = useRef<HTMLInputElement>(null);
+  const pendingStepOrder = useRef<number | null>(null);
   const [targetServings, setTargetServings] = useState<number | null>(null);
   const toast = useToast();
 
@@ -28,6 +30,13 @@ export default function RecipeDetailPage() {
 
   const photoMut = useMutation({
     mutationFn: (file: File) => recipesApi.uploadPhoto(id!, file),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['recipe', id] }); toast.success(t('recipe.detail.photoUploaded')); },
+    onError: () => toast.error(t('recipe.detail.photoError')),
+  });
+
+  const stepPhotoMut = useMutation({
+    mutationFn: ({ order, file }: { order: number; file: File }) =>
+      recipesApi.uploadStepPhoto(id!, order, file),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['recipe', id] }); toast.success(t('recipe.detail.photoUploaded')); },
     onError: () => toast.error(t('recipe.detail.photoError')),
   });
@@ -86,7 +95,17 @@ export default function RecipeDetailPage() {
 
       <input
         ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
-        onChange={(e) => { const f = e.target.files?.[0]; if (f) photoMut.mutate(f); }}
+        onChange={(e) => { const f = e.target.files?.[0]; if (f) photoMut.mutate(f); e.target.value = ''; }}
+      />
+      <input
+        ref={stepFileRef} type="file" accept="image/*" style={{ display: 'none' }}
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f && pendingStepOrder.current !== null) {
+            stepPhotoMut.mutate({ order: pendingStepOrder.current, file: f });
+          }
+          e.target.value = '';
+        }}
       />
 
       <h1 style={{ margin: '0 0 8px' }}>{recipe.title}</h1>
@@ -149,7 +168,39 @@ export default function RecipeDetailPage() {
             {recipe.steps
               .sort((a, b) => a.order - b.order)
               .map((step, i) => (
-                <li key={i} style={{ marginBottom: 10, lineHeight: 1.6 }}>{step.text}</li>
+                <li key={i} style={{ marginBottom: 16, lineHeight: 1.6 }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                    <span style={{ flex: 1 }}>{step.text}</span>
+                    {!step.photoUrl && (
+                      <button
+                        onClick={() => { pendingStepOrder.current = step.order; stepFileRef.current?.click(); }}
+                        title={t('recipe.detail.addPhoto')}
+                        style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', color: '#ccc', fontSize: 18, padding: '2px 4px', lineHeight: 1 }}
+                      >📷</button>
+                    )}
+                  </div>
+                  {step.photoUrl && (
+                    <div
+                      onClick={() => { pendingStepOrder.current = step.order; stepFileRef.current?.click(); }}
+                      style={{ position: 'relative', marginTop: 8, cursor: 'pointer', borderRadius: 8, overflow: 'hidden' }}
+                    >
+                      <img
+                        src={`${import.meta.env.VITE_API_URL ?? ''}${step.photoUrl}`}
+                        alt=""
+                        style={{ width: '100%', maxHeight: 240, objectFit: 'cover', display: 'block' }}
+                      />
+                      <div
+                        style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.35)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '1'; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '0'; }}
+                      >
+                        <span style={{ color: '#fff', fontSize: 13, opacity: 0, transition: 'opacity 0.15s' }}>
+                          {t('recipe.detail.changePhoto')}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </li>
               ))}
           </ol>
         </section>

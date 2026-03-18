@@ -80,4 +80,25 @@ export class RecipesController {
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
     return this.service.setPhoto(id, user.userId, photoUrl);
   }
+
+  @Post(':id/steps/:order/photo')
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: diskStorage({
+        destination: join(process.cwd(), 'uploads'),
+        filename: (_, file, cb) =>
+          cb(null, `${uuidv4()}${extname(file.originalname)}`),
+      }),
+      limits: { fileSize: 5 * 1024 * 1024 },
+    }),
+  )
+  uploadStepPhoto(
+    @Param('id') id: string,
+    @Param('order') order: string,
+    @CurrentUser() user: JwtUser,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
+    return this.service.setStepPhoto(id, user.userId, Number(order), photoUrl);
+  }
 }

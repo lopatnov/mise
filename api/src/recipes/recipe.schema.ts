@@ -18,10 +18,10 @@ export class Recipe {
   ingredients: { name: string; amount: number; unit: string }[];
 
   @Prop({
-    type: [{ order: Number, text: String }],
+    type: [{ order: Number, text: String, photoUrl: String }],
     default: [],
   })
-  steps: { order: number; text: string }[];
+  steps: { order: number; text: string; photoUrl?: string }[];
 
   @Prop({ type: [String], default: [] })
   tags: string[];
