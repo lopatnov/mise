@@ -1,13 +1,13 @@
 import {
   Controller, Get, Post, Patch, Delete,
-  Body, Param, Query, UseGuards, Request,
+  Body, Param, Query, Request,
   UseInterceptors, UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RecipesService } from './recipes.service';
 import { UploadsService } from '../uploads/uploads.service';
+
 import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 @ApiTags('recipes')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
 @Controller('recipes')
 export class RecipesController {
   constructor(

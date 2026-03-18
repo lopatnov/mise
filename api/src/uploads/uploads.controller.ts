@@ -1,8 +1,7 @@
 import {
-  Controller, Post, UseGuards, UseInterceptors, UploadedFile,
+  Controller, Post, UseInterceptors, UploadedFile,
   BadRequestException,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiBearerAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -15,7 +14,6 @@ const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 @ApiTags('uploads')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
 @Controller('uploads')
 export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}
