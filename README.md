@@ -27,6 +27,25 @@ Self-hosted personal recipe book. Store recipes with ingredients, steps, tags an
 
 ## Quick Start
 
+### Option A — Docker (one command)
+
+> Requires [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running.
+
+```bash
+git clone https://github.com/lopatnov/mise.git
+cd mise
+docker compose up --build
+```
+
+- App: **http://localhost:5173**
+- API / Swagger: http://localhost:3000/api/docs
+
+To stop: `docker compose down`
+
+---
+
+### Option B — Manual (for development)
+
 > **Run in this order:** MongoDB first → API second → Frontend third.
 > The API won't connect if MongoDB isn't already running.
 
