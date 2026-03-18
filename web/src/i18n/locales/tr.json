@@ -23,7 +23,8 @@
       "tagPlaceholder": "Etiket",
       "addButton": "+ Tarif",
       "loading": "Yükleniyor...",
-      "empty": "Henüz tarif yok. İlkini ekleyin!"
+      "empty": "Henüz tarif yok. İlkini ekleyin!",
+      "allCategories": "Tüm kategoriler"
     },
     "detail": {
       "back": "← Geri",
@@ -32,12 +33,16 @@
       "loading": "Yükleniyor...",
       "notFound": "Tarif bulunamadı",
       "addPhoto": "📷 Fotoğraf ekle",
+      "changePhoto": "📷 Fotoğrafı değiştir",
       "prepTime": "⏱ Hazırlık: {{min}} dak",
       "cookTime": "🔥 Pişirme: {{min}} dak",
       "servings": "🍽 Porsiyon:",
       "reset": "sıfırla",
       "ingredients": "Malzemeler",
-      "steps": "Hazırlık adımları"
+      "steps": "Hazırlık adımları",
+      "photoUploaded": "Fotoğraf yüklendi",
+      "photoError": "Fotoğraf yüklenemedi",
+      "deleteError": "Tarif silinemedi"
     },
     "form": {
       "back": "← Geri",

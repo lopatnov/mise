@@ -23,7 +23,8 @@
       "tagPlaceholder": "Címke",
       "addButton": "+ Recept",
       "loading": "Betöltés...",
-      "empty": "Még nincsenek receptek. Adja hozzá az elsőt!"
+      "empty": "Még nincsenek receptek. Adja hozzá az elsőt!",
+      "allCategories": "Összes kategória"
     },
     "detail": {
       "back": "← Vissza",
@@ -32,12 +33,16 @@
       "loading": "Betöltés...",
       "notFound": "A recept nem található",
       "addPhoto": "📷 Fotó hozzáadása",
+      "changePhoto": "📷 Fotó cseréje",
       "prepTime": "⏱ Előkészítés: {{min}} perc",
       "cookTime": "🔥 Főzési idő: {{min}} perc",
       "servings": "🍽 Adag:",
       "reset": "visszaállítás",
       "ingredients": "Hozzávalók",
-      "steps": "Elkészítési lépések"
+      "steps": "Elkészítési lépések",
+      "photoUploaded": "Fotó feltöltve",
+      "photoError": "Hiba a fotó feltöltésekor",
+      "deleteError": "Hiba a recept törlésekor"
     },
     "form": {
       "back": "← Vissza",

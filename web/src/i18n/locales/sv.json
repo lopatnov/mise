@@ -23,7 +23,8 @@
       "tagPlaceholder": "Tagg",
       "addButton": "+ Recept",
       "loading": "Laddar...",
-      "empty": "Inga recept ännu. Lägg till det första!"
+      "empty": "Inga recept ännu. Lägg till det första!",
+      "allCategories": "Alla kategorier"
     },
     "detail": {
       "back": "← Tillbaka",
@@ -32,12 +33,16 @@
       "loading": "Laddar...",
       "notFound": "Receptet hittades inte",
       "addPhoto": "📷 Lägg till foto",
+      "changePhoto": "📷 Byt foto",
       "prepTime": "⏱ Förberedelse: {{min}} min",
       "cookTime": "🔥 Tillagningstid: {{min}} min",
       "servings": "🍽 Portioner:",
       "reset": "återställ",
       "ingredients": "Ingredienser",
-      "steps": "Tillagningssteg"
+      "steps": "Tillagningssteg",
+      "photoUploaded": "Foto uppladdad",
+      "photoError": "Fel vid uppladdning av foto",
+      "deleteError": "Fel vid radering av recept"
     },
     "form": {
       "back": "← Tillbaka",

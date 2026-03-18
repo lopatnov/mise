@@ -23,7 +23,8 @@
       "tagPlaceholder": "Étiquette",
       "addButton": "+ Recette",
       "loading": "Chargement...",
-      "empty": "Pas encore de recettes. Ajoutez la première !"
+      "empty": "Pas encore de recettes. Ajoutez la première !",
+      "allCategories": "Toutes les catégories"
     },
     "detail": {
       "back": "← Retour",
@@ -32,12 +33,16 @@
       "loading": "Chargement...",
       "notFound": "Recette introuvable",
       "addPhoto": "📷 Ajouter une photo",
+      "changePhoto": "📷 Changer la photo",
       "prepTime": "⏱ Préparation : {{min}} min",
       "cookTime": "🔥 Cuisson : {{min}} min",
       "servings": "🍽 Portions :",
       "reset": "réinitialiser",
       "ingredients": "Ingrédients",
-      "steps": "Étapes de préparation"
+      "steps": "Étapes de préparation",
+      "photoUploaded": "Photo téléchargée",
+      "photoError": "Échec du téléchargement",
+      "deleteError": "Échec de la suppression"
     },
     "form": {
       "back": "← Retour",

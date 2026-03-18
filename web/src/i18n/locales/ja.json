@@ -23,7 +23,8 @@
       "tagPlaceholder": "タグ",
       "addButton": "+ レシピ",
       "loading": "読み込み中...",
-      "empty": "まだレシピがありません。最初のレシピを追加しましょう！"
+      "empty": "まだレシピがありません。最初のレシピを追加しましょう！",
+      "allCategories": "すべてのカテゴリ"
     },
     "detail": {
       "back": "← 戻る",
@@ -32,12 +33,16 @@
       "loading": "読み込み中...",
       "notFound": "レシピが見つかりません",
       "addPhoto": "📷 写真を追加",
+      "changePhoto": "📷 写真を変更",
       "prepTime": "⏱ 準備：{{min}}分",
       "cookTime": "🔥 調理：{{min}}分",
       "servings": "🍽 人分：",
       "reset": "リセット",
       "ingredients": "材料",
-      "steps": "調理手順"
+      "steps": "調理手順",
+      "photoUploaded": "写真をアップロードしました",
+      "photoError": "写真のアップロードに失敗しました",
+      "deleteError": "レシピの削除に失敗しました"
     },
     "form": {
       "back": "← 戻る",

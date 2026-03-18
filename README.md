@@ -1,18 +1,18 @@
 # 🍽 Mise
 
-> *mise en place* — "всё на своих местах"
+> _mise en place_
 
 Self-hosted personal recipe book. Store recipes with ingredients, steps, tags and photos. Scale servings, search by ingredient, filter by category.
 
 ## Stack
 
-| Layer | Technology |
-|---|---|
-| Backend | Node.js 24, NestJS 11, TypeScript |
-| Database | MongoDB 8, Mongoose |
-| Auth | JWT Bearer |
-| Frontend | React 19, Vite 8, React Query 5, Zustand 5 |
-| Infrastructure | Docker Compose |
+| Layer          | Technology                                 |
+| -------------- | ------------------------------------------ |
+| Backend        | Node.js 24, NestJS 11, TypeScript          |
+| Database       | MongoDB 8, Mongoose                        |
+| Auth           | JWT Bearer                                 |
+| Frontend       | React 19, Vite 8, React Query 5, Zustand 5 |
+| Infrastructure | Docker Compose                             |
 
 ## Features
 
@@ -27,29 +27,87 @@ Self-hosted personal recipe book. Store recipes with ingredients, steps, tags an
 
 ## Quick Start
 
-**Prerequisites:** Docker Desktop, Node.js 20+
+> **Run in this order:** MongoDB first → API second → Frontend third.
+> The API won't connect if MongoDB isn't already running.
+
+### Step 0 — Install prerequisites
+
+You need three tools installed before starting. Check if you already have them:
 
 ```bash
-# 1. Clone
+git --version      # need 2.x or later
+node --version     # need v20 or later
+docker --version   # need Docker Desktop running
+```
+
+If anything is missing:
+
+| Tool | Download | Notes |
+|---|---|---|
+| **Git** | https://git-scm.com/downloads | Included in Xcode CLT on macOS |
+| **Node.js** | https://nodejs.org (LTS) | Choose v20 or v22 |
+| **Docker Desktop** | https://www.docker.com/products/docker-desktop | After installing, **open the app and wait for it to start** before running any `docker` commands |
+
+> **Windows / macOS:** Docker requires the Docker Desktop app to be running in the background (you'll see the whale icon in the system tray / menu bar). Just having it installed is not enough.
+
+### Step 1 — Clone and create environment files
+
+```bash
 git clone https://github.com/lopatnov/mise.git
 cd mise
-
-# 2. Start MongoDB
-docker compose up -d
-
-# 3. Start API
-cd api
-npm install
-npm run start:dev
-# → http://localhost:3000
-# → Swagger UI: http://localhost:3000/api/docs
-
-# 4. Start frontend (new terminal)
-cd ../web
-npm install
-npm run dev
-# → http://localhost:4200
 ```
+
+The `.env` files are not committed to git. Create them once before the first run.
+
+The `.env` files are not committed to git. Create them once before the first run.
+
+**`api/.env`** — copy from `api/.env.example`, or create manually:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/mise
+JWT_SECRET=change_me_in_production
+JWT_EXPIRES_IN=7d
+PORT=3000
+```
+
+**`web/.env`** — create in the `web/` directory:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+### Step 2 — Start MongoDB (Docker)
+
+```bash
+# Run from the repo root
+docker compose up -d
+```
+
+MongoDB is now running on `localhost:27017`. Categories are seeded automatically when the API starts.
+
+### Step 3 — Start the API
+
+```bash
+cd api
+npm install        # first time only
+npm run start:dev
+```
+
+- API: `http://localhost:3000`
+- Swagger UI: `http://localhost:3000/api/docs`
+- The `api/uploads/` folder is created automatically on first start.
+
+### Step 4 — Start the frontend (new terminal)
+
+```bash
+cd web
+npm install        # first time only
+npm run dev
+```
+
+- App: `http://localhost:4200`
+
+Open the app, register a new account, and start adding recipes.
 
 ## API
 
@@ -90,21 +148,11 @@ mise/
 └── docker-compose.yml    MongoDB
 ```
 
-## Environment Variables
+## Stopping
 
-**api/.env**
-
-```env
-MONGODB_URI=mongodb://localhost:27017/mise
-JWT_SECRET=change_me_in_production
-JWT_EXPIRES_IN=7d
-PORT=3000
-```
-
-**web/.env**
-
-```env
-VITE_API_URL=http://localhost:3000
+```bash
+# Stop MongoDB container (run from repo root)
+docker compose down
 ```
 
 ## Development
@@ -116,9 +164,19 @@ cd api && npm run start:dev
 # Frontend — HMR
 cd web && npm run dev
 
-# Build frontend
+# Build frontend for production
 cd web && npm run build
 ```
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `docker: command not found` or `Cannot connect to Docker daemon` | Docker Desktop not running | Open Docker Desktop app and wait for the whale icon to appear in the tray |
+| API exits immediately | Missing `api/.env` | Create the file as shown in Step 1 |
+| `MongoNetworkError` in API logs | MongoDB container not started | Run `docker compose up -d` from the repo root |
+| Frontend shows network errors | `web/.env` missing or wrong URL | Create `web/.env` with `VITE_API_URL=http://localhost:3000` |
+| Login fails with 401 | Wrong credentials or token expired | Register a new account or clear `localStorage` in browser DevTools |
 
 ---
 

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
+import { categoriesApi } from '../api/categories';
 import { useAuthStore } from '../store/authStore';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
@@ -10,17 +11,23 @@ export default function RecipeListPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
+  const [category, setCategory] = useState('');
   const { user } = useAuthStore();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['recipes', search, tag],
-    queryFn: () => recipesApi.list({ q: search || undefined, tag: tag || undefined }),
+    queryKey: ['recipes', search, tag, category],
+    queryFn: () => recipesApi.list({ q: search || undefined, tag: tag || undefined, category: category || undefined }),
   });
+
+  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h1 style={{ margin: 0 }}>{t('app.title')}</h1>
+        <div>
+          <h1 style={{ margin: 0 }}>{t('app.title')}</h1>
+          {data && <span style={{ fontSize: 13, color: '#888' }}>{data.total} {t('profile.recipesCount')}</span>}
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <LanguageSwitcher />
           <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
@@ -30,19 +37,32 @@ export default function RecipeListPage() {
         </div>
       </header>
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+      <div className="filter-bar">
         <input
           placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{ ...inputStyle, flex: 1 }}
+          className="filter-search"
+          style={inputStyle}
         />
         <input
           placeholder={t('recipe.list.tagPlaceholder')}
           value={tag}
           onChange={(e) => setTag(e.target.value)}
+          className="filter-aux"
           style={{ ...inputStyle, width: 120 }}
         />
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="filter-aux"
+          style={{ ...inputStyle, width: 160 }}
+        >
+          <option value="">{t('recipe.list.allCategories')}</option>
+          {categories?.map((c) => (
+            <option key={c._id} value={c._id}>{c.icon} {c.name}</option>
+          ))}
+        </select>
         <Link to="/recipes/new">
           <button style={btnStyle}>{t('recipe.list.addButton')}</button>
         </Link>
@@ -63,7 +83,7 @@ export default function RecipeListPage() {
             <div style={cardStyle}>
               {r.photoUrl ? (
                 <img
-                  src={`http://localhost:3000${r.photoUrl}`}
+                  src={`${import.meta.env.VITE_API_URL ?? ''}${r.photoUrl}`}
                   alt={r.title}
                   style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
                 />

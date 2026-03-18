@@ -23,7 +23,8 @@
       "tagPlaceholder": "Tag",
       "addButton": "+ Recipe",
       "loading": "Loading...",
-      "empty": "No recipes yet. Add the first one!"
+      "empty": "No recipes yet. Add the first one!",
+      "allCategories": "All categories"
     },
     "detail": {
       "back": "← Back",
@@ -32,12 +33,16 @@
       "loading": "Loading...",
       "notFound": "Recipe not found",
       "addPhoto": "📷 Add photo",
+      "changePhoto": "📷 Change photo",
       "prepTime": "⏱ Prep: {{min}} min",
       "cookTime": "🔥 Cook: {{min}} min",
       "servings": "🍽 Servings:",
       "reset": "reset",
       "ingredients": "Ingredients",
-      "steps": "Preparation steps"
+      "steps": "Preparation steps",
+      "photoUploaded": "Photo uploaded",
+      "photoError": "Failed to upload photo",
+      "deleteError": "Failed to delete recipe"
     },
     "form": {
       "back": "← Back",

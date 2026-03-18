@@ -23,7 +23,8 @@
       "tagPlaceholder": "Etichetă",
       "addButton": "+ Rețetă",
       "loading": "Se încarcă...",
-      "empty": "Nu există rețete încă. Adaugă prima!"
+      "empty": "Nu există rețete încă. Adaugă prima!",
+      "allCategories": "Toate categoriile"
     },
     "detail": {
       "back": "← Înapoi",
@@ -32,12 +33,16 @@
       "loading": "Se încarcă...",
       "notFound": "Rețeta nu a fost găsită",
       "addPhoto": "📷 Adaugă fotografie",
+      "changePhoto": "📷 Schimbă poza",
       "prepTime": "⏱ Preparare: {{min}} min",
       "cookTime": "🔥 Gătire: {{min}} min",
       "servings": "🍽 Porții:",
       "reset": "resetează",
       "ingredients": "Ingrediente",
-      "steps": "Pași de preparare"
+      "steps": "Pași de preparare",
+      "photoUploaded": "Fotografie încărcată",
+      "photoError": "Eroare la încărcarea fotografiei",
+      "deleteError": "Eroare la ștergerea rețetei"
     },
     "form": {
       "back": "← Înapoi",

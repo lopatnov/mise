@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { recipesApi } from '../api/recipes';
+import { useToast } from '../store/toastStore';
 
 export default function RecipeDetailPage() {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ export default function RecipeDetailPage() {
   const qc = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [targetServings, setTargetServings] = useState<number | null>(null);
+  const toast = useToast();
 
   const { data: recipe, isLoading } = useQuery({
     queryKey: ['recipe', id],
@@ -21,11 +23,13 @@ export default function RecipeDetailPage() {
   const deleteMut = useMutation({
     mutationFn: () => recipesApi.remove(id!),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['recipes'] }); navigate('/'); },
+    onError: () => toast.error(t('recipe.detail.deleteError')),
   });
 
   const photoMut = useMutation({
     mutationFn: (file: File) => recipesApi.uploadPhoto(id!, file),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['recipe', id] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['recipe', id] }); toast.success(t('recipe.detail.photoUploaded')); },
+    onError: () => toast.error(t('recipe.detail.photoError')),
   });
 
   if (isLoading) return <p style={{ padding: 32 }}>{t('recipe.detail.loading')}</p>;
@@ -49,20 +53,36 @@ export default function RecipeDetailPage() {
         </button>
       </div>
 
-      {recipe.photoUrl ? (
-        <img
-          src={`http://localhost:3000${recipe.photoUrl}`}
-          alt={recipe.title}
-          style={{ width: '100%', maxHeight: 320, objectFit: 'cover', borderRadius: 12, marginBottom: 20 }}
-        />
-      ) : (
-        <div
-          onClick={() => fileRef.current?.click()}
-          style={{ height: 160, border: '2px dashed #ccc', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginBottom: 20, color: '#888' }}
-        >
-          {t('recipe.detail.addPhoto')}
-        </div>
-      )}
+      <div
+        onClick={() => fileRef.current?.click()}
+        style={{ position: 'relative', cursor: 'pointer', marginBottom: 20, borderRadius: 12, overflow: 'hidden' }}
+      >
+        {recipe.photoUrl ? (
+          <>
+            <img
+              src={`${import.meta.env.VITE_API_URL ?? ''}${recipe.photoUrl}`}
+              alt={recipe.title}
+              style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block' }}
+            />
+            <div style={{
+              position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.15s',
+            }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0.35)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '1'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(0,0,0,0)'; (e.currentTarget.firstChild as HTMLElement).style.opacity = '0'; }}
+            >
+              <span style={{ color: '#fff', fontSize: 14, fontWeight: 500, opacity: 0, transition: 'opacity 0.15s' }}>
+                {t('recipe.detail.changePhoto')}
+              </span>
+            </div>
+          </>
+        ) : (
+          <div style={{ height: 160, border: '2px dashed #ccc', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>
+            {t('recipe.detail.addPhoto')}
+          </div>
+        )}
+      </div>
 
       <input
         ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}

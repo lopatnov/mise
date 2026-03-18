@@ -23,7 +23,8 @@
       "tagPlaceholder": "标签",
       "addButton": "+ 食谱",
       "loading": "加载中...",
-      "empty": "暂无食谱，添加第一个吧！"
+      "empty": "暂无食谱，添加第一个吧！",
+      "allCategories": "所有分类"
     },
     "detail": {
       "back": "← 返回",
@@ -32,12 +33,16 @@
       "loading": "加载中...",
       "notFound": "未找到食谱",
       "addPhoto": "📷 添加照片",
+      "changePhoto": "📷 更换照片",
       "prepTime": "⏱ 准备：{{min}} 分钟",
       "cookTime": "🔥 烹饪：{{min}} 分钟",
       "servings": "🍽 份数：",
       "reset": "重置",
       "ingredients": "食材",
-      "steps": "烹饪步骤"
+      "steps": "烹饪步骤",
+      "photoUploaded": "照片上传成功",
+      "photoError": "照片上传失败",
+      "deleteError": "删除食谱失败"
     },
     "form": {
       "back": "← 返回",

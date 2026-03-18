@@ -105,7 +105,7 @@ export default function RecipeFormPage() {
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} style={{ ...inputStyle, resize: 'vertical' }} />
         </Field>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        <div className="grid-3">
           <Field label={t('recipe.form.servings')}>
             <input type="number" min={1} value={servings} onChange={(e) => setServings(Number(e.target.value))} style={inputStyle} />
           </Field>
@@ -117,7 +117,7 @@ export default function RecipeFormPage() {
           </Field>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div className="grid-2">
           <Field label={t('recipe.form.category')}>
             <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={inputStyle}>
               <option value="">{t('recipe.form.noCategory')}</option>
@@ -141,8 +141,8 @@ export default function RecipeFormPage() {
             <button type="button" onClick={addIngredient} style={smallBtn}>{t('recipe.form.add')}</button>
           </div>
           {ingredients.map((ing, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 80px 32px', gap: 6, marginBottom: 6 }}>
-              <input placeholder={t('recipe.form.ingredientName')} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} style={inputStyle} />
+            <div key={i} className="ingredient-row">
+              <input placeholder={t('recipe.form.ingredientName')} value={ing.name} onChange={(e) => updateIngredient(i, 'name', e.target.value)} className="ingredient-name" style={inputStyle} />
               <input type="number" placeholder={t('recipe.form.ingredientQty')} value={ing.amount} onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))} style={inputStyle} />
               <input placeholder={t('recipe.form.ingredientUnit')} value={ing.unit} onChange={(e) => updateIngredient(i, 'unit', e.target.value)} style={inputStyle} />
               <button type="button" onClick={() => removeIngredient(i)} style={{ ...smallBtn, background: '#fee', color: '#c00' }}>×</button>

@@ -23,7 +23,8 @@
       "tagPlaceholder": "Tag",
       "addButton": "+ Rezept",
       "loading": "Laden...",
-      "empty": "Noch keine Rezepte. Fügen Sie das erste hinzu!"
+      "empty": "Noch keine Rezepte. Fügen Sie das erste hinzu!",
+      "allCategories": "Alle Kategorien"
     },
     "detail": {
       "back": "← Zurück",
@@ -32,12 +33,16 @@
       "loading": "Laden...",
       "notFound": "Rezept nicht gefunden",
       "addPhoto": "📷 Foto hinzufügen",
+      "changePhoto": "📷 Foto ändern",
       "prepTime": "⏱ Vorbereitung: {{min}} Min.",
       "cookTime": "🔥 Kochzeit: {{min}} Min.",
       "servings": "🍽 Portionen:",
       "reset": "zurücksetzen",
       "ingredients": "Zutaten",
-      "steps": "Zubereitungsschritte"
+      "steps": "Zubereitungsschritte",
+      "photoUploaded": "Foto hochgeladen",
+      "photoError": "Fehler beim Hochladen",
+      "deleteError": "Fehler beim Löschen"
     },
     "form": {
       "back": "← Zurück",

@@ -23,7 +23,8 @@
       "tagPlaceholder": "Tag",
       "addButton": "+ Recept",
       "loading": "Laden...",
-      "empty": "Nog geen recepten. Voeg de eerste toe!"
+      "empty": "Nog geen recepten. Voeg de eerste toe!",
+      "allCategories": "Alle categorieën"
     },
     "detail": {
       "back": "← Terug",
@@ -32,12 +33,16 @@
       "loading": "Laden...",
       "notFound": "Recept niet gevonden",
       "addPhoto": "📷 Foto toevoegen",
+      "changePhoto": "📷 Foto wijzigen",
       "prepTime": "⏱ Voorbereiding: {{min}} min",
       "cookTime": "🔥 Kooktijd: {{min}} min",
       "servings": "🍽 Porties:",
       "reset": "reset",
       "ingredients": "Ingrediënten",
-      "steps": "Bereidingsstappen"
+      "steps": "Bereidingsstappen",
+      "photoUploaded": "Foto geüpload",
+      "photoError": "Fout bij uploaden foto",
+      "deleteError": "Fout bij verwijderen recept"
     },
     "form": {
       "back": "← Terug",

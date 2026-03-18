@@ -7,6 +7,7 @@ import RecipeListPage from './pages/RecipeListPage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
 import RecipeFormPage from './pages/RecipeFormPage';
 import ProfilePage from './pages/ProfilePage';
+import ToastContainer from './components/Toast';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
@@ -20,6 +21,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
