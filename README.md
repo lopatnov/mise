@@ -59,8 +59,6 @@ cd mise
 
 The `.env` files are not committed to git. Create them once before the first run.
 
-The `.env` files are not committed to git. Create them once before the first run.
-
 **`api/.env`** — copy from `api/.env.example`, or create manually:
 
 ```env
@@ -178,6 +176,10 @@ cd web && npm run build
 | Frontend shows network errors | `web/.env` missing or wrong URL | Create `web/.env` with `VITE_API_URL=http://localhost:3000` |
 | Login fails with 401 | Wrong credentials or token expired | Register a new account or clear `localStorage` in browser DevTools |
 
+## License
+
+[GNU General Public License v3.0](LICENSE)
+
 ---
 
-Built with NestJS · React · MongoDB · TypeScript
+Built by [lopatnov](https://github.com/lopatnov) · [GitHub](https://github.com/lopatnov/mise) · [LinkedIn](https://www.linkedin.com/in/lopatnov/)

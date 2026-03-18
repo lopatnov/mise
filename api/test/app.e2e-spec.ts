@@ -32,8 +32,9 @@ describe('Auth flow (e2e)', () => {
       .send({ email, password })
       .expect(201);
 
-    expect(res.body.access_token).toBeDefined();
-    expect(res.body.user.email).toBe(email);
+    const body = res.body as { access_token: string; user: { email: string } };
+    expect(body.access_token).toBeDefined();
+    expect(body.user.email).toBe(email);
   });
 
   it('POST /auth/register duplicate email → 409', () => {
@@ -49,7 +50,7 @@ describe('Auth flow (e2e)', () => {
       .send({ email, password })
       .expect(201);
 
-    token = res.body.access_token as string;
+    token = (res.body as { access_token: string }).access_token;
     expect(token).toBeDefined();
   });
 

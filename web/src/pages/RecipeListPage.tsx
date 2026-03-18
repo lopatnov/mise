@@ -7,16 +7,24 @@ import { categoriesApi } from '../api/categories';
 import { useAuthStore } from '../store/authStore';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
+const API_URL = import.meta.env.VITE_API_URL ?? '';
+
 export default function RecipeListPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
-  const { user } = useAuthStore();
+  const { user, token } = useAuthStore();
+  const isLoggedIn = !!token;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['recipes', search, tag, category],
-    queryFn: () => recipesApi.list({ q: search || undefined, tag: tag || undefined, category: category || undefined }),
+    queryKey: isLoggedIn
+      ? ['recipes', search, tag, category]
+      : ['recipes', 'public', search, tag, category],
+    queryFn: () =>
+      isLoggedIn
+        ? recipesApi.list({ q: search || undefined, tag: tag || undefined, category: category || undefined })
+        : recipesApi.listPublic({ q: search || undefined, tag: tag || undefined, category: category || undefined }),
   });
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
@@ -30,10 +38,17 @@ export default function RecipeListPage() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <LanguageSwitcher />
-          <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
-            <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
-            <span style={smallBtnStyle}>👤</span>
-          </Link>
+          {isLoggedIn ? (
+            <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
+              <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
+              <span style={smallBtnStyle}>👤</span>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login"><button style={outlineBtnStyle}>{t('auth.signIn')}</button></Link>
+              <Link to="/register"><button style={btnStyle}>{t('auth.register')}</button></Link>
+            </>
+          )}
         </div>
       </header>
 
@@ -63,9 +78,11 @@ export default function RecipeListPage() {
             <option key={c._id} value={c._id}>{c.icon} {c.name}</option>
           ))}
         </select>
-        <Link to="/recipes/new">
-          <button style={btnStyle}>{t('recipe.list.addButton')}</button>
-        </Link>
+        {isLoggedIn && (
+          <Link to="/recipes/new">
+            <button style={btnStyle}>{t('recipe.list.addButton')}</button>
+          </Link>
+        )}
       </div>
 
       {isLoading && <p>{t('recipe.list.loading')}</p>}
@@ -83,7 +100,7 @@ export default function RecipeListPage() {
             <div style={cardStyle}>
               {r.photoUrl ? (
                 <img
-                  src={`${import.meta.env.VITE_API_URL ?? ''}${r.photoUrl}`}
+                  src={`${API_URL}${r.photoUrl}`}
                   alt={r.title}
                   style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
                 />
@@ -116,6 +133,7 @@ export default function RecipeListPage() {
 
 const inputStyle: React.CSSProperties = { padding: '9px 12px', borderRadius: 8, border: '1px solid #ddd', fontSize: 14 };
 const btnStyle: React.CSSProperties = { padding: '9px 18px', borderRadius: 8, background: '#2d6a4f', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 14 };
+const outlineBtnStyle: React.CSSProperties = { padding: '9px 18px', borderRadius: 8, background: 'none', color: '#2d6a4f', border: '1px solid #2d6a4f', cursor: 'pointer', fontSize: 14 };
 const smallBtnStyle: React.CSSProperties = { padding: '6px 12px', borderRadius: 6, background: '#f0f0f0', border: 'none', cursor: 'pointer', fontSize: 13 };
 const cardStyle: React.CSSProperties = { borderRadius: 10, border: '1px solid #eee', overflow: 'hidden', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', cursor: 'pointer' };
 const tagStyle: React.CSSProperties = { background: '#e8f5e9', color: '#2d6a4f', padding: '2px 8px', borderRadius: 12, fontSize: 12 };
