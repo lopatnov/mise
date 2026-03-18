@@ -1,25 +1,75 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
-import { App } from 'supertest/types';
+import type { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('Auth flow (e2e)', () => {
   let app: INestApplication<App>;
+  let token: string;
 
-  beforeEach(async () => {
+  // Use a unique email per test run so tests pass on a non-empty database
+  const email = `e2e-${Date.now()}@mise.test`;
+  const password = 'secret123';
+
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  afterAll(async () => {
+    await app.close();
+  });
+
+  it('POST /auth/register → 201 with token and user', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({ email, password })
+      .expect(201);
+
+    expect(res.body.access_token).toBeDefined();
+    expect(res.body.user.email).toBe(email);
+  });
+
+  it('POST /auth/register duplicate email → 409', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .post('/auth/register')
+      .send({ email, password })
+      .expect(409);
+  });
+
+  it('POST /auth/login with correct credentials → 201 with token', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email, password })
+      .expect(201);
+
+    token = res.body.access_token as string;
+    expect(token).toBeDefined();
+  });
+
+  it('POST /auth/login with wrong password → 401', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email, password: 'wrongpassword' })
+      .expect(401);
+  });
+
+  it('GET /auth/me with valid Bearer token → 200', () => {
+    return request(app.getHttpServer())
+      .get('/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+  });
+
+  it('GET /auth/me without token → 401', () => {
+    return request(app.getHttpServer())
+      .get('/auth/me')
+      .expect(401);
   });
 });

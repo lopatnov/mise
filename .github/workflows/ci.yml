@@ -14,6 +14,18 @@ jobs:
       run:
         working-directory: api
 
+    services:
+      mongodb:
+        image: mongo:8
+        ports:
+          - 27017:27017
+
+    env:
+      MONGODB_URI: mongodb://localhost:27017/mise-test
+      JWT_SECRET: ci-test-secret
+      JWT_EXPIRES_IN: 1h
+      PORT: 3001
+
     steps:
       - uses: actions/checkout@v4
 
@@ -28,8 +40,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm test -- --passWithNoTests
+      - name: Unit tests
+        run: npm test
+
+      - name: E2E tests
+        run: npm run test:e2e
 
       - name: Build
         run: npm run build
