@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AdminModule } from './admin/admin.module';
+import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -14,6 +15,7 @@ import { UploadsModule } from './uploads/uploads.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({

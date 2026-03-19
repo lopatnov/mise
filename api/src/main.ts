@@ -14,6 +14,7 @@ async function bootstrap() {
     exclude: [
       { path: 'robots.txt', method: RequestMethod.GET },
       { path: 'sitemap.xml', method: RequestMethod.GET },
+      { path: 'health', method: RequestMethod.GET },
     ],
   });
 
