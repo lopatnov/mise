@@ -60,7 +60,10 @@
       "photoUploaded": "Photo téléchargée",
       "photoError": "Échec du téléchargement",
       "deleteError": "Échec de la suppression",
-      "public": "Public"
+      "public": "Public",
+      "duplicate": "Enregistrer une copie",
+      "duplicateTitle": "Copie de {{title}}",
+      "duplicateError": "Échec de la copie de la recette"
     },
     "form": {
       "back": "← Retour",

@@ -60,7 +60,10 @@
       "photoUploaded": "Fotó feltöltve",
       "photoError": "Hiba a fotó feltöltésekor",
       "deleteError": "Hiba a recept törlésekor",
-      "public": "Nyilvános"
+      "public": "Nyilvános",
+      "duplicate": "Mentés másolatként",
+      "duplicateTitle": "{{title}} másolata",
+      "duplicateError": "Nem sikerült másolni a receptet"
     },
     "form": {
       "back": "← Vissza",

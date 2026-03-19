@@ -60,7 +60,10 @@
       "photoUploaded": "Foto subida",
       "photoError": "Error al subir la foto",
       "deleteError": "Error al eliminar la receta",
-      "public": "Público"
+      "public": "Público",
+      "duplicate": "Guardar una copia",
+      "duplicateTitle": "Copia de {{title}}",
+      "duplicateError": "Error al copiar la receta"
     },
     "form": {
       "back": "← Volver",

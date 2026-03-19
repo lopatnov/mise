@@ -60,7 +60,10 @@
       "photoUploaded": "Fotoğraf yüklendi",
       "photoError": "Fotoğraf yüklenemedi",
       "deleteError": "Tarif silinemedi",
-      "public": "Herkese açık"
+      "public": "Herkese açık",
+      "duplicate": "Kopyayı kaydet",
+      "duplicateTitle": "{{title}} kopyası",
+      "duplicateError": "Tarif kopyalanamadı"
     },
     "form": {
       "back": "← Geri",

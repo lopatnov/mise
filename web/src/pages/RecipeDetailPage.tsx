@@ -50,6 +50,7 @@ export default function RecipeDetailPage() {
   const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
   const toast = useToast();
   const { user } = useAuthStore();
+  const isLoggedIn = !!user;
 
   const { data: recipe, isLoading } = useQuery({
     queryKey: ['recipe', id],
@@ -78,6 +79,30 @@ export default function RecipeDetailPage() {
       navigate('/');
     },
     onError: () => toast.error(t('recipe.detail.deleteError')),
+  });
+
+  const duplicateMut = useMutation({
+    mutationFn: () => {
+      if (!recipe) throw new Error('No recipe');
+      return recipesApi.create({
+        title: t('recipe.detail.duplicateTitle', { title: recipe.title }),
+        description: recipe.description,
+        servings: recipe.servings,
+        prepTime: recipe.prepTime,
+        cookTime: recipe.cookTime,
+        rating: recipe.rating,
+        tags: [...recipe.tags],
+        categoryId: recipe.categoryId,
+        isPublic: false,
+        ingredients: recipe.ingredients.map((ing) => ({ ...ing })),
+        steps: [...recipe.steps].sort((a, b) => a.order - b.order).map((s, i) => ({ order: i + 1, text: s.text })),
+      });
+    },
+    onSuccess: (saved) => {
+      qc.invalidateQueries({ queryKey: ['recipes'] });
+      navigate(`/recipes/${saved._id}`);
+    },
+    onError: () => toast.error(t('recipe.detail.duplicateError')),
   });
 
   const photoMut = useMutation({
@@ -124,6 +149,9 @@ export default function RecipeDetailPage() {
             <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>
               {t('recipe.detail.edit')}
             </Link>
+            <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
+              {t('recipe.detail.duplicate')}
+            </button>
             <button
               onClick={() => deleteMut.mutate()}
               style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
@@ -131,6 +159,15 @@ export default function RecipeDetailPage() {
               {t('recipe.detail.delete')}
             </button>
           </>
+        )}
+        {isLoggedIn && !canEdit && (
+          <button
+            onClick={() => duplicateMut.mutate()}
+            disabled={duplicateMut.isPending}
+            style={{ ...dupBtnStyle, marginLeft: 'auto' }}
+          >
+            {t('recipe.detail.duplicate')}
+          </button>
         )}
       </div>
 
@@ -369,6 +406,16 @@ const scaleBtn: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+};
+
+const dupBtnStyle: React.CSSProperties = {
+  background: 'none',
+  border: '1px solid #2d6a4f',
+  color: '#2d6a4f',
+  cursor: 'pointer',
+  fontSize: 14,
+  padding: '4px 10px',
+  borderRadius: 6,
 };
 
 const replacePhotoBtn: React.CSSProperties = {

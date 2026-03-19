@@ -60,7 +60,10 @@
       "photoUploaded": "Foto uppladdad",
       "photoError": "Fel vid uppladdning av foto",
       "deleteError": "Fel vid radering av recept",
-      "public": "Offentlig"
+      "public": "Offentlig",
+      "duplicate": "Spara en kopia",
+      "duplicateTitle": "Kopia av {{title}}",
+      "duplicateError": "Det gick inte att kopiera receptet"
     },
     "form": {
       "back": "← Tillbaka",

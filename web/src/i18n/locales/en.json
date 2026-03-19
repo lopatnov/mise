@@ -60,7 +60,10 @@
       "photoUploaded": "Photo uploaded",
       "photoError": "Failed to upload photo",
       "deleteError": "Failed to delete recipe",
-      "public": "Public"
+      "public": "Public",
+      "duplicate": "Save a copy",
+      "duplicateTitle": "Copy of {{title}}",
+      "duplicateError": "Failed to copy recipe"
     },
     "form": {
       "back": "← Back",

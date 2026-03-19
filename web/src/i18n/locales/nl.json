@@ -60,7 +60,10 @@
       "photoUploaded": "Foto geüpload",
       "photoError": "Fout bij uploaden foto",
       "deleteError": "Fout bij verwijderen recept",
-      "public": "Openbaar"
+      "public": "Openbaar",
+      "duplicate": "Sla een kopie op",
+      "duplicateTitle": "Kopie van {{title}}",
+      "duplicateError": "Recept kopiëren mislukt"
     },
     "form": {
       "back": "← Terug",

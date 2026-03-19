@@ -60,7 +60,10 @@
       "photoUploaded": "Foto caricata",
       "photoError": "Errore nel caricamento della foto",
       "deleteError": "Errore nell'eliminazione della ricetta",
-      "public": "Pubblico"
+      "public": "Pubblico",
+      "duplicate": "Salva una copia",
+      "duplicateTitle": "Copia di {{title}}",
+      "duplicateError": "Impossibile copiare la ricetta"
     },
     "form": {
       "back": "← Indietro",

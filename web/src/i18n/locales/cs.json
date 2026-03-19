@@ -60,7 +60,10 @@
       "photoUploaded": "Foto nahráno",
       "photoError": "Chyba nahrávání fotografie",
       "deleteError": "Chyba mazání receptu",
-      "public": "Veřejný"
+      "public": "Veřejný",
+      "duplicate": "Uložit kopii",
+      "duplicateTitle": "Kopie {{title}}",
+      "duplicateError": "Nepodařilo se zkopírovat recept"
     },
     "form": {
       "back": "← Zpět",

@@ -60,7 +60,10 @@
       "photoUploaded": "Zdjęcie przesłane",
       "photoError": "Błąd przesyłania zdjęcia",
       "deleteError": "Błąd usuwania przepisu",
-      "public": "Publiczny"
+      "public": "Publiczny",
+      "duplicate": "Zapisz kopię",
+      "duplicateTitle": "Kopia {{title}}",
+      "duplicateError": "Nie udało się skopiować przepisu"
     },
     "form": {
       "back": "← Wróć",

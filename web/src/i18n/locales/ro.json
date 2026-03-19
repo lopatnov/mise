@@ -60,7 +60,10 @@
       "photoUploaded": "Fotografie încărcată",
       "photoError": "Eroare la încărcarea fotografiei",
       "deleteError": "Eroare la ștergerea rețetei",
-      "public": "Public"
+      "public": "Public",
+      "duplicate": "Salvează o copie",
+      "duplicateTitle": "Copie după {{title}}",
+      "duplicateError": "Eroare la copierea rețetei"
     },
     "form": {
       "back": "← Înapoi",

@@ -60,7 +60,10 @@
       "photoUploaded": "Foto hochgeladen",
       "photoError": "Fehler beim Hochladen",
       "deleteError": "Fehler beim Löschen",
-      "public": "Öffentlich"
+      "public": "Öffentlich",
+      "duplicate": "Kopie speichern",
+      "duplicateTitle": "Kopie von {{title}}",
+      "duplicateError": "Rezept konnte nicht kopiert werden"
     },
     "form": {
       "back": "← Zurück",

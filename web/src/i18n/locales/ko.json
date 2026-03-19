@@ -60,7 +60,10 @@
       "photoUploaded": "사진이 업로드되었습니다",
       "photoError": "사진 업로드 실패",
       "deleteError": "레시피 삭제 실패",
-      "public": "공개"
+      "public": "공개",
+      "duplicate": "복사본 저장",
+      "duplicateTitle": "{{title}} 복사본",
+      "duplicateError": "레시피 복사에 실패했습니다"
     },
     "form": {
       "back": "← 뒤로",

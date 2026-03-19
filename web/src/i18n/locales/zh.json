@@ -60,7 +60,10 @@
       "photoUploaded": "照片上传成功",
       "photoError": "照片上传失败",
       "deleteError": "删除食谱失败",
-      "public": "公开"
+      "public": "公开",
+      "duplicate": "保存副本",
+      "duplicateTitle": "{{title}} 的副本",
+      "duplicateError": "复制食谱失败"
     },
     "form": {
       "back": "← 返回",

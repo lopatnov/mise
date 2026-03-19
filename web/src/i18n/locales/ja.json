@@ -60,7 +60,10 @@
       "photoUploaded": "写真をアップロードしました",
       "photoError": "写真のアップロードに失敗しました",
       "deleteError": "レシピの削除に失敗しました",
-      "public": "公開"
+      "public": "公開",
+      "duplicate": "コピーを保存",
+      "duplicateTitle": "{{title}} のコピー",
+      "duplicateError": "レシピのコピーに失敗しました"
     },
     "form": {
       "back": "← 戻る",

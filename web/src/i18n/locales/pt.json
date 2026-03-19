@@ -60,7 +60,10 @@
       "photoUploaded": "Foto enviada",
       "photoError": "Erro ao enviar foto",
       "deleteError": "Erro ao excluir receita",
-      "public": "Público"
+      "public": "Público",
+      "duplicate": "Salvar uma cópia",
+      "duplicateTitle": "Cópia de {{title}}",
+      "duplicateError": "Erro ao copiar receita"
     },
     "form": {
       "back": "← Voltar",

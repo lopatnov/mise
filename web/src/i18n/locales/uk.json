@@ -60,7 +60,10 @@
       "photoUploaded": "Фото завантажено",
       "photoError": "Помилка завантаження фото",
       "deleteError": "Помилка видалення рецепту",
-      "public": "Публічний"
+      "public": "Публічний",
+      "duplicate": "Зберегти копію",
+      "duplicateTitle": "Копія {{title}}",
+      "duplicateError": "Помилка копіювання рецепту"
     },
     "form": {
       "back": "← Назад",
