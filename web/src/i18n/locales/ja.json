@@ -39,7 +39,9 @@
       "allCategories": "すべてのカテゴリ",
       "communityTitle": "コミュニティのレシピ",
       "mine": "マイレシピ",
-      "allTags": "すべてのタグ"
+      "allTags": "すべてのタグ",
+      "prev": "← 前へ",
+      "next": "次へ →"
     },
     "detail": {
       "back": "← 戻る",

@@ -39,7 +39,9 @@
       "allCategories": "Alle categorieën",
       "communityTitle": "Community recepten",
       "mine": "Mijn recepten",
-      "allTags": "Alle tags"
+      "allTags": "Alle tags",
+      "prev": "← Vorige",
+      "next": "Volgende →"
     },
     "detail": {
       "back": "← Terug",

@@ -39,7 +39,9 @@
       "allCategories": "Alla kategorier",
       "communityTitle": "Communityrecept",
       "mine": "Mina recept",
-      "allTags": "Alla taggar"
+      "allTags": "Alla taggar",
+      "prev": "← Föregående",
+      "next": "Nästa →"
     },
     "detail": {
       "back": "← Tillbaka",

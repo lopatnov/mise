@@ -9,6 +9,7 @@ import { usePageTitle } from '../hooks/usePageTitle';
 import { useAuthStore } from '../store/authStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
+const PAGE_SIZE = 12;
 
 function useDebounce<T>(value: T, ms = 400): T {
   const [v, setV] = useState(value);
@@ -26,15 +27,33 @@ export default function RecipeListPage() {
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
   const [mine, setMine] = useState(false);
+  const [page, setPage] = useState(1);
   const { user, token } = useAuthStore();
   const isLoggedIn = !!token;
 
   const debouncedSearch = useDebounce(search, 400);
 
+  function changeSearch(v: string) {
+    setSearch(v);
+    setPage(1);
+  }
+  function changeTag(v: string) {
+    setTag(v);
+    setPage(1);
+  }
+  function changeCategory(v: string) {
+    setCategory(v);
+    setPage(1);
+  }
+  function changeMine() {
+    setMine((v) => !v);
+    setPage(1);
+  }
+
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
-      ? ['recipes', debouncedSearch, tag, category, mine]
-      : ['recipes', 'public', debouncedSearch, tag, category],
+      ? ['recipes', debouncedSearch, tag, category, mine, page]
+      : ['recipes', 'public', debouncedSearch, tag, category, page],
     queryFn: () =>
       isLoggedIn
         ? recipesApi.list({
@@ -42,17 +61,28 @@ export default function RecipeListPage() {
             tag: tag || undefined,
             category: category || undefined,
             mine: mine || undefined,
+            page,
+            limit: PAGE_SIZE,
           })
         : recipesApi.listPublic({
             q: debouncedSearch || undefined,
             tag: tag || undefined,
             category: category || undefined,
+            page,
+            limit: PAGE_SIZE,
           }),
     placeholderData: keepPreviousData,
   });
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
+
+  const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 1;
+
+  function goToPage(p: number) {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
@@ -110,13 +140,13 @@ export default function RecipeListPage() {
         <input
           placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => changeSearch(e.target.value)}
           className="filter-search"
           style={inputStyle}
         />
         <select
           value={tag}
-          onChange={(e) => setTag(e.target.value)}
+          onChange={(e) => changeTag(e.target.value)}
           className="filter-aux"
           style={{ ...inputStyle, width: 140 }}
         >
@@ -129,7 +159,7 @@ export default function RecipeListPage() {
         </select>
         <select
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => changeCategory(e.target.value)}
           className="filter-aux"
           style={{ ...inputStyle, width: 160 }}
         >
@@ -142,7 +172,7 @@ export default function RecipeListPage() {
         </select>
         {isLoggedIn && (
           <button
-            onClick={() => setMine((v) => !v)}
+            onClick={changeMine}
             style={mine ? { ...btnStyle, fontSize: 14 } : { ...outlineBtnStyle, fontSize: 14 }}
           >
             {t('recipe.list.mine')}
@@ -199,16 +229,16 @@ export default function RecipeListPage() {
                   </p>
                 )}
                 <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {r.tags.slice(0, 3).map((t) => (
+                  {r.tags.slice(0, 3).map((tg) => (
                     <span
-                      key={t}
+                      key={tg}
                       style={{ ...tagStyle, cursor: 'pointer' }}
                       onClick={(e) => {
                         e.preventDefault();
-                        setTag(t);
+                        changeTag(tg);
                       }}
                     >
-                      {t}
+                      {tg}
                     </span>
                   ))}
                   {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}
@@ -218,6 +248,26 @@ export default function RecipeListPage() {
           </Link>
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginTop: 32 }}>
+          <button onClick={() => goToPage(page - 1)} disabled={page === 1} style={pageBtn(page === 1)}>
+            {t('recipe.list.prev')}
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button key={p} onClick={() => goToPage(p)} style={pageBtn(false, p === page)}>
+              {p}
+            </button>
+          ))}
+          <button
+            onClick={() => goToPage(page + 1)}
+            disabled={page === totalPages}
+            style={pageBtn(page === totalPages)}
+          >
+            {t('recipe.list.next')}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -269,3 +319,18 @@ const tagStyle: React.CSSProperties = {
   borderRadius: 12,
   fontSize: 12,
 };
+
+function pageBtn(disabled: boolean, active = false): React.CSSProperties {
+  return {
+    minWidth: 36,
+    height: 36,
+    borderRadius: 8,
+    border: active ? '2px solid #2d6a4f' : '1px solid #ddd',
+    background: active ? '#2d6a4f' : disabled ? '#f5f5f5' : '#fff',
+    color: active ? '#fff' : disabled ? '#bbb' : '#333',
+    cursor: disabled ? 'default' : 'pointer',
+    fontSize: 14,
+    fontWeight: active ? 600 : 400,
+    padding: '0 10px',
+  };
+}

@@ -39,7 +39,9 @@
       "allCategories": "Všechny kategorie",
       "communityTitle": "Komunitní recepty",
       "mine": "Moje recepty",
-      "allTags": "Všechny tagy"
+      "allTags": "Všechny tagy",
+      "prev": "← Předchozí",
+      "next": "Další →"
     },
     "detail": {
       "back": "← Zpět",

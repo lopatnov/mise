@@ -39,7 +39,9 @@
       "allCategories": "Всі категорії",
       "communityTitle": "Рецепти спільноти",
       "mine": "Мої рецепти",
-      "allTags": "Всі теги"
+      "allTags": "Всі теги",
+      "prev": "← Назад",
+      "next": "Вперед →"
     },
     "detail": {
       "back": "← Назад",

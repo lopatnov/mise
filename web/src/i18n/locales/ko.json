@@ -39,7 +39,9 @@
       "allCategories": "모든 카테고리",
       "communityTitle": "커뮤니티 레시피",
       "mine": "내 레시피",
-      "allTags": "모든 태그"
+      "allTags": "모든 태그",
+      "prev": "← 이전",
+      "next": "다음 →"
     },
     "detail": {
       "back": "← 뒤로",

@@ -39,7 +39,9 @@
       "allCategories": "Toutes les catégories",
       "communityTitle": "Recettes de la communauté",
       "mine": "Mes recettes",
-      "allTags": "Tous les tags"
+      "allTags": "Tous les tags",
+      "prev": "← Précédent",
+      "next": "Suivant →"
     },
     "detail": {
       "back": "← Retour",

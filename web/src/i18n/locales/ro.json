@@ -39,7 +39,9 @@
       "allCategories": "Toate categoriile",
       "communityTitle": "Rețete ale comunității",
       "mine": "Rețetele mele",
-      "allTags": "Toate etichetele"
+      "allTags": "Toate etichetele",
+      "prev": "← Anterior",
+      "next": "Următor →"
     },
     "detail": {
       "back": "← Înapoi",

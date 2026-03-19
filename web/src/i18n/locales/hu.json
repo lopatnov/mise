@@ -39,7 +39,9 @@
       "allCategories": "Összes kategória",
       "communityTitle": "Közösségi receptek",
       "mine": "Saját receptek",
-      "allTags": "Összes tag"
+      "allTags": "Összes tag",
+      "prev": "← Előző",
+      "next": "Következő →"
     },
     "detail": {
       "back": "← Vissza",

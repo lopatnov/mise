@@ -39,7 +39,9 @@
       "allCategories": "Tüm kategoriler",
       "communityTitle": "Topluluk tarifleri",
       "mine": "Tariflerim",
-      "allTags": "Tüm etiketler"
+      "allTags": "Tüm etiketler",
+      "prev": "← Önceki",
+      "next": "Sonraki →"
     },
     "detail": {
       "back": "← Geri",

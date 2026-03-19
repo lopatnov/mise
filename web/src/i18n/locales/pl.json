@@ -39,7 +39,9 @@
       "allCategories": "Wszystkie kategorie",
       "communityTitle": "Przepisy społeczności",
       "mine": "Moje przepisy",
-      "allTags": "Wszystkie tagi"
+      "allTags": "Wszystkie tagi",
+      "prev": "← Poprzednia",
+      "next": "Następna →"
     },
     "detail": {
       "back": "← Wróć",
