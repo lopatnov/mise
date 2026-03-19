@@ -69,6 +69,10 @@ web_modules/
 .env
 .env.*
 !.env.example
+!.env.prod.example
+
+# Production data directory (uploads on host, created by docker-compose.prod.yml)
+/data/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

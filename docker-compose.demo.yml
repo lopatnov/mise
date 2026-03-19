@@ -1,0 +1,50 @@
+# Full local demo — MongoDB + API + Web in Docker.
+# No code changes picked up automatically; rebuild is needed after edits.
+#
+#   docker compose -f docker-compose.demo.yml up --build
+#   docker compose -f docker-compose.demo.yml down
+
+services:
+  mongodb:
+    image: mongo:8
+    container_name: mise-mongodb
+    volumes:
+      - mise_mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: mise
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./api
+    container_name: mise-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/mise
+      JWT_SECRET: mise_jwt_secret_change_in_production
+      JWT_EXPIRES_IN: 7d
+      PORT: 3000
+    volumes:
+      - ./api/uploads:/app/uploads
+
+  web:
+    build:
+      context: ./web
+      args:
+        VITE_API_URL: http://localhost:3000
+    container_name: mise-web
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  mise_mongo_data:

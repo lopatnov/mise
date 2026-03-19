@@ -1,199 +1,286 @@
 # 🍽 Mise
 
-> _mise en place_
+> _mise en place_ — everything in its place
 
-Self-hosted personal recipe book. Store recipes with ingredients, steps, tags and photos. Scale servings, search by ingredient, filter by category.
+Self-hosted personal recipe book. Store recipes with ingredients, steps, tags and photos.
+Scale servings, search by text, filter by category and tag, share recipes publicly.
 
 ## Stack
 
-| Layer          | Technology                                 |
-| -------------- | ------------------------------------------ |
-| Backend        | Node.js 24, NestJS 11, TypeScript          |
-| Database       | MongoDB 8, Mongoose                        |
-| Auth           | JWT Bearer                                 |
-| Frontend       | React 19, Vite 8, React Query 5, Zustand 5 |
-| Infrastructure | Docker Compose                             |
+| Layer          | Technology                                    |
+| -------------- | --------------------------------------------- |
+| Backend        | Node.js 24, NestJS 11, TypeScript             |
+| Database       | MongoDB 8, Mongoose                           |
+| Auth           | JWT Bearer, bcrypt                            |
+| Frontend       | React 19, Vite 8, React Query 5, Zustand 5   |
+| i18n           | react-i18next · 18 languages                  |
+| Infrastructure | Docker Compose                                |
 
 ## Features
 
-- **Recipe management** — create, edit, delete recipes with full details
-- **Ingredients & steps** — dynamic lists, add/remove rows
-- **Categories** — breakfast, lunch, dinner, dessert, drink and more (pre-seeded)
-- **Tags** — free-form tagging, filter by tag
-- **Photo upload** — attach a photo to any recipe
-- **Search** — full-text search across title and tags
-- **Auth** — JWT-based registration and login, each user has private recipes
-- **Pagination** — server-side, 20 recipes per page
-
-## Quick Start
-
-### Option A — Docker (one command)
-
-> Requires [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running.
-
-```bash
-git clone https://github.com/lopatnov/mise.git
-cd mise
-docker compose up --build
-```
-
-- App: **http://localhost:5173**
-- API / Swagger: http://localhost:3000/api/docs
-
-To stop: `docker compose down`
+- **Recipe management** — create, edit, delete with full details
+- **Ingredients & steps** — dynamic lists with per-step photos
+- **Photo upload** — main photo + photo per step, lightbox viewer
+- **Categories** — pre-seeded (breakfast, lunch, dinner, dessert…)
+- **Tags** — tag filter with autocomplete from existing tags
+- **Search** — partial text search across title, description, and tags
+- **Servings scaler** — ingredient amounts scale automatically
+- **Sharing** — mark recipes as public, visible to anyone
+- **Admin panel** — user management, invite links, SMTP, password reset
+- **18 languages** — EN, UK, RU, DE, FR, ES, ZH, JA, KO, IT, PT, PL, CS, NL, RO, SV, HU, TR
 
 ---
 
-### Option B — Manual (for development)
+## Running locally (development)
 
-> **Run in this order:** MongoDB first → API second → Frontend third.
-> The API won't connect if MongoDB isn't already running.
+> **Run in this order:** MongoDB first → API → Frontend.
 
-### Step 0 — Install prerequisites
+### Prerequisites
 
-You need three tools installed before starting. Check if you already have them:
-
-```bash
-git --version      # need 2.x or later
-node --version     # need v20 or later
-docker --version   # need Docker Desktop running
-```
-
-If anything is missing:
-
-| Tool | Download | Notes |
+| Tool | Version | Download |
 |---|---|---|
-| **Git** | https://git-scm.com/downloads | Included in Xcode CLT on macOS |
-| **Node.js** | https://nodejs.org (LTS) | Choose v20 or v22 |
-| **Docker Desktop** | https://www.docker.com/products/docker-desktop | After installing, **open the app and wait for it to start** before running any `docker` commands |
+| Git | any | https://git-scm.com |
+| Node.js | 20+ | https://nodejs.org (LTS) |
+| Docker Desktop | any | https://www.docker.com/products/docker-desktop |
 
-> **Windows / macOS:** Docker requires the Docker Desktop app to be running in the background (you'll see the whale icon in the system tray / menu bar). Just having it installed is not enough.
-
-### Step 1 — Clone and create environment files
+### Step 1 — Clone
 
 ```bash
 git clone https://github.com/lopatnov/mise.git
 cd mise
 ```
 
-The `.env` files are not committed to git. Create them once before the first run.
+### Step 2 — Create environment files
 
-**`api/.env`** — copy from `api/.env.example`, or create manually:
+**`api/.env`**
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/mise
-JWT_SECRET=change_me_in_production
+JWT_SECRET=dev_secret_change_in_production
 JWT_EXPIRES_IN=7d
 PORT=3000
 ```
 
-**`web/.env`** — create in the `web/` directory:
+**`web/.env`**
 
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-### Step 2 — Start MongoDB (Docker)
+### Step 3 — Start MongoDB
 
 ```bash
-# Run from the repo root
 docker compose up -d
 ```
 
-MongoDB is now running on `localhost:27017`. Categories are seeded automatically when the API starts.
+MongoDB runs on `localhost:27017`. Data is stored in the Docker-managed volume
+`mise_mongo_data` and **survives `docker compose down`** — only `docker compose down -v`
+wipes it. You will never need to restart MongoDB unless you explicitly stop it.
 
-### Step 3 — Start the API
+### Step 4 — Start the API
 
 ```bash
 cd api
 npm install        # first time only
-npm run start:dev
+npm run start:dev  # watch mode — restarts on file changes
 ```
 
-- API: `http://localhost:3000`
-- Swagger UI: `http://localhost:3000/api/docs`
-- The `api/uploads/` folder is created automatically on first start.
+- API: http://localhost:3000
+- Swagger: http://localhost:3000/api/docs
 
-### Step 4 — Start the frontend (new terminal)
+### Step 5 — Start the frontend
 
 ```bash
 cd web
 npm install        # first time only
-npm run dev
+npm run dev        # Vite HMR — updates instantly on save
 ```
 
-- App: `http://localhost:4200`
+- App: http://localhost:4200
 
-Open the app, register a new account, and start adding recipes.
+Open the app, go to `/setup` to create the first admin account, then register users.
+
+---
+
+## Full Docker demo (everything in one command)
+
+Builds and runs MongoDB + API + Web in Docker. No local Node.js needed.
+Code changes require a rebuild (`--build`).
+
+```bash
+docker compose -f docker-compose.demo.yml up --build
+```
+
+- App: http://localhost:5173
+- API / Swagger: http://localhost:3000/api/docs
+
+Stop:
+
+```bash
+docker compose -f docker-compose.demo.yml down
+```
+
+---
+
+## Production deployment
+
+### Requirements
+
+- A Linux server with Docker and Docker Compose installed
+- Ports **80** (web) and **3000** (API) open in the firewall
+- The server IP or domain name
+
+### Setup (one time)
+
+```bash
+# 1. Clone the repo on the server
+git clone https://github.com/lopatnov/mise.git
+cd mise
+
+# 2. Create the production env file
+cp .env.prod.example .env.prod
+```
+
+Edit `.env.prod`:
+
+```env
+# The public URL of the API — as seen from users' browsers
+APP_URL=http://YOUR_SERVER_IP:3000
+
+# Long random secret — generate with: openssl rand -hex 32
+JWT_SECRET=replace_with_actual_secret
+```
+
+```bash
+# 3. Create uploads directory
+mkdir -p data/uploads
+
+# 4. Start
+docker compose -f docker-compose.prod.yml up -d
+```
+
+- App: `http://YOUR_SERVER_IP`
+- API: `http://YOUR_SERVER_IP:3000`
+
+Go to `/setup` to create the admin account on first run.
+
+### Updating to a new release
+
+```bash
+git pull
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+### Stopping
+
+```bash
+# Stop containers (data is preserved)
+docker compose -f docker-compose.prod.yml down
+
+# Stop and wipe ALL data including database
+docker compose -f docker-compose.prod.yml down -v
+```
+
+### Data and backups
+
+| Data | Location | Notes |
+|---|---|---|
+| MongoDB | Docker volume `mise_mongo_data` | Managed by Docker, survives `down` |
+| Uploaded photos | `./data/uploads/` on the host | Plain files, easy to copy |
+
+**Back up MongoDB:**
+
+```bash
+docker run --rm \
+  -v mise_mongo_data:/data/db \
+  -v $(pwd)/backup:/backup \
+  mongo:8 mongodump --out /backup
+```
+
+**Restore MongoDB:**
+
+```bash
+docker run --rm \
+  -v mise_mongo_data:/data/db \
+  -v $(pwd)/backup:/backup \
+  mongo:8 mongorestore /backup
+```
+
+**Back up uploads:**
+
+```bash
+cp -r ./data/uploads /your/backup/location/
+```
+
+---
+
+## Making a GitHub Release
+
+```bash
+# Tag the commit you want to release
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+Then create a release on GitHub and attach nothing — users just clone the tag:
+
+```bash
+git clone --branch v1.0.0 https://github.com/lopatnov/mise.git
+```
+
+They then follow the Production deployment steps above.
+
+---
 
 ## API
 
-Swagger UI available at `http://localhost:3000/api/docs` when running locally.
+Swagger UI: http://localhost:3000/api/docs
 
 ```
-POST /auth/register        Register new user
-POST /auth/login           Login, returns JWT
-GET  /auth/me              Current user
+POST /auth/register          Register (checks allowRegistration + inviteToken)
+POST /auth/login             Login → JWT
+GET  /auth/me                Current user
+POST /auth/forgot-password   Request password reset link
+POST /auth/reset-password    Set new password via token
 
-GET    /recipes            List recipes (q, tag, category, page, limit)
-POST   /recipes            Create recipe
-GET    /recipes/:id        Get recipe
-PATCH  /recipes/:id        Update recipe
-DELETE /recipes/:id        Delete recipe
-POST   /recipes/:id/photo  Upload photo
+GET    /admin/setup          Check if admin exists (public)
+POST   /admin/setup          Create first admin (public)
+GET    /admin/settings       App settings
+PATCH  /admin/settings       Update settings (admin only)
+GET    /admin/users          List users (admin only)
+PATCH  /admin/users/:id      Update role/status (admin only)
+DELETE /admin/users/:id      Delete user (admin only)
+POST   /admin/invites        Create invite link (admin only)
+GET    /admin/invites        List active invites (admin only)
+DELETE /admin/invites/:id    Revoke invite (admin only)
 
-GET  /categories           List categories
-POST /categories           Create category
+GET    /recipes              List recipes (q, tag, category, mine, page, limit)
+POST   /recipes              Create recipe
+GET    /recipes/:id          Get recipe (public if isPublic=true)
+PATCH  /recipes/:id          Update recipe
+DELETE /recipes/:id          Delete recipe
+POST   /recipes/:id/photo    Upload main photo
+POST   /recipes/:id/steps/:order/photo  Upload step photo
+GET    /recipes/public       Public recipes (no auth)
+GET    /recipes/tags         All distinct tags (no auth)
+
+GET  /categories             List categories
 ```
 
-## Project Structure
-
-```
-mise/
-├── api/                  NestJS backend
-│   └── src/
-│       ├── auth/         JWT auth, register/login
-│       ├── users/        User schema, bcrypt
-│       ├── recipes/      CRUD, photo upload, search
-│       ├── categories/   Category CRUD + seed
-│       └── uploads/      Static file serving
-├── web/                  React frontend
-│   └── src/
-│       ├── api/          Axios clients
-│       ├── store/        Zustand auth store
-│       └── pages/        Login, Register, List, Detail, Form
-└── docker-compose.yml    MongoDB
-```
-
-## Stopping
-
-```bash
-# Stop MongoDB container (run from repo root)
-docker compose down
-```
-
-## Development
-
-```bash
-# API — watch mode
-cd api && npm run start:dev
-
-# Frontend — HMR
-cd web && npm run dev
-
-# Build frontend for production
-cd web && npm run build
-```
+---
 
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `docker: command not found` or `Cannot connect to Docker daemon` | Docker Desktop not running | Open Docker Desktop app and wait for the whale icon to appear in the tray |
-| API exits immediately | Missing `api/.env` | Create the file as shown in Step 1 |
-| `MongoNetworkError` in API logs | MongoDB container not started | Run `docker compose up -d` from the repo root |
-| Frontend shows network errors | `web/.env` missing or wrong URL | Create `web/.env` with `VITE_API_URL=http://localhost:3000` |
-| Login fails with 401 | Wrong credentials or token expired | Register a new account or clear `localStorage` in browser DevTools |
+| `Cannot connect to Docker daemon` | Docker Desktop not running | Open Docker Desktop and wait for the whale icon |
+| API exits immediately | Missing `api/.env` | Create the file as shown in Step 2 |
+| `MongoNetworkError` | MongoDB not started | `docker compose up -d` from repo root |
+| Frontend network errors | Wrong `VITE_API_URL` | Check `web/.env` |
+| 500 on login | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
+| Images not loading in Docker | Old named volume for uploads | The volume should be a bind mount — see `docker-compose.prod.yml` |
+
+---
 
 ## License
 
