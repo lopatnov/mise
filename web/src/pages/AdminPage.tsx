@@ -17,7 +17,7 @@ export default function AdminPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <h1 style={{ margin: 0, fontSize: 22 }}>{t('admin.title')}</h1>
         <Link to="/" style={{ fontSize: 14, color: '#2d6a4f' }}>
-          ← {t('recipe.detail.back')}
+          {t('recipe.detail.back')}
         </Link>
       </div>
 

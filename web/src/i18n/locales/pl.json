@@ -37,7 +37,9 @@
       "loading": "Ładowanie...",
       "empty": "Brak przepisów. Dodaj pierwszy!",
       "allCategories": "Wszystkie kategorie",
-      "communityTitle": "Przepisy społeczności"
+      "communityTitle": "Przepisy społeczności",
+      "mine": "Moje przepisy",
+      "allTags": "Wszystkie tagi"
     },
     "detail": {
       "back": "← Wróć",
@@ -105,7 +107,9 @@
       "description": "Nie istnieje jeszcze konto administratora. Utwórz je, aby rozpocząć.",
       "createBtn": "Utwórz konto administratora",
       "creating": "Tworzenie...",
-      "error": "Konfiguracja nie powiodła się. Spróbuj ponownie."
+      "error": "Konfiguracja nie powiodła się. Spróbuj ponownie.",
+      "notDone": "Brak konta administratora.",
+      "goSetup": "Skonfiguruj teraz →"
     },
     "users": {
       "total": "użytkowników",

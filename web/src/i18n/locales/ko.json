@@ -37,7 +37,9 @@
       "loading": "불러오는 중...",
       "empty": "레시피가 없습니다. 첫 번째를 추가하세요!",
       "allCategories": "모든 카테고리",
-      "communityTitle": "커뮤니티 레시피"
+      "communityTitle": "커뮤니티 레시피",
+      "mine": "내 레시피",
+      "allTags": "모든 태그"
     },
     "detail": {
       "back": "← 뒤로",
@@ -105,7 +107,9 @@
       "description": "아직 관리자 계정이 없습니다. 시작하려면 하나를 만드세요.",
       "createBtn": "관리자 계정 만들기",
       "creating": "생성 중...",
-      "error": "설정에 실패했습니다. 다시 시도해 주세요."
+      "error": "설정에 실패했습니다. 다시 시도해 주세요.",
+      "notDone": "관리자 계정이 아직 없습니다.",
+      "goSetup": "지금 설정 →"
     },
     "users": {
       "total": "사용자",

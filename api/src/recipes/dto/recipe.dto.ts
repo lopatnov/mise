@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class IngredientDto {
@@ -72,4 +72,5 @@ export class RecipeQueryDto {
   @IsOptional() @IsMongoId() category?: string;
   @IsOptional() @Type(() => Number) @IsNumber() page?: number = 1;
   @IsOptional() @Type(() => Number) @IsNumber() limit?: number = 20;
+  @IsOptional() @Transform(({ value }) => value === 'true' || value === true) @IsBoolean() mine?: boolean;
 }

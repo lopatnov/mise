@@ -37,7 +37,9 @@
       "loading": "Yükleniyor...",
       "empty": "Henüz tarif yok. İlkini ekleyin!",
       "allCategories": "Tüm kategoriler",
-      "communityTitle": "Topluluk tarifleri"
+      "communityTitle": "Topluluk tarifleri",
+      "mine": "Tariflerim",
+      "allTags": "Tüm etiketler"
     },
     "detail": {
       "back": "← Geri",
@@ -105,7 +107,9 @@
       "description": "Henüz bir yönetici hesabı bulunmuyor. Başlamak için bir tane oluşturun.",
       "createBtn": "Yönetici hesabı oluştur",
       "creating": "Oluşturuluyor...",
-      "error": "Kurulum başarısız oldu. Tekrar deneyin."
+      "error": "Kurulum başarısız oldu. Tekrar deneyin.",
+      "notDone": "Henüz yönetici hesabı kurulmamış.",
+      "goSetup": "Şimdi kur →"
     },
     "users": {
       "total": "kullanıcı",

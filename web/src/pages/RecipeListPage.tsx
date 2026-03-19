@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
@@ -9,23 +9,48 @@ import { useAuthStore } from '../store/authStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
+function useDebounce<T>(value: T, ms = 400): T {
+  const [v, setV] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setV(value), ms);
+    return () => clearTimeout(id);
+  }, [value, ms]);
+  return v;
+}
+
 export default function RecipeListPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
+  const [mine, setMine] = useState(false);
   const { user, token } = useAuthStore();
   const isLoggedIn = !!token;
 
-  const { data, isLoading } = useQuery({
-    queryKey: isLoggedIn ? ['recipes', search, tag, category] : ['recipes', 'public', search, tag, category],
+  const debouncedSearch = useDebounce(search, 400);
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: isLoggedIn
+      ? ['recipes', debouncedSearch, tag, category, mine]
+      : ['recipes', 'public', debouncedSearch, tag, category],
     queryFn: () =>
       isLoggedIn
-        ? recipesApi.list({ q: search || undefined, tag: tag || undefined, category: category || undefined })
-        : recipesApi.listPublic({ q: search || undefined, tag: tag || undefined, category: category || undefined }),
+        ? recipesApi.list({
+            q: debouncedSearch || undefined,
+            tag: tag || undefined,
+            category: category || undefined,
+            mine: mine || undefined,
+          })
+        : recipesApi.listPublic({
+            q: debouncedSearch || undefined,
+            tag: tag || undefined,
+            category: category || undefined,
+          }),
+    placeholderData: keepPreviousData,
   });
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
+  const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
@@ -35,6 +60,7 @@ export default function RecipeListPage() {
           {data && (
             <span style={{ fontSize: 13, color: '#888' }}>
               {data.total} {t('profile.recipesCount')}
+              {isFetching && ' …'}
             </span>
           )}
         </div>
@@ -86,13 +112,17 @@ export default function RecipeListPage() {
           className="filter-search"
           style={inputStyle}
         />
-        <input
-          placeholder={t('recipe.list.tagPlaceholder')}
+        <select
           value={tag}
           onChange={(e) => setTag(e.target.value)}
           className="filter-aux"
-          style={{ ...inputStyle, width: 120 }}
-        />
+          style={{ ...inputStyle, width: 140 }}
+        >
+          <option value="">{t('recipe.list.allTags')}</option>
+          {allTags?.map((tg) => (
+            <option key={tg} value={tg}>{tg}</option>
+          ))}
+        </select>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -107,13 +137,21 @@ export default function RecipeListPage() {
           ))}
         </select>
         {isLoggedIn && (
+          <button
+            onClick={() => setMine((v) => !v)}
+            style={mine ? { ...btnStyle, fontSize: 14 } : { ...outlineBtnStyle, fontSize: 14 }}
+          >
+            {t('recipe.list.mine')}
+          </button>
+        )}
+        {isLoggedIn && (
           <Link to="/recipes/new">
             <button style={btnStyle}>{t('recipe.list.addButton')}</button>
           </Link>
         )}
       </div>
 
-      {isLoading && <p>{t('recipe.list.loading')}</p>}
+      {isLoading && !data && <p>{t('recipe.list.loading')}</p>}
 
       {data && data.items.length === 0 && (
         <div style={{ textAlign: 'center', padding: 60, color: '#888' }}>
@@ -157,9 +195,16 @@ export default function RecipeListPage() {
                   </p>
                 )}
                 <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {r.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} style={tagStyle}>
-                      {tag}
+                  {r.tags.slice(0, 3).map((t) => (
+                    <span
+                      key={t}
+                      style={{ ...tagStyle, cursor: 'pointer' }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setTag(t);
+                      }}
+                    >
+                      {t}
                     </span>
                   ))}
                   {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}

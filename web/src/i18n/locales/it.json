@@ -37,7 +37,9 @@
       "loading": "Caricamento...",
       "empty": "Ancora nessuna ricetta. Aggiungi la prima!",
       "allCategories": "Tutte le categorie",
-      "communityTitle": "Ricette della community"
+      "communityTitle": "Ricette della community",
+      "mine": "Le mie ricette",
+      "allTags": "Tutti i tag"
     },
     "detail": {
       "back": "← Indietro",
@@ -105,7 +107,9 @@
       "description": "Non esiste ancora nessun account amministratore. Creane uno per iniziare.",
       "createBtn": "Crea account amministratore",
       "creating": "Creazione...",
-      "error": "Configurazione non riuscita. Riprova."
+      "error": "Configurazione non riuscita. Riprova.",
+      "notDone": "Nessun account amministratore configurato.",
+      "goSetup": "Configura ora →"
     },
     "users": {
       "total": "utenti",

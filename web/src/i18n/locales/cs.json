@@ -37,7 +37,9 @@
       "loading": "Načítání...",
       "empty": "Zatím žádné recepty. Přidejte první!",
       "allCategories": "Všechny kategorie",
-      "communityTitle": "Komunitní recepty"
+      "communityTitle": "Komunitní recepty",
+      "mine": "Moje recepty",
+      "allTags": "Všechny tagy"
     },
     "detail": {
       "back": "← Zpět",
@@ -105,7 +107,9 @@
       "description": "Zatím neexistuje žádný účet správce. Vytvořte ho, abyste mohli začít.",
       "createBtn": "Vytvořit účet správce",
       "creating": "Vytváření...",
-      "error": "Nastavení se nezdařilo. Zkuste to znovu."
+      "error": "Nastavení se nezdařilo. Zkuste to znovu.",
+      "notDone": "Správcovský účet zatím neexistuje.",
+      "goSetup": "Nastavit nyní →"
     },
     "users": {
       "total": "uživatelů",

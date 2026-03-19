@@ -37,7 +37,9 @@
       "loading": "加载中...",
       "empty": "暂无食谱，添加第一个吧！",
       "allCategories": "所有分类",
-      "communityTitle": "社区食谱"
+      "communityTitle": "社区食谱",
+      "mine": "我的食谱",
+      "allTags": "所有标签"
     },
     "detail": {
       "back": "← 返回",
@@ -105,7 +107,9 @@
       "description": "还没有管理员账号。请创建一个以开始使用。",
       "createBtn": "创建管理员账号",
       "creating": "创建中...",
-      "error": "设置失败，请重试。"
+      "error": "设置失败，请重试。",
+      "notDone": "尚未创建管理员账户。",
+      "goSetup": "立即设置 →"
     },
     "users": {
       "total": "用户",

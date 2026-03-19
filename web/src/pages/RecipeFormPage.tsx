@@ -7,6 +7,8 @@ import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 
+
+
 export default function RecipeFormPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -27,6 +29,7 @@ export default function RecipeFormPage() {
   const [steps, setSteps] = useState(['']);
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
+  const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
 
   const { data: existing } = useQuery({
     queryKey: ['recipe', id],
@@ -177,6 +180,36 @@ export default function RecipeFormPage() {
             placeholder={t('recipe.form.tagsPlaceholder')}
             style={inputStyle}
           />
+          {allTags && allTags.length > 0 && (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+              {allTags.map((t) => {
+                const current = tags.split(',').map((x) => x.trim()).filter(Boolean);
+                const active = current.includes(t);
+                return (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => {
+                      const list = tags.split(',').map((x) => x.trim()).filter(Boolean);
+                      const next = active ? list.filter((x) => x !== t) : [...list, t];
+                      setTags(next.join(', '));
+                    }}
+                    style={{
+                      padding: '2px 10px',
+                      borderRadius: 12,
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: 12,
+                      background: active ? '#2d6a4f' : '#e8f5e9',
+                      color: active ? '#fff' : '#2d6a4f',
+                    }}
+                  >
+                    {t}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </Field>
 
         <div>

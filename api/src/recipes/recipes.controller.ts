@@ -16,9 +16,9 @@ import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { CurrentUser, type JwtUser } from '../common/decorators/current-user.decorator';
-import { Public } from '../common/decorators/public.decorator';
+import { OptionalAuth, Public } from '../common/decorators/public.decorator';
 import { UploadsService } from '../uploads/uploads.service';
-import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { RecipesService } from './recipes.service';
 
 @ApiTags('recipes')
@@ -32,7 +32,7 @@ export class RecipesController {
 
   @Get()
   findAll(@CurrentUser() user: JwtUser, @Query() query: RecipeQueryDto) {
-    return this.service.findAll(user.userId, query);
+    return this.service.findAll(user.userId, user.role === 'admin', query);
   }
 
   @Post()
@@ -46,19 +46,26 @@ export class RecipesController {
     return this.service.findPublic(query);
   }
 
+  @Public()
+  @Get('tags')
+  getTags() {
+    return this.service.findAllTags();
+  }
+
+  @OptionalAuth()
   @Get(':id')
-  findOne(@Param('id') id: string, @CurrentUser() user: JwtUser) {
-    return this.service.findOne(id, user.userId);
+  findOne(@Param('id') id: string, @CurrentUser() user: JwtUser | null) {
+    return this.service.findOne(id, user?.userId, user?.role === 'admin');
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @CurrentUser() user: JwtUser, @Body() dto: Partial<CreateRecipeDto>) {
-    return this.service.update(id, user.userId, dto);
+    return this.service.update(id, user.userId, user.role === 'admin', dto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @CurrentUser() user: JwtUser) {
-    return this.service.remove(id, user.userId);
+    return this.service.remove(id, user.userId, user.role === 'admin');
   }
 
   @Post(':id/photo')
@@ -73,7 +80,7 @@ export class RecipesController {
   )
   uploadPhoto(@Param('id') id: string, @CurrentUser() user: JwtUser, @UploadedFile() file: Express.Multer.File) {
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
-    return this.service.setPhoto(id, user.userId, photoUrl);
+    return this.service.setPhoto(id, user.userId, user.role === 'admin', photoUrl);
   }
 
   @Post(':id/steps/:order/photo')
@@ -93,6 +100,6 @@ export class RecipesController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
-    return this.service.setStepPhoto(id, user.userId, Number(order), photoUrl);
+    return this.service.setStepPhoto(id, user.userId, user.role === 'admin', Number(order), photoUrl);
   }
 }

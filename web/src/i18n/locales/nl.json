@@ -37,7 +37,9 @@
       "loading": "Laden...",
       "empty": "Nog geen recepten. Voeg de eerste toe!",
       "allCategories": "Alle categorieën",
-      "communityTitle": "Community recepten"
+      "communityTitle": "Community recepten",
+      "mine": "Mijn recepten",
+      "allTags": "Alle tags"
     },
     "detail": {
       "back": "← Terug",
@@ -105,7 +107,9 @@
       "description": "Er bestaat nog geen beheerdersaccount. Maak er een aan om te beginnen.",
       "createBtn": "Beheerdersaccount aanmaken",
       "creating": "Aanmaken...",
-      "error": "Instelling mislukt. Probeer opnieuw."
+      "error": "Instelling mislukt. Probeer opnieuw.",
+      "notDone": "Nog geen beheerdersaccount ingesteld.",
+      "goSetup": "Nu instellen →"
     },
     "users": {
       "total": "gebruikers",

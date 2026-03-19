@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { adminApi } from '../api/admin';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuthStore } from '../store/authStore';
@@ -14,6 +16,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
+
+  const { data: setupStatus } = useQuery({
+    queryKey: ['setup-status'],
+    queryFn: () => adminApi.setupStatus(),
+    staleTime: 60_000,
+  });
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -36,6 +44,28 @@ export default function LoginPage() {
         <LanguageSwitcher />
       </div>
       <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
+      {setupStatus?.setupDone === false && (
+        <div
+          style={{
+            background: '#fff3cd',
+            border: '1px solid #ffc107',
+            borderRadius: 8,
+            padding: '10px 14px',
+            marginBottom: 20,
+            fontSize: 14,
+            color: '#856404',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 8,
+          }}
+        >
+          <span>⚠️ {t('admin.setup.notDone')}</span>
+          <Link to="/setup" style={{ color: '#856404', fontWeight: 600, whiteSpace: 'nowrap' }}>
+            {t('admin.setup.goSetup')}
+          </Link>
+        </div>
+      )}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
           type="email"

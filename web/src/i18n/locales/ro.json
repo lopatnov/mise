@@ -37,7 +37,9 @@
       "loading": "Se încarcă...",
       "empty": "Nu există rețete încă. Adaugă prima!",
       "allCategories": "Toate categoriile",
-      "communityTitle": "Rețete ale comunității"
+      "communityTitle": "Rețete ale comunității",
+      "mine": "Rețetele mele",
+      "allTags": "Toate etichetele"
     },
     "detail": {
       "back": "← Înapoi",
@@ -105,7 +107,9 @@
       "description": "Nu există încă niciun cont de administrator. Creează unul pentru a începe.",
       "createBtn": "Crează cont de administrator",
       "creating": "Se creează...",
-      "error": "Configurarea a eșuat. Încearcă din nou."
+      "error": "Configurarea a eșuat. Încearcă din nou.",
+      "notDone": "Niciun cont de administrator configurat încă.",
+      "goSetup": "Configurați acum →"
     },
     "users": {
       "total": "utilizatori",

@@ -37,7 +37,9 @@
       "loading": "Laden...",
       "empty": "Noch keine Rezepte. Fügen Sie das erste hinzu!",
       "allCategories": "Alle Kategorien",
-      "communityTitle": "Community-Rezepte"
+      "communityTitle": "Community-Rezepte",
+      "mine": "Meine Rezepte",
+      "allTags": "Alle Tags"
     },
     "detail": {
       "back": "← Zurück",
@@ -105,7 +107,9 @@
       "description": "Es existiert noch kein Administratorkonto. Erstellen Sie eines, um zu beginnen.",
       "createBtn": "Administratorkonto erstellen",
       "creating": "Wird erstellt...",
-      "error": "Einrichtung fehlgeschlagen. Versuchen Sie es erneut."
+      "error": "Einrichtung fehlgeschlagen. Versuchen Sie es erneut.",
+      "notDone": "Noch kein Administratorkonto vorhanden.",
+      "goSetup": "Jetzt einrichten →"
     },
     "users": {
       "total": "Benutzer",

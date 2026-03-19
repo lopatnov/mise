@@ -37,7 +37,9 @@
       "loading": "Cargando...",
       "empty": "Sin recetas aún. ¡Añade la primera!",
       "allCategories": "Todas las categorías",
-      "communityTitle": "Recetas de la comunidad"
+      "communityTitle": "Recetas de la comunidad",
+      "mine": "Mis recetas",
+      "allTags": "Todas las etiquetas"
     },
     "detail": {
       "back": "← Volver",
@@ -105,7 +107,9 @@
       "description": "Aún no existe ninguna cuenta de administrador. Crea una para empezar.",
       "createBtn": "Crear cuenta de administrador",
       "creating": "Creando...",
-      "error": "La configuración falló. Inténtalo de nuevo."
+      "error": "La configuración falló. Inténtalo de nuevo.",
+      "notDone": "No hay cuenta de administrador configurada.",
+      "goSetup": "Configurar ahora →"
     },
     "users": {
       "total": "usuarios",

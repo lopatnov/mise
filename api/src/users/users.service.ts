@@ -24,6 +24,10 @@ export class UsersService {
     return this.userModel.countDocuments({ role });
   }
 
+  async countActiveByRole(role: string): Promise<number> {
+    return this.userModel.countDocuments({ role, isActive: true });
+  }
+
   async create(email: string, password: string, displayName?: string): Promise<UserDocument> {
     const passwordHash = await bcrypt.hash(password, 10);
     const user = new this.userModel({

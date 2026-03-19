@@ -37,7 +37,9 @@
       "loading": "Loading...",
       "empty": "No recipes yet. Add the first one!",
       "allCategories": "All categories",
-      "communityTitle": "Community recipes"
+      "communityTitle": "Community recipes",
+      "mine": "My recipes",
+      "allTags": "All tags"
     },
     "detail": {
       "back": "← Back",
@@ -105,7 +107,9 @@
       "description": "No administrator account exists yet. Create one to get started.",
       "createBtn": "Create admin account",
       "creating": "Creating...",
-      "error": "Setup failed. Try again."
+      "error": "Setup failed. Try again.",
+      "notDone": "No admin account set up yet.",
+      "goSetup": "Set up now →"
     },
     "users": {
       "total": "users",

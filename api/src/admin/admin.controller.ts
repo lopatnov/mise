@@ -4,7 +4,7 @@ import { CurrentUser, type JwtUser } from '../common/decorators/current-user.dec
 import { Public } from '../common/decorators/public.decorator';
 import { AdminGuard } from './admin.guard';
 import { AdminService } from './admin.service';
-import type { CreateInviteDto, SetupDto, UpdateSettingsDto, UpdateUserDto } from './dto/admin.dto';
+import { CreateInviteDto, SetupDto, UpdateSettingsDto, UpdateUserDto } from './dto/admin.dto';
 
 @ApiTags('admin')
 @Controller('admin')

@@ -37,7 +37,9 @@
       "loading": "Laddar...",
       "empty": "Inga recept ännu. Lägg till det första!",
       "allCategories": "Alla kategorier",
-      "communityTitle": "Communityrecept"
+      "communityTitle": "Communityrecept",
+      "mine": "Mina recept",
+      "allTags": "Alla taggar"
     },
     "detail": {
       "back": "← Tillbaka",
@@ -105,7 +107,9 @@
       "description": "Det finns ännu inget administratörskonto. Skapa ett för att komma igång.",
       "createBtn": "Skapa administratörskonto",
       "creating": "Skapar...",
-      "error": "Inställningen misslyckades. Försök igen."
+      "error": "Inställningen misslyckades. Försök igen.",
+      "notDone": "Inget administratörskonto har skapats ännu.",
+      "goSetup": "Konfigurera nu →"
     },
     "users": {
       "total": "användare",

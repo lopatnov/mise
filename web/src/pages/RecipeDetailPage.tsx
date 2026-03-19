@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
 import Lightbox from '../components/Lightbox';
+import { useAuthStore } from '../store/authStore';
 import { useToast } from '../store/toastStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
@@ -21,6 +22,7 @@ export default function RecipeDetailPage() {
   const [mainPhotoHover, setMainPhotoHover] = useState(false);
   const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
   const toast = useToast();
+  const { user } = useAuthStore();
 
   const { data: recipe, isLoading } = useQuery({
     queryKey: ['recipe', id],
@@ -58,6 +60,10 @@ export default function RecipeDetailPage() {
   if (isLoading) return <p style={{ padding: 32 }}>{t('recipe.detail.loading')}</p>;
   if (!recipe) return <p style={{ padding: 32 }}>{t('recipe.detail.notFound')}</p>;
 
+  const isOwner = !!user && recipe.authorId?.toString() === user.id;
+  const isAdmin = user?.role === 'admin';
+  const canEdit = isOwner || isAdmin;
+
   const effectiveServings = targetServings ?? recipe.servings;
   const scale = effectiveServings / recipe.servings;
 
@@ -72,15 +78,19 @@ export default function RecipeDetailPage() {
 
       <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
         <Link to="/">{t('recipe.detail.back')}</Link>
-        <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>
-          {t('recipe.detail.edit')}
-        </Link>
-        <button
-          onClick={() => deleteMut.mutate()}
-          style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
-        >
-          {t('recipe.detail.delete')}
-        </button>
+        {canEdit && (
+          <>
+            <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>
+              {t('recipe.detail.edit')}
+            </Link>
+            <button
+              onClick={() => deleteMut.mutate()}
+              style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              {t('recipe.detail.delete')}
+            </button>
+          </>
+        )}
       </div>
 
       {/* Main photo */}
@@ -97,7 +107,7 @@ export default function RecipeDetailPage() {
               onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl!}`)}
               style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
             />
-            {mainPhotoHover && (
+            {canEdit && mainPhotoHover && (
               <button
                 onClick={() => fileRef.current?.click()}
                 title={t('recipe.detail.changePhoto')}
@@ -107,7 +117,7 @@ export default function RecipeDetailPage() {
               </button>
             )}
           </>
-        ) : (
+        ) : canEdit ? (
           <div
             onClick={() => fileRef.current?.click()}
             style={{
@@ -123,7 +133,7 @@ export default function RecipeDetailPage() {
           >
             {t('recipe.detail.addPhoto')}
           </div>
-        )}
+        ) : null}
       </div>
 
       <input
@@ -242,7 +252,7 @@ export default function RecipeDetailPage() {
                 <li key={i} style={{ marginBottom: 16, lineHeight: 1.6 }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                     <span style={{ flex: 1 }}>{step.text}</span>
-                    {!step.photoUrl && (
+                    {canEdit && !step.photoUrl && (
                       <button
                         onClick={() => {
                           pendingStepOrder.current = step.order;
@@ -282,7 +292,7 @@ export default function RecipeDetailPage() {
                           cursor: 'zoom-in',
                         }}
                       />
-                      {hoveredStepOrder === step.order && (
+                      {canEdit && hoveredStepOrder === step.order && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

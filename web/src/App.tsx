@@ -59,14 +59,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/recipes/:id"
-            element={
-              <ProtectedRoute>
-                <RecipeDetailPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/recipes/:id" element={<RecipeDetailPage />} />
           <Route
             path="/recipes/:id/edit"
             element={

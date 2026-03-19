@@ -36,6 +36,7 @@ describe('RecipesService', () => {
     findById: jest.fn(),
     countDocuments: jest.fn(),
     create: jest.fn(),
+    distinct: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -51,31 +52,59 @@ describe('RecipesService', () => {
   // ── findAll ──────────────────────────────────────────────────────────────
 
   describe('findAll', () => {
-    it('returns paginated recipes', async () => {
+    it('returns paginated recipes for regular user (own + public)', async () => {
       const items = [{ title: 'Pasta' }];
       mockModel.find.mockReturnValue(mockQuery(items));
       mockModel.countDocuments.mockResolvedValue(1);
 
-      const result = await service.findAll(userId, {});
+      const result = await service.findAll(userId, false, {});
 
       expect(result).toEqual({ items, total: 1, page: 1, limit: 20 });
-      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }));
+      expect(mockModel.find).toHaveBeenCalledWith(
+        expect.objectContaining({ $or: [{ authorId: new Types.ObjectId(userId) }, { isPublic: true }] }),
+      );
+    });
+
+    it('returns all recipes for admin', async () => {
+      mockModel.find.mockReturnValue(mockQuery([]));
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      await service.findAll(userId, true, {});
+
+      // admin with no mine flag → empty filter (no authorId restriction)
+      expect(mockModel.find).toHaveBeenCalledWith({});
+    });
+
+    it('applies mine filter', async () => {
+      mockModel.find.mockReturnValue(mockQuery([]));
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      await service.findAll(userId, false, { mine: true });
+
+      expect(mockModel.find).toHaveBeenCalledWith(
+        expect.objectContaining({ authorId: new Types.ObjectId(userId) }),
+      );
     });
 
     it('applies text search filter when q is provided', async () => {
       mockModel.find.mockReturnValue(mockQuery([]));
       mockModel.countDocuments.mockResolvedValue(0);
 
-      await service.findAll(userId, { q: 'soup' });
+      // use admin=true to avoid $or conflict with visibility filter
+      await service.findAll(userId, true, { q: 'soup' });
 
-      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ $text: { $search: 'soup' } }));
+      expect(mockModel.find).toHaveBeenCalledWith(
+        expect.objectContaining({
+          $or: expect.arrayContaining([{ title: { $regex: 'soup', $options: 'i' } }]),
+        }),
+      );
     });
 
     it('applies tag filter', async () => {
       mockModel.find.mockReturnValue(mockQuery([]));
       mockModel.countDocuments.mockResolvedValue(0);
 
-      await service.findAll(userId, { tag: 'vegan' });
+      await service.findAll(userId, false, { tag: 'vegan' });
 
       expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ tags: 'vegan' }));
     });
@@ -139,7 +168,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.update('id', userId, { title: 'New' });
+      await service.update('id', userId, false, { title: 'New' });
 
       expect(doc.save).toHaveBeenCalled();
     });
@@ -147,7 +176,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.update('id', userId, {})).rejects.toThrow(NotFoundException);
+      await expect(service.update('id', userId, false, {})).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -155,7 +184,17 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, save: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.update('id', userId, {})).rejects.toThrow(ForbiddenException);
+      await expect(service.update('id', userId, false, {})).rejects.toThrow(ForbiddenException);
+    });
+
+    it('allows admin to update recipe owned by another user', async () => {
+      const other = new Types.ObjectId().toString();
+      const doc = { authorId: { toString: () => other }, title: 'Old', save: jest.fn().mockResolvedValue({}) };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await service.update('id', userId, true, { title: 'New' });
+
+      expect(doc.save).toHaveBeenCalled();
     });
   });
 
@@ -169,7 +208,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      const result = await service.remove('id', userId);
+      const result = await service.remove('id', userId, false);
 
       expect(result).toEqual({ deleted: true });
       expect(doc.deleteOne).toHaveBeenCalled();
@@ -178,7 +217,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.remove('id', userId)).rejects.toThrow(NotFoundException);
+      await expect(service.remove('id', userId, false)).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -186,7 +225,18 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, deleteOne: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.remove('id', userId)).rejects.toThrow(ForbiddenException);
+      await expect(service.remove('id', userId, false)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('allows admin to remove recipe owned by another user', async () => {
+      const other = new Types.ObjectId().toString();
+      const doc = { authorId: { toString: () => other }, deleteOne: jest.fn().mockResolvedValue({}) };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      const result = await service.remove('id', userId, true);
+
+      expect(result).toEqual({ deleted: true });
+      expect(doc.deleteOne).toHaveBeenCalled();
     });
   });
 
@@ -201,7 +251,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.setPhoto('id', userId, '/uploads/photo.jpg');
+      await service.setPhoto('id', userId, false, '/uploads/photo.jpg');
 
       expect(doc.photoUrl).toBe('/uploads/photo.jpg');
       expect(doc.save).toHaveBeenCalled();
@@ -224,7 +274,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.setStepPhoto('id', userId, 2, '/uploads/step.jpg');
+      await service.setStepPhoto('id', userId, false, 2, '/uploads/step.jpg');
 
       expect(steps[1].photoUrl).toBe('/uploads/step.jpg');
       expect(doc.markModified).toHaveBeenCalledWith('steps');
@@ -240,7 +290,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.setStepPhoto('id', userId, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
+      await expect(service.setStepPhoto('id', userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
     });
   });
 });

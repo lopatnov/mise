@@ -85,7 +85,8 @@ export class AdminService {
   }
 
   async markInviteUsed(token: string) {
-    await this.inviteModel.findOneAndUpdate({ token }, { used: true });
+    const result = await this.inviteModel.findOneAndUpdate({ token }, { used: true });
+    if (!result) throw new NotFoundException('Invite not found');
   }
 
   // ── Users ──────────────────────────────────────────────────
@@ -95,17 +96,22 @@ export class AdminService {
   }
 
   async updateUser(id: string, dto: UpdateUserDto) {
-    const user = await this.usersService.updateById(id, dto);
+    const user = await this.usersService.findById(id);
     if (!user) throw new NotFoundException('User not found');
-    return user;
+    if (user.role === 'admin' && (dto.isActive === false || dto.role === 'user')) {
+      const activeAdmins = await this.usersService.countActiveByRole('admin');
+      if (activeAdmins <= 1) throw new BadRequestException('Cannot block or demote the last active admin');
+    }
+    const updated = await this.usersService.updateById(id, dto);
+    return updated;
   }
 
   async deleteUser(id: string) {
     const user = await this.usersService.findById(id);
     if (!user) throw new NotFoundException('User not found');
     if (user.role === 'admin') {
-      const adminCount = await this.usersService.countByRole('admin');
-      if (adminCount <= 1) throw new BadRequestException('Cannot delete the last admin');
+      const activeAdminCount = await this.usersService.countActiveByRole('admin');
+      if (activeAdminCount <= 1) throw new BadRequestException('Cannot delete the last active admin');
     }
     await this.usersService.deleteById(id);
   }

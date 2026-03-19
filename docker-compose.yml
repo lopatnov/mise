@@ -31,7 +31,7 @@ services:
       MAX_FILE_SIZE_MB: 5
       PORT: 3000
     volumes:
-      - mise_uploads:/app/uploads
+      - ./api/uploads:/app/uploads
 
   web:
     build:
@@ -46,4 +46,3 @@ services:
 
 volumes:
   mise_mongo_data:
-  mise_uploads:

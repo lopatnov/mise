@@ -37,7 +37,9 @@
       "loading": "Chargement...",
       "empty": "Pas encore de recettes. Ajoutez la première !",
       "allCategories": "Toutes les catégories",
-      "communityTitle": "Recettes de la communauté"
+      "communityTitle": "Recettes de la communauté",
+      "mine": "Mes recettes",
+      "allTags": "Tous les tags"
     },
     "detail": {
       "back": "← Retour",
@@ -105,7 +107,9 @@
       "description": "Aucun compte administrateur n'existe encore. Créez-en un pour commencer.",
       "createBtn": "Créer un compte administrateur",
       "creating": "Création...",
-      "error": "La configuration a échoué. Réessayez."
+      "error": "La configuration a échoué. Réessayez.",
+      "notDone": "Aucun compte administrateur n'existe encore.",
+      "goSetup": "Configurer →"
     },
     "users": {
       "total": "utilisateurs",

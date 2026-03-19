@@ -37,7 +37,9 @@
       "loading": "Betöltés...",
       "empty": "Még nincsenek receptek. Adja hozzá az elsőt!",
       "allCategories": "Összes kategória",
-      "communityTitle": "Közösségi receptek"
+      "communityTitle": "Közösségi receptek",
+      "mine": "Saját receptek",
+      "allTags": "Összes tag"
     },
     "detail": {
       "back": "← Vissza",
@@ -105,7 +107,9 @@
       "description": "Még nem létezik rendszergazdai fiók. Hozzon létre egyet a kezdéshez.",
       "createBtn": "Rendszergazdai fiók létrehozása",
       "creating": "Létrehozás...",
-      "error": "A beállítás sikertelen. Próbálja újra."
+      "error": "A beállítás sikertelen. Próbálja újra.",
+      "notDone": "Még nincs rendszergazdai fiók beállítva.",
+      "goSetup": "Beállítás most →"
     },
     "users": {
       "total": "felhasználó",
