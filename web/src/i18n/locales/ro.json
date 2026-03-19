@@ -63,7 +63,8 @@
       "public": "Public",
       "duplicate": "Salvează o copie",
       "duplicateTitle": "Copie după {{title}}",
-      "duplicateError": "Eroare la copierea rețetei"
+      "duplicateError": "Eroare la copierea rețetei",
+      "print": "Tipărește"
     },
     "form": {
       "back": "← Înapoi",

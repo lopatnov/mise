@@ -63,7 +63,8 @@
       "public": "Public",
       "duplicate": "Enregistrer une copie",
       "duplicateTitle": "Copie de {{title}}",
-      "duplicateError": "Échec de la copie de la recette"
+      "duplicateError": "Échec de la copie de la recette",
+      "print": "Imprimer"
     },
     "form": {
       "back": "← Retour",

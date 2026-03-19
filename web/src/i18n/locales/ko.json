@@ -63,7 +63,8 @@
       "public": "공개",
       "duplicate": "복사본 저장",
       "duplicateTitle": "{{title}} 복사본",
-      "duplicateError": "레시피 복사에 실패했습니다"
+      "duplicateError": "레시피 복사에 실패했습니다",
+      "print": "인쇄"
     },
     "form": {
       "back": "← 뒤로",

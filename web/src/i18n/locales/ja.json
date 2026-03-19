@@ -63,7 +63,8 @@
       "public": "公開",
       "duplicate": "コピーを保存",
       "duplicateTitle": "{{title}} のコピー",
-      "duplicateError": "レシピのコピーに失敗しました"
+      "duplicateError": "レシピのコピーに失敗しました",
+      "print": "印刷"
     },
     "form": {
       "back": "← 戻る",

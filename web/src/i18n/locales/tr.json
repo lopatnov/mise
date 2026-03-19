@@ -63,7 +63,8 @@
       "public": "Herkese açık",
       "duplicate": "Kopyayı kaydet",
       "duplicateTitle": "{{title}} kopyası",
-      "duplicateError": "Tarif kopyalanamadı"
+      "duplicateError": "Tarif kopyalanamadı",
+      "print": "Yazdır"
     },
     "form": {
       "back": "← Geri",

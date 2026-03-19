@@ -63,7 +63,8 @@
       "public": "Público",
       "duplicate": "Salvar uma cópia",
       "duplicateTitle": "Cópia de {{title}}",
-      "duplicateError": "Erro ao copiar receita"
+      "duplicateError": "Erro ao copiar receita",
+      "print": "Imprimir"
     },
     "form": {
       "back": "← Voltar",

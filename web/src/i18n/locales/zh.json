@@ -63,7 +63,8 @@
       "public": "公开",
       "duplicate": "保存副本",
       "duplicateTitle": "{{title}} 的副本",
-      "duplicateError": "复制食谱失败"
+      "duplicateError": "复制食谱失败",
+      "print": "打印"
     },
     "form": {
       "back": "← 返回",

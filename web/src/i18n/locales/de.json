@@ -63,7 +63,8 @@
       "public": "Öffentlich",
       "duplicate": "Kopie speichern",
       "duplicateTitle": "Kopie von {{title}}",
-      "duplicateError": "Rezept konnte nicht kopiert werden"
+      "duplicateError": "Rezept konnte nicht kopiert werden",
+      "print": "Drucken"
     },
     "form": {
       "back": "← Zurück",

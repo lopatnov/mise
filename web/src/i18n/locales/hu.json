@@ -63,7 +63,8 @@
       "public": "Nyilvános",
       "duplicate": "Mentés másolatként",
       "duplicateTitle": "{{title}} másolata",
-      "duplicateError": "Nem sikerült másolni a receptet"
+      "duplicateError": "Nem sikerült másolni a receptet",
+      "print": "Nyomtatás"
     },
     "form": {
       "back": "← Vissza",

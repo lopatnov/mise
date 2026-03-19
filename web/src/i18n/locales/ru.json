@@ -63,7 +63,8 @@
       "public": "Публичный",
       "duplicate": "Сохранить копию",
       "duplicateTitle": "Копия {{title}}",
-      "duplicateError": "Ошибка копирования рецепта"
+      "duplicateError": "Ошибка копирования рецепта",
+      "print": "Печать"
     },
     "form": {
       "back": "← Назад",

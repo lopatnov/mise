@@ -63,7 +63,8 @@
       "public": "Offentlig",
       "duplicate": "Spara en kopia",
       "duplicateTitle": "Kopia av {{title}}",
-      "duplicateError": "Det gick inte att kopiera receptet"
+      "duplicateError": "Det gick inte att kopiera receptet",
+      "print": "Skriv ut"
     },
     "form": {
       "back": "← Tillbaka",

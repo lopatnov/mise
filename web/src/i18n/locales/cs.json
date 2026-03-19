@@ -63,7 +63,8 @@
       "public": "Veřejný",
       "duplicate": "Uložit kopii",
       "duplicateTitle": "Kopie {{title}}",
-      "duplicateError": "Nepodařilo se zkopírovat recept"
+      "duplicateError": "Nepodařilo se zkopírovat recept",
+      "print": "Tisk"
     },
     "form": {
       "back": "← Zpět",

@@ -43,6 +43,22 @@ select {
   align-items: start;
 }
 
+@media print {
+  .no-print {
+    display: none;
+  }
+  body {
+    background: #fff;
+    padding: 0;
+    font-size: 12pt;
+    color: #000;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}
+
 @media (max-width: 600px) {
   .filter-bar {
     flex-wrap: wrap;

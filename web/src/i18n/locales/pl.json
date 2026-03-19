@@ -63,7 +63,8 @@
       "public": "Publiczny",
       "duplicate": "Zapisz kopię",
       "duplicateTitle": "Kopia {{title}}",
-      "duplicateError": "Nie udało się skopiować przepisu"
+      "duplicateError": "Nie udało się skopiować przepisu",
+      "print": "Drukuj"
     },
     "form": {
       "back": "← Wróć",

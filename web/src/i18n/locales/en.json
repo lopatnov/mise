@@ -63,7 +63,8 @@
       "public": "Public",
       "duplicate": "Save a copy",
       "duplicateTitle": "Copy of {{title}}",
-      "duplicateError": "Failed to copy recipe"
+      "duplicateError": "Failed to copy recipe",
+      "print": "Print"
     },
     "form": {
       "back": "← Back",

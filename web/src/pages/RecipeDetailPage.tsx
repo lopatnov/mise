@@ -142,13 +142,14 @@ export default function RecipeDetailPage() {
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+      <div className="no-print" style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
         <Link to="/">{t('recipe.detail.back')}</Link>
+        <button onClick={() => window.print()} style={{ ...dupBtnStyle, marginLeft: 'auto' }}>
+          {t('recipe.detail.print')}
+        </button>
         {canEdit && (
           <>
-            <Link to={`/recipes/${id}/edit`} style={{ marginLeft: 'auto' }}>
-              {t('recipe.detail.edit')}
-            </Link>
+            <Link to={`/recipes/${id}/edit`}>{t('recipe.detail.edit')}</Link>
             <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
               {t('recipe.detail.duplicate')}
             </button>
@@ -161,11 +162,7 @@ export default function RecipeDetailPage() {
           </>
         )}
         {isLoggedIn && !canEdit && (
-          <button
-            onClick={() => duplicateMut.mutate()}
-            disabled={duplicateMut.isPending}
-            style={{ ...dupBtnStyle, marginLeft: 'auto' }}
-          >
+          <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
             {t('recipe.detail.duplicate')}
           </button>
         )}
@@ -254,6 +251,7 @@ export default function RecipeDetailPage() {
 
       {/* Scaling control */}
       <div
+        className="no-print"
         style={{
           display: 'flex',
           alignItems: 'center',

@@ -63,7 +63,8 @@
       "public": "Openbaar",
       "duplicate": "Sla een kopie op",
       "duplicateTitle": "Kopie van {{title}}",
-      "duplicateError": "Recept kopiëren mislukt"
+      "duplicateError": "Recept kopiëren mislukt",
+      "print": "Afdrukken"
     },
     "form": {
       "back": "← Terug",
