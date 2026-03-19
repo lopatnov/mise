@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import type { AppSettings } from '../api/admin';
 import { adminApi } from '../api/admin';
-import { useToast } from '../store/toastStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useToast } from '../store/toastStore';
 
 type Tab = 'users' | 'invites' | 'settings';
 

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { adminApi } from '../api/admin';
 
 export function usePageTitle(pageTitle?: string): string {

@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
 import Lightbox from '../components/Lightbox';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { useAuthStore } from '../store/authStore';
 import { useToast } from '../store/toastStore';
-import { usePageTitle } from '../hooks/usePageTitle';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -27,13 +27,13 @@ export default function RecipeDetailPage() {
 
   const { data: recipe, isLoading } = useQuery({
     queryKey: ['recipe', id],
-    queryFn: () => recipesApi.get(id!),
+    queryFn: () => recipesApi.get(id ?? ''),
     enabled: !!id,
   });
   usePageTitle(recipe?.title);
 
   const deleteMut = useMutation({
-    mutationFn: () => recipesApi.remove(id!),
+    mutationFn: () => recipesApi.remove(id ?? ''),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['recipes'] });
       navigate('/');
@@ -42,7 +42,7 @@ export default function RecipeDetailPage() {
   });
 
   const photoMut = useMutation({
-    mutationFn: (file: File) => recipesApi.uploadPhoto(id!, file),
+    mutationFn: (file: File) => recipesApi.uploadPhoto(id ?? '', file),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['recipe', id] });
       toast.success(t('recipe.detail.photoUploaded'));
@@ -51,7 +51,7 @@ export default function RecipeDetailPage() {
   });
 
   const stepPhotoMut = useMutation({
-    mutationFn: ({ order, file }: { order: number; file: File }) => recipesApi.uploadStepPhoto(id!, order, file),
+    mutationFn: ({ order, file }: { order: number; file: File }) => recipesApi.uploadStepPhoto(id ?? '', order, file),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['recipe', id] });
       toast.success(t('recipe.detail.photoUploaded'));
@@ -106,7 +106,7 @@ export default function RecipeDetailPage() {
             <img
               src={`${API_URL}${recipe.photoUrl}`}
               alt={recipe.title}
-              onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl!}`)}
+              onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
               style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
             />
             {canEdit && mainPhotoHover && (
@@ -232,8 +232,8 @@ export default function RecipeDetailPage() {
         <section style={{ marginBottom: 24 }}>
           <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.ingredients')}</h2>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
-            {recipe.ingredients.map((ing, i) => (
-              <li key={i} style={{ marginBottom: 4 }}>
+            {recipe.ingredients.map((ing) => (
+              <li key={ing.name} style={{ marginBottom: 4 }}>
                 <strong>
                   {fmtAmount(ing.amount)} {ing.unit}
                 </strong>{' '}
@@ -250,8 +250,8 @@ export default function RecipeDetailPage() {
           <ol style={{ margin: 0, paddingLeft: 20 }}>
             {recipe.steps
               .sort((a, b) => a.order - b.order)
-              .map((step, i) => (
-                <li key={i} style={{ marginBottom: 16, lineHeight: 1.6 }}>
+              .map((step) => (
+                <li key={step.order} style={{ marginBottom: 16, lineHeight: 1.6 }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                     <span style={{ flex: 1 }}>{step.text}</span>
                     {canEdit && !step.photoUrl && (
@@ -285,7 +285,7 @@ export default function RecipeDetailPage() {
                       <img
                         src={`${API_URL}${step.photoUrl}`}
                         alt=""
-                        onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl!}`)}
+                        onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
                         style={{
                           width: '100%',
                           maxHeight: 240,

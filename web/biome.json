@@ -14,13 +14,13 @@
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "off",
-        "noArrayIndexKey": "warn"
+        "noArrayIndexKey": "off"
       },
       "style": {
-        "noNonNullAssertion": "warn"
+        "noNonNullAssertion": "off"
       },
       "complexity": {
-        "noUselessFragments": "warn"
+        "noUselessFragments": "off"
       },
       "a11y": {
         "useButtonType": "off",

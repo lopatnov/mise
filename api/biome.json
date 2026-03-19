@@ -16,7 +16,7 @@
         "noExplicitAny": "off"
       },
       "style": {
-        "noNonNullAssertion": "warn",
+        "noNonNullAssertion": "off",
         "useNodejsImportProtocol": "off",
         "useImportType": "off"
       },

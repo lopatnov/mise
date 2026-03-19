@@ -8,7 +8,6 @@ import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 import { usePageTitle } from '../hooks/usePageTitle';
 
-
 export default function RecipeFormPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -34,7 +33,7 @@ export default function RecipeFormPage() {
 
   const { data: existing } = useQuery({
     queryKey: ['recipe', id],
-    queryFn: () => recipesApi.get(id!),
+    queryFn: () => recipesApi.get(id ?? ''),
     enabled: isEdit,
   });
 
@@ -55,7 +54,7 @@ export default function RecipeFormPage() {
   }, [existing]);
 
   const saveMut = useMutation({
-    mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id!, data) : recipesApi.create(data)),
+    mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id ?? '', data) : recipesApi.create(data)),
     onSuccess: (saved) => {
       qc.invalidateQueries({ queryKey: ['recipes'] });
       qc.invalidateQueries({ queryKey: ['recipe', saved._id] });
@@ -185,14 +184,20 @@ export default function RecipeFormPage() {
           {allTags && allTags.length > 0 && (
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
               {allTags.map((t) => {
-                const current = tags.split(',').map((x) => x.trim()).filter(Boolean);
+                const current = tags
+                  .split(',')
+                  .map((x) => x.trim())
+                  .filter(Boolean);
                 const active = current.includes(t);
                 return (
                   <button
                     key={t}
                     type="button"
                     onClick={() => {
-                      const list = tags.split(',').map((x) => x.trim()).filter(Boolean);
+                      const list = tags
+                        .split(',')
+                        .map((x) => x.trim())
+                        .filter(Boolean);
                       const next = active ? list.filter((x) => x !== t) : [...list, t];
                       setTags(next.join(', '));
                     }}
