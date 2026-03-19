@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { adminApi } from '../api/admin';
 import { authApi } from '../api/auth';
-import { useAuthStore } from '../store/authStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useAuthStore } from '../store/authStore';
 
 export default function SetupPage() {
   const { t } = useTranslation();

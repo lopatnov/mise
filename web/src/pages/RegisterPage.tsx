@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { useAuthStore } from '../store/authStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useAuthStore } from '../store/authStore';
 
 export default function RegisterPage() {
   const { t } = useTranslation();

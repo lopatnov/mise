@@ -81,9 +81,7 @@ describe('RecipesService', () => {
 
       await service.findAll(userId, false, { mine: true });
 
-      expect(mockModel.find).toHaveBeenCalledWith(
-        expect.objectContaining({ authorId: new Types.ObjectId(userId) }),
-      );
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }));
     });
 
     it('applies text search filter when q is provided', async () => {

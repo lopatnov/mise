@@ -38,7 +38,12 @@ export class RecipesService {
     }
 
     const [items, total] = await Promise.all([
-      this.model.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).lean(),
+      this.model
+        .find(filter)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
       this.model.countDocuments(filter),
     ]);
 
@@ -67,11 +72,14 @@ export class RecipesService {
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     if (dto.steps) {
       const existingByOrder = new Map(recipe.steps.map((s) => [s.order, s.photoUrl as string | undefined]));
-      recipe.set('steps', dto.steps.map((s) => ({
-        order: s.order,
-        text: s.text,
-        photoUrl: existingByOrder.get(s.order),
-      })));
+      recipe.set(
+        'steps',
+        dto.steps.map((s) => ({
+          order: s.order,
+          text: s.text,
+          photoUrl: existingByOrder.get(s.order),
+        })),
+      );
       const { steps: _steps, ...rest } = dto;
       Object.assign(recipe, rest);
     } else {
@@ -109,7 +117,12 @@ export class RecipesService {
     if (category) filter.categoryId = new Types.ObjectId(category);
 
     const [items, total] = await Promise.all([
-      this.model.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).lean(),
+      this.model
+        .find(filter)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
       this.model.countDocuments(filter),
     ]);
     return { items, total, page, limit };

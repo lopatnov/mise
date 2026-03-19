@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import { recipesApi } from '../api/recipes';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { useAuthStore } from '../store/authStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useAuthStore } from '../store/authStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -122,7 +122,9 @@ export default function RecipeListPage() {
         >
           <option value="">{t('recipe.list.allTags')}</option>
           {allTags?.map((tg) => (
-            <option key={tg} value={tg}>{tg}</option>
+            <option key={tg} value={tg}>
+              {tg}
+            </option>
           ))}
         </select>
         <select

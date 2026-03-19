@@ -18,12 +18,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest<TUser = unknown>(
-    err: unknown,
-    user: TUser,
-    _info: unknown,
-    context: ExecutionContext,
-  ): TUser {
+  handleRequest<TUser = unknown>(err: unknown, user: TUser, _info: unknown, context: ExecutionContext): TUser {
     const isOptional = this.reflector.getAllAndOverride<boolean>(IS_OPTIONAL_AUTH_KEY, [
       context.getHandler(),
       context.getClass(),

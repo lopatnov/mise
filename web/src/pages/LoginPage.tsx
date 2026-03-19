@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { adminApi } from '../api/admin';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { useAuthStore } from '../store/authStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useAuthStore } from '../store/authStore';
 
 export default function LoginPage() {
   const { t } = useTranslation();

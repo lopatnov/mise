@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
-import { useAuthStore } from '../store/authStore';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useAuthStore } from '../store/authStore';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
