@@ -1,9 +1,7 @@
 # Production deployment.
 #
-# Setup:
-#   cp .env.prod.example .env.prod
-#   # Fill in .env.prod (JWT_SECRET, APP_URL)
-#   docker compose -f docker-compose.prod.yml up -d
+# Setup (first time):
+#   docker compose -f docker-compose.prod.yml up -d --build
 #
 # Update to a new release:
 #   git pull
@@ -35,8 +33,7 @@ services:
     build:
       context: ./api
     container_name: mise-api
-    ports:
-      - "3000:3000"
+    # No external port — nginx proxies /api/* and /uploads/* internally
     depends_on:
       mongodb:
         condition: service_healthy
@@ -53,10 +50,10 @@ services:
     build:
       context: ./web
       args:
-        VITE_API_URL: ${APP_URL}
+        VITE_API_URL: ""      # empty → relative /api calls → nginx proxies
     container_name: mise-web
     ports:
-      - "80:80"
+      - "80:80"  # change 80 to your port if needed
     depends_on:
       - api
     restart: unless-stopped

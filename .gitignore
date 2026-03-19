@@ -68,8 +68,11 @@ web_modules/
 # dotenv environment variable files
 .env
 .env.*
-!.env.example
-!.env.prod.example
+# Dev env files — localhost only, safe to commit
+!api/.env
+!web/.env
+# .env.prod — placeholder values, users edit before deploying
+!.env.prod
 
 # Production data directory (uploads on host, created by docker-compose.prod.yml)
 /data/

@@ -7,14 +7,15 @@ Scale servings, search by text, filter by category and tag, share recipes public
 
 ## Stack
 
-| Layer          | Technology                                    |
-| -------------- | --------------------------------------------- |
-| Backend        | Node.js 24, NestJS 11, TypeScript             |
-| Database       | MongoDB 8, Mongoose                           |
-| Auth           | JWT Bearer, bcrypt                            |
-| Frontend       | React 19, Vite 8, React Query 5, Zustand 5   |
-| i18n           | react-i18next · 18 languages                  |
-| Infrastructure | Docker Compose                                |
+| Layer          | Technology                                 |
+| -------------- | ------------------------------------------ |
+| Backend        | Node.js 24, NestJS 11, TypeScript          |
+| Database       | MongoDB 8, Mongoose                        |
+| Auth           | JWT Bearer, bcrypt                         |
+| Frontend       | React 19, Vite 8, React Query 5, Zustand 5 |
+| i18n           | react-i18next · 18 languages               |
+| Reverse proxy  | nginx (single-port, CSP headers)           |
+| Infrastructure | Docker Compose                             |
 
 ## Features
 
@@ -37,11 +38,11 @@ Scale servings, search by text, filter by category and tag, share recipes public
 
 ### Prerequisites
 
-| Tool | Version | Download |
-|---|---|---|
-| Git | any | https://git-scm.com |
-| Node.js | 20+ | https://nodejs.org (LTS) |
-| Docker Desktop | any | https://www.docker.com/products/docker-desktop |
+| Tool           | Version | Download                                       |
+| -------------- | ------- | ---------------------------------------------- |
+| Git            | any     | https://git-scm.com                            |
+| Node.js        | 20+     | https://nodejs.org (LTS)                       |
+| Docker Desktop | any     | https://www.docker.com/products/docker-desktop |
 
 ### Step 1 — Clone
 
@@ -50,24 +51,7 @@ git clone https://github.com/lopatnov/mise.git
 cd mise
 ```
 
-### Step 2 — Create environment files
-
-**`api/.env`**
-
-```env
-MONGODB_URI=mongodb://localhost:27017/mise
-JWT_SECRET=dev_secret_change_in_production
-JWT_EXPIRES_IN=7d
-PORT=3000
-```
-
-**`web/.env`**
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-### Step 3 — Start MongoDB
+### Step 2 — Start MongoDB
 
 ```bash
 docker compose up -d
@@ -77,7 +61,7 @@ MongoDB runs on `localhost:27017`. Data is stored in the Docker-managed volume
 `mise_mongo_data` and **survives `docker compose down`** — only `docker compose down -v`
 wipes it. You will never need to restart MongoDB unless you explicitly stop it.
 
-### Step 4 — Start the API
+### Step 3 — Start the API
 
 ```bash
 cd api
@@ -85,10 +69,10 @@ npm install        # first time only
 npm run start:dev  # watch mode — restarts on file changes
 ```
 
-- API: http://localhost:3000
+- API: http://localhost:3000/api
 - Swagger: http://localhost:3000/api/docs
 
-### Step 5 — Start the frontend
+### Step 4 — Start the frontend
 
 ```bash
 cd web
@@ -102,65 +86,51 @@ Open the app, go to `/setup` to create the first admin account, then register us
 
 ---
 
-## Full Docker demo (everything in one command)
+## Configuration files
 
-Builds and runs MongoDB + API + Web in Docker. No local Node.js needed.
-Code changes require a rebuild (`--build`).
+| File | Committed | Purpose |
+| ------------ | --------- | ----------------------------------------------------------------------- |
+| `api/.env` | ✅ | NestJS dev config — MongoDB localhost, placeholder secret |
+| `web/.env` | ✅ | Vite dev config — API URL for local development |
+| `.env.prod` | ✅ | Production secrets — **edit `APP_URL` and `JWT_SECRET` before deploying** |
 
-```bash
-docker compose -f docker-compose.demo.yml up --build
-```
-
-- App: http://localhost:5173
-- API / Swagger: http://localhost:3000/api/docs
-
-Stop:
-
-```bash
-docker compose -f docker-compose.demo.yml down
-```
+`api/.env` and `web/.env` are used in development only.
+`.env.prod` is used only when running with `docker-compose.prod.yml`.
 
 ---
 
-## Production deployment
+## Deploying
 
 ### Requirements
 
-- A Linux server with Docker and Docker Compose installed
-- Ports **80** (web) and **3000** (API) open in the firewall
-- The server IP or domain name
+- Linux server with Docker and Docker Compose
+- One open port (default **80**, configurable in `docker-compose.prod.yml`)
 
-### Setup (one time)
+### Step 1 — Clone
 
 ```bash
-# 1. Clone the repo on the server
 git clone https://github.com/lopatnov/mise.git
 cd mise
-
-# 2. Create the production env file
-cp .env.prod.example .env.prod
 ```
 
-Edit `.env.prod`:
+### Step 2 — Configure
 
-```env
-# The public URL of the API — as seen from users' browsers
-APP_URL=http://YOUR_SERVER_IP:3000
+Open `.env.prod` and set:
+- `APP_URL` — your server's URL (used in password-reset emails)
+- `JWT_SECRET` — long random string (`openssl rand -hex 32`)
 
-# Long random secret — generate with: openssl rand -hex 32
-JWT_SECRET=replace_with_actual_secret
-```
+If port 80 is taken, change `80:80` in `docker-compose.prod.yml` to your port (e.g. `8080:80`).
+
+### Step 3 — Start
 
 ```bash
-# 3. Create uploads directory
-mkdir -p data/uploads
-
-# 4. Start
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-- App: `http://YOUR_SERVER_IP`
-- API: `http://YOUR_SERVER_IP:3000`
+- App: `http://YOUR_SERVER_IP` (or the port you configured)
+- Swagger: `http://YOUR_SERVER_IP/api/docs`
+
+All traffic goes through a single nginx port — the API container is internal only.
 
 Go to `/setup` to create the admin account on first run.
 
@@ -183,10 +153,10 @@ docker compose -f docker-compose.prod.yml down -v
 
 ### Data and backups
 
-| Data | Location | Notes |
-|---|---|---|
-| MongoDB | Docker volume `mise_mongo_data` | Managed by Docker, survives `down` |
-| Uploaded photos | `./data/uploads/` on the host | Plain files, easy to copy |
+| Data            | Location                        | Notes                              |
+| --------------- | ------------------------------- | ---------------------------------- |
+| MongoDB         | Docker volume `mise_mongo_data` | Managed by Docker, survives `down` |
+| Uploaded photos | `./data/uploads/` on the host   | Plain files, easy to copy          |
 
 **Back up MongoDB:**
 
@@ -234,58 +204,66 @@ They then follow the Production deployment steps above.
 
 ## API
 
-Swagger UI: http://localhost:3000/api/docs
+Swagger UI: http://localhost:3000/api/docs (dev) · http://YOUR_SERVER_IP/api/docs (prod)
+
+All endpoints are prefixed with `/api`:
 
 ```
-POST /auth/register          Register (checks allowRegistration + inviteToken)
-POST /auth/login             Login → JWT
-GET  /auth/me                Current user
-POST /auth/forgot-password   Request password reset link
-POST /auth/reset-password    Set new password via token
+POST /api/auth/register          Register (checks allowRegistration + inviteToken)
+POST /api/auth/login             Login → JWT
+GET  /api/auth/me                Current user
+POST /api/auth/forgot-password   Request password reset link
+POST /api/auth/reset-password    Set new password via token
 
-GET    /admin/setup          Check if admin exists (public)
-POST   /admin/setup          Create first admin (public)
-GET    /admin/settings       App settings
-PATCH  /admin/settings       Update settings (admin only)
-GET    /admin/users          List users (admin only)
-PATCH  /admin/users/:id      Update role/status (admin only)
-DELETE /admin/users/:id      Delete user (admin only)
-POST   /admin/invites        Create invite link (admin only)
-GET    /admin/invites        List active invites (admin only)
-DELETE /admin/invites/:id    Revoke invite (admin only)
+GET    /api/admin/setup          Check if admin exists (public)
+POST   /api/admin/setup          Create first admin (public)
+GET    /api/admin/settings       App settings
+PATCH  /api/admin/settings       Update settings (admin only)
+GET    /api/admin/users          List users (admin only)
+PATCH  /api/admin/users/:id      Update role/status (admin only)
+DELETE /api/admin/users/:id      Delete user (admin only)
+POST   /api/admin/invites        Create invite link (admin only)
+GET    /api/admin/invites        List active invites (admin only)
+DELETE /api/admin/invites/:id    Revoke invite (admin only)
 
-GET    /recipes              List recipes (q, tag, category, mine, page, limit)
-POST   /recipes              Create recipe
-GET    /recipes/:id          Get recipe (public if isPublic=true)
-PATCH  /recipes/:id          Update recipe
-DELETE /recipes/:id          Delete recipe
-POST   /recipes/:id/photo    Upload main photo
-POST   /recipes/:id/steps/:order/photo  Upload step photo
-GET    /recipes/public       Public recipes (no auth)
-GET    /recipes/tags         All distinct tags (no auth)
+GET    /api/recipes              List recipes (q, tag, category, mine, page, limit)
+POST   /api/recipes              Create recipe
+GET    /api/recipes/:id          Get recipe (public if isPublic=true)
+PATCH  /api/recipes/:id          Update recipe
+DELETE /api/recipes/:id          Delete recipe
+POST   /api/recipes/:id/photo    Upload main photo
+POST   /api/recipes/:id/steps/:order/photo  Upload step photo
+GET    /api/recipes/public       Public recipes (no auth)
+GET    /api/recipes/tags         All distinct tags (no auth)
 
-GET  /categories             List categories
+GET  /api/categories             List categories
 ```
 
 ---
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| `Cannot connect to Docker daemon` | Docker Desktop not running | Open Docker Desktop and wait for the whale icon |
-| API exits immediately | Missing `api/.env` | Create the file as shown in Step 2 |
-| `MongoNetworkError` | MongoDB not started | `docker compose up -d` from repo root |
-| Frontend network errors | Wrong `VITE_API_URL` | Check `web/.env` |
-| 500 on login | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
-| Images not loading in Docker | Old named volume for uploads | The volume should be a bind mount — see `docker-compose.prod.yml` |
+| Symptom                           | Cause                                        | Fix                                                                                                                         |
+| --------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `Cannot connect to Docker daemon` | Docker Desktop not running                   | Open Docker Desktop and wait for the whale icon                                                                             |
+| API exits immediately             | Missing `api/.env`                           | Create the file as shown in Step 2                                                                                          |
+| `MongoNetworkError`               | MongoDB not started                          | `docker compose up -d` from repo root                                                                                       |
+| Frontend network errors           | Wrong `VITE_API_URL`                         | Check `web/.env`                                                                                                            |
+| 500 on login                      | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
+| Images not loading in Docker      | Old named volume for uploads                 | The volume should be a bind mount — see `docker-compose.prod.yml`                                                           |
+
+---
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+- Bug reports → [open an issue](https://github.com/lopatnov/mise/issues)
+- Security vulnerabilities → [GitHub Security Advisories](https://github.com/lopatnov/mise/security/advisories/new) _(do not use public issues)_
+- Questions → [Discussions](https://github.com/lopatnov/mise/discussions)
 
 ---
 
 ## License
 
-[GNU General Public License v3.0](LICENSE)
-
----
-
-Built by [lopatnov](https://github.com/lopatnov) · [GitHub](https://github.com/lopatnov/mise) · [LinkedIn](https://www.linkedin.com/in/lopatnov/)
+[GNU General Public License v3.0](LICENSE) © 2025–2026 [Oleksandr Lopatnov](https://github.com/lopatnov) · [LinkedIn](https://www.linkedin.com/in/lopatnov/)
