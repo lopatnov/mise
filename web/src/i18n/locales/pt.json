@@ -15,7 +15,19 @@
     "registering": "Cadastrando...",
     "hasAccount": "Já tem uma conta?",
     "invalidCredentials": "E-mail ou senha incorretos",
-    "emailTaken": "E-mail já cadastrado ou erro no servidor"
+    "emailTaken": "E-mail já cadastrado ou erro no servidor",
+    "inviteToken": "Código de convite (se necessário)",
+    "forgotPassword": "Esqueceu a senha?",
+    "forgotTitle": "Redefinição de senha",
+    "forgotSend": "Enviar link de redefinição",
+    "forgotError": "Algo deu errado. Tente novamente.",
+    "resetTitle": "Nova senha",
+    "resetSave": "Salvar senha",
+    "resetError": "Link de redefinição inválido ou expirado.",
+    "resetInvalidLink": "O link de redefinição está ausente ou é inválido.",
+    "newPassword": "Nova senha (mín. 6 caracteres)",
+    "confirmPassword": "Confirmar senha",
+    "passwordMismatch": "As senhas não coincidem"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Sem nome",
     "recipesCount": "receitas",
     "signOut": "Sair"
+  },
+  "admin": {
+    "title": "Painel de administração",
+    "link": "Admin",
+    "tab": {
+      "users": "Usuários",
+      "invites": "Convites",
+      "settings": "Configurações"
+    },
+    "setup": {
+      "title": "Configuração inicial",
+      "description": "Nenhuma conta de administrador existe ainda. Crie uma para começar.",
+      "createBtn": "Criar conta de administrador",
+      "creating": "Criando...",
+      "error": "A configuração falhou. Tente novamente."
+    },
+    "users": {
+      "total": "usuários",
+      "role": "Função",
+      "status": "Status",
+      "active": "Ativo",
+      "blocked": "Bloqueado",
+      "updated": "Usuário atualizado",
+      "updateError": "Falha ao atualizar usuário",
+      "deleted": "Usuário excluído",
+      "deleteError": "Falha ao excluir usuário",
+      "confirmDelete": "Excluir este usuário?"
+    },
+    "invites": {
+      "create": "Criar link de convite",
+      "emailOptional": "opcional",
+      "expiresInDays": "Expira em (dias)",
+      "generateBtn": "Gerar link",
+      "linkReady": "Link de convite pronto:",
+      "copy": "Copiar",
+      "copied": "Copiado!",
+      "active": "convites ativos",
+      "expires": "Expira",
+      "empty": "Nenhum convite ativo",
+      "revoked": "Convite revogado",
+      "revokeError": "Falha ao revogar convite",
+      "createError": "Falha ao criar convite"
+    },
+    "settings": {
+      "registration": "Registro de usuários",
+      "allowRegistration": "Permitir registro público",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Necessário para e-mails de redefinição de senha. Deixe em branco para mostrar links de redefinição diretamente (modo de desenvolvimento).",
+      "smtpHost": "Host SMTP",
+      "smtpPort": "Porta",
+      "smtpUser": "Login",
+      "smtpPass": "Senha",
+      "smtpFrom": "Endereço de remetente",
+      "appUrl": "URL do aplicativo (para links em e-mails)",
+      "saveBtn": "Salvar configurações",
+      "saved": "Configurações salvas",
+      "saveError": "Falha ao salvar configurações"
+    }
   },
   "lang": {
     "select": "Idioma"

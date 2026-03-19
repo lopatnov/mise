@@ -15,7 +15,19 @@
     "registering": "登録中...",
     "hasAccount": "すでにアカウントをお持ちですか？",
     "invalidCredentials": "メールアドレスまたはパスワードが間違っています",
-    "emailTaken": "このメールアドレスはすでに登録されているかサーバーエラーです"
+    "emailTaken": "このメールアドレスはすでに登録されているかサーバーエラーです",
+    "inviteToken": "招待コード（必要な場合）",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "forgotTitle": "パスワードのリセット",
+    "forgotSend": "リセットリンクを送信",
+    "forgotError": "エラーが発生しました。もう一度お試しください。",
+    "resetTitle": "新しいパスワード",
+    "resetSave": "パスワードを保存",
+    "resetError": "リセットリンクが無効または期限切れです。",
+    "resetInvalidLink": "リセットリンクが見つからないか無効です。",
+    "newPassword": "新しいパスワード（最低6文字）",
+    "confirmPassword": "パスワードの確認",
+    "passwordMismatch": "パスワードが一致しません"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "名前なし",
     "recipesCount": "レシピ",
     "signOut": "ログアウト"
+  },
+  "admin": {
+    "title": "管理パネル",
+    "link": "管理",
+    "tab": {
+      "users": "ユーザー",
+      "invites": "招待",
+      "settings": "設定"
+    },
+    "setup": {
+      "title": "初期設定",
+      "description": "まだ管理者アカウントが存在しません。作成して開始してください。",
+      "createBtn": "管理者アカウントを作成",
+      "creating": "作成中...",
+      "error": "設定に失敗しました。もう一度お試しください。"
+    },
+    "users": {
+      "total": "ユーザー",
+      "role": "役割",
+      "status": "ステータス",
+      "active": "アクティブ",
+      "blocked": "ブロック済み",
+      "updated": "ユーザーを更新しました",
+      "updateError": "ユーザーの更新に失敗しました",
+      "deleted": "ユーザーを削除しました",
+      "deleteError": "ユーザーの削除に失敗しました",
+      "confirmDelete": "このユーザーを削除しますか？"
+    },
+    "invites": {
+      "create": "招待リンクを作成",
+      "emailOptional": "任意",
+      "expiresInDays": "有効期限（日数）",
+      "generateBtn": "リンクを生成",
+      "linkReady": "招待リンクの準備ができました：",
+      "copy": "コピー",
+      "copied": "コピーしました！",
+      "active": "有効な招待",
+      "expires": "有効期限",
+      "empty": "有効な招待はありません",
+      "revoked": "招待を取り消しました",
+      "revokeError": "招待の取り消しに失敗しました",
+      "createError": "招待の作成に失敗しました"
+    },
+    "settings": {
+      "registration": "ユーザー登録",
+      "allowRegistration": "公開登録を許可",
+      "smtp": "メール（SMTP）",
+      "smtpHint": "パスワードリセットメールに必要です。空白のままにするとリセットリンクを直接表示します（開発モード）。",
+      "smtpHost": "SMTPホスト",
+      "smtpPort": "ポート",
+      "smtpUser": "ログイン名",
+      "smtpPass": "パスワード",
+      "smtpFrom": "送信者アドレス",
+      "appUrl": "アプリURL（メールリンク用）",
+      "saveBtn": "設定を保存",
+      "saved": "設定を保存しました",
+      "saveError": "設定の保存に失敗しました"
+    }
   },
   "lang": {
     "select": "言語"

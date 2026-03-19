@@ -15,7 +15,19 @@
     "registering": "Registrerar...",
     "hasAccount": "Har du redan ett konto?",
     "invalidCredentials": "Ogiltig e-post eller lösenord",
-    "emailTaken": "E-post redan registrerad eller serverfel"
+    "emailTaken": "E-post redan registrerad eller serverfel",
+    "inviteToken": "Inbjudningskod (om det krävs)",
+    "forgotPassword": "Glömt lösenordet?",
+    "forgotTitle": "Återställ lösenord",
+    "forgotSend": "Skicka återställningslänk",
+    "forgotError": "Något gick fel. Försök igen.",
+    "resetTitle": "Nytt lösenord",
+    "resetSave": "Spara lösenord",
+    "resetError": "Ogiltig eller utgången återställningslänk.",
+    "resetInvalidLink": "Återställningslänken saknas eller är ogiltig.",
+    "newPassword": "Nytt lösenord (min. 6 tecken)",
+    "confirmPassword": "Bekräfta lösenord",
+    "passwordMismatch": "Lösenorden matchar inte"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Inget namn",
     "recipesCount": "recept",
     "signOut": "Logga ut"
+  },
+  "admin": {
+    "title": "Administratörspanel",
+    "link": "Admin",
+    "tab": {
+      "users": "Användare",
+      "invites": "Inbjudningar",
+      "settings": "Inställningar"
+    },
+    "setup": {
+      "title": "Grundinställning",
+      "description": "Det finns ännu inget administratörskonto. Skapa ett för att komma igång.",
+      "createBtn": "Skapa administratörskonto",
+      "creating": "Skapar...",
+      "error": "Inställningen misslyckades. Försök igen."
+    },
+    "users": {
+      "total": "användare",
+      "role": "Roll",
+      "status": "Status",
+      "active": "Aktiv",
+      "blocked": "Blockerad",
+      "updated": "Användare uppdaterad",
+      "updateError": "Det gick inte att uppdatera användaren",
+      "deleted": "Användare borttagen",
+      "deleteError": "Det gick inte att ta bort användaren",
+      "confirmDelete": "Ta bort den här användaren?"
+    },
+    "invites": {
+      "create": "Skapa inbjudningslänk",
+      "emailOptional": "valfritt",
+      "expiresInDays": "Löper ut om (dagar)",
+      "generateBtn": "Generera länk",
+      "linkReady": "Inbjudningslänk redo:",
+      "copy": "Kopiera",
+      "copied": "Kopierad!",
+      "active": "aktiva inbjudningar",
+      "expires": "Löper ut",
+      "empty": "Inga aktiva inbjudningar",
+      "revoked": "Inbjudan återkallad",
+      "revokeError": "Det gick inte att återkalla inbjudan",
+      "createError": "Det gick inte att skapa inbjudan"
+    },
+    "settings": {
+      "registration": "Användarregistrering",
+      "allowRegistration": "Tillåt offentlig registrering",
+      "smtp": "E-post (SMTP)",
+      "smtpHint": "Krävs för e-postmeddelanden för lösenordsåterställning. Lämna tomt för att visa återställningslänkar direkt (utvecklingsläge).",
+      "smtpHost": "SMTP-värd",
+      "smtpPort": "Port",
+      "smtpUser": "Inloggning",
+      "smtpPass": "Lösenord",
+      "smtpFrom": "Avsändaradress",
+      "appUrl": "App-URL (för e-postlänkar)",
+      "saveBtn": "Spara inställningar",
+      "saved": "Inställningar sparade",
+      "saveError": "Det gick inte att spara inställningarna"
+    }
   },
   "lang": {
     "select": "Språk"

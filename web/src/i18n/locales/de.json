@@ -15,7 +15,19 @@
     "registering": "Registrierung...",
     "hasAccount": "Bereits ein Konto?",
     "invalidCredentials": "Ungültige E-Mail oder falsches Passwort",
-    "emailTaken": "E-Mail bereits registriert oder Serverfehler"
+    "emailTaken": "E-Mail bereits registriert oder Serverfehler",
+    "inviteToken": "Einladungscode (falls erforderlich)",
+    "forgotPassword": "Passwort vergessen?",
+    "forgotTitle": "Passwort zurücksetzen",
+    "forgotSend": "Link zum Zurücksetzen senden",
+    "forgotError": "Etwas ist schiefgelaufen. Versuchen Sie es erneut.",
+    "resetTitle": "Neues Passwort",
+    "resetSave": "Passwort speichern",
+    "resetError": "Ungültiger oder abgelaufener Link zum Zurücksetzen.",
+    "resetInvalidLink": "Der Link zum Zurücksetzen fehlt oder ist ungültig.",
+    "newPassword": "Neues Passwort (min. 6 Zeichen)",
+    "confirmPassword": "Passwort bestätigen",
+    "passwordMismatch": "Passwörter stimmen nicht überein"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Kein Name",
     "recipesCount": "Rezepte",
     "signOut": "Abmelden"
+  },
+  "admin": {
+    "title": "Administrationsbereich",
+    "link": "Admin",
+    "tab": {
+      "users": "Benutzer",
+      "invites": "Einladungen",
+      "settings": "Einstellungen"
+    },
+    "setup": {
+      "title": "Ersteinrichtung",
+      "description": "Es existiert noch kein Administratorkonto. Erstellen Sie eines, um zu beginnen.",
+      "createBtn": "Administratorkonto erstellen",
+      "creating": "Wird erstellt...",
+      "error": "Einrichtung fehlgeschlagen. Versuchen Sie es erneut."
+    },
+    "users": {
+      "total": "Benutzer",
+      "role": "Rolle",
+      "status": "Status",
+      "active": "Aktiv",
+      "blocked": "Gesperrt",
+      "updated": "Benutzer aktualisiert",
+      "updateError": "Benutzer konnte nicht aktualisiert werden",
+      "deleted": "Benutzer gelöscht",
+      "deleteError": "Benutzer konnte nicht gelöscht werden",
+      "confirmDelete": "Diesen Benutzer löschen?"
+    },
+    "invites": {
+      "create": "Einladungslink erstellen",
+      "emailOptional": "optional",
+      "expiresInDays": "Läuft ab in (Tagen)",
+      "generateBtn": "Link generieren",
+      "linkReady": "Einladungslink bereit:",
+      "copy": "Kopieren",
+      "copied": "Kopiert!",
+      "active": "aktive Einladungen",
+      "expires": "Läuft ab",
+      "empty": "Keine aktiven Einladungen",
+      "revoked": "Einladung widerrufen",
+      "revokeError": "Einladung konnte nicht widerrufen werden",
+      "createError": "Einladung konnte nicht erstellt werden"
+    },
+    "settings": {
+      "registration": "Benutzerregistrierung",
+      "allowRegistration": "Öffentliche Registrierung erlauben",
+      "smtp": "E-Mail (SMTP)",
+      "smtpHint": "Erforderlich für Passwort-Reset-E-Mails. Leer lassen, um Reset-Links direkt anzuzeigen (Entwicklungsmodus).",
+      "smtpHost": "SMTP-Host",
+      "smtpPort": "Port",
+      "smtpUser": "Benutzername",
+      "smtpPass": "Passwort",
+      "smtpFrom": "Absenderadresse",
+      "appUrl": "App-URL (für E-Mail-Links)",
+      "saveBtn": "Einstellungen speichern",
+      "saved": "Einstellungen gespeichert",
+      "saveError": "Einstellungen konnten nicht gespeichert werden"
+    }
   },
   "lang": {
     "select": "Sprache"

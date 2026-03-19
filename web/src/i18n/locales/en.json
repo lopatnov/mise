@@ -15,7 +15,19 @@
     "registering": "Registering...",
     "hasAccount": "Already have an account?",
     "invalidCredentials": "Invalid email or password",
-    "emailTaken": "Email already registered or server error"
+    "emailTaken": "Email already registered or server error",
+    "inviteToken": "Invite code (if required)",
+    "forgotPassword": "Forgot password?",
+    "forgotTitle": "Password reset",
+    "forgotSend": "Send reset link",
+    "forgotError": "Something went wrong. Try again.",
+    "resetTitle": "New password",
+    "resetSave": "Save password",
+    "resetError": "Invalid or expired reset link.",
+    "resetInvalidLink": "Reset link is missing or invalid.",
+    "newPassword": "New password (min. 6 characters)",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "No name",
     "recipesCount": "recipes",
     "signOut": "Sign out"
+  },
+  "admin": {
+    "title": "Admin panel",
+    "link": "Admin",
+    "tab": {
+      "users": "Users",
+      "invites": "Invites",
+      "settings": "Settings"
+    },
+    "setup": {
+      "title": "Initial setup",
+      "description": "No administrator account exists yet. Create one to get started.",
+      "createBtn": "Create admin account",
+      "creating": "Creating...",
+      "error": "Setup failed. Try again."
+    },
+    "users": {
+      "total": "users",
+      "role": "Role",
+      "status": "Status",
+      "active": "Active",
+      "blocked": "Blocked",
+      "updated": "User updated",
+      "updateError": "Failed to update user",
+      "deleted": "User deleted",
+      "deleteError": "Failed to delete user",
+      "confirmDelete": "Delete this user?"
+    },
+    "invites": {
+      "create": "Create invite link",
+      "emailOptional": "optional",
+      "expiresInDays": "Expires in (days)",
+      "generateBtn": "Generate link",
+      "linkReady": "Invite link ready:",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "active": "active invites",
+      "expires": "Expires",
+      "empty": "No active invites",
+      "revoked": "Invite revoked",
+      "revokeError": "Failed to revoke invite",
+      "createError": "Failed to create invite"
+    },
+    "settings": {
+      "registration": "User registration",
+      "allowRegistration": "Allow public registration",
+      "smtp": "Email (SMTP)",
+      "smtpHint": "Required for password reset emails. Leave empty to show reset links directly (development mode).",
+      "smtpHost": "SMTP host",
+      "smtpPort": "Port",
+      "smtpUser": "Login",
+      "smtpPass": "Password",
+      "smtpFrom": "From address",
+      "appUrl": "App URL (for email links)",
+      "saveBtn": "Save settings",
+      "saved": "Settings saved",
+      "saveError": "Failed to save settings"
+    }
   },
   "lang": {
     "select": "Language"

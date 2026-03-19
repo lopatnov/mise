@@ -15,7 +15,19 @@
     "registering": "Registrace...",
     "hasAccount": "Máte již účet?",
     "invalidCredentials": "Neplatný e-mail nebo heslo",
-    "emailTaken": "E-mail je již registrován nebo chyba serveru"
+    "emailTaken": "E-mail je již registrován nebo chyba serveru",
+    "inviteToken": "Pozvánkový kód (pokud je vyžadován)",
+    "forgotPassword": "Zapomněli jste heslo?",
+    "forgotTitle": "Obnovení hesla",
+    "forgotSend": "Odeslat odkaz pro obnovení",
+    "forgotError": "Něco se pokazilo. Zkuste to znovu.",
+    "resetTitle": "Nové heslo",
+    "resetSave": "Uložit heslo",
+    "resetError": "Neplatný nebo prošlý odkaz pro obnovení.",
+    "resetInvalidLink": "Odkaz pro obnovení chybí nebo je neplatný.",
+    "newPassword": "Nové heslo (min. 6 znaků)",
+    "confirmPassword": "Potvrdit heslo",
+    "passwordMismatch": "Hesla se neshodují"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Bez jména",
     "recipesCount": "receptů",
     "signOut": "Odhlásit se"
+  },
+  "admin": {
+    "title": "Administrační panel",
+    "link": "Admin",
+    "tab": {
+      "users": "Uživatelé",
+      "invites": "Pozvánky",
+      "settings": "Nastavení"
+    },
+    "setup": {
+      "title": "Počáteční nastavení",
+      "description": "Zatím neexistuje žádný účet správce. Vytvořte ho, abyste mohli začít.",
+      "createBtn": "Vytvořit účet správce",
+      "creating": "Vytváření...",
+      "error": "Nastavení se nezdařilo. Zkuste to znovu."
+    },
+    "users": {
+      "total": "uživatelů",
+      "role": "Role",
+      "status": "Stav",
+      "active": "Aktivní",
+      "blocked": "Blokován",
+      "updated": "Uživatel aktualizován",
+      "updateError": "Aktualizace uživatele se nezdařila",
+      "deleted": "Uživatel smazán",
+      "deleteError": "Smazání uživatele se nezdařilo",
+      "confirmDelete": "Smazat tohoto uživatele?"
+    },
+    "invites": {
+      "create": "Vytvořit pozvánkový odkaz",
+      "emailOptional": "nepovinné",
+      "expiresInDays": "Vyprší za (dní)",
+      "generateBtn": "Generovat odkaz",
+      "linkReady": "Pozvánkový odkaz je připraven:",
+      "copy": "Kopírovat",
+      "copied": "Zkopírováno!",
+      "active": "aktivní pozvánky",
+      "expires": "Vyprší",
+      "empty": "Žádné aktivní pozvánky",
+      "revoked": "Pozvánka zrušena",
+      "revokeError": "Zrušení pozvánky se nezdařilo",
+      "createError": "Vytvoření pozvánky se nezdařilo"
+    },
+    "settings": {
+      "registration": "Registrace uživatelů",
+      "allowRegistration": "Povolit veřejnou registraci",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Nutné pro e-maily pro obnovení hesla. Nechte prázdné, aby se odkazy pro obnovení zobrazovaly přímo (vývojový režim).",
+      "smtpHost": "SMTP host",
+      "smtpPort": "Port",
+      "smtpUser": "Přihlašovací jméno",
+      "smtpPass": "Heslo",
+      "smtpFrom": "Adresa odesílatele",
+      "appUrl": "URL aplikace (pro odkazy v e-mailech)",
+      "saveBtn": "Uložit nastavení",
+      "saved": "Nastavení uloženo",
+      "saveError": "Uložení nastavení se nezdařilo"
+    }
   },
   "lang": {
     "select": "Jazyk"

@@ -15,7 +15,19 @@
     "registering": "Înregistrare...",
     "hasAccount": "Ai deja un cont?",
     "invalidCredentials": "E-mail sau parolă incorecte",
-    "emailTaken": "E-mail deja înregistrat sau eroare server"
+    "emailTaken": "E-mail deja înregistrat sau eroare server",
+    "inviteToken": "Cod de invitație (dacă este necesar)",
+    "forgotPassword": "Ai uitat parola?",
+    "forgotTitle": "Resetare parolă",
+    "forgotSend": "Trimite link de resetare",
+    "forgotError": "Ceva a mers greșit. Încearcă din nou.",
+    "resetTitle": "Parolă nouă",
+    "resetSave": "Salvează parola",
+    "resetError": "Link de resetare invalid sau expirat.",
+    "resetInvalidLink": "Link-ul de resetare lipsește sau este invalid.",
+    "newPassword": "Parolă nouă (min. 6 caractere)",
+    "confirmPassword": "Confirmă parola",
+    "passwordMismatch": "Parolele nu se potrivesc"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Fără nume",
     "recipesCount": "rețete",
     "signOut": "Deconectare"
+  },
+  "admin": {
+    "title": "Panou de administrare",
+    "link": "Admin",
+    "tab": {
+      "users": "Utilizatori",
+      "invites": "Invitații",
+      "settings": "Setări"
+    },
+    "setup": {
+      "title": "Configurare inițială",
+      "description": "Nu există încă niciun cont de administrator. Creează unul pentru a începe.",
+      "createBtn": "Crează cont de administrator",
+      "creating": "Se creează...",
+      "error": "Configurarea a eșuat. Încearcă din nou."
+    },
+    "users": {
+      "total": "utilizatori",
+      "role": "Rol",
+      "status": "Stare",
+      "active": "Activ",
+      "blocked": "Blocat",
+      "updated": "Utilizator actualizat",
+      "updateError": "Actualizarea utilizatorului a eșuat",
+      "deleted": "Utilizator șters",
+      "deleteError": "Ștergerea utilizatorului a eșuat",
+      "confirmDelete": "Șterge acest utilizator?"
+    },
+    "invites": {
+      "create": "Crează link de invitație",
+      "emailOptional": "opțional",
+      "expiresInDays": "Expiră în (zile)",
+      "generateBtn": "Generează link",
+      "linkReady": "Link de invitație gata:",
+      "copy": "Copiază",
+      "copied": "Copiat!",
+      "active": "invitații active",
+      "expires": "Expiră",
+      "empty": "Nu există invitații active",
+      "revoked": "Invitație revocată",
+      "revokeError": "Revocarea invitației a eșuat",
+      "createError": "Crearea invitației a eșuat"
+    },
+    "settings": {
+      "registration": "Înregistrarea utilizatorilor",
+      "allowRegistration": "Permite înregistrarea publică",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Necesar pentru e-mailurile de resetare a parolei. Lasă gol pentru a afișa link-urile de resetare direct (mod dezvoltare).",
+      "smtpHost": "Host SMTP",
+      "smtpPort": "Port",
+      "smtpUser": "Autentificare",
+      "smtpPass": "Parolă",
+      "smtpFrom": "Adresă expeditor",
+      "appUrl": "URL aplicație (pentru link-uri în e-mailuri)",
+      "saveBtn": "Salvează setările",
+      "saved": "Setări salvate",
+      "saveError": "Salvarea setărilor a eșuat"
+    }
   },
   "lang": {
     "select": "Limbă"

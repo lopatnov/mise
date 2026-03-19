@@ -56,7 +56,10 @@ export default function LoginPage() {
         {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
       </p>
       <p style={{ textAlign: 'center', marginTop: 8 }}>
-        <Link to="/" style={{ fontSize: 13, color: '#888' }}>← {t('recipe.list.communityTitle')}</Link>
+        <Link to="/forgot-password" style={{ fontSize: 13, color: '#888' }}>{t('auth.forgotPassword')}</Link>
+      </p>
+      <p style={{ textAlign: 'center', marginTop: 6 }}>
+        <Link to="/" style={{ fontSize: 13, color: '#aaa' }}>← {t('recipe.list.communityTitle')}</Link>
       </p>
     </div>
   );

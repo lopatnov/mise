@@ -39,10 +39,17 @@ export default function RecipeListPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <LanguageSwitcher />
           {isLoggedIn ? (
-            <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
-              <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
-              <span style={smallBtnStyle}>👤</span>
-            </Link>
+            <>
+              {user?.role === 'admin' && (
+                <Link to="/admin" style={{ fontSize: 13, color: '#2d6a4f', padding: '6px 10px', borderRadius: 6, background: '#e8f5e9', textDecoration: 'none' }}>
+                  ⚙️ {t('admin.link')}
+                </Link>
+              )}
+              <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
+                <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
+                <span style={smallBtnStyle}>👤</span>
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login"><button style={outlineBtnStyle}>{t('auth.signIn')}</button></Link>

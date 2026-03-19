@@ -15,7 +15,19 @@
     "registering": "Inscription...",
     "hasAccount": "Déjà un compte ?",
     "invalidCredentials": "E-mail ou mot de passe incorrect",
-    "emailTaken": "E-mail déjà enregistré ou erreur serveur"
+    "emailTaken": "E-mail déjà enregistré ou erreur serveur",
+    "inviteToken": "Code d'invitation (si requis)",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotTitle": "Réinitialisation du mot de passe",
+    "forgotSend": "Envoyer le lien de réinitialisation",
+    "forgotError": "Quelque chose s'est mal passé. Réessayez.",
+    "resetTitle": "Nouveau mot de passe",
+    "resetSave": "Enregistrer le mot de passe",
+    "resetError": "Lien de réinitialisation invalide ou expiré.",
+    "resetInvalidLink": "Le lien de réinitialisation est manquant ou invalide.",
+    "newPassword": "Nouveau mot de passe (min. 6 caractères)",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Sans nom",
     "recipesCount": "recettes",
     "signOut": "Se déconnecter"
+  },
+  "admin": {
+    "title": "Panneau d'administration",
+    "link": "Admin",
+    "tab": {
+      "users": "Utilisateurs",
+      "invites": "Invitations",
+      "settings": "Paramètres"
+    },
+    "setup": {
+      "title": "Configuration initiale",
+      "description": "Aucun compte administrateur n'existe encore. Créez-en un pour commencer.",
+      "createBtn": "Créer un compte administrateur",
+      "creating": "Création...",
+      "error": "La configuration a échoué. Réessayez."
+    },
+    "users": {
+      "total": "utilisateurs",
+      "role": "Rôle",
+      "status": "Statut",
+      "active": "Actif",
+      "blocked": "Bloqué",
+      "updated": "Utilisateur mis à jour",
+      "updateError": "Échec de la mise à jour de l'utilisateur",
+      "deleted": "Utilisateur supprimé",
+      "deleteError": "Échec de la suppression de l'utilisateur",
+      "confirmDelete": "Supprimer cet utilisateur ?"
+    },
+    "invites": {
+      "create": "Créer un lien d'invitation",
+      "emailOptional": "optionnel",
+      "expiresInDays": "Expire dans (jours)",
+      "generateBtn": "Générer le lien",
+      "linkReady": "Lien d'invitation prêt :",
+      "copy": "Copier",
+      "copied": "Copié !",
+      "active": "invitations actives",
+      "expires": "Expire le",
+      "empty": "Aucune invitation active",
+      "revoked": "Invitation révoquée",
+      "revokeError": "Échec de la révocation de l'invitation",
+      "createError": "Échec de la création de l'invitation"
+    },
+    "settings": {
+      "registration": "Inscription des utilisateurs",
+      "allowRegistration": "Autoriser l'inscription publique",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Requis pour les e-mails de réinitialisation de mot de passe. Laissez vide pour afficher les liens de réinitialisation directement (mode développement).",
+      "smtpHost": "Hôte SMTP",
+      "smtpPort": "Port",
+      "smtpUser": "Identifiant",
+      "smtpPass": "Mot de passe",
+      "smtpFrom": "Adresse d'expédition",
+      "appUrl": "URL de l'application (pour les liens dans les e-mails)",
+      "saveBtn": "Enregistrer les paramètres",
+      "saved": "Paramètres enregistrés",
+      "saveError": "Échec de l'enregistrement des paramètres"
+    }
   },
   "lang": {
     "select": "Langue"

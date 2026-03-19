@@ -15,7 +15,19 @@
     "registering": "Registreren...",
     "hasAccount": "Al een account?",
     "invalidCredentials": "Ongeldig e-mailadres of wachtwoord",
-    "emailTaken": "E-mail al geregistreerd of serverfout"
+    "emailTaken": "E-mail al geregistreerd of serverfout",
+    "inviteToken": "Uitnodigingscode (indien vereist)",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "forgotTitle": "Wachtwoord opnieuw instellen",
+    "forgotSend": "Resetlink verzenden",
+    "forgotError": "Er is iets misgegaan. Probeer opnieuw.",
+    "resetTitle": "Nieuw wachtwoord",
+    "resetSave": "Wachtwoord opslaan",
+    "resetError": "Ongeldige of verlopen resetlink.",
+    "resetInvalidLink": "De resetlink ontbreekt of is ongeldig.",
+    "newPassword": "Nieuw wachtwoord (min. 6 tekens)",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "passwordMismatch": "Wachtwoorden komen niet overeen"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Geen naam",
     "recipesCount": "recepten",
     "signOut": "Uitloggen"
+  },
+  "admin": {
+    "title": "Beheerpaneel",
+    "link": "Beheer",
+    "tab": {
+      "users": "Gebruikers",
+      "invites": "Uitnodigingen",
+      "settings": "Instellingen"
+    },
+    "setup": {
+      "title": "Eerste instelling",
+      "description": "Er bestaat nog geen beheerdersaccount. Maak er een aan om te beginnen.",
+      "createBtn": "Beheerdersaccount aanmaken",
+      "creating": "Aanmaken...",
+      "error": "Instelling mislukt. Probeer opnieuw."
+    },
+    "users": {
+      "total": "gebruikers",
+      "role": "Rol",
+      "status": "Status",
+      "active": "Actief",
+      "blocked": "Geblokkeerd",
+      "updated": "Gebruiker bijgewerkt",
+      "updateError": "Gebruiker bijwerken mislukt",
+      "deleted": "Gebruiker verwijderd",
+      "deleteError": "Gebruiker verwijderen mislukt",
+      "confirmDelete": "Deze gebruiker verwijderen?"
+    },
+    "invites": {
+      "create": "Uitnodigingslink aanmaken",
+      "emailOptional": "optioneel",
+      "expiresInDays": "Verloopt over (dagen)",
+      "generateBtn": "Link genereren",
+      "linkReady": "Uitnodigingslink klaar:",
+      "copy": "Kopiëren",
+      "copied": "Gekopieerd!",
+      "active": "actieve uitnodigingen",
+      "expires": "Verloopt",
+      "empty": "Geen actieve uitnodigingen",
+      "revoked": "Uitnodiging ingetrokken",
+      "revokeError": "Uitnodiging intrekken mislukt",
+      "createError": "Uitnodiging aanmaken mislukt"
+    },
+    "settings": {
+      "registration": "Gebruikersregistratie",
+      "allowRegistration": "Openbare registratie toestaan",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Vereist voor wachtwoord-reset e-mails. Laat leeg om resetlinks direct te tonen (ontwikkelingsmodus).",
+      "smtpHost": "SMTP-host",
+      "smtpPort": "Poort",
+      "smtpUser": "Login",
+      "smtpPass": "Wachtwoord",
+      "smtpFrom": "Afzenderadres",
+      "appUrl": "App-URL (voor links in e-mails)",
+      "saveBtn": "Instellingen opslaan",
+      "saved": "Instellingen opgeslagen",
+      "saveError": "Instellingen opslaan mislukt"
+    }
   },
   "lang": {
     "select": "Taal"

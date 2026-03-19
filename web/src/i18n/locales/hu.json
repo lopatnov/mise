@@ -15,7 +15,19 @@
     "registering": "Regisztráció...",
     "hasAccount": "Van már fiókja?",
     "invalidCredentials": "Érvénytelen e-mail vagy jelszó",
-    "emailTaken": "Az e-mail már regisztrált vagy szerverhiba"
+    "emailTaken": "Az e-mail már regisztrált vagy szerverhiba",
+    "inviteToken": "Meghívókód (ha szükséges)",
+    "forgotPassword": "Elfelejtette jelszavát?",
+    "forgotTitle": "Jelszó visszaállítása",
+    "forgotSend": "Visszaállítási link küldése",
+    "forgotError": "Valami hiba történt. Próbálja újra.",
+    "resetTitle": "Új jelszó",
+    "resetSave": "Jelszó mentése",
+    "resetError": "Érvénytelen vagy lejárt visszaállítási link.",
+    "resetInvalidLink": "A visszaállítási link hiányzik vagy érvénytelen.",
+    "newPassword": "Új jelszó (min. 6 karakter)",
+    "confirmPassword": "Jelszó megerősítése",
+    "passwordMismatch": "A jelszavak nem egyeznek"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Nincs név",
     "recipesCount": "recept",
     "signOut": "Kijelentkezés"
+  },
+  "admin": {
+    "title": "Adminisztrációs panel",
+    "link": "Admin",
+    "tab": {
+      "users": "Felhasználók",
+      "invites": "Meghívók",
+      "settings": "Beállítások"
+    },
+    "setup": {
+      "title": "Kezdeti beállítás",
+      "description": "Még nem létezik rendszergazdai fiók. Hozzon létre egyet a kezdéshez.",
+      "createBtn": "Rendszergazdai fiók létrehozása",
+      "creating": "Létrehozás...",
+      "error": "A beállítás sikertelen. Próbálja újra."
+    },
+    "users": {
+      "total": "felhasználó",
+      "role": "Szerepkör",
+      "status": "Állapot",
+      "active": "Aktív",
+      "blocked": "Letiltott",
+      "updated": "Felhasználó frissítve",
+      "updateError": "A felhasználó frissítése sikertelen",
+      "deleted": "Felhasználó törölve",
+      "deleteError": "A felhasználó törlése sikertelen",
+      "confirmDelete": "Törli ezt a felhasználót?"
+    },
+    "invites": {
+      "create": "Meghívó link létrehozása",
+      "emailOptional": "opcionális",
+      "expiresInDays": "Lejárat (napok)",
+      "generateBtn": "Link generálása",
+      "linkReady": "Meghívó link készen áll:",
+      "copy": "Másolás",
+      "copied": "Másolva!",
+      "active": "aktív meghívók",
+      "expires": "Lejárat",
+      "empty": "Nincs aktív meghívó",
+      "revoked": "Meghívó visszavonva",
+      "revokeError": "A meghívó visszavonása sikertelen",
+      "createError": "A meghívó létrehozása sikertelen"
+    },
+    "settings": {
+      "registration": "Felhasználói regisztráció",
+      "allowRegistration": "Nyilvános regisztráció engedélyezése",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Szükséges a jelszó-visszaállítási e-mailekhez. Hagyja üresen, hogy a visszaállítási linkek közvetlenül megjelenjenek (fejlesztési mód).",
+      "smtpHost": "SMTP-kiszolgáló",
+      "smtpPort": "Port",
+      "smtpUser": "Bejelentkezési név",
+      "smtpPass": "Jelszó",
+      "smtpFrom": "Feladó cím",
+      "appUrl": "Alkalmazás URL (e-mail linkekhez)",
+      "saveBtn": "Beállítások mentése",
+      "saved": "Beállítások mentve",
+      "saveError": "A beállítások mentése sikertelen"
+    }
   },
   "lang": {
     "select": "Nyelv"

@@ -15,7 +15,19 @@
     "registering": "Registrazione...",
     "hasAccount": "Hai già un account?",
     "invalidCredentials": "E-mail o password non validi",
-    "emailTaken": "E-mail già registrata o errore del server"
+    "emailTaken": "E-mail già registrata o errore del server",
+    "inviteToken": "Codice invito (se richiesto)",
+    "forgotPassword": "Hai dimenticato la password?",
+    "forgotTitle": "Reimposta password",
+    "forgotSend": "Invia link di reimpostazione",
+    "forgotError": "Qualcosa è andato storto. Riprova.",
+    "resetTitle": "Nuova password",
+    "resetSave": "Salva password",
+    "resetError": "Link di reimpostazione non valido o scaduto.",
+    "resetInvalidLink": "Il link di reimpostazione è mancante o non valido.",
+    "newPassword": "Nuova password (min. 6 caratteri)",
+    "confirmPassword": "Conferma password",
+    "passwordMismatch": "Le password non corrispondono"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Senza nome",
     "recipesCount": "ricette",
     "signOut": "Disconnetti"
+  },
+  "admin": {
+    "title": "Pannello di amministrazione",
+    "link": "Admin",
+    "tab": {
+      "users": "Utenti",
+      "invites": "Inviti",
+      "settings": "Impostazioni"
+    },
+    "setup": {
+      "title": "Configurazione iniziale",
+      "description": "Non esiste ancora nessun account amministratore. Creane uno per iniziare.",
+      "createBtn": "Crea account amministratore",
+      "creating": "Creazione...",
+      "error": "Configurazione non riuscita. Riprova."
+    },
+    "users": {
+      "total": "utenti",
+      "role": "Ruolo",
+      "status": "Stato",
+      "active": "Attivo",
+      "blocked": "Bloccato",
+      "updated": "Utente aggiornato",
+      "updateError": "Impossibile aggiornare l'utente",
+      "deleted": "Utente eliminato",
+      "deleteError": "Impossibile eliminare l'utente",
+      "confirmDelete": "Eliminare questo utente?"
+    },
+    "invites": {
+      "create": "Crea link di invito",
+      "emailOptional": "opzionale",
+      "expiresInDays": "Scade tra (giorni)",
+      "generateBtn": "Genera link",
+      "linkReady": "Link di invito pronto:",
+      "copy": "Copia",
+      "copied": "Copiato!",
+      "active": "inviti attivi",
+      "expires": "Scade",
+      "empty": "Nessun invito attivo",
+      "revoked": "Invito revocato",
+      "revokeError": "Impossibile revocare l'invito",
+      "createError": "Impossibile creare l'invito"
+    },
+    "settings": {
+      "registration": "Registrazione utenti",
+      "allowRegistration": "Consenti registrazione pubblica",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Necessario per le e-mail di reimpostazione password. Lascia vuoto per mostrare i link di reimpostazione direttamente (modalità sviluppo).",
+      "smtpHost": "Host SMTP",
+      "smtpPort": "Porta",
+      "smtpUser": "Login",
+      "smtpPass": "Password",
+      "smtpFrom": "Indirizzo mittente",
+      "appUrl": "URL dell'app (per i link nelle e-mail)",
+      "saveBtn": "Salva impostazioni",
+      "saved": "Impostazioni salvate",
+      "saveError": "Impossibile salvare le impostazioni"
+    }
   },
   "lang": {
     "select": "Lingua"

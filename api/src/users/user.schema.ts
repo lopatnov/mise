@@ -13,6 +13,18 @@ export class User {
 
   @Prop()
   displayName: string;
+
+  @Prop({ enum: ['admin', 'user'], default: 'user' })
+  role: string;
+
+  @Prop({ default: true })
+  isActive: boolean;
+
+  @Prop()
+  resetToken?: string;
+
+  @Prop()
+  resetTokenExpiresAt?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

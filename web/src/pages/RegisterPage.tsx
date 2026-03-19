@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { useAuthStore } from '../store/authStore';
@@ -8,9 +8,11 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
+  const [params] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [inviteToken, setInviteToken] = useState(params.get('invite') ?? '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -21,11 +23,12 @@ export default function RegisterPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await authApi.register(email, password, displayName || undefined);
+      const res = await authApi.register(email, password, displayName || undefined, inviteToken || undefined);
       setAuth(res.access_token, res.user);
       navigate('/');
-    } catch {
-      setError(t('auth.emailTaken'));
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setError(msg ?? t('auth.emailTaken'));
     } finally {
       setLoading(false);
     }
@@ -53,6 +56,11 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)} required minLength={6}
           style={inputStyle}
         />
+        <input
+          placeholder={t('auth.inviteToken')} value={inviteToken}
+          onChange={(e) => setInviteToken(e.target.value)}
+          style={{ ...inputStyle, color: inviteToken ? '#2d6a4f' : undefined }}
+        />
         {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
         <button type="submit" disabled={loading} style={btnStyle}>
           {loading ? t('auth.registering') : t('auth.createAccount')}
@@ -66,8 +74,7 @@ export default function RegisterPage() {
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: '10px 12px', borderRadius: 8,
-  border: '1px solid #ddd', fontSize: 15, outline: 'none',
+  padding: '10px 12px', borderRadius: 8, border: '1px solid #ddd', fontSize: 15, outline: 'none',
 };
 const btnStyle: React.CSSProperties = {
   padding: '10px', borderRadius: 8, background: '#2d6a4f',

@@ -4,6 +4,7 @@ import type { Request } from 'express';
 export interface JwtUser {
   userId: string;
   email: string;
+  role: string;
 }
 
 export const CurrentUser = createParamDecorator(

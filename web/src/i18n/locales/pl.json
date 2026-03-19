@@ -15,7 +15,19 @@
     "registering": "Rejestracja...",
     "hasAccount": "Masz już konto?",
     "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
-    "emailTaken": "E-mail jest już zarejestrowany lub błąd serwera"
+    "emailTaken": "E-mail jest już zarejestrowany lub błąd serwera",
+    "inviteToken": "Kod zaproszenia (jeśli wymagany)",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "forgotTitle": "Resetowanie hasła",
+    "forgotSend": "Wyślij link resetujący",
+    "forgotError": "Coś poszło nie tak. Spróbuj ponownie.",
+    "resetTitle": "Nowe hasło",
+    "resetSave": "Zapisz hasło",
+    "resetError": "Nieprawidłowy lub wygasły link resetujący.",
+    "resetInvalidLink": "Link resetujący jest brakujący lub nieprawidłowy.",
+    "newPassword": "Nowe hasło (min. 6 znaków)",
+    "confirmPassword": "Potwierdź hasło",
+    "passwordMismatch": "Hasła nie są zgodne"
   },
   "recipe": {
     "list": {
@@ -79,6 +91,64 @@
     "noName": "Bez nazwy",
     "recipesCount": "przepisów",
     "signOut": "Wyloguj się"
+  },
+  "admin": {
+    "title": "Panel administracyjny",
+    "link": "Admin",
+    "tab": {
+      "users": "Użytkownicy",
+      "invites": "Zaproszenia",
+      "settings": "Ustawienia"
+    },
+    "setup": {
+      "title": "Konfiguracja początkowa",
+      "description": "Nie istnieje jeszcze konto administratora. Utwórz je, aby rozpocząć.",
+      "createBtn": "Utwórz konto administratora",
+      "creating": "Tworzenie...",
+      "error": "Konfiguracja nie powiodła się. Spróbuj ponownie."
+    },
+    "users": {
+      "total": "użytkowników",
+      "role": "Rola",
+      "status": "Status",
+      "active": "Aktywny",
+      "blocked": "Zablokowany",
+      "updated": "Użytkownik zaktualizowany",
+      "updateError": "Nie udało się zaktualizować użytkownika",
+      "deleted": "Użytkownik usunięty",
+      "deleteError": "Nie udało się usunąć użytkownika",
+      "confirmDelete": "Usunąć tego użytkownika?"
+    },
+    "invites": {
+      "create": "Utwórz link zaproszenia",
+      "emailOptional": "opcjonalnie",
+      "expiresInDays": "Wygasa za (dni)",
+      "generateBtn": "Generuj link",
+      "linkReady": "Link zaproszenia gotowy:",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano!",
+      "active": "aktywne zaproszenia",
+      "expires": "Wygasa",
+      "empty": "Brak aktywnych zaproszeń",
+      "revoked": "Zaproszenie cofnięte",
+      "revokeError": "Nie udało się cofnąć zaproszenia",
+      "createError": "Nie udało się utworzyć zaproszenia"
+    },
+    "settings": {
+      "registration": "Rejestracja użytkowników",
+      "allowRegistration": "Zezwól na publiczną rejestrację",
+      "smtp": "E-mail (SMTP)",
+      "smtpHint": "Wymagane do e-maili resetowania hasła. Pozostaw puste, aby wyświetlać linki resetowania bezpośrednio (tryb deweloperski).",
+      "smtpHost": "Host SMTP",
+      "smtpPort": "Port",
+      "smtpUser": "Login",
+      "smtpPass": "Hasło",
+      "smtpFrom": "Adres nadawcy",
+      "appUrl": "URL aplikacji (dla linków w e-mailach)",
+      "saveBtn": "Zapisz ustawienia",
+      "saved": "Ustawienia zapisane",
+      "saveError": "Nie udało się zapisać ustawień"
+    }
   },
   "lang": {
     "select": "Język"
