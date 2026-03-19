@@ -2,13 +2,39 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 import Lightbox from '../components/Lightbox';
+import { useMetaTags } from '../hooks/useMetaTags';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useStructuredData } from '../hooks/useStructuredData';
 import { useAuthStore } from '../store/authStore';
 import { useToast } from '../store/toastStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
+
+function buildRecipeSchema(recipe: Recipe, appUrl: string): object {
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Recipe',
+    name: recipe.title,
+    description: recipe.description ?? '',
+    recipeYield: `${recipe.servings} servings`,
+    recipeIngredient: recipe.ingredients.map((i) => `${i.amount} ${i.unit} ${i.name}`.trim()),
+    recipeInstructions: [...recipe.steps]
+      .sort((a, b) => a.order - b.order)
+      .map((s) => ({ '@type': 'HowToStep', text: s.text })),
+    datePublished: recipe.createdAt,
+  };
+  if (recipe.photoUrl) schema.image = `${appUrl}${recipe.photoUrl}`;
+  if (recipe.prepTime) schema.prepTime = `PT${recipe.prepTime}M`;
+  if (recipe.cookTime) schema.cookTime = `PT${recipe.cookTime}M`;
+  if (recipe.tags.length > 0) schema.keywords = recipe.tags.join(', ');
+  if (recipe.rating) {
+    schema.aggregateRating = { '@type': 'AggregateRating', ratingValue: recipe.rating, ratingCount: 1 };
+  }
+  return schema;
+}
 
 export default function RecipeDetailPage() {
   const { t } = useTranslation();
@@ -31,6 +57,19 @@ export default function RecipeDetailPage() {
     enabled: !!id,
   });
   usePageTitle(recipe?.title);
+  useStructuredData(recipe?.isPublic ? buildRecipeSchema(recipe, API_URL) : null);
+  useMetaTags(
+    recipe
+      ? {
+          'og:title': recipe.title,
+          'og:description': recipe.description?.slice(0, 200) ?? '',
+          'og:image': recipe.photoUrl ? `${API_URL}${recipe.photoUrl}` : '',
+          'og:url': window.location.href,
+          'og:type': 'article',
+          'twitter:card': 'summary_large_image',
+        }
+      : null,
+  );
 
   const deleteMut = useMutation({
     mutationFn: () => recipesApi.remove(id ?? ''),

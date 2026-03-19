@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RecipesModule } from './recipes/recipes.module';
+import { SeoModule } from './seo/seo.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { UsersModule } from './users/users.module';
 
@@ -31,6 +32,7 @@ import { UsersModule } from './users/users.module';
     CategoriesModule,
     UploadsModule,
     AdminModule,
+    SeoModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })

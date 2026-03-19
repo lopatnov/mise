@@ -202,6 +202,27 @@ They then follow the Production deployment steps above.
 
 ---
 
+## Analytics & Tracking
+
+Add any analytics script to `web/index.html` inside the `<head>` tag, before `</head>`.
+
+```html
+<!-- Google Analytics example -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<!-- Privacy-friendly alternatives: Plausible, Umami, Matomo (self-hosted) -->
+```
+
+The script is embedded in the static HTML and fires on every SPA page. Rebuild the Docker image after editing (`docker compose -f docker-compose.prod.yml up -d --build`).
+
+---
+
 ## API
 
 Swagger UI: http://localhost:3000/api/docs (dev) · http://YOUR_SERVER_IP/api/docs (prod)

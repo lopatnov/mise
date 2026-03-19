@@ -9,5 +9,6 @@ import { RecipesService } from './recipes.service';
   imports: [MongooseModule.forFeature([{ name: Recipe.name, schema: RecipeSchema }]), UploadsModule],
   providers: [RecipesService],
   controllers: [RecipesController],
+  exports: [RecipesService],
 })
 export class RecipesModule {}

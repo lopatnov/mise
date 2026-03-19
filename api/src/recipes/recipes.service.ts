@@ -142,4 +142,9 @@ export class RecipesService {
   async findAllTags(): Promise<string[]> {
     return this.model.distinct('tags');
   }
+
+  async findPublicForSitemap(): Promise<Array<{ _id: unknown; updatedAt: Date }>> {
+    const docs = await this.model.find({ isPublic: true }, { _id: 1, updatedAt: 1 }).lean();
+    return docs as unknown as Array<{ _id: unknown; updatedAt: Date }>;
+  }
 }
