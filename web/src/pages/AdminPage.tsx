@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import type { AppSettings } from '../api/admin';
 import { adminApi } from '../api/admin';
 import { useToast } from '../store/toastStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 type Tab = 'users' | 'invites' | 'settings';
 
 export default function AdminPage() {
   const { t } = useTranslation();
+  usePageTitle(t('admin.title'));
   const [tab, setTab] = useState<Tab>('users');
 
   return (
@@ -309,16 +311,17 @@ function SettingsTab() {
   const [form, setForm] = useState<Partial<AppSettings>>({});
   const [loaded, setLoaded] = useState(false);
 
-  useQuery({
+  const { data: settingsData } = useQuery({
     queryKey: ['admin', 'settings'],
     queryFn: adminApi.getSettings,
-    onSuccess: (data: AppSettings) => {
-      if (!loaded) {
-        setForm(data);
-        setLoaded(true);
-      }
-    },
-  } as Parameters<typeof useQuery>[0]);
+  });
+
+  useEffect(() => {
+    if (settingsData && !loaded) {
+      setForm(settingsData);
+      setLoaded(true);
+    }
+  }, [settingsData, loaded]);
 
   const saveMut = useMutation({
     mutationFn: () => adminApi.updateSettings(form),
@@ -333,6 +336,19 @@ function SettingsTab() {
 
   return (
     <div style={{ maxWidth: 520 }}>
+      <section style={{ marginBottom: 28 }}>
+        <h3 style={{ fontSize: 15, marginBottom: 12 }}>{t('admin.settings.general')}</h3>
+        <div>
+          <label style={labelStyle}>{t('admin.settings.siteTitle')}</label>
+          <input
+            value={form.siteTitle ?? ''}
+            onChange={(e) => set('siteTitle', e.target.value)}
+            placeholder="Mise"
+            style={inputStyle}
+          />
+        </div>
+      </section>
+
       <section style={{ marginBottom: 28 }}>
         <h3 style={{ fontSize: 15, marginBottom: 12 }}>{t('admin.settings.registration')}</h3>
         <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14 }}>

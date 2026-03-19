@@ -6,6 +6,7 @@ import { categoriesApi } from '../api/categories';
 import { recipesApi } from '../api/recipes';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuthStore } from '../store/authStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -20,6 +21,7 @@ function useDebounce<T>(value: T, ms = 400): T {
 
 export default function RecipeListPage() {
   const { t } = useTranslation();
+  const siteTitle = usePageTitle();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
@@ -56,7 +58,7 @@ export default function RecipeListPage() {
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ margin: 0 }}>{t('app.title')}</h1>
+          <h1 style={{ margin: 0 }}>🍽 {siteTitle}</h1>
           {data && (
             <span style={{ fontSize: 13, color: '#888' }}>
               {data.total} {t('profile.recipesCount')}

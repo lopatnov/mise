@@ -33,6 +33,11 @@ export class AdminService {
 
   // ── Settings ───────────────────────────────────────────────
 
+  async getPublicSettings() {
+    const s = await this.settingsModel.findOne().lean();
+    return { siteTitle: s?.siteTitle || 'Mise' };
+  }
+
   async getSettings() {
     let settings = await this.settingsModel.findOne().lean();
     if (!settings) {
@@ -129,13 +134,17 @@ export class AdminService {
       auth: { user: settings.smtpUser, pass: settings.smtpPass },
     });
 
-    await transporter.sendMail({
-      from: settings.smtpFrom ?? settings.smtpUser,
-      to,
-      subject,
-      html,
-    });
-    return true;
+    try {
+      await transporter.sendMail({
+        from: settings.smtpFrom ?? settings.smtpUser,
+        to,
+        subject,
+        html,
+      });
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   getAppUrl(): Promise<string> {

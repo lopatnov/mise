@@ -5,9 +5,11 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuthStore } from '../store/authStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
+  const siteTitle = usePageTitle(t('auth.register'));
   const [params] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +41,7 @@ export default function RegisterPage() {
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
         <LanguageSwitcher />
       </div>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 {siteTitle}</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
           placeholder={t('auth.name')}

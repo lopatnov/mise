@@ -7,9 +7,11 @@ import { adminApi } from '../api/admin';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useAuthStore } from '../store/authStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function LoginPage() {
   const { t } = useTranslation();
+  const siteTitle = usePageTitle(t('auth.signIn'));
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -43,7 +45,7 @@ export default function LoginPage() {
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
         <LanguageSwitcher />
       </div>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 {siteTitle}</h1>
       {setupStatus?.setupDone === false && (
         <div
           style={{
