@@ -14,6 +14,7 @@ export default function Footer() {
         background: 'rgba(249,249,247,0.93)',
         backdropFilter: 'blur(4px)',
         borderTop: '1px solid #eee',
+        zIndex: 10,
       }}
     >
       Built by{' '}
