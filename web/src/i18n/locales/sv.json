@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Tillbaka till recept",
     "noName": "Inget namn",
     "recipesCount": "recept",
@@ -139,6 +140,8 @@
       "createError": "Det gick inte att skapa inbjudan"
     },
     "settings": {
+      "general": "Allmänt",
+      "siteTitle": "Webbplatsnamn",
       "registration": "Användarregistrering",
       "allowRegistration": "Tillåt offentlig registrering",
       "smtp": "E-post (SMTP)",

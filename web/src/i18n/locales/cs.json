@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Zpět na recepty",
     "noName": "Bez jména",
     "recipesCount": "receptů",
@@ -139,6 +140,8 @@
       "createError": "Vytvoření pozvánky se nezdařilo"
     },
     "settings": {
+      "general": "Obecné",
+      "siteTitle": "Název webu",
       "registration": "Registrace uživatelů",
       "allowRegistration": "Povolit veřejnou registraci",
       "smtp": "E-mail (SMTP)",

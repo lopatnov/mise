@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Wróć do przepisów",
     "noName": "Bez nazwy",
     "recipesCount": "przepisów",
@@ -139,6 +140,8 @@
       "createError": "Nie udało się utworzyć zaproszenia"
     },
     "settings": {
+      "general": "Ogólne",
+      "siteTitle": "Tytuł strony",
       "registration": "Rejestracja użytkowników",
       "allowRegistration": "Zezwól na publiczną rejestrację",
       "smtp": "E-mail (SMTP)",

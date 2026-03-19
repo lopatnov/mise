@@ -17,6 +17,7 @@ export interface AppSettings {
   smtpPass?: string;
   smtpFrom?: string;
   appUrl?: string;
+  siteTitle?: string;
 }
 
 export interface Invite {
@@ -29,6 +30,8 @@ export interface Invite {
 }
 
 export const adminApi = {
+  getPublicSettings: () => api.get<{ siteTitle: string }>('/admin/settings/public').then((r) => r.data),
+
   setupStatus: () => api.get<{ setupDone: boolean }>('/admin/setup').then((r) => r.data),
   setup: (email: string, password: string, displayName?: string) =>
     api.post('/admin/setup', { email, password, displayName }).then((r) => r.data),

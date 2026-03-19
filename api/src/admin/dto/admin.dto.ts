@@ -15,6 +15,7 @@ export class UpdateSettingsDto {
   @ApiPropertyOptional() @IsOptional() @IsString() smtpPass?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() smtpFrom?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() appUrl?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() siteTitle?: string;
 }
 
 export class CreateInviteDto {

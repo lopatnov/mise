@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Retour aux recettes",
     "noName": "Sans nom",
     "recipesCount": "recettes",
@@ -139,6 +140,8 @@
       "createError": "Échec de la création de l'invitation"
     },
     "settings": {
+      "general": "Général",
+      "siteTitle": "Titre du site",
       "registration": "Inscription des utilisateurs",
       "allowRegistration": "Autoriser l'inscription publique",
       "smtp": "E-mail (SMTP)",

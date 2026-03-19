@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Vissza a receptekhez",
     "noName": "Nincs név",
     "recipesCount": "recept",
@@ -139,6 +140,8 @@
       "createError": "A meghívó létrehozása sikertelen"
     },
     "settings": {
+      "general": "Általános",
+      "siteTitle": "Weboldal neve",
       "registration": "Felhasználói regisztráció",
       "allowRegistration": "Nyilvános regisztráció engedélyezése",
       "smtp": "E-mail (SMTP)",

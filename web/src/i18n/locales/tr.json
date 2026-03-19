@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Tariflere dön",
     "noName": "İsimsiz",
     "recipesCount": "tarif",
@@ -139,6 +140,8 @@
       "createError": "Davet oluşturulamadı"
     },
     "settings": {
+      "general": "Genel",
+      "siteTitle": "Site başlığı",
       "registration": "Kullanıcı kaydı",
       "allowRegistration": "Herkese açık kayıta izin ver",
       "smtp": "E-posta (SMTP)",

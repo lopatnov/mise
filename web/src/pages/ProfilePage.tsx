@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
 import { useAuthStore } from '../store/authStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
+  usePageTitle(t('profile.title'));
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
 

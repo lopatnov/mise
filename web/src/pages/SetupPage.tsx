@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { adminApi } from '../api/admin';
 import { authApi } from '../api/auth';
 import { useAuthStore } from '../store/authStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function SetupPage() {
   const { t } = useTranslation();
+  usePageTitle('Setup');
   const navigate = useNavigate();
   const setAuth = useAuthStore((s) => s.setAuth);
   const [displayName, setDisplayName] = useState('');

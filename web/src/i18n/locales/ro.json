@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profil",
     "back": "← Înapoi la rețete",
     "noName": "Fără nume",
     "recipesCount": "rețete",
@@ -139,6 +140,8 @@
       "createError": "Crearea invitației a eșuat"
     },
     "settings": {
+      "general": "General",
+      "siteTitle": "Titlul site-ului",
       "registration": "Înregistrarea utilizatorilor",
       "allowRegistration": "Permite înregistrarea publică",
       "smtp": "E-mail (SMTP)",

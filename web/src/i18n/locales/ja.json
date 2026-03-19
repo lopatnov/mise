@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "プロフィール",
     "back": "← レシピに戻る",
     "noName": "名前なし",
     "recipesCount": "レシピ",
@@ -139,6 +140,8 @@
       "createError": "招待の作成に失敗しました"
     },
     "settings": {
+      "general": "一般",
+      "siteTitle": "サイトタイトル",
       "registration": "ユーザー登録",
       "allowRegistration": "公開登録を許可",
       "smtp": "メール（SMTP）",

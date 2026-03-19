@@ -25,6 +25,12 @@ export class AdminController {
     return this.adminService.setup(dto.email, dto.password, dto.displayName);
   }
 
+  @Public()
+  @Get('settings/public')
+  getPublicSettings() {
+    return this.adminService.getPublicSettings();
+  }
+
   // All routes below require admin role
   @ApiBearerAuth()
   @UseGuards(AdminGuard)

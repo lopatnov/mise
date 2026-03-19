@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "프로필",
     "back": "← 레시피로 돌아가기",
     "noName": "이름 없음",
     "recipesCount": "레시피",
@@ -139,6 +140,8 @@
       "createError": "초대 생성 실패"
     },
     "settings": {
+      "general": "일반",
+      "siteTitle": "사이트 제목",
       "registration": "사용자 등록",
       "allowRegistration": "공개 등록 허용",
       "smtp": "이메일 (SMTP)",

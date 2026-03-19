@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "个人资料",
     "back": "← 返回食谱",
     "noName": "未设置姓名",
     "recipesCount": "个食谱",
@@ -139,6 +140,8 @@
       "createError": "创建邀请失败"
     },
     "settings": {
+      "general": "常规",
+      "siteTitle": "网站标题",
       "registration": "用户注册",
       "allowRegistration": "允许公开注册",
       "smtp": "电子邮件（SMTP）",

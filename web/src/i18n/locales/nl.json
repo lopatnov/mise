@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profiel",
     "back": "← Terug naar recepten",
     "noName": "Geen naam",
     "recipesCount": "recepten",
@@ -139,6 +140,8 @@
       "createError": "Uitnodiging aanmaken mislukt"
     },
     "settings": {
+      "general": "Algemeen",
+      "siteTitle": "Paginatitel",
       "registration": "Gebruikersregistratie",
       "allowRegistration": "Openbare registratie toestaan",
       "smtp": "E-mail (SMTP)",

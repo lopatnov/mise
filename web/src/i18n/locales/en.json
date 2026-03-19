@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Profile",
     "back": "← Back to recipes",
     "noName": "No name",
     "recipesCount": "recipes",
@@ -139,6 +140,8 @@
       "createError": "Failed to create invite"
     },
     "settings": {
+      "general": "General",
+      "siteTitle": "Site title",
       "registration": "User registration",
       "allowRegistration": "Allow public registration",
       "smtp": "Email (SMTP)",

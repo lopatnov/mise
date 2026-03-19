@@ -1,11 +1,8 @@
 # Development: starts MongoDB only.
-# API and frontend run locally with hot-reload (see README — Option B).
-#
-# For a full local demo (everything in Docker) use docker-compose.demo.yml:
-#   docker compose -f docker-compose.demo.yml up --build
+# API and frontend run locally with hot-reload (see README).
 #
 # For production use docker-compose.prod.yml:
-#   cp .env.prod.example .env.prod && docker compose -f docker-compose.prod.yml up -d
+#   docker compose -f docker-compose.prod.yml up -d --build
 
 services:
   mongodb:

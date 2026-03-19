@@ -25,6 +25,9 @@ export class Settings {
 
   @Prop()
   appUrl?: string;
+
+  @Prop()
+  siteTitle?: string;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

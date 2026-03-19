@@ -89,6 +89,7 @@
     }
   },
   "profile": {
+    "title": "Профиль",
     "back": "← К рецептам",
     "noName": "Без имени",
     "recipesCount": "рецептов",
@@ -139,6 +140,8 @@
       "createError": "Ошибка создания приглашения"
     },
     "settings": {
+      "general": "Общее",
+      "siteTitle": "Название сайта",
       "registration": "Регистрация пользователей",
       "allowRegistration": "Разрешить публичную регистрацию",
       "smtp": "Почта (SMTP)",

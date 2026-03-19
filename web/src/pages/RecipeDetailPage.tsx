@@ -6,6 +6,7 @@ import { recipesApi } from '../api/recipes';
 import Lightbox from '../components/Lightbox';
 import { useAuthStore } from '../store/authStore';
 import { useToast } from '../store/toastStore';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -29,6 +30,7 @@ export default function RecipeDetailPage() {
     queryFn: () => recipesApi.get(id!),
     enabled: !!id,
   });
+  usePageTitle(recipe?.title);
 
   const deleteMut = useMutation({
     mutationFn: () => recipesApi.remove(id!),

@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { authApi } from '../api/auth';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function ForgotPasswordPage() {
   const { t } = useTranslation();
+  usePageTitle(t('auth.forgotTitle'));
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ message: string; devLink?: string } | null>(null);

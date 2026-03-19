@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function ResetPasswordPage() {
   const { t } = useTranslation();
+  usePageTitle(t('auth.resetTitle'));
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const token = params.get('token') ?? '';

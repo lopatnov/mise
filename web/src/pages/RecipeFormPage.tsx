@@ -6,13 +6,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
-
+import { usePageTitle } from '../hooks/usePageTitle';
 
 
 export default function RecipeFormPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
+  usePageTitle(isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle'));
   const navigate = useNavigate();
   const qc = useQueryClient();
 
@@ -57,6 +58,7 @@ export default function RecipeFormPage() {
     mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id!, data) : recipesApi.create(data)),
     onSuccess: (saved) => {
       qc.invalidateQueries({ queryKey: ['recipes'] });
+      qc.invalidateQueries({ queryKey: ['recipe', saved._id] });
       navigate(`/recipes/${saved._id}`);
     },
   });
