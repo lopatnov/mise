@@ -37,7 +37,7 @@ select {
 }
 .ingredient-row {
   display: grid;
-  grid-template-columns: 1fr 80px 80px 32px;
+  grid-template-columns: 16px 1fr 80px 80px 32px;
   gap: 6px;
   margin-bottom: 6px;
   align-items: start;
@@ -63,9 +63,9 @@ select {
   }
 
   .ingredient-row {
-    grid-template-columns: 1fr 1fr 32px;
+    grid-template-columns: 16px 1fr 1fr 32px;
   }
   .ingredient-row .ingredient-name {
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
   }
 }

@@ -27,6 +27,8 @@ export default function RecipeFormPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [ingredients, setIngredients] = useState([{ name: '', amount: 1, unit: '' }]);
   const [steps, setSteps] = useState(['']);
+  const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
+  const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -97,6 +99,22 @@ export default function RecipeFormPage() {
     updated[i] = value;
     setSteps(updated);
   };
+
+  function moveIngredient(from: number, to: number) {
+    if (from === to) return;
+    const next = [...ingredients];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    setIngredients(next);
+  }
+
+  function moveStep(from: number, to: number) {
+    if (from === to) return;
+    const next = [...steps];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    setSteps(next);
+  }
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
@@ -227,7 +245,20 @@ export default function RecipeFormPage() {
             </button>
           </div>
           {ingredients.map((ing, i) => (
-            <div key={i} className="ingredient-row">
+            <div
+              key={i}
+              className="ingredient-row"
+              draggable
+              onDragStart={() => setDragIngIdx(i)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => {
+                if (dragIngIdx !== null) moveIngredient(dragIngIdx, i);
+                setDragIngIdx(null);
+              }}
+              onDragEnd={() => setDragIngIdx(null)}
+              style={{ opacity: dragIngIdx === i ? 0.4 : 1 }}
+            >
+              <span style={dragHandle}>⠿</span>
               <input
                 placeholder={t('recipe.form.ingredientName')}
                 value={ing.name}
@@ -269,8 +300,24 @@ export default function RecipeFormPage() {
           {steps.map((step, i) => (
             <div
               key={i}
-              style={{ display: 'grid', gridTemplateColumns: '1fr 32px', gap: 6, marginBottom: 6, alignItems: 'start' }}
+              draggable
+              onDragStart={() => setDragStepIdx(i)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => {
+                if (dragStepIdx !== null) moveStep(dragStepIdx, i);
+                setDragStepIdx(null);
+              }}
+              onDragEnd={() => setDragStepIdx(null)}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '16px 1fr 32px',
+                gap: 6,
+                marginBottom: 6,
+                alignItems: 'start',
+                opacity: dragStepIdx === i ? 0.4 : 1,
+              }}
             >
+              <span style={{ ...dragHandle, paddingTop: 10 }}>⠿</span>
               <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                 <span style={{ minWidth: 24, paddingTop: 10, color: '#888', fontSize: 13 }}>{i + 1}.</span>
                 <textarea
@@ -342,6 +389,14 @@ const linkBtn: React.CSSProperties = {
   color: '#2d6a4f',
   fontSize: 14,
   padding: 0,
+};
+const dragHandle: React.CSSProperties = {
+  cursor: 'grab',
+  color: '#ccc',
+  fontSize: 16,
+  textAlign: 'center',
+  userSelect: 'none',
+  alignSelf: 'center',
 };
 const submitBtn: React.CSSProperties = {
   padding: '12px',
