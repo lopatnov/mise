@@ -55,7 +55,16 @@ export class UsersService {
       Pick<User, 'isActive' | 'role' | 'displayName' | 'passwordHash' | 'resetToken' | 'resetTokenExpiresAt'>
     >,
   ): Promise<UserDocument | null> {
-    return this.userModel.findByIdAndUpdate(id, update, { new: true }).lean();
+    const $set: Record<string, unknown> = {};
+    const $unset: Record<string, ''> = {};
+    for (const [key, val] of Object.entries(update)) {
+      if (val === undefined) $unset[key] = '';
+      else $set[key] = val;
+    }
+    const op: Record<string, unknown> = {};
+    if (Object.keys($set).length) op.$set = $set;
+    if (Object.keys($unset).length) op.$unset = $unset;
+    return this.userModel.findByIdAndUpdate(id, op, { new: true }).lean();
   }
 
   async deleteById(id: string): Promise<void> {
