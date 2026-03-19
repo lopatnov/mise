@@ -1,2 +1,2 @@
-# Normalize line endings for all text files
-* text=auto
+# Normalize all text files to LF (works on all OS including Windows)
+* text=auto eol=lf
