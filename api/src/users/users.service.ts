@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { User, UserDocument } from './user.schema';
+import type { Model } from 'mongoose';
+import { User, type UserDocument } from './user.schema';
 
 @Injectable()
 export class UsersService {
@@ -26,19 +26,30 @@ export class UsersService {
 
   async create(email: string, password: string, displayName?: string): Promise<UserDocument> {
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = new this.userModel({ email: email.toLowerCase(), passwordHash, displayName });
+    const user = new this.userModel({
+      email: email.toLowerCase(),
+      passwordHash,
+      displayName,
+    });
     return user.save();
   }
 
   async createAdmin(email: string, password: string, displayName?: string): Promise<UserDocument> {
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = new this.userModel({ email: email.toLowerCase(), passwordHash, displayName, role: 'admin' });
+    const user = new this.userModel({
+      email: email.toLowerCase(),
+      passwordHash,
+      displayName,
+      role: 'admin',
+    });
     return user.save();
   }
 
   async updateById(
     id: string,
-    update: Partial<Pick<User, 'isActive' | 'role' | 'displayName' | 'passwordHash' | 'resetToken' | 'resetTokenExpiresAt'>>,
+    update: Partial<
+      Pick<User, 'isActive' | 'role' | 'displayName' | 'passwordHash' | 'resetToken' | 'resetTokenExpiresAt'>
+    >,
   ): Promise<UserDocument | null> {
     return this.userModel.findByIdAndUpdate(id, update, { new: true }).lean();
   }
@@ -48,9 +59,7 @@ export class UsersService {
   }
 
   async findByResetToken(token: string): Promise<UserDocument | null> {
-    return this.userModel
-      .findOne({ resetToken: token, resetTokenExpiresAt: { $gt: new Date() } })
-      .lean();
+    return this.userModel.findOne({ resetToken: token, resetTokenExpiresAt: { $gt: new Date() } }).lean();
   }
 
   async validatePassword(password: string, hash: string): Promise<boolean> {

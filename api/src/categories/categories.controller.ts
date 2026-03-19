@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
-import { CategoriesService } from './categories.service';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 import { Public } from '../common/decorators/public.decorator';
+import { CategoriesService } from './categories.service';
 
 class CreateCategoryDto {
   @IsString() name: string;

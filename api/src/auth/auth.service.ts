@@ -1,13 +1,16 @@
 import {
-  Injectable, UnauthorizedException, ConflictException,
-  BadRequestException, ForbiddenException,
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
-import type { Types } from 'mongoose';
-import { UsersService } from '../users/users.service';
+import { type Types } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import { AdminService } from '../admin/admin.service';
+import { UsersService } from '../users/users.service';
 
 interface SignTokenUser {
   _id: Types.ObjectId;
@@ -97,7 +100,11 @@ export class AuthService {
   }
 
   private signToken(user: SignTokenUser) {
-    const payload = { sub: user._id.toString(), email: user.email, role: user.role ?? 'user' };
+    const payload = {
+      sub: user._id.toString(),
+      email: user.email,
+      role: user.role ?? 'user',
+    };
     return {
       access_token: this.jwtService.sign(payload),
       user: {

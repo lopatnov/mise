@@ -1,15 +1,8 @@
-import {
-  Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  BadRequestException,
-} from '@nestjs/common';
+import { BadRequestException, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiBearerAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
-import { join } from 'path';
+import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadsService } from './uploads.service';
 
@@ -34,8 +27,7 @@ export class UploadsController {
     FileInterceptor('photo', {
       storage: diskStorage({
         destination: join(process.cwd(), 'uploads'),
-        filename: (_, file, cb) =>
-          cb(null, `${uuidv4()}${extname(file.originalname)}`),
+        filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
       }),
       limits: { fileSize: 5 * 1024 * 1024 },
       fileFilter: (_, file, cb) => {

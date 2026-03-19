@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth';
-import { useAuthStore } from '../store/authStore';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useAuthStore } from '../store/authStore';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -42,22 +42,31 @@ export default function RegisterPage() {
       <h1 style={{ textAlign: 'center', marginBottom: 32 }}>{t('app.title')}</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
-          placeholder={t('auth.name')} value={displayName}
+          placeholder={t('auth.name')}
+          value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           style={inputStyle}
         />
         <input
-          type="email" placeholder={t('auth.email')} value={email}
-          onChange={(e) => setEmail(e.target.value)} required
+          type="email"
+          placeholder={t('auth.email')}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
           style={inputStyle}
         />
         <input
-          type="password" placeholder={t('auth.passwordMin')} value={password}
-          onChange={(e) => setPassword(e.target.value)} required minLength={6}
+          type="password"
+          placeholder={t('auth.passwordMin')}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength={6}
           style={inputStyle}
         />
         <input
-          placeholder={t('auth.inviteToken')} value={inviteToken}
+          placeholder={t('auth.inviteToken')}
+          value={inviteToken}
           onChange={(e) => setInviteToken(e.target.value)}
           style={{ ...inputStyle, color: inviteToken ? '#2d6a4f' : undefined }}
         />
@@ -74,9 +83,18 @@ export default function RegisterPage() {
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: '10px 12px', borderRadius: 8, border: '1px solid #ddd', fontSize: 15, outline: 'none',
+  padding: '10px 12px',
+  borderRadius: 8,
+  border: '1px solid #ddd',
+  fontSize: 15,
+  outline: 'none',
 };
 const btnStyle: React.CSSProperties = {
-  padding: '10px', borderRadius: 8, background: '#2d6a4f',
-  color: '#fff', border: 'none', fontSize: 15, cursor: 'pointer',
+  padding: '10px',
+  borderRadius: 8,
+  background: '#2d6a4f',
+  color: '#fff',
+  border: 'none',
+  fontSize: 15,
+  cursor: 'pointer',
 };

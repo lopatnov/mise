@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { recipesApi } from '../api/recipes';
+import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
-import { useAuthStore } from '../store/authStore';
+import { recipesApi } from '../api/recipes';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useAuthStore } from '../store/authStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -18,9 +18,7 @@ export default function RecipeListPage() {
   const isLoggedIn = !!token;
 
   const { data, isLoading } = useQuery({
-    queryKey: isLoggedIn
-      ? ['recipes', search, tag, category]
-      : ['recipes', 'public', search, tag, category],
+    queryKey: isLoggedIn ? ['recipes', search, tag, category] : ['recipes', 'public', search, tag, category],
     queryFn: () =>
       isLoggedIn
         ? recipesApi.list({ q: search || undefined, tag: tag || undefined, category: category || undefined })
@@ -34,26 +32,47 @@ export default function RecipeListPage() {
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ margin: 0 }}>{t('app.title')}</h1>
-          {data && <span style={{ fontSize: 13, color: '#888' }}>{data.total} {t('profile.recipesCount')}</span>}
+          {data && (
+            <span style={{ fontSize: 13, color: '#888' }}>
+              {data.total} {t('profile.recipesCount')}
+            </span>
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <LanguageSwitcher />
           {isLoggedIn ? (
             <>
               {user?.role === 'admin' && (
-                <Link to="/admin" style={{ fontSize: 13, color: '#2d6a4f', padding: '6px 10px', borderRadius: 6, background: '#e8f5e9', textDecoration: 'none' }}>
+                <Link
+                  to="/admin"
+                  style={{
+                    fontSize: 13,
+                    color: '#2d6a4f',
+                    padding: '6px 10px',
+                    borderRadius: 6,
+                    background: '#e8f5e9',
+                    textDecoration: 'none',
+                  }}
+                >
                   ⚙️ {t('admin.link')}
                 </Link>
               )}
-              <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}>
+              <Link
+                to="/profile"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}
+              >
                 <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
                 <span style={smallBtnStyle}>👤</span>
               </Link>
             </>
           ) : (
             <>
-              <Link to="/login"><button style={outlineBtnStyle}>{t('auth.signIn')}</button></Link>
-              <Link to="/register"><button style={btnStyle}>{t('auth.register')}</button></Link>
+              <Link to="/login">
+                <button style={outlineBtnStyle}>{t('auth.signIn')}</button>
+              </Link>
+              <Link to="/register">
+                <button style={btnStyle}>{t('auth.register')}</button>
+              </Link>
             </>
           )}
         </div>
@@ -82,7 +101,9 @@ export default function RecipeListPage() {
         >
           <option value="">{t('recipe.list.allCategories')}</option>
           {categories?.map((c) => (
-            <option key={c._id} value={c._id}>{c.icon} {c.name}</option>
+            <option key={c._id} value={c._id}>
+              {c.icon} {c.name}
+            </option>
           ))}
         </select>
         {isLoggedIn && (
@@ -112,20 +133,34 @@ export default function RecipeListPage() {
                   style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
                 />
               ) : (
-                <div style={{ height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>
+                <div
+                  style={{ height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}
+                >
                   🍽
                 </div>
               )}
               <div style={{ padding: '12px 14px' }}>
                 <h3 style={{ margin: '0 0 6px', fontSize: 16 }}>{r.title}</h3>
                 {r.description && (
-                  <p style={{ margin: 0, color: '#666', fontSize: 13, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: '#666',
+                      fontSize: 13,
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
                     {r.description}
                   </p>
                 )}
                 <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {r.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} style={tagStyle}>{tag}</span>
+                    <span key={tag} style={tagStyle}>
+                      {tag}
+                    </span>
                   ))}
                   {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}
                 </div>
@@ -138,9 +173,50 @@ export default function RecipeListPage() {
   );
 }
 
-const inputStyle: React.CSSProperties = { padding: '9px 12px', borderRadius: 8, border: '1px solid #ddd', fontSize: 14 };
-const btnStyle: React.CSSProperties = { padding: '9px 18px', borderRadius: 8, background: '#2d6a4f', color: '#fff', border: 'none', cursor: 'pointer', fontSize: 14 };
-const outlineBtnStyle: React.CSSProperties = { padding: '9px 18px', borderRadius: 8, background: 'none', color: '#2d6a4f', border: '1px solid #2d6a4f', cursor: 'pointer', fontSize: 14 };
-const smallBtnStyle: React.CSSProperties = { padding: '6px 12px', borderRadius: 6, background: '#f0f0f0', border: 'none', cursor: 'pointer', fontSize: 13 };
-const cardStyle: React.CSSProperties = { borderRadius: 10, border: '1px solid #eee', overflow: 'hidden', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', cursor: 'pointer' };
-const tagStyle: React.CSSProperties = { background: '#e8f5e9', color: '#2d6a4f', padding: '2px 8px', borderRadius: 12, fontSize: 12 };
+const inputStyle: React.CSSProperties = {
+  padding: '9px 12px',
+  borderRadius: 8,
+  border: '1px solid #ddd',
+  fontSize: 14,
+};
+const btnStyle: React.CSSProperties = {
+  padding: '9px 18px',
+  borderRadius: 8,
+  background: '#2d6a4f',
+  color: '#fff',
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: 14,
+};
+const outlineBtnStyle: React.CSSProperties = {
+  padding: '9px 18px',
+  borderRadius: 8,
+  background: 'none',
+  color: '#2d6a4f',
+  border: '1px solid #2d6a4f',
+  cursor: 'pointer',
+  fontSize: 14,
+};
+const smallBtnStyle: React.CSSProperties = {
+  padding: '6px 12px',
+  borderRadius: 6,
+  background: '#f0f0f0',
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: 13,
+};
+const cardStyle: React.CSSProperties = {
+  borderRadius: 10,
+  border: '1px solid #eee',
+  overflow: 'hidden',
+  background: '#fff',
+  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+  cursor: 'pointer',
+};
+const tagStyle: React.CSSProperties = {
+  background: '#e8f5e9',
+  color: '#2d6a4f',
+  padding: '2px 8px',
+  borderRadius: 12,
+  fontSize: 12,
+};

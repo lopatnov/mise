@@ -1,18 +1,18 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from './store/authStore';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import RecipeListPage from './pages/RecipeListPage';
-import RecipeDetailPage from './pages/RecipeDetailPage';
-import RecipeFormPage from './pages/RecipeFormPage';
-import ProfilePage from './pages/ProfilePage';
-import SetupPage from './pages/SetupPage';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Footer from './components/Footer';
+import ToastContainer from './components/Toast';
 import AdminPage from './pages/AdminPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
+import RecipeDetailPage from './pages/RecipeDetailPage';
+import RecipeFormPage from './pages/RecipeFormPage';
+import RecipeListPage from './pages/RecipeListPage';
+import RegisterPage from './pages/RegisterPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
-import ToastContainer from './components/Toast';
-import Footer from './components/Footer';
+import SetupPage from './pages/SetupPage';
+import { useAuthStore } from './store/authStore';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
@@ -42,12 +42,47 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
+            }
+          />
           <Route path="/" element={<RecipeListPage />} />
-          <Route path="/recipes/new" element={<ProtectedRoute><RecipeFormPage /></ProtectedRoute>} />
-          <Route path="/recipes/:id" element={<ProtectedRoute><RecipeDetailPage /></ProtectedRoute>} />
-          <Route path="/recipes/:id/edit" element={<ProtectedRoute><RecipeFormPage /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route
+            path="/recipes/new"
+            element={
+              <ProtectedRoute>
+                <RecipeFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recipes/:id"
+            element={
+              <ProtectedRoute>
+                <RecipeDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recipes/:id/edit"
+            element={
+              <ProtectedRoute>
+                <RecipeFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

@@ -1,28 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
+  Patch,
+  Post,
   Query,
-  UseInterceptors,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { RecipesService } from './recipes.service';
-import { UploadsService } from '../uploads/uploads.service';
-import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
-import {
-  CurrentUser,
-  type JwtUser,
-} from '../common/decorators/current-user.decorator';
+import { CurrentUser, type JwtUser } from '../common/decorators/current-user.decorator';
 import { Public } from '../common/decorators/public.decorator';
+import { UploadsService } from '../uploads/uploads.service';
+import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import { RecipesService } from './recipes.service';
 
 @ApiTags('recipes')
 @ApiBearerAuth()
@@ -55,11 +52,7 @@ export class RecipesController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @CurrentUser() user: JwtUser,
-    @Body() dto: Partial<CreateRecipeDto>,
-  ) {
+  update(@Param('id') id: string, @CurrentUser() user: JwtUser, @Body() dto: Partial<CreateRecipeDto>) {
     return this.service.update(id, user.userId, dto);
   }
 
@@ -73,17 +66,12 @@ export class RecipesController {
     FileInterceptor('photo', {
       storage: diskStorage({
         destination: join(process.cwd(), 'uploads'),
-        filename: (_, file, cb) =>
-          cb(null, `${uuidv4()}${extname(file.originalname)}`),
+        filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
       }),
       limits: { fileSize: 5 * 1024 * 1024 },
     }),
   )
-  uploadPhoto(
-    @Param('id') id: string,
-    @CurrentUser() user: JwtUser,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
+  uploadPhoto(@Param('id') id: string, @CurrentUser() user: JwtUser, @UploadedFile() file: Express.Multer.File) {
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
     return this.service.setPhoto(id, user.userId, photoUrl);
   }
@@ -93,8 +81,7 @@ export class RecipesController {
     FileInterceptor('photo', {
       storage: diskStorage({
         destination: join(process.cwd(), 'uploads'),
-        filename: (_, file, cb) =>
-          cb(null, `${uuidv4()}${extname(file.originalname)}`),
+        filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
       }),
       limits: { fileSize: 5 * 1024 * 1024 },
     }),

@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
-import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Test, type TestingModule } from '@nestjs/testing';
 import { Types } from 'mongoose';
-import { RecipesService } from './recipes.service';
 import { Recipe } from './recipe.schema';
+import { RecipesService } from './recipes.service';
 
 /** Creates a mock Mongoose query that supports both:
  *  - chaining: .sort().skip().limit().lean()
@@ -12,9 +12,9 @@ import { Recipe } from './recipe.schema';
 const mockQuery = (value: unknown) => {
   const q = {
     lean: jest.fn().mockResolvedValue(value),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    then: (res: (v: unknown) => unknown, rej?: (e: unknown) => unknown) =>
-      Promise.resolve(value).then(res, rej),
+
+    // biome-ignore lint/suspicious/noThenProperty: intentional thenable mock for Mongoose query compatibility
+    then: (res: (v: unknown) => unknown, rej?: (e: unknown) => unknown) => Promise.resolve(value).then(res, rej),
     catch: (fn: (e: unknown) => unknown) => Promise.resolve(value).catch(fn),
     sort: jest.fn(),
     skip: jest.fn(),
@@ -42,10 +42,7 @@ describe('RecipesService', () => {
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RecipesService,
-        { provide: getModelToken(Recipe.name), useValue: mockModel },
-      ],
+      providers: [RecipesService, { provide: getModelToken(Recipe.name), useValue: mockModel }],
     }).compile();
 
     service = module.get<RecipesService>(RecipesService);
@@ -62,9 +59,7 @@ describe('RecipesService', () => {
       const result = await service.findAll(userId, {});
 
       expect(result).toEqual({ items, total: 1, page: 1, limit: 20 });
-      expect(mockModel.find).toHaveBeenCalledWith(
-        expect.objectContaining({ authorId: new Types.ObjectId(userId) }),
-      );
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }));
     });
 
     it('applies text search filter when q is provided', async () => {
@@ -73,9 +68,7 @@ describe('RecipesService', () => {
 
       await service.findAll(userId, { q: 'soup' });
 
-      expect(mockModel.find).toHaveBeenCalledWith(
-        expect.objectContaining({ $text: { $search: 'soup' } }),
-      );
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ $text: { $search: 'soup' } }));
     });
 
     it('applies tag filter', async () => {
@@ -84,9 +77,7 @@ describe('RecipesService', () => {
 
       await service.findAll(userId, { tag: 'vegan' });
 
-      expect(mockModel.find).toHaveBeenCalledWith(
-        expect.objectContaining({ tags: 'vegan' }),
-      );
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ tags: 'vegan' }));
     });
   });
 
@@ -95,7 +86,11 @@ describe('RecipesService', () => {
   describe('findOne', () => {
     it('returns a recipe owned by the user', async () => {
       const id = new Types.ObjectId();
-      const recipe = { _id: id, authorId: { toString: () => userId }, title: 'Borsch' };
+      const recipe = {
+        _id: id,
+        authorId: { toString: () => userId },
+        title: 'Borsch',
+      };
       mockModel.findById.mockReturnValue(mockQuery(recipe));
 
       const result = await service.findOne(id.toString(), userId);
@@ -106,9 +101,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.findOne('nonexistent', userId)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.findOne('nonexistent', userId)).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -116,9 +109,7 @@ describe('RecipesService', () => {
       const recipe = { authorId: { toString: () => otherId } };
       mockModel.findById.mockReturnValue(mockQuery(recipe));
 
-      await expect(service.findOne('someId', userId)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(service.findOne('someId', userId)).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -132,9 +123,7 @@ describe('RecipesService', () => {
 
       const result = await service.create(userId, dto as Parameters<typeof service.create>[1]);
 
-      expect(mockModel.create).toHaveBeenCalledWith(
-        expect.objectContaining({ authorId: new Types.ObjectId(userId) }),
-      );
+      expect(mockModel.create).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }));
       expect(result.title).toBe('Soup');
     });
   });
@@ -158,9 +147,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.update('id', userId, {})).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.update('id', userId, {})).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -168,9 +155,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, save: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.update('id', userId, {})).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(service.update('id', userId, {})).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -193,9 +178,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.remove('id', userId)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.remove('id', userId)).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -203,9 +186,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, deleteOne: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.remove('id', userId)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(service.remove('id', userId)).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -259,9 +240,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(
-        service.setStepPhoto('id', userId, 99, '/uploads/x.jpg'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.setStepPhoto('id', userId, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
     });
   });
 });

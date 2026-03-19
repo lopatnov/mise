@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { authApi } from '../api/auth';
 
 export default function ForgotPasswordPage() {
@@ -50,8 +50,11 @@ export default function ForgotPasswordPage() {
       </h2>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
-          type="email" placeholder={t('auth.email')} value={email}
-          onChange={(e) => setEmail(e.target.value)} required
+          type="email"
+          placeholder={t('auth.email')}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
           style={inputStyle}
         />
         <button type="submit" disabled={loading} style={btnStyle}>
@@ -59,16 +62,26 @@ export default function ForgotPasswordPage() {
         </button>
       </form>
       <p style={{ textAlign: 'center', marginTop: 16 }}>
-        <Link to="/login" style={{ fontSize: 13, color: '#888' }}>← {t('auth.signIn')}</Link>
+        <Link to="/login" style={{ fontSize: 13, color: '#888' }}>
+          ← {t('auth.signIn')}
+        </Link>
       </p>
     </div>
   );
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: '10px 12px', borderRadius: 8, border: '1px solid #ddd', fontSize: 15,
+  padding: '10px 12px',
+  borderRadius: 8,
+  border: '1px solid #ddd',
+  fontSize: 15,
 };
 const btnStyle: React.CSSProperties = {
-  padding: '10px', borderRadius: 8, background: '#2d6a4f',
-  color: '#fff', border: 'none', fontSize: 15, cursor: 'pointer',
+  padding: '10px',
+  borderRadius: 8,
+  background: '#2d6a4f',
+  color: '#fff',
+  border: 'none',
+  fontSize: 15,
+  cursor: 'pointer',
 };

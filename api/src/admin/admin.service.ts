@@ -1,14 +1,12 @@
-import {
-  Injectable, NotFoundException, ConflictException, BadRequestException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import { type Model } from 'mongoose';
 import * as nodemailer from 'nodemailer';
-import { Settings, SettingsDocument } from './settings.schema';
-import { Invite, InviteDocument } from './invite.schema';
+import { v4 as uuidv4 } from 'uuid';
 import { UsersService } from '../users/users.service';
-import type { UpdateSettingsDto, CreateInviteDto, UpdateUserDto } from './dto/admin.dto';
+import type { CreateInviteDto, UpdateSettingsDto, UpdateUserDto } from './dto/admin.dto';
+import { Invite, type InviteDocument } from './invite.schema';
+import { Settings, type SettingsDocument } from './settings.schema';
 
 @Injectable()
 export class AdminService {
@@ -71,7 +69,10 @@ export class AdminService {
   }
 
   async listInvites() {
-    return this.inviteModel.find({ used: false, expiresAt: { $gt: new Date() } }).sort({ createdAt: -1 }).lean();
+    return this.inviteModel
+      .find({ used: false, expiresAt: { $gt: new Date() } })
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
   async deleteInvite(id: string) {

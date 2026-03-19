@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Recipe, RecipeDocument } from './recipe.schema';
-import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import { type Model, Types } from 'mongoose';
+import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import { Recipe, type RecipeDocument } from './recipe.schema';
 
 @Injectable()
 export class RecipesService {
@@ -46,9 +42,7 @@ export class RecipesService {
     return this.model.create({
       ...dto,
       authorId: new Types.ObjectId(userId),
-      categoryId: dto.categoryId
-        ? new Types.ObjectId(dto.categoryId)
-        : undefined,
+      categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
     });
   }
 
@@ -90,12 +84,7 @@ export class RecipesService {
     return { items, total, page, limit };
   }
 
-  async setStepPhoto(
-    id: string,
-    userId: string,
-    order: number,
-    photoUrl: string,
-  ) {
+  async setStepPhoto(id: string, userId: string, order: number, photoUrl: string) {
     const recipe = await this.model.findById(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId) throw new ForbiddenException();

@@ -12,7 +12,9 @@ export default function LanguageSwitcher() {
       aria-label="Language"
     >
       {SUPPORTED_LANGUAGES.map(({ code, label }) => (
-        <option key={code} value={code}>{label}</option>
+        <option key={code} value={code}>
+          {label}
+        </option>
       ))}
     </select>
   );

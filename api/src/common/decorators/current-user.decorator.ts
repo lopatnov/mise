@@ -1,4 +1,4 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import type { Request } from 'express';
 
 export interface JwtUser {
@@ -7,9 +7,7 @@ export interface JwtUser {
   role: string;
 }
 
-export const CurrentUser = createParamDecorator(
-  (_: unknown, ctx: ExecutionContext): JwtUser => {
-    const req = ctx.switchToHttp().getRequest<Request & { user: JwtUser }>();
-    return req.user;
-  },
-);
+export const CurrentUser = createParamDecorator((_: unknown, ctx: ExecutionContext): JwtUser => {
+  const req = ctx.switchToHttp().getRequest<Request & { user: JwtUser }>();
+  return req.user;
+});

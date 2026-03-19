@@ -1,12 +1,10 @@
-import {
-  Controller, Get, Post, Patch, Delete, Body, Param, UseGuards,
-} from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { AdminService } from './admin.service';
-import { AdminGuard } from './admin.guard';
-import { SetupDto, UpdateSettingsDto, CreateInviteDto, UpdateUserDto } from './dto/admin.dto';
-import { Public } from '../common/decorators/public.decorator';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser, type JwtUser } from '../common/decorators/current-user.decorator';
+import { Public } from '../common/decorators/public.decorator';
+import { AdminGuard } from './admin.guard';
+import { AdminService } from './admin.service';
+import type { CreateInviteDto, SetupDto, UpdateSettingsDto, UpdateUserDto } from './dto/admin.dto';
 
 @ApiTags('admin')
 @Controller('admin')

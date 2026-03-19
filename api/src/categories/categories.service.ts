@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Category, CategoryDocument } from './category.schema';
+import type { Model } from 'mongoose';
+import { Category, type CategoryDocument } from './category.schema';
 
 const DEFAULT_CATEGORIES = [
   { name: 'Завтрак', icon: '🍳' },
@@ -16,9 +16,7 @@ const DEFAULT_CATEGORIES = [
 
 @Injectable()
 export class CategoriesService {
-  constructor(
-    @InjectModel(Category.name) private model: Model<CategoryDocument>,
-  ) {}
+  constructor(@InjectModel(Category.name) private model: Model<CategoryDocument>) {}
 
   async seed() {
     const count = await this.model.countDocuments();

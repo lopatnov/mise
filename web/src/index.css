@@ -1,22 +1,71 @@
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; padding-bottom: 28px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f9f7; color: #222; }
-a { color: #2d6a4f; }
-input, textarea, select { font-family: inherit; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding-bottom: 28px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f9f9f7;
+  color: #222;
+}
+a {
+  color: #2d6a4f;
+}
+input,
+textarea,
+select {
+  font-family: inherit;
+}
 
 /* ── Responsive layout helpers ── */
-.filter-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.ingredient-row { display: grid; grid-template-columns: 1fr 80px 80px 32px; gap: 6px; margin-bottom: 6px; align-items: start; }
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 32px;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: start;
+}
 
 @media (max-width: 600px) {
-  .filter-bar { flex-wrap: wrap; }
-  .filter-bar .filter-search { flex: 1 1 100%; }
-  .filter-bar .filter-aux { flex: 1 1 auto; width: auto; }
+  .filter-bar {
+    flex-wrap: wrap;
+  }
+  .filter-bar .filter-search {
+    flex: 1 1 100%;
+  }
+  .filter-bar .filter-aux {
+    flex: 1 1 auto;
+    width: auto;
+  }
 
-  .grid-3 { grid-template-columns: 1fr; }
-  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
 
-  .ingredient-row { grid-template-columns: 1fr 1fr 32px; }
-  .ingredient-row .ingredient-name { grid-column: 1 / -1; }
+  .ingredient-row {
+    grid-template-columns: 1fr 1fr 32px;
+  }
+  .ingredient-row .ingredient-name {
+    grid-column: 1 / -1;
+  }
 }

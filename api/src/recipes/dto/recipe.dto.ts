@@ -1,15 +1,6 @@
-import {
-  IsString,
-  IsOptional,
-  IsArray,
-  IsBoolean,
-  IsNumber,
-  Min,
-  Max,
-  IsMongoId,
-} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class IngredientDto {
   @IsString() name: string;

@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
-import { Types } from 'mongoose';
-import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
-import { AdminService } from '../admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
+import { Test, type TestingModule } from '@nestjs/testing';
+import { Types } from 'mongoose';
+import { AdminService } from '../admin/admin.service';
+import { UsersService } from '../users/users.service';
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -61,19 +61,13 @@ describe('AuthService', () => {
 
       expect(result.access_token).toBe('signed.jwt.token');
       expect(result.user.email).toBe('a@b.com');
-      expect(mockUsersService.create).toHaveBeenCalledWith(
-        'a@b.com',
-        'pass123',
-        undefined,
-      );
+      expect(mockUsersService.create).toHaveBeenCalledWith('a@b.com', 'pass123', undefined);
     });
 
     it('throws ConflictException when email is already registered', async () => {
       mockUsersService.findByEmail.mockResolvedValue({ email: 'a@b.com' });
 
-      await expect(service.register('a@b.com', 'pass123')).rejects.toThrow(
-        ConflictException,
-      );
+      await expect(service.register('a@b.com', 'pass123')).rejects.toThrow(ConflictException);
       expect(mockUsersService.create).not.toHaveBeenCalled();
     });
   });
@@ -99,9 +93,7 @@ describe('AuthService', () => {
     it('throws UnauthorizedException when user does not exist', async () => {
       mockUsersService.findByEmail.mockResolvedValue(null);
 
-      await expect(service.login('nobody@b.com', 'pass')).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(service.login('nobody@b.com', 'pass')).rejects.toThrow(UnauthorizedException);
     });
 
     it('throws UnauthorizedException when password is incorrect', async () => {
@@ -114,9 +106,7 @@ describe('AuthService', () => {
       mockUsersService.findByEmail.mockResolvedValue(user);
       mockUsersService.validatePassword.mockResolvedValue(false);
 
-      await expect(service.login('a@b.com', 'wrongpass')).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(service.login('a@b.com', 'wrongpass')).rejects.toThrow(UnauthorizedException);
     });
   });
 });

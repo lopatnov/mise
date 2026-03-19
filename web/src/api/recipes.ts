@@ -1,7 +1,15 @@
 import { api } from './client';
 
-export interface Ingredient { name: string; amount: number; unit: string; }
-export interface Step { order: number; text: string; photoUrl?: string; }
+export interface Ingredient {
+  name: string;
+  amount: number;
+  unit: string;
+}
+export interface Step {
+  order: number;
+  text: string;
+  photoUrl?: string;
+}
 export interface Recipe {
   _id: string;
   title: string;
@@ -35,28 +43,20 @@ export interface RecipeQuery {
 }
 
 export const recipesApi = {
-  list: (query?: RecipeQuery) =>
-    api.get<RecipesPage>('/recipes', { params: query }).then((r) => r.data),
-  get: (id: string) =>
-    api.get<Recipe>(`/recipes/${id}`).then((r) => r.data),
-  create: (data: Partial<Recipe>) =>
-    api.post<Recipe>('/recipes', data).then((r) => r.data),
-  update: (id: string, data: Partial<Recipe>) =>
-    api.patch<Recipe>(`/recipes/${id}`, data).then((r) => r.data),
-  remove: (id: string) =>
-    api.delete(`/recipes/${id}`).then((r) => r.data),
+  list: (query?: RecipeQuery) => api.get<RecipesPage>('/recipes', { params: query }).then((r) => r.data),
+  get: (id: string) => api.get<Recipe>(`/recipes/${id}`).then((r) => r.data),
+  create: (data: Partial<Recipe>) => api.post<Recipe>('/recipes', data).then((r) => r.data),
+  update: (id: string, data: Partial<Recipe>) => api.patch<Recipe>(`/recipes/${id}`, data).then((r) => r.data),
+  remove: (id: string) => api.delete(`/recipes/${id}`).then((r) => r.data),
   uploadPhoto: (id: string, file: File) => {
     const form = new FormData();
     form.append('photo', file);
     return api.post<Recipe>(`/recipes/${id}/photo`, form).then((r) => r.data);
   },
-  listPublic: (query?: RecipeQuery) =>
-    api.get<RecipesPage>('/recipes/public', { params: query }).then((r) => r.data),
+  listPublic: (query?: RecipeQuery) => api.get<RecipesPage>('/recipes/public', { params: query }).then((r) => r.data),
   uploadStepPhoto: (id: string, order: number, file: File) => {
     const form = new FormData();
     form.append('photo', file);
-    return api
-      .post<Recipe>(`/recipes/${id}/steps/${order}/photo`, form)
-      .then((r) => r.data);
+    return api.post<Recipe>(`/recipes/${id}/steps/${order}/photo`, form).then((r) => r.data);
   },
 };

@@ -1,5 +1,5 @@
-import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class RegisterDto {
   @ApiProperty({ example: 'user@example.com' })
@@ -16,7 +16,9 @@ export class RegisterDto {
   @IsString()
   displayName?: string;
 
-  @ApiPropertyOptional({ description: 'Invite token (required when registration is disabled)' })
+  @ApiPropertyOptional({
+    description: 'Invite token (required when registration is disabled)',
+  })
   @IsOptional()
   @IsString()
   inviteToken?: string;

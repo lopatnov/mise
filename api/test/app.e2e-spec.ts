@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { type INestApplication, ValidationPipe } from '@nestjs/common';
+import { Test, type TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import type { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
@@ -27,10 +27,7 @@ describe('Auth flow (e2e)', () => {
   });
 
   it('POST /auth/register → 201 with token and user', async () => {
-    const res = await request(app.getHttpServer())
-      .post('/auth/register')
-      .send({ email, password })
-      .expect(201);
+    const res = await request(app.getHttpServer()).post('/auth/register').send({ email, password }).expect(201);
 
     const body = res.body as { access_token: string; user: { email: string } };
     expect(body.access_token).toBeDefined();
@@ -38,39 +35,25 @@ describe('Auth flow (e2e)', () => {
   });
 
   it('POST /auth/register duplicate email → 409', () => {
-    return request(app.getHttpServer())
-      .post('/auth/register')
-      .send({ email, password })
-      .expect(409);
+    return request(app.getHttpServer()).post('/auth/register').send({ email, password }).expect(409);
   });
 
   it('POST /auth/login with correct credentials → 201 with token', async () => {
-    const res = await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ email, password })
-      .expect(201);
+    const res = await request(app.getHttpServer()).post('/auth/login').send({ email, password }).expect(201);
 
     token = (res.body as { access_token: string }).access_token;
     expect(token).toBeDefined();
   });
 
   it('POST /auth/login with wrong password → 401', () => {
-    return request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ email, password: 'wrongpassword' })
-      .expect(401);
+    return request(app.getHttpServer()).post('/auth/login').send({ email, password: 'wrongpassword' }).expect(401);
   });
 
   it('GET /auth/me with valid Bearer token → 200', () => {
-    return request(app.getHttpServer())
-      .get('/auth/me')
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200);
+    return request(app.getHttpServer()).get('/auth/me').set('Authorization', `Bearer ${token}`).expect(200);
   });
 
   it('GET /auth/me without token → 401', () => {
-    return request(app.getHttpServer())
-      .get('/auth/me')
-      .expect(401);
+    return request(app.getHttpServer()).get('/auth/me').expect(401);
   });
 });
