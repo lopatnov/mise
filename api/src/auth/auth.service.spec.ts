@@ -3,6 +3,7 @@ import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { AdminService } from '../admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
@@ -12,6 +13,16 @@ describe('AuthService', () => {
     findByEmail: jest.fn(),
     create: jest.fn(),
     validatePassword: jest.fn(),
+    updateById: jest.fn(),
+    findByResetToken: jest.fn(),
+  };
+
+  const mockAdminService = {
+    getSettings: jest.fn().mockResolvedValue({ allowRegistration: true }),
+    validateInvite: jest.fn(),
+    markInviteUsed: jest.fn(),
+    getAppUrl: jest.fn().mockResolvedValue('http://localhost:4200'),
+    sendEmail: jest.fn().mockResolvedValue(false),
   };
 
   const mockJwtService = {
@@ -20,11 +31,13 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    mockAdminService.getSettings.mockResolvedValue({ allowRegistration: true });
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: UsersService, useValue: mockUsersService },
+        { provide: AdminService, useValue: mockAdminService },
         { provide: JwtService, useValue: mockJwtService },
       ],
     }).compile();
@@ -36,7 +49,11 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('creates a user and returns access_token', async () => {
-      const user = { _id: new Types.ObjectId(), email: 'a@b.com', displayName: 'Alice' };
+      const user = {
+        _id: new Types.ObjectId(),
+        email: 'a@b.com',
+        displayName: 'Alice',
+      };
       mockUsersService.findByEmail.mockResolvedValue(null);
       mockUsersService.create.mockResolvedValue(user);
 
@@ -44,7 +61,11 @@ describe('AuthService', () => {
 
       expect(result.access_token).toBe('signed.jwt.token');
       expect(result.user.email).toBe('a@b.com');
-      expect(mockUsersService.create).toHaveBeenCalledWith('a@b.com', 'pass123', undefined);
+      expect(mockUsersService.create).toHaveBeenCalledWith(
+        'a@b.com',
+        'pass123',
+        undefined,
+      );
     });
 
     it('throws ConflictException when email is already registered', async () => {
@@ -61,7 +82,12 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('returns access_token for valid credentials', async () => {
-      const user = { _id: new Types.ObjectId(), email: 'a@b.com', passwordHash: 'hash' };
+      const user = {
+        _id: new Types.ObjectId(),
+        email: 'a@b.com',
+        passwordHash: 'hash',
+        isActive: true,
+      };
       mockUsersService.findByEmail.mockResolvedValue(user);
       mockUsersService.validatePassword.mockResolvedValue(true);
 
@@ -79,7 +105,12 @@ describe('AuthService', () => {
     });
 
     it('throws UnauthorizedException when password is incorrect', async () => {
-      const user = { _id: new Types.ObjectId(), email: 'a@b.com', passwordHash: 'hash' };
+      const user = {
+        _id: new Types.ObjectId(),
+        email: 'a@b.com',
+        passwordHash: 'hash',
+        isActive: true,
+      };
       mockUsersService.findByEmail.mockResolvedValue(user);
       mockUsersService.validatePassword.mockResolvedValue(false);
 
