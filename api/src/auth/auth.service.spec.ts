@@ -1,10 +1,13 @@
-import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
+import * as bcrypt from 'bcrypt';
 import { Types } from 'mongoose';
 import { AdminService } from '../admin/admin.service';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
+
+jest.mock('bcrypt');
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -107,6 +110,77 @@ describe('AuthService', () => {
       mockUsersService.validatePassword.mockResolvedValue(false);
 
       await expect(service.login('a@b.com', 'wrongpass')).rejects.toThrow(UnauthorizedException);
+    });
+  });
+
+  // ── forgotPassword ────────────────────────────────────────────────────────────
+
+  describe('forgotPassword', () => {
+    it('returns a safe message when the email does not exist (prevents enumeration)', async () => {
+      mockUsersService.findByEmail.mockResolvedValue(null);
+
+      const result = await service.forgotPassword('nobody@b.com');
+
+      expect(result.message).toBeDefined();
+      expect(result.devLink).toBeUndefined();
+      expect(mockUsersService.updateById).not.toHaveBeenCalled();
+    });
+
+    it('returns a devLink when SMTP is not configured', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.sendEmail.mockResolvedValue(false);
+
+      const result = await service.forgotPassword('a@b.com');
+
+      expect(result.devLink).toBeDefined();
+      expect(result.devLink).toContain('/reset-password?token=');
+      expect(mockUsersService.updateById).toHaveBeenCalledWith(
+        String(user._id),
+        expect.objectContaining({ resetToken: expect.any(String), resetTokenExpiresAt: expect.any(Date) }),
+      );
+    });
+
+    it('returns a safe message without devLink when email is sent successfully', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.sendEmail.mockResolvedValue(true);
+
+      const result = await service.forgotPassword('a@b.com');
+
+      expect(result.message).toBeDefined();
+      expect(result.devLink).toBeUndefined();
+    });
+  });
+
+  // ── resetPassword ─────────────────────────────────────────────────────────────
+
+  describe('resetPassword', () => {
+    it('throws BadRequestException when the token is invalid or expired', async () => {
+      mockUsersService.findByResetToken.mockResolvedValue(null);
+
+      await expect(service.resetPassword('bad-token', 'newpass123')).rejects.toThrow(BadRequestException);
+    });
+
+    it('updates the password hash and clears the reset token for a valid token', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByResetToken.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      jest.mocked(bcrypt.hash).mockResolvedValue('hashed-newpass' as never);
+
+      const result = await service.resetPassword('valid-token', 'newpass123');
+
+      expect(mockUsersService.updateById).toHaveBeenCalledWith(
+        String(user._id),
+        expect.objectContaining({
+          passwordHash: 'hashed-newpass',
+          resetToken: undefined,
+          resetTokenExpiresAt: undefined,
+        }),
+      );
+      expect(result).toEqual({ message: 'Password updated successfully.' });
     });
   });
 });
