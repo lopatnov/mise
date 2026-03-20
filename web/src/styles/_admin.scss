@@ -54,6 +54,100 @@
   }
 }
 
+// Page title in admin
+.admin-page-title {
+  margin: 0;
+  font-size: 22px;
+}
+
+// Stat line (e.g. "5 users")
+.admin-stat {
+  color: var(--c-text-light);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+// Empty state text
+.admin-empty {
+  color: var(--c-text-xlight);
+  font-size: 14px;
+}
+
+// Hint / secondary description
+.admin-hint {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-bottom: 12px;
+}
+
+// Settings section: narrow container
+.admin-section--narrow {
+  max-width: 520px;
+}
+
+// SMTP form vertical stack
+.admin-form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// Create invite row
+.invite-create-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+// Input width modifiers for admin forms
+.admin-input--md {
+  width: 240px;
+}
+
+.admin-input--sm {
+  width: 80px;
+}
+
+// Invite link ready label
+.invite-ready-label {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+// Invite URL code display
+.invite-code {
+  font-size: 12px;
+  word-break: break-all;
+  color: #333;
+}
+
+// Copy button offset in invite box
+.invite-copy-btn {
+  margin-left: 12px;
+}
+
+// Invite row code (in active list)
+.invite-row-code {
+  font-size: 12px;
+  color: #555;
+}
+
+// Invite row email annotation
+.invite-row-meta {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-left: 10px;
+}
+
+// Invite row expiry annotation
+.invite-row-expires {
+  color: var(--c-text-xlight);
+  margin-left: 10px;
+}
+
 // Admin section card
 .admin-section {
   margin-bottom: 28px;

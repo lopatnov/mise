@@ -37,14 +37,10 @@ export default function SetupPage() {
 
   return (
     <div className="page-container--setup">
-      <h1 style={{ textAlign: 'center', marginBottom: 8 }}>🍽 Mise</h1>
-      <h2 style={{ textAlign: 'center', marginBottom: 32, fontWeight: 400, color: '#555' }}>
-        {t('admin.setup.title')}
-      </h2>
+      <h1 className="auth-logo">🍽 Mise</h1>
+      <h2 className="auth-subtitle">{t('admin.setup.title')}</h2>
       <div className="setup-card">
-        <p style={{ margin: '0 0 20px', color: '#666', fontSize: 14, lineHeight: 1.5 }}>
-          {t('admin.setup.description')}
-        </p>
+        <p className="setup-desc">{t('admin.setup.description')}</p>
         <form onSubmit={handleSubmit} className="auth-form">
           <input
             placeholder={t('auth.name')}
@@ -69,7 +65,7 @@ export default function SetupPage() {
             minLength={6}
             className="auth-input"
           />
-          {error && <p style={{ color: 'red', margin: 0, fontSize: 14 }}>{error}</p>}
+          {error && <p className="form-error">{error}</p>}
           <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
             {loading ? t('admin.setup.creating') : t('admin.setup.createBtn')}
           </button>

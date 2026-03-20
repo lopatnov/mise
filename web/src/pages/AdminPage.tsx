@@ -17,10 +17,8 @@ export default function AdminPage() {
   return (
     <div className="page-container page-container--wide">
       <div className="page-header">
-        <h1 style={{ margin: 0, fontSize: 22 }}>{t('admin.title')}</h1>
-        <Link to="/" style={{ fontSize: 14, color: '#2d6a4f' }}>
-          {t('recipe.detail.back')}
-        </Link>
+        <h1 className="admin-page-title">{t('admin.title')}</h1>
+        <Link to="/" className="link--sm">{t('recipe.detail.back')}</Link>
       </div>
 
       <div className="tab-bar">
@@ -80,9 +78,7 @@ function UsersTab() {
 
   return (
     <div>
-      <p style={{ color: '#888', fontSize: 13, marginBottom: 16 }}>
-        {users?.length ?? 0} {t('admin.users.total')}
-      </p>
+      <p className="admin-stat">{users?.length ?? 0} {t('admin.users.total')}</p>
       <table className="admin-table">
         <thead>
           <tr>
@@ -174,8 +170,8 @@ function InvitesTab() {
   return (
     <div>
       <div className="invite-panel">
-        <h3 style={{ margin: '0 0 12px', fontSize: 15 }}>{t('admin.invites.create')}</h3>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <h3>{t('admin.invites.create')}</h3>
+        <div className="invite-create-row">
           <div>
             <label className="admin-label">
               {t('auth.email')} ({t('admin.invites.emailOptional')})
@@ -185,8 +181,7 @@ function InvitesTab() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="user@example.com"
-              className="admin-input"
-              style={{ width: 240 }}
+              className="admin-input admin-input--md"
             />
           </div>
           <div>
@@ -197,8 +192,7 @@ function InvitesTab() {
               max={30}
               value={days}
               onChange={(e) => setDays(e.target.value)}
-              className="admin-input"
-              style={{ width: 80 }}
+              className="admin-input admin-input--sm"
             />
           </div>
           <button onClick={() => createMut.mutate()} disabled={createMut.isPending} className="btn btn--primary">
@@ -208,10 +202,8 @@ function InvitesTab() {
 
         {newInvite && (
           <div className="invite-link-box">
-            <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 600, color: '#2d6a4f' }}>
-              {t('admin.invites.linkReady')}
-            </p>
-            <code style={{ fontSize: 12, wordBreak: 'break-all', color: '#333' }}>
+            <p className="invite-ready-label">{t('admin.invites.linkReady')}</p>
+            <code className="invite-code">
               {appUrl}/register?invite={newInvite.token}
             </code>
             <button
@@ -219,8 +211,7 @@ function InvitesTab() {
                 void navigator.clipboard.writeText(`${appUrl}/register?invite=${newInvite.token}`);
                 toast.success(t('admin.invites.copied'));
               }}
-              className="btn btn--outline btn--small"
-              style={{ marginLeft: 12 }}
+              className="btn btn--outline btn--small invite-copy-btn"
             >
               {t('admin.invites.copy')}
             </button>
@@ -232,29 +223,24 @@ function InvitesTab() {
         <p>{t('recipe.list.loading')}</p>
       ) : (
         <div>
-          <p style={{ color: '#888', fontSize: 13, marginBottom: 12 }}>
-            {invites?.length ?? 0} {t('admin.invites.active')}
-          </p>
+          <p className="admin-stat">{invites?.length ?? 0} {t('admin.invites.active')}</p>
           {invites?.map((inv) => (
             <div key={inv._id} className="invite-row">
               <div>
-                <code style={{ fontSize: 12, color: '#555' }}>
+                <code className="invite-row-code">
                   {appUrl}/register?invite={inv.token}
                 </code>
-                {inv.email && <span style={{ marginLeft: 10, color: '#888' }}>({inv.email})</span>}
-                <span style={{ marginLeft: 10, color: '#aaa' }}>
+                {inv.email && <span className="invite-row-meta">({inv.email})</span>}
+                <span className="invite-row-expires">
                   {t('admin.invites.expires')}: {new Date(inv.expiresAt).toLocaleDateString()}
                 </span>
               </div>
-              <button
-                onClick={() => deleteMut.mutate(inv._id)}
-                className="btn btn--danger"
-              >
+              <button onClick={() => deleteMut.mutate(inv._id)} className="btn btn--danger">
                 🗑
               </button>
             </div>
           ))}
-          {invites?.length === 0 && <p style={{ color: '#aaa', fontSize: 14 }}>{t('admin.invites.empty')}</p>}
+          {invites?.length === 0 && <p className="admin-empty">{t('admin.invites.empty')}</p>}
         </div>
       )}
     </div>
@@ -294,7 +280,7 @@ function SettingsTab() {
   const set = (key: keyof AppSettings, val: string | boolean | number) => setForm((f) => ({ ...f, [key]: val }));
 
   return (
-    <div style={{ maxWidth: 520 }}>
+    <div className="admin-section--narrow">
       <div className="admin-section">
         <h3>{t('admin.settings.general')}</h3>
         <div>
@@ -310,12 +296,11 @@ function SettingsTab() {
 
       <div className="admin-section">
         <h3>{t('admin.settings.registration')}</h3>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14 }}>
+        <label className="checkbox-label">
           <input
             type="checkbox"
             checked={form.allowRegistration ?? true}
             onChange={(e) => set('allowRegistration', e.target.checked)}
-            style={{ width: 16, height: 16 }}
           />
           {t('admin.settings.allowRegistration')}
         </label>
@@ -323,8 +308,8 @@ function SettingsTab() {
 
       <div className="admin-section">
         <h3>{t('admin.settings.smtp')}</h3>
-        <p style={{ fontSize: 13, color: '#888', marginBottom: 12 }}>{t('admin.settings.smtpHint')}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <p className="admin-hint">{t('admin.settings.smtpHint')}</p>
+        <div className="admin-form-stack">
           <div className="grid-2">
             <div>
               <label className="admin-label">{t('admin.settings.smtpHost')}</label>

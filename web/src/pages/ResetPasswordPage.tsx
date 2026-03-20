@@ -37,19 +37,17 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div className="page-container--auth" style={{ textAlign: 'center' }}>
-        <p style={{ color: 'red' }}>{t('auth.resetInvalidLink')}</p>
-        <Link to="/login">← {t('auth.signIn')}</Link>
+      <div className="page-container--auth page-container--auth--center">
+        <p className="form-error">{t('auth.resetInvalidLink')}</p>
+        <Link to="/login" className="link--sm">← {t('auth.signIn')}</Link>
       </div>
     );
   }
 
   return (
     <div className="page-container--auth">
-      <h1 style={{ textAlign: 'center', marginBottom: 8 }}>🍽 Mise</h1>
-      <h2 style={{ textAlign: 'center', marginBottom: 28, fontWeight: 400, color: '#555', fontSize: 20 }}>
-        {t('auth.resetTitle')}
-      </h2>
+      <h1 className="auth-logo">🍽 Mise</h1>
+      <h2 className="auth-subtitle">{t('auth.resetTitle')}</h2>
       <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="password"
@@ -69,7 +67,7 @@ export default function ResetPasswordPage() {
           minLength={6}
           className="auth-input"
         />
-        {error && <p style={{ color: 'red', margin: 0, fontSize: 14 }}>{error}</p>}
+        {error && <p className="form-error">{error}</p>}
         <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
           {loading ? '...' : t('auth.resetSave')}
         </button>

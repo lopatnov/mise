@@ -27,29 +27,23 @@ export default function ForgotPasswordPage() {
 
   if (result) {
     return (
-      <div className="page-container--auth" style={{ textAlign: 'center' }}>
-        <p style={{ fontSize: 32, marginBottom: 8 }}>📧</p>
-        <p style={{ color: '#444', lineHeight: 1.6 }}>{result.message}</p>
+      <div className="page-container--auth page-container--auth--center">
+        <p className="auth-result-icon">📧</p>
+        <p className="auth-result-text">{result.message}</p>
         {result.devLink && (
-          <p style={{ marginTop: 12 }}>
-            <a href={result.devLink} style={{ color: '#2d6a4f', wordBreak: 'break-all', fontSize: 13 }}>
-              {result.devLink}
-            </a>
-          </p>
+          <a href={result.devLink} className="dev-link">
+            {result.devLink}
+          </a>
         )}
-        <Link to="/login" style={{ display: 'inline-block', marginTop: 20, color: '#2d6a4f', fontSize: 14 }}>
-          ← {t('auth.signIn')}
-        </Link>
+        <Link to="/login" className="auth-links link--sm">← {t('auth.signIn')}</Link>
       </div>
     );
   }
 
   return (
     <div className="page-container--auth">
-      <h1 style={{ textAlign: 'center', marginBottom: 8 }}>🍽 Mise</h1>
-      <h2 style={{ textAlign: 'center', marginBottom: 28, fontWeight: 400, color: '#555', fontSize: 20 }}>
-        {t('auth.forgotTitle')}
-      </h2>
+      <h1 className="auth-logo">🍽 Mise</h1>
+      <h2 className="auth-subtitle">{t('auth.forgotTitle')}</h2>
       <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="email"
@@ -63,10 +57,8 @@ export default function ForgotPasswordPage() {
           {loading ? '...' : t('auth.forgotSend')}
         </button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: 16 }}>
-        <Link to="/login" style={{ fontSize: 13, color: '#888' }}>
-          ← {t('auth.signIn')}
-        </Link>
+      <p className="auth-links--sm">
+        <Link to="/login" className="link--sm">← {t('auth.signIn')}</Link>
       </p>
     </div>
   );
