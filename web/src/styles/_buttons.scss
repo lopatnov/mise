@@ -1,0 +1,133 @@
+// Base button
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--r-md);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+// Variants
+.btn--primary {
+  background: var(--c-primary);
+  color: #fff;
+  border: none;
+}
+
+.btn--outline {
+  background: none;
+  color: var(--c-primary);
+  border: 1px solid var(--c-primary);
+}
+
+.btn--ghost {
+  background: none;
+  border: none;
+  color: var(--c-primary);
+  font-size: 14px;
+  padding: 0;
+}
+
+.btn--danger {
+  background: none;
+  color: var(--c-danger);
+  border: 1px solid var(--c-danger);
+
+  &:hover {
+    background: var(--c-danger-bg);
+  }
+}
+
+// Remove / delete icon button in forms
+.btn--remove {
+  background: var(--c-danger-bg);
+  color: var(--c-danger-dark);
+  border: none;
+}
+
+.btn--small {
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  background: #f0f0f0;
+  border: none;
+  font-size: 13px;
+}
+
+.btn--icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  font-size: 16px;
+  line-height: 1;
+}
+
+// Full-width
+.btn--full {
+  width: 100%;
+}
+
+// Submit button (larger, full-width)
+.btn--submit {
+  padding: 12px;
+  font-size: 15px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+// Nav/admin link
+.btn--nav {
+  font-size: 13px;
+  color: var(--c-primary);
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  background: var(--c-primary-light);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+// Floating photo replace button
+.photo-replace-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Photo placeholder (click to upload)
+.photo-placeholder {
+  height: 160px;
+  border: 2px dashed var(--c-border);
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-light);
+  cursor: pointer;
+}

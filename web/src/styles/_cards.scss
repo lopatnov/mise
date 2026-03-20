@@ -1,0 +1,177 @@
+// Link wrapper for recipe cards (reset link styling)
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Recipe card
+.recipe-card {
+  border-radius: 10px;
+  border: 1px solid var(--c-border-light);
+  overflow: hidden;
+  background: var(--c-white);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: box-shadow 0.18s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.recipe-card__photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  display: block;
+}
+
+.recipe-card__placeholder {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.recipe-card__body {
+  padding: 12px 14px;
+}
+
+.recipe-card__title {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.recipe-card__desc {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.recipe-card__meta {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.recipe-card__category {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--c-text-light);
+  background: #f5f5f5;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+// Profile avatar emoji
+.profile-avatar {
+  font-size: 56px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+// Profile name
+.profile-name {
+  margin: 0 0 4px;
+  text-align: center;
+}
+
+// Profile email / subtitle
+.profile-email {
+  margin: 0 0 24px;
+  text-align: center;
+  color: var(--c-text-muted);
+  font-size: 14px;
+}
+
+// Profile card
+.profile-card {
+  margin-top: 32px;
+  padding: 28px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--c-border-light);
+  background: var(--c-white);
+}
+
+// Stat box (recipe count in profile)
+.stat-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.stat-box__inner {
+  text-align: center;
+  padding: 12px 32px;
+  background: #f5f9f7;
+  border-radius: var(--r-lg);
+}
+
+.stat-box__value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--c-primary);
+}
+
+.stat-box__label {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+// Setup card
+.setup-card {
+  background: var(--c-white);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-md);
+}
+
+// Setup warning banner (on login page)
+.setup-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #856404;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+// Invite panel
+.invite-panel {
+  background: var(--c-bg);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.invite-link-box {
+  margin-top: 16px;
+  background: var(--c-primary-light);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+}
+
+.invite-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+}

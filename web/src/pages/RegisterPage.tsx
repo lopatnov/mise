@@ -37,17 +37,17 @@ export default function RegisterPage() {
   }
 
   return (
-    <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+    <div className="page-container--auth">
+      <div className="auth-header">
         <LanguageSwitcher />
       </div>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 {siteTitle}</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <h1 className="auth-title">🍽 {siteTitle}</h1>
+      <form onSubmit={handleSubmit} className="auth-form">
         <input
           placeholder={t('auth.name')}
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
-          style={inputStyle}
+          className="auth-input"
         />
         <input
           type="email"
@@ -55,7 +55,7 @@ export default function RegisterPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={inputStyle}
+          className="auth-input"
         />
         <input
           type="password"
@@ -64,39 +64,22 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-          style={inputStyle}
+          className="auth-input"
         />
         <input
           placeholder={t('auth.inviteToken')}
           value={inviteToken}
           onChange={(e) => setInviteToken(e.target.value)}
-          style={{ ...inputStyle, color: inviteToken ? '#2d6a4f' : undefined }}
+          className={`auth-input${inviteToken ? ' invite-input--filled' : ''}`}
         />
-        {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
-        <button type="submit" disabled={loading} style={btnStyle}>
+        {error && <p className="form-error">{error}</p>}
+        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
           {loading ? t('auth.registering') : t('auth.createAccount')}
         </button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: 16 }}>
+      <p className="auth-links">
         {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
       </p>
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '10px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 15,
-  outline: 'none',
-};
-const btnStyle: React.CSSProperties = {
-  padding: '10px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-};

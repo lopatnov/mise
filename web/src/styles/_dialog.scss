@@ -1,0 +1,33 @@
+// Confirm dialog modal
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+
+.confirm-dialog {
+  background: var(--c-white);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-md);
+}
+
+.confirm-dialog__message {
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--c-text);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}

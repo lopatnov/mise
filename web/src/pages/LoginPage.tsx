@@ -41,41 +41,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+    <div className="page-container--auth">
+      <div className="auth-header">
         <LanguageSwitcher />
       </div>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 {siteTitle}</h1>
+      <h1 className="auth-title">🍽 {siteTitle}</h1>
       {setupStatus?.setupDone === false && (
-        <div
-          style={{
-            background: '#fff3cd',
-            border: '1px solid #ffc107',
-            borderRadius: 8,
-            padding: '10px 14px',
-            marginBottom: 20,
-            fontSize: 14,
-            color: '#856404',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 8,
-          }}
-        >
+        <div className="setup-warning">
           <span>⚠️ {t('admin.setup.notDone')}</span>
-          <Link to="/setup" style={{ color: '#856404', fontWeight: 600, whiteSpace: 'nowrap' }}>
+          <Link to="/setup" className="link--warn">
             {t('admin.setup.goSetup')}
           </Link>
         </div>
       )}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="email"
           placeholder={t('auth.email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={inputStyle}
+          className="auth-input"
         />
         <input
           type="password"
@@ -83,43 +69,22 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={inputStyle}
+          className="auth-input"
         />
-        {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
-        <button type="submit" disabled={loading} style={btnStyle}>
+        {error && <p className="form-error">{error}</p>}
+        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
           {loading ? t('auth.signingIn') : t('auth.signIn')}
         </button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: 16 }}>
+      <p className="auth-links">
         {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
       </p>
-      <p style={{ textAlign: 'center', marginTop: 8 }}>
-        <Link to="/forgot-password" style={{ fontSize: 13, color: '#888' }}>
-          {t('auth.forgotPassword')}
-        </Link>
+      <p className="auth-links--sm">
+        <Link to="/forgot-password" className="link--sm">{t('auth.forgotPassword')}</Link>
       </p>
-      <p style={{ textAlign: 'center', marginTop: 6 }}>
-        <Link to="/" style={{ fontSize: 13, color: '#aaa' }}>
-          ← {t('recipe.list.communityTitle')}
-        </Link>
+      <p className="auth-links--sm">
+        <Link to="/" className="link--xlight">← {t('recipe.list.communityTitle')}</Link>
       </p>
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '10px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 15,
-  outline: 'none',
-};
-const btnStyle: React.CSSProperties = {
-  padding: '10px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-};

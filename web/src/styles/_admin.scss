@@ -1,0 +1,65 @@
+// Admin tab bar
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--c-border-light);
+}
+
+// Tab button
+.tab-btn {
+  padding: 8px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--c-text-light);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+
+  &--active {
+    font-weight: 600;
+    color: var(--c-primary);
+    border-bottom-color: var(--c-primary);
+  }
+}
+
+// Table
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  thead tr {
+    border-bottom: 2px solid var(--c-border-light);
+    text-align: left;
+  }
+
+  th {
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--c-text-muted);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  td {
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+}
+
+// Admin section card
+.admin-section {
+  margin-bottom: 28px;
+
+  h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+}

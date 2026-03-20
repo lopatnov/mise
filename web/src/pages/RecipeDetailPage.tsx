@@ -2,8 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import ConfirmDialog from '../components/ConfirmDialog';
 import Lightbox from '../components/Lightbox';
 import { useMetaTags } from '../hooks/useMetaTags';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -48,6 +50,7 @@ export default function RecipeDetailPage() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [mainPhotoHover, setMainPhotoHover] = useState(false);
   const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const toast = useToast();
   const { user } = useAuthStore();
   const isLoggedIn = !!user;
@@ -57,6 +60,9 @@ export default function RecipeDetailPage() {
     queryFn: () => recipesApi.get(id ?? ''),
     enabled: !!id,
   });
+
+  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
+
   usePageTitle(recipe?.title);
   useStructuredData(recipe?.isPublic ? buildRecipeSchema(recipe, API_URL) : null);
   useMetaTags(
@@ -99,10 +105,19 @@ export default function RecipeDetailPage() {
       });
     },
     onSuccess: (saved) => {
+      // Pre-populate cache so the edit form renders immediately without a loading state
+      qc.setQueryData(['recipe', saved._id], saved);
       qc.invalidateQueries({ queryKey: ['recipes'] });
-      navigate(`/recipes/${saved._id}`);
+      navigate(`/recipes/${saved._id}/edit`);
     },
     onError: () => toast.error(t('recipe.detail.duplicateError')),
+  });
+
+  const favoriteMut = useMutation({
+    mutationFn: () =>
+      isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? ''),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['recipe', id] }),
+    onError: () => toast.error(t('recipe.detail.deleteError')),
   });
 
   const photoMut = useMutation({
@@ -123,12 +138,16 @@ export default function RecipeDetailPage() {
     onError: () => toast.error(t('recipe.detail.photoError')),
   });
 
-  if (isLoading) return <p style={{ padding: 32 }}>{t('recipe.detail.loading')}</p>;
-  if (!recipe) return <p style={{ padding: 32 }}>{t('recipe.detail.notFound')}</p>;
+  if (isLoading) return <p className="recipe-detail__loading">{t('recipe.detail.loading')}</p>;
+  if (!recipe) return <p className="recipe-detail__loading">{t('recipe.detail.notFound')}</p>;
 
   const isOwner = !!user && recipe.authorId?.toString() === user.id;
   const isAdmin = user?.role === 'admin';
   const canEdit = isOwner || isAdmin;
+  const isFavorited = isLoggedIn && (recipe.savedBy ?? []).includes(user?.id ?? '');
+
+  // Use toString() for safe ObjectId comparison
+  const recipeCategory = categories?.find((c) => c._id.toString() === recipe.categoryId?.toString());
 
   const effectiveServings = targetServings ?? recipe.servings;
   const scale = effectiveServings / recipe.servings;
@@ -139,38 +158,65 @@ export default function RecipeDetailPage() {
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
+    <div className="page-container">
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
-      <div className="no-print" style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-        <Link to="/">{t('recipe.detail.back')}</Link>
-        <button onClick={() => window.print()} style={{ ...dupBtnStyle, marginLeft: 'auto' }}>
+      {showConfirmDelete && (
+        <ConfirmDialog
+          message={t('recipe.detail.deleteConfirm')}
+          confirmLabel={t('recipe.detail.deleteConfirmBtn')}
+          cancelLabel={t('recipe.detail.deleteCancel')}
+          onConfirm={() => deleteMut.mutate()}
+          onCancel={() => setShowConfirmDelete(false)}
+          isPending={deleteMut.isPending}
+        />
+      )}
+
+      {/* Action bar */}
+      <div className="recipe-actions no-print">
+        <Link to="/" className="btn btn--ghost">{t('recipe.detail.back')}</Link>
+        <button onClick={() => window.print()} className="btn btn--outline ms-auto">
           {t('recipe.detail.print')}
         </button>
         {canEdit && (
           <>
-            <Link to={`/recipes/${id}/edit`}>{t('recipe.detail.edit')}</Link>
-            <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
+            <Link to={`/recipes/${id}/edit`} className="btn btn--outline">{t('recipe.detail.edit')}</Link>
+            <button
+              onClick={() => duplicateMut.mutate()}
+              disabled={duplicateMut.isPending}
+              className="btn btn--outline"
+            >
               {t('recipe.detail.duplicate')}
             </button>
-            <button
-              onClick={() => deleteMut.mutate()}
-              style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
-            >
+            <button onClick={() => setShowConfirmDelete(true)} className="btn btn--danger">
               {t('recipe.detail.delete')}
             </button>
           </>
         )}
         {isLoggedIn && !canEdit && (
-          <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
+          <button
+            onClick={() => duplicateMut.mutate()}
+            disabled={duplicateMut.isPending}
+            className="btn btn--outline"
+          >
             {t('recipe.detail.duplicate')}
+          </button>
+        )}
+        {isLoggedIn && (
+          <button
+            onClick={() => favoriteMut.mutate()}
+            disabled={favoriteMut.isPending}
+            className="btn btn--outline"
+            title={isFavorited ? t('recipe.detail.unfavorite') : t('recipe.detail.favorite')}
+          >
+            {isFavorited ? '❤️' : '🤍'}
           </button>
         )}
       </div>
 
       {/* Main photo */}
       <div
-        style={{ position: 'relative', marginBottom: 20, borderRadius: 12, overflow: 'hidden' }}
+        className="photo-container"
         onMouseEnter={() => setMainPhotoHover(true)}
         onMouseLeave={() => setMainPhotoHover(false)}
       >
@@ -180,32 +226,20 @@ export default function RecipeDetailPage() {
               src={`${API_URL}${recipe.photoUrl}`}
               alt={recipe.title}
               onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
-              style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
+              className="recipe-photo__img"
             />
             {canEdit && mainPhotoHover && (
               <button
                 onClick={() => fileRef.current?.click()}
                 title={t('recipe.detail.changePhoto')}
-                style={replacePhotoBtn}
+                className="photo-replace-btn"
               >
                 📷
               </button>
             )}
           </>
         ) : canEdit ? (
-          <div
-            onClick={() => fileRef.current?.click()}
-            style={{
-              height: 160,
-              border: '2px dashed #ccc',
-              borderRadius: 12,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#888',
-              cursor: 'pointer',
-            }}
-          >
+          <div onClick={() => fileRef.current?.click()} className="photo-placeholder">
             {t('recipe.detail.addPhoto')}
           </div>
         ) : null}
@@ -215,7 +249,7 @@ export default function RecipeDetailPage() {
         ref={fileRef}
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f) photoMut.mutate(f);
@@ -226,7 +260,7 @@ export default function RecipeDetailPage() {
         ref={stepFileRef}
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f && pendingStepOrder.current !== null) {
@@ -236,51 +270,42 @@ export default function RecipeDetailPage() {
         }}
       />
 
-      <h1 style={{ margin: '0 0 8px' }}>{recipe.title}</h1>
+      <h1 className="recipe-detail__title">{recipe.title}</h1>
 
-      <div style={{ display: 'flex', gap: 12, color: '#666', fontSize: 14, marginBottom: 16, flexWrap: 'wrap' }}>
+      {/* Meta row: prep/cook time, rating, category, public badge */}
+      <div className="recipe-meta">
         {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
         {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
         {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
+        {recipeCategory && (
+          <span className="recipe-card__category">
+            {recipeCategory.icon} {recipeCategory.name}
+          </span>
+        )}
         {recipe.isPublic && (
-          <span style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 8px', borderRadius: 10, fontSize: 12 }}>
+          <span className="tag tag--public">
             🌐 {t('recipe.detail.public')}
           </span>
         )}
       </div>
 
       {/* Scaling control */}
-      <div
-        className="no-print"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          marginBottom: 20,
-          padding: '10px 14px',
-          background: '#f5f5f5',
-          borderRadius: 10,
-        }}
-      >
-        <span style={{ fontSize: 14, color: '#555' }}>{t('recipe.detail.servings')}</span>
-        <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} style={scaleBtn}>
+      <div className="scaling-control no-print">
+        <span>{t('recipe.detail.servings')}</span>
+        <button
+          onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
+          className="btn btn--icon"
+        >
           −
         </button>
-        <span style={{ fontWeight: 600, fontSize: 16, minWidth: 28, textAlign: 'center' }}>{effectiveServings}</span>
-        <button onClick={() => setTargetServings(effectiveServings + 1)} style={scaleBtn}>
+        <span className="scaling-control__count">{effectiveServings}</span>
+        <button onClick={() => setTargetServings(effectiveServings + 1)} className="btn btn--icon">
           +
         </button>
         {scale !== 1 && (
           <button
             onClick={() => setTargetServings(null)}
-            style={{
-              marginLeft: 'auto',
-              fontSize: 12,
-              color: '#888',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            className="btn btn--ghost ms-auto"
           >
             {t('recipe.detail.reset')}
           </button>
@@ -288,26 +313,23 @@ export default function RecipeDetailPage() {
       </div>
 
       {recipe.tags.length > 0 && (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
+        <div className="recipe-tags">
           {recipe.tags.map((tag) => (
-            <span
-              key={tag}
-              style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 10px', borderRadius: 12, fontSize: 13 }}
-            >
-              {tag}
-            </span>
+            <span key={tag} className="tag tag--large">{tag}</span>
           ))}
         </div>
       )}
 
-      {recipe.description && <p style={{ color: '#444', lineHeight: 1.6, marginBottom: 20 }}>{recipe.description}</p>}
+      {recipe.description && (
+        <p className="recipe-detail__description">{recipe.description}</p>
+      )}
 
       {recipe.ingredients.length > 0 && (
-        <section style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.ingredients')}</h2>
-          <ul style={{ margin: 0, paddingLeft: 20 }}>
+        <section className="recipe-section">
+          <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
+          <ul className="recipe-section__list">
             {recipe.ingredients.map((ing) => (
-              <li key={ing.name} style={{ marginBottom: 4 }}>
+              <li key={ing.name} className="recipe-section__item">
                 <strong>
                   {fmtAmount(ing.amount)} {ing.unit}
                 </strong>{' '}
@@ -319,15 +341,15 @@ export default function RecipeDetailPage() {
       )}
 
       {recipe.steps.length > 0 && (
-        <section>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.steps')}</h2>
-          <ol style={{ margin: 0, paddingLeft: 20 }}>
+        <section className="recipe-section">
+          <h2 className="recipe-section__title">{t('recipe.detail.steps')}</h2>
+          <ol className="recipe-section__list">
             {recipe.steps
               .sort((a, b) => a.order - b.order)
               .map((step) => (
-                <li key={step.order} style={{ marginBottom: 16, lineHeight: 1.6 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                    <span style={{ flex: 1 }}>{step.text}</span>
+                <li key={step.order} className="recipe-step__item">
+                  <div className="recipe-step__row">
+                    <span className="recipe-step__text">{step.text}</span>
                     {canEdit && !step.photoUrl && (
                       <button
                         onClick={() => {
@@ -335,16 +357,7 @@ export default function RecipeDetailPage() {
                           stepFileRef.current?.click();
                         }}
                         title={t('recipe.detail.addPhoto')}
-                        style={{
-                          flexShrink: 0,
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          color: '#ccc',
-                          fontSize: 18,
-                          padding: '2px 4px',
-                          lineHeight: 1,
-                        }}
+                        className="step-photo-add-btn"
                       >
                         📷
                       </button>
@@ -352,7 +365,7 @@ export default function RecipeDetailPage() {
                   </div>
                   {step.photoUrl && (
                     <div
-                      style={{ position: 'relative', marginTop: 8, borderRadius: 8, overflow: 'hidden' }}
+                      className="photo-container recipe-step__photo-container"
                       onMouseEnter={() => setHoveredStepOrder(step.order)}
                       onMouseLeave={() => setHoveredStepOrder(null)}
                     >
@@ -360,13 +373,7 @@ export default function RecipeDetailPage() {
                         src={`${API_URL}${step.photoUrl}`}
                         alt=""
                         onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
-                        style={{
-                          width: '100%',
-                          maxHeight: 240,
-                          objectFit: 'cover',
-                          display: 'block',
-                          cursor: 'zoom-in',
-                        }}
+                        className="recipe-step__photo"
                       />
                       {canEdit && hoveredStepOrder === step.order && (
                         <button
@@ -376,7 +383,7 @@ export default function RecipeDetailPage() {
                             stepFileRef.current?.click();
                           }}
                           title={t('recipe.detail.changePhoto')}
-                          style={replacePhotoBtn}
+                          className="photo-replace-btn"
                         >
                           📷
                         </button>
@@ -391,44 +398,3 @@ export default function RecipeDetailPage() {
     </div>
   );
 }
-
-const scaleBtn: React.CSSProperties = {
-  width: 28,
-  height: 28,
-  borderRadius: '50%',
-  border: '1px solid #ccc',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: 16,
-  lineHeight: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const dupBtnStyle: React.CSSProperties = {
-  background: 'none',
-  border: '1px solid #2d6a4f',
-  color: '#2d6a4f',
-  cursor: 'pointer',
-  fontSize: 14,
-  padding: '4px 10px',
-  borderRadius: 6,
-};
-
-const replacePhotoBtn: React.CSSProperties = {
-  position: 'absolute',
-  bottom: 10,
-  right: 10,
-  background: 'rgba(0,0,0,0.5)',
-  border: 'none',
-  color: '#fff',
-  fontSize: 16,
-  width: 36,
-  height: 36,
-  borderRadius: '50%',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};

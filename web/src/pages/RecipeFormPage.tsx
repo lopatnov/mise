@@ -117,61 +117,76 @@ export default function RecipeFormPage() {
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ marginBottom: 20 }}>
-        <button onClick={() => navigate(-1)} style={linkBtn}>
+    <div className="page-container">
+      <div className="form-back">
+        <button onClick={() => navigate(-1)} className="btn btn--ghost">
           {t('recipe.form.back')}
         </button>
       </div>
-      <h1 style={{ marginBottom: 24 }}>{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
+      <h1 className="form-title">{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <Field label={t('recipe.form.titleLabel')}>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required style={inputStyle} />
+      <form onSubmit={handleSubmit} className="form-stack">
+        <Field id="f-title" label={t('recipe.form.titleLabel')}>
+          <input
+            id="f-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="form-input"
+          />
         </Field>
 
-        <Field label={t('recipe.form.description')}>
+        <Field id="f-desc" label={t('recipe.form.description')}>
           <textarea
+            id="f-desc"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            style={{ ...inputStyle, resize: 'vertical' }}
+            className="form-input resize-v"
           />
         </Field>
 
         <div className="grid-3">
-          <Field label={t('recipe.form.servings')}>
+          <Field id="f-servings" label={t('recipe.form.servings')}>
             <input
+              id="f-servings"
               type="number"
               min={1}
               value={servings}
               onChange={(e) => setServings(Number(e.target.value))}
-              style={inputStyle}
+              className="form-input"
             />
           </Field>
-          <Field label={t('recipe.form.prepTime')}>
+          <Field id="f-prep" label={t('recipe.form.prepTime')}>
             <input
+              id="f-prep"
               type="number"
               min={0}
               value={prepTime}
               onChange={(e) => setPrepTime(e.target.value)}
-              style={inputStyle}
+              className="form-input"
             />
           </Field>
-          <Field label={t('recipe.form.cookTime')}>
+          <Field id="f-cook" label={t('recipe.form.cookTime')}>
             <input
+              id="f-cook"
               type="number"
               min={0}
               value={cookTime}
               onChange={(e) => setCookTime(e.target.value)}
-              style={inputStyle}
+              className="form-input"
             />
           </Field>
         </div>
 
         <div className="grid-2">
-          <Field label={t('recipe.form.category')}>
-            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={inputStyle}>
+          <Field id="f-cat" label={t('recipe.form.category')}>
+            <select
+              id="f-cat"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="form-input"
+            >
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -180,56 +195,50 @@ export default function RecipeFormPage() {
               ))}
             </select>
           </Field>
-          <Field label={t('recipe.form.rating')}>
+          <Field id="f-rating" label={t('recipe.form.rating')}>
             <input
+              id="f-rating"
               type="number"
               min={1}
               max={5}
               value={rating}
               onChange={(e) => setRating(e.target.value)}
-              style={inputStyle}
+              className="form-input"
             />
           </Field>
         </div>
 
-        <Field label={t('recipe.form.tags')}>
+        <Field id="f-tags" label={t('recipe.form.tags')}>
           <input
+            id="f-tags"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             placeholder={t('recipe.form.tagsPlaceholder')}
-            style={inputStyle}
+            className="form-input"
           />
           {allTags && allTags.length > 0 && (
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
-              {allTags.map((t) => {
+            <div className="tag-chips">
+              {allTags.map((tg) => {
                 const current = tags
                   .split(',')
                   .map((x) => x.trim())
                   .filter(Boolean);
-                const active = current.includes(t);
+                const active = current.includes(tg);
                 return (
                   <button
-                    key={t}
+                    key={tg}
                     type="button"
                     onClick={() => {
                       const list = tags
                         .split(',')
                         .map((x) => x.trim())
                         .filter(Boolean);
-                      const next = active ? list.filter((x) => x !== t) : [...list, t];
+                      const next = active ? list.filter((x) => x !== tg) : [...list, tg];
                       setTags(next.join(', '));
                     }}
-                    style={{
-                      padding: '2px 10px',
-                      borderRadius: 12,
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: 12,
-                      background: active ? '#2d6a4f' : '#e8f5e9',
-                      color: active ? '#fff' : '#2d6a4f',
-                    }}
+                    className={`tag tag--btn tag--large${active ? ' tag--active' : ''}`}
                   >
-                    {t}
+                    {tg}
                   </button>
                 );
               })}
@@ -238,16 +247,16 @@ export default function RecipeFormPage() {
         </Field>
 
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>{t('recipe.form.ingredients')}</label>
-            <button type="button" onClick={addIngredient} style={smallBtn}>
+          <div className="section-header">
+            <label className="field__label">{t('recipe.form.ingredients')}</label>
+            <button type="button" onClick={addIngredient} className="btn btn--small">
               {t('recipe.form.add')}
             </button>
           </div>
           {ingredients.map((ing, i) => (
             <div
               key={i}
-              className="ingredient-row"
+              className={`ingredient-row${dragIngIdx === i ? ' is-dragging' : ''}`}
               draggable
               onDragStart={() => setDragIngIdx(i)}
               onDragOver={(e) => e.preventDefault()}
@@ -256,33 +265,31 @@ export default function RecipeFormPage() {
                 setDragIngIdx(null);
               }}
               onDragEnd={() => setDragIngIdx(null)}
-              style={{ opacity: dragIngIdx === i ? 0.4 : 1 }}
             >
-              <span style={dragHandle}>⠿</span>
+              <span className="drag-handle">⠿</span>
               <input
                 placeholder={t('recipe.form.ingredientName')}
                 value={ing.name}
                 onChange={(e) => updateIngredient(i, 'name', e.target.value)}
-                className="ingredient-name"
-                style={inputStyle}
+                className="ingredient-name form-input"
               />
               <input
                 type="number"
                 placeholder={t('recipe.form.ingredientQty')}
                 value={ing.amount}
                 onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))}
-                style={inputStyle}
+                className="form-input"
               />
               <input
                 placeholder={t('recipe.form.ingredientUnit')}
                 value={ing.unit}
                 onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
-                style={inputStyle}
+                className="form-input"
               />
               <button
                 type="button"
                 onClick={() => removeIngredient(i)}
-                style={{ ...smallBtn, background: '#fee', color: '#c00' }}
+                className="btn btn--small btn--remove"
               >
                 ×
               </button>
@@ -291,15 +298,16 @@ export default function RecipeFormPage() {
         </div>
 
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>{t('recipe.form.steps')}</label>
-            <button type="button" onClick={addStep} style={smallBtn}>
+          <div className="section-header">
+            <label className="field__label">{t('recipe.form.steps')}</label>
+            <button type="button" onClick={addStep} className="btn btn--small">
               {t('recipe.form.add')}
             </button>
           </div>
           {steps.map((step, i) => (
             <div
               key={i}
+              className={`step-row${dragStepIdx === i ? ' is-dragging' : ''}`}
               draggable
               onDragStart={() => setDragStepIdx(i)}
               onDragOver={(e) => e.preventDefault()}
@@ -308,30 +316,22 @@ export default function RecipeFormPage() {
                 setDragStepIdx(null);
               }}
               onDragEnd={() => setDragStepIdx(null)}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '16px 1fr 32px',
-                gap: 6,
-                marginBottom: 6,
-                alignItems: 'start',
-                opacity: dragStepIdx === i ? 0.4 : 1,
-              }}
             >
-              <span style={{ ...dragHandle, paddingTop: 10 }}>⠿</span>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                <span style={{ minWidth: 24, paddingTop: 10, color: '#888', fontSize: 13 }}>{i + 1}.</span>
+              <span className="drag-handle drag-handle--top">⠿</span>
+              <div className="step-content">
+                <span className="step-number">{i + 1}.</span>
                 <textarea
                   value={step}
                   onChange={(e) => updateStep(i, e.target.value)}
                   rows={2}
                   placeholder={t('recipe.form.step', { n: i + 1 })}
-                  style={{ ...inputStyle, flex: 1, resize: 'vertical' }}
+                  className="form-input resize-v flex-1"
                 />
               </div>
               <button
                 type="button"
                 onClick={() => removeStep(i)}
-                style={{ ...smallBtn, background: '#fee', color: '#c00', marginTop: 6 }}
+                className="btn btn--small btn--remove"
               >
                 ×
               </button>
@@ -339,16 +339,14 @@ export default function RecipeFormPage() {
           ))}
         </div>
 
-        <label
-          style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, color: '#444' }}
-        >
+        <label className="checkbox-label">
           <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
           {t('recipe.form.isPublic')}
         </label>
 
-        {saveMut.isError && <p style={{ color: 'red' }}>{t('recipe.form.saveError')}</p>}
+        {saveMut.isError && <p className="form-error">{t('recipe.form.saveError')}</p>}
 
-        <button type="submit" disabled={saveMut.isPending} style={submitBtn}>
+        <button type="submit" disabled={saveMut.isPending} className="btn btn--primary btn--submit">
           {saveMut.isPending ? t('recipe.form.saving') : isEdit ? t('recipe.form.save') : t('recipe.form.create')}
         </button>
       </form>
@@ -356,55 +354,11 @@ export default function RecipeFormPage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, id }: { label: string; children: React.ReactNode; id?: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <label style={labelStyle}>{label}</label>
+    <div className="field">
+      <label className="field__label" htmlFor={id}>{label}</label>
       {children}
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '9px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 14,
-  width: '100%',
-  boxSizing: 'border-box',
-};
-const labelStyle: React.CSSProperties = { fontSize: 13, fontWeight: 500, color: '#444' };
-const smallBtn: React.CSSProperties = {
-  padding: '4px 10px',
-  borderRadius: 6,
-  background: '#f0f0f0',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 13,
-};
-const linkBtn: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  color: '#2d6a4f',
-  fontSize: 14,
-  padding: 0,
-};
-const dragHandle: React.CSSProperties = {
-  cursor: 'grab',
-  color: '#ccc',
-  fontSize: 16,
-  textAlign: 'center',
-  userSelect: 'none',
-  alignSelf: 'center',
-};
-const submitBtn: React.CSSProperties = {
-  padding: '12px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-  marginTop: 8,
-};

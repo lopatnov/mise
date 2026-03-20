@@ -85,51 +85,38 @@ export default function RecipeListPage() {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+    <div className="page-container page-container--wide">
+      <header className="page-header">
         <div>
-          <h1 style={{ margin: 0 }}>🍽 {siteTitle}</h1>
+          <h1 className="page-header__title">🍽 {siteTitle}</h1>
           {data && (
-            <span style={{ fontSize: 13, color: '#888' }}>
+            <p className="page-header__subtitle">
               {data.total} {t('profile.recipesCount')}
               {isFetching && ' …'}
-            </span>
+            </p>
           )}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div className="page-header__actions">
           <LanguageSwitcher />
           {isLoggedIn ? (
             <>
               {user?.role === 'admin' && (
-                <Link
-                  to="/admin"
-                  style={{
-                    fontSize: 13,
-                    color: '#2d6a4f',
-                    padding: '6px 10px',
-                    borderRadius: 6,
-                    background: '#e8f5e9',
-                    textDecoration: 'none',
-                  }}
-                >
+                <Link to="/admin" className="btn btn--nav">
                   ⚙️ {t('admin.link')}
                 </Link>
               )}
-              <Link
-                to="/profile"
-                style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}
-              >
-                <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
-                <span style={smallBtnStyle}>👤</span>
+              <Link to="/profile" className="profile-link">
+                <span className="profile-link__name">{user?.displayName ?? user?.email}</span>
+                <span className="btn btn--small">👤</span>
               </Link>
             </>
           ) : (
             <>
               <Link to="/login">
-                <button style={outlineBtnStyle}>{t('auth.signIn')}</button>
+                <button className="btn btn--outline">{t('auth.signIn')}</button>
               </Link>
               <Link to="/register">
-                <button style={btnStyle}>{t('auth.register')}</button>
+                <button className="btn btn--primary">{t('auth.register')}</button>
               </Link>
             </>
           )}
@@ -141,14 +128,12 @@ export default function RecipeListPage() {
           placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
           onChange={(e) => changeSearch(e.target.value)}
-          className="filter-search"
-          style={inputStyle}
+          className="filter-search form-input"
         />
         <select
           value={tag}
           onChange={(e) => changeTag(e.target.value)}
-          className="filter-aux"
-          style={{ ...inputStyle, width: 140 }}
+          className="filter-aux filter-aux--sm form-input"
         >
           <option value="">{t('recipe.list.allTags')}</option>
           {allTags?.map((tg) => (
@@ -160,8 +145,7 @@ export default function RecipeListPage() {
         <select
           value={category}
           onChange={(e) => changeCategory(e.target.value)}
-          className="filter-aux"
-          style={{ ...inputStyle, width: 160 }}
+          className="filter-aux filter-aux--md form-input"
         >
           <option value="">{t('recipe.list.allCategories')}</option>
           {categories?.map((c) => (
@@ -173,14 +157,14 @@ export default function RecipeListPage() {
         {isLoggedIn && (
           <button
             onClick={changeMine}
-            style={mine ? { ...btnStyle, fontSize: 14 } : { ...outlineBtnStyle, fontSize: 14 }}
+            className={mine ? 'btn btn--primary' : 'btn btn--outline'}
           >
             {t('recipe.list.mine')}
           </button>
         )}
         {isLoggedIn && (
           <Link to="/recipes/new">
-            <button style={btnStyle}>{t('recipe.list.addButton')}</button>
+            <button className="btn btn--primary">{t('recipe.list.addButton')}</button>
           </Link>
         )}
       </div>
@@ -188,81 +172,79 @@ export default function RecipeListPage() {
       {isLoading && !data && <p>{t('recipe.list.loading')}</p>}
 
       {data && data.items.length === 0 && (
-        <div style={{ textAlign: 'center', padding: 60, color: '#888' }}>
-          <p style={{ fontSize: 48 }}>🍳</p>
+        <div className="recipe-list__empty">
+          <p className="recipe-list__empty-icon">🍳</p>
           <p>{t('recipe.list.empty')}</p>
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-        {data?.items.map((r) => (
-          <Link key={r._id} to={`/recipes/${r._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div style={cardStyle}>
-              {r.photoUrl ? (
-                <img
-                  src={`${API_URL}${r.photoUrl}`}
-                  alt={r.title}
-                  style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
-                />
-              ) : (
-                <div
-                  style={{ height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}
-                >
-                  🍽
-                </div>
-              )}
-              <div style={{ padding: '12px 14px' }}>
-                <h3 style={{ margin: '0 0 6px', fontSize: 16 }}>{r.title}</h3>
-                {r.description && (
-                  <p
-                    style={{
-                      margin: 0,
-                      color: '#666',
-                      fontSize: 13,
-                      overflow: 'hidden',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                    }}
-                  >
-                    {r.description}
-                  </p>
+      <div className="recipe-cards-grid">
+        {data?.items.map((r) => {
+          const cat = categories?.find((c) => c._id.toString() === r.categoryId?.toString());
+          return (
+            <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
+              <div className="recipe-card">
+                {r.photoUrl ? (
+                  <img
+                    src={`${API_URL}${r.photoUrl}`}
+                    alt={r.title}
+                    className="recipe-card__photo"
+                  />
+                ) : (
+                  <div className="recipe-card__placeholder">🍽</div>
                 )}
-                <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {r.tags.slice(0, 3).map((tg) => (
-                    <span
-                      key={tg}
-                      style={{ ...tagStyle, cursor: 'pointer' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        changeTag(tg);
-                      }}
-                    >
-                      {tg}
-                    </span>
-                  ))}
-                  {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}
+                <div className="recipe-card__body">
+                  <h3 className="recipe-card__title">{r.title}</h3>
+                  {r.description && <p className="recipe-card__desc">{r.description}</p>}
+                  <div className="recipe-card__meta">
+                    {cat && (
+                      <span className="recipe-card__category">
+                        {cat.icon} {cat.name}
+                      </span>
+                    )}
+                    {r.tags.slice(0, 3).map((tg) => (
+                      <span
+                        key={tg}
+                        className="tag tag--btn"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          changeTag(tg);
+                        }}
+                      >
+                        {tg}
+                      </span>
+                    ))}
+                    {r.rating && <span className="tag">{'⭐'.repeat(r.rating)}</span>}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
 
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginTop: 32 }}>
-          <button onClick={() => goToPage(page - 1)} disabled={page === 1} style={pageBtn(page === 1)}>
+        <div className="pagination">
+          <button
+            onClick={() => goToPage(page - 1)}
+            disabled={page === 1}
+            className={`page-btn${page === 1 ? ' page-btn--disabled' : ''}`}
+          >
             {t('recipe.list.prev')}
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <button key={p} onClick={() => goToPage(p)} style={pageBtn(false, p === page)}>
+            <button
+              key={p}
+              onClick={() => goToPage(p)}
+              className={`page-btn${p === page ? ' page-btn--active' : ''}`}
+            >
               {p}
             </button>
           ))}
           <button
             onClick={() => goToPage(page + 1)}
             disabled={page === totalPages}
-            style={pageBtn(page === totalPages)}
+            className={`page-btn${page === totalPages ? ' page-btn--disabled' : ''}`}
           >
             {t('recipe.list.next')}
           </button>
@@ -270,67 +252,4 @@ export default function RecipeListPage() {
       )}
     </div>
   );
-}
-
-const inputStyle: React.CSSProperties = {
-  padding: '9px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 14,
-};
-const btnStyle: React.CSSProperties = {
-  padding: '9px 18px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 14,
-};
-const outlineBtnStyle: React.CSSProperties = {
-  padding: '9px 18px',
-  borderRadius: 8,
-  background: 'none',
-  color: '#2d6a4f',
-  border: '1px solid #2d6a4f',
-  cursor: 'pointer',
-  fontSize: 14,
-};
-const smallBtnStyle: React.CSSProperties = {
-  padding: '6px 12px',
-  borderRadius: 6,
-  background: '#f0f0f0',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 13,
-};
-const cardStyle: React.CSSProperties = {
-  borderRadius: 10,
-  border: '1px solid #eee',
-  overflow: 'hidden',
-  background: '#fff',
-  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-  cursor: 'pointer',
-};
-const tagStyle: React.CSSProperties = {
-  background: '#e8f5e9',
-  color: '#2d6a4f',
-  padding: '2px 8px',
-  borderRadius: 12,
-  fontSize: 12,
-};
-
-function pageBtn(disabled: boolean, active = false): React.CSSProperties {
-  return {
-    minWidth: 36,
-    height: 36,
-    borderRadius: 8,
-    border: active ? '2px solid #2d6a4f' : '1px solid #ddd',
-    background: active ? '#2d6a4f' : disabled ? '#f5f5f5' : '#fff',
-    color: active ? '#fff' : disabled ? '#bbb' : '#333',
-    cursor: disabled ? 'default' : 'pointer',
-    fontSize: 14,
-    fontWeight: active ? 600 : 400,
-    padding: '0 10px',
-  };
 }

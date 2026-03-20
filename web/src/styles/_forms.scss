@@ -1,0 +1,198 @@
+// Field wrapper
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// Label
+.field__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+// Input / select / textarea base style
+.form-input {
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--c-white);
+  color: var(--c-text);
+  outline: none;
+
+  &:focus {
+    border-color: var(--c-primary);
+    box-shadow: 0 0 0 3px var(--pico-primary-focus, rgba(45, 106, 79, 0.15));
+  }
+}
+
+// Auth page inputs (slightly larger)
+.auth-input {
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  font-size: 15px;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  background: var(--c-white);
+  color: var(--c-text);
+
+  &:focus {
+    border-color: var(--c-primary);
+  }
+}
+
+// Drag handle
+.drag-handle {
+  cursor: grab;
+  color: #ccc;
+  font-size: 16px;
+  text-align: center;
+  user-select: none;
+  align-self: center;
+}
+
+// Auth page header row (language switcher)
+.auth-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+// Auth page title
+.auth-title {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+// Auth page bottom links
+.auth-links {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.auth-links--sm {
+  text-align: center;
+  margin-top: 8px;
+}
+
+// Small muted link (forgot password, back to list)
+.link--sm {
+  font-size: 13px;
+  color: var(--c-text-light);
+}
+
+.link--xlight {
+  font-size: 13px;
+  color: var(--c-text-xlight);
+}
+
+// Warning link (in setup banner)
+.link--warn {
+  color: #856404;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// Invite token input: highlight when filled
+.invite-input--filled {
+  color: var(--c-primary);
+}
+
+// Auth form
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// Small admin inline select
+.inline-select {
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  font-family: inherit;
+}
+
+// Admin label (compact)
+.admin-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+// Language switcher
+.lang-select {
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-border);
+  font-size: 13px;
+  background: var(--c-white);
+  cursor: pointer;
+  color: #555;
+  font-family: inherit;
+}
+
+// Visually hidden (accessible, e.g. file inputs)
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Form error message
+.form-error {
+  color: var(--c-danger);
+  font-size: 14px;
+  margin: 0;
+}
+
+// Checkbox row with label text
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #444;
+}
+
+// Textarea vertical resize
+.resize-v {
+  resize: vertical;
+}
+
+// Drag-and-drop: item being dragged
+.is-dragging {
+  opacity: 0.4;
+}
+
+// Admin input
+.admin-input {
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--c-border);
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--c-white);
+  outline: none;
+}

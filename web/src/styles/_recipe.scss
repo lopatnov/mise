@@ -1,0 +1,93 @@
+// Recipe detail page – layout and visual elements
+
+// Loading / not-found message
+.recipe-detail__loading {
+  padding: 32px 16px;
+}
+
+// Page title
+.recipe-detail__title {
+  margin: 0 0 8px;
+}
+
+// Description paragraph
+.recipe-detail__description {
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+// Section block (ingredients, steps)
+.recipe-section {
+  margin-bottom: 24px;
+}
+
+.recipe-section__title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.recipe-section__list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recipe-section__item {
+  margin-bottom: 4px;
+}
+
+// Step list item
+.recipe-step__item {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+// Row inside a step (text + optional photo-add button)
+.recipe-step__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.recipe-step__text {
+  flex: 1;
+}
+
+// Small icon button to add a photo to a step
+.step-photo-add-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--c-border);
+  font-size: 18px;
+  padding: 2px 4px;
+  line-height: 1;
+
+  &:hover {
+    color: var(--c-text-muted);
+  }
+}
+
+// Step photo thumbnail container
+.recipe-step__photo-container {
+  margin-top: 8px;
+}
+
+// Step photo image
+.recipe-step__photo {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
+
+// Main recipe hero photo
+.recipe-photo__img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
