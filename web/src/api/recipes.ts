@@ -25,6 +25,7 @@ export interface Recipe {
   photoUrl?: string;
   isPublic?: boolean;
   authorId?: string;
+  savedBy?: string[];
   createdAt: string;
 }
 
@@ -42,6 +43,7 @@ export interface RecipeQuery {
   page?: number;
   limit?: number;
   mine?: boolean;
+  saved?: boolean;
 }
 
 export const recipesApi = {
@@ -62,4 +64,6 @@ export const recipesApi = {
     form.append('photo', file);
     return api.post<Recipe>(`/recipes/${id}/steps/${order}/photo`, form).then((r) => r.data);
   },
+  addFavorite: (id: string) => api.post<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
+  removeFavorite: (id: string) => api.delete<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
 };

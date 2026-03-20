@@ -73,4 +73,5 @@ export class RecipeQueryDto {
   @IsOptional() @Type(() => Number) @IsNumber() page?: number = 1;
   @IsOptional() @Type(() => Number) @IsNumber() limit?: number = 20;
   @IsOptional() @Transform(({ value }) => value === 'true' || value === true) @IsBoolean() mine?: boolean;
+  @IsOptional() @Transform(({ value }) => value === 'true' || value === true) @IsBoolean() saved?: boolean;
 }

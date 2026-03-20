@@ -116,7 +116,10 @@ export default function RecipeDetailPage() {
   const favoriteMut = useMutation({
     mutationFn: () =>
       isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? ''),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['recipe', id] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['recipe', id] });
+      qc.invalidateQueries({ queryKey: ['recipes'] });
+    },
     onError: () => toast.error(t('recipe.detail.deleteError')),
   });
 

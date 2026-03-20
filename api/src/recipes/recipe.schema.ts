@@ -49,6 +49,9 @@ export class Recipe {
 
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   authorId: Types.ObjectId;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], default: [] })
+  savedBy: Types.ObjectId[];
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);

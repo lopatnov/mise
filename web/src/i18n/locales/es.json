@@ -39,6 +39,8 @@
       "allCategories": "Todas las categorías",
       "communityTitle": "Recetas de la comunidad",
       "mine": "Mis recetas",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Todas las etiquetas",
       "prev": "← Anterior",
       "next": "Siguiente →"
@@ -47,6 +49,9 @@
       "back": "← Volver",
       "edit": "✏️ Editar",
       "delete": "🗑 Eliminar",
+      "deleteConfirm": "¿Estás seguro?",
+      "deleteCancel": "Cancelar",
+      "deleteConfirmBtn": "Eliminar",
       "loading": "Cargando...",
       "notFound": "Receta no encontrada",
       "addPhoto": "📷 Añadir foto",

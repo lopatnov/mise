@@ -68,6 +68,16 @@ export class RecipesController {
     return this.service.remove(id, user.userId, user.role === 'admin');
   }
 
+  @Post(':id/favorite')
+  addFavorite(@Param('id') id: string, @CurrentUser() user: JwtUser) {
+    return this.service.addFavorite(id, user.userId);
+  }
+
+  @Delete(':id/favorite')
+  removeFavorite(@Param('id') id: string, @CurrentUser() user: JwtUser) {
+    return this.service.removeFavorite(id, user.userId);
+  }
+
   @Post(':id/photo')
   @UseInterceptors(
     FileInterceptor('photo', {

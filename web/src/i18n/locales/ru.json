@@ -39,6 +39,8 @@
       "allCategories": "Все категории",
       "communityTitle": "Рецепты сообщества",
       "mine": "Мои рецепты",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Все теги",
       "prev": "← Назад",
       "next": "Вперёд →"
@@ -47,6 +49,9 @@
       "back": "← Назад",
       "edit": "✏️ Редактировать",
       "delete": "🗑 Удалить",
+      "deleteConfirm": "Вы уверены?",
+      "deleteCancel": "Отмена",
+      "deleteConfirmBtn": "Удалить",
       "loading": "Загрузка...",
       "notFound": "Рецепт не найден",
       "addPhoto": "📷 Добавить фото",

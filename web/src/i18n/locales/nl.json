@@ -39,6 +39,8 @@
       "allCategories": "Alle categorieën",
       "communityTitle": "Community recepten",
       "mine": "Mijn recepten",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Alle tags",
       "prev": "← Vorige",
       "next": "Volgende →"
@@ -47,6 +49,9 @@
       "back": "← Terug",
       "edit": "✏️ Bewerken",
       "delete": "🗑 Verwijderen",
+      "deleteConfirm": "Weet je het zeker?",
+      "deleteCancel": "Annuleren",
+      "deleteConfirmBtn": "Verwijderen",
       "loading": "Laden...",
       "notFound": "Recept niet gevonden",
       "addPhoto": "📷 Foto toevoegen",

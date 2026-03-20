@@ -9,15 +9,17 @@ export class RecipesService {
   constructor(@InjectModel(Recipe.name) private model: Model<RecipeDocument>) {}
 
   async findAll(userId: string, isAdmin: boolean, query: RecipeQueryDto) {
-    const { q, tag, category, page = 1, limit = 20, mine } = query;
+    const { q, tag, category, page = 1, limit = 20, mine, saved } = query;
     const filter: Record<string, unknown> = {};
 
-    if (mine) {
+    if (saved) {
+      filter.savedBy = new Types.ObjectId(userId);
+    } else if (mine) {
       filter.authorId = new Types.ObjectId(userId);
     } else if (!isAdmin) {
       filter.$or = [{ authorId: new Types.ObjectId(userId) }, { isPublic: true }];
     }
-    // admin + !mine → no ownership filter (see all)
+    // admin + !mine + !saved → no ownership filter (see all)
 
     if (tag) filter.tags = tag;
     if (category) filter.categoryId = new Types.ObjectId(category);
@@ -137,6 +139,20 @@ export class RecipesService {
     step.photoUrl = photoUrl;
     recipe.markModified('steps');
     return recipe.save();
+  }
+
+  async addFavorite(recipeId: string, userId: string) {
+    const recipe = await this.model.findById(recipeId);
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    await this.model.updateOne({ _id: recipeId }, { $addToSet: { savedBy: new Types.ObjectId(userId) } });
+    return { saved: true };
+  }
+
+  async removeFavorite(recipeId: string, userId: string) {
+    const recipe = await this.model.findById(recipeId);
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    await this.model.updateOne({ _id: recipeId }, { $pull: { savedBy: new Types.ObjectId(userId) } });
+    return { saved: false };
   }
 
   async findAllTags(): Promise<string[]> {

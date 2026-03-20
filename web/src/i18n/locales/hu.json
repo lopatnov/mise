@@ -39,6 +39,8 @@
       "allCategories": "Összes kategória",
       "communityTitle": "Közösségi receptek",
       "mine": "Saját receptek",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Összes tag",
       "prev": "← Előző",
       "next": "Következő →"
@@ -47,6 +49,9 @@
       "back": "← Vissza",
       "edit": "✏️ Szerkesztés",
       "delete": "🗑 Törlés",
+      "deleteConfirm": "Biztos vagy benne?",
+      "deleteCancel": "Mégse",
+      "deleteConfirmBtn": "Törlés",
       "loading": "Betöltés...",
       "notFound": "A recept nem található",
       "addPhoto": "📷 Fotó hozzáadása",

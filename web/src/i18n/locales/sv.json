@@ -39,6 +39,8 @@
       "allCategories": "Alla kategorier",
       "communityTitle": "Communityrecept",
       "mine": "Mina recept",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Alla taggar",
       "prev": "← Föregående",
       "next": "Nästa →"
@@ -47,6 +49,9 @@
       "back": "← Tillbaka",
       "edit": "✏️ Redigera",
       "delete": "🗑 Radera",
+      "deleteConfirm": "Är du säker?",
+      "deleteCancel": "Avbryt",
+      "deleteConfirmBtn": "Ta bort",
       "loading": "Laddar...",
       "notFound": "Receptet hittades inte",
       "addPhoto": "📷 Lägg till foto",

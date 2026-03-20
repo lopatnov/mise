@@ -39,6 +39,8 @@
       "allCategories": "Toate categoriile",
       "communityTitle": "Rețete ale comunității",
       "mine": "Rețetele mele",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Toate etichetele",
       "prev": "← Anterior",
       "next": "Următor →"
@@ -47,6 +49,9 @@
       "back": "← Înapoi",
       "edit": "✏️ Editează",
       "delete": "🗑 Șterge",
+      "deleteConfirm": "Ești sigur?",
+      "deleteCancel": "Anulați",
+      "deleteConfirmBtn": "Șterge",
       "loading": "Se încarcă...",
       "notFound": "Rețeta nu a fost găsită",
       "addPhoto": "📷 Adaugă fotografie",

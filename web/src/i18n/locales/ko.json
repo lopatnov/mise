@@ -39,6 +39,8 @@
       "allCategories": "모든 카테고리",
       "communityTitle": "커뮤니티 레시피",
       "mine": "내 레시피",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "모든 태그",
       "prev": "← 이전",
       "next": "다음 →"
@@ -47,6 +49,9 @@
       "back": "← 뒤로",
       "edit": "✏️ 수정",
       "delete": "🗑 삭제",
+      "deleteConfirm": "정말 삭제하시겠어요?",
+      "deleteCancel": "취소",
+      "deleteConfirmBtn": "삭제",
       "loading": "불러오는 중...",
       "notFound": "레시피를 찾을 수 없습니다",
       "addPhoto": "📷 사진 추가",

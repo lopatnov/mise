@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@picocss/pico": "^2.1.1",
     "@tanstack/react-query": "^5.91.2",
     "axios": "^1.13.6",
     "i18next": "^25.8.19",
@@ -27,6 +28,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "sass": "^1.98.0",
     "typescript": "~5.9.3",
     "vite": "^8.0.1"
   }

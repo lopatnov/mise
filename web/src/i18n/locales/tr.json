@@ -39,6 +39,8 @@
       "allCategories": "Tüm kategoriler",
       "communityTitle": "Topluluk tarifleri",
       "mine": "Tariflerim",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Tüm etiketler",
       "prev": "← Önceki",
       "next": "Sonraki →"
@@ -47,6 +49,9 @@
       "back": "← Geri",
       "edit": "✏️ Düzenle",
       "delete": "🗑 Sil",
+      "deleteConfirm": "Emin misiniz?",
+      "deleteCancel": "İptal",
+      "deleteConfirmBtn": "Sil",
       "loading": "Yükleniyor...",
       "notFound": "Tarif bulunamadı",
       "addPhoto": "📷 Fotoğraf ekle",

@@ -39,6 +39,8 @@
       "allCategories": "Všechny kategorie",
       "communityTitle": "Komunitní recepty",
       "mine": "Moje recepty",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Všechny tagy",
       "prev": "← Předchozí",
       "next": "Další →"
@@ -47,6 +49,9 @@
       "back": "← Zpět",
       "edit": "✏️ Upravit",
       "delete": "🗑 Smazat",
+      "deleteConfirm": "Jsi si jistý?",
+      "deleteCancel": "Zrušit",
+      "deleteConfirmBtn": "Smazat",
       "loading": "Načítání...",
       "notFound": "Recept nebyl nalezen",
       "addPhoto": "📷 Přidat foto",

@@ -27,6 +27,7 @@ export default function RecipeListPage() {
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
   const [mine, setMine] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [page, setPage] = useState(1);
   const { user, token } = useAuthStore();
   const isLoggedIn = !!token;
@@ -47,12 +48,19 @@ export default function RecipeListPage() {
   }
   function changeMine() {
     setMine((v) => !v);
+    setSaved(false);
+    setPage(1);
+  }
+
+  function changeSaved() {
+    setSaved((v) => !v);
+    setMine(false);
     setPage(1);
   }
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
-      ? ['recipes', debouncedSearch, tag, category, mine, page]
+      ? ['recipes', debouncedSearch, tag, category, mine, saved, page]
       : ['recipes', 'public', debouncedSearch, tag, category, page],
     queryFn: () =>
       isLoggedIn
@@ -61,6 +69,7 @@ export default function RecipeListPage() {
             tag: tag || undefined,
             category: category || undefined,
             mine: mine || undefined,
+            saved: saved || undefined,
             page,
             limit: PAGE_SIZE,
           })
@@ -160,6 +169,15 @@ export default function RecipeListPage() {
             className={mine ? 'btn btn--primary' : 'btn btn--outline'}
           >
             {t('recipe.list.mine')}
+          </button>
+        )}
+        {isLoggedIn && (
+          <button
+            onClick={changeSaved}
+            className={saved ? 'btn btn--primary' : 'btn btn--outline'}
+            title={t('recipe.list.savedTitle')}
+          >
+            {t('recipe.list.saved')}
           </button>
         )}
         {isLoggedIn && (

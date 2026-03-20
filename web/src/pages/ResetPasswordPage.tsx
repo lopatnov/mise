@@ -37,7 +37,7 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px', textAlign: 'center' }}>
+      <div className="page-container--auth" style={{ textAlign: 'center' }}>
         <p style={{ color: 'red' }}>{t('auth.resetInvalidLink')}</p>
         <Link to="/login">← {t('auth.signIn')}</Link>
       </div>
@@ -45,12 +45,12 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
+    <div className="page-container--auth">
       <h1 style={{ textAlign: 'center', marginBottom: 8 }}>🍽 Mise</h1>
       <h2 style={{ textAlign: 'center', marginBottom: 28, fontWeight: 400, color: '#555', fontSize: 20 }}>
         {t('auth.resetTitle')}
       </h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="password"
           placeholder={t('auth.newPassword')}
@@ -58,7 +58,7 @@ export default function ResetPasswordPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-          style={inputStyle}
+          className="auth-input"
         />
         <input
           type="password"
@@ -67,29 +67,13 @@ export default function ResetPasswordPage() {
           onChange={(e) => setConfirm(e.target.value)}
           required
           minLength={6}
-          style={inputStyle}
+          className="auth-input"
         />
         {error && <p style={{ color: 'red', margin: 0, fontSize: 14 }}>{error}</p>}
-        <button type="submit" disabled={loading} style={btnStyle}>
+        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
           {loading ? '...' : t('auth.resetSave')}
         </button>
       </form>
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '10px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 15,
-};
-const btnStyle: React.CSSProperties = {
-  padding: '10px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-};
