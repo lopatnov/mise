@@ -28,9 +28,11 @@ function parseIngredient(raw: string): { name: string; amount: number; unit: str
   // Match patterns like "1 1/2 cups", "2.5 grams", "1/3 cup", "3 large"
   const m = /^(\d+(?:[./]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z]+(?:\s+[a-zA-Z]+)?)\s+(.+)/.exec(cleaned);
   if (m) {
-    const amountStr = m[1].includes('/') ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
-      String(parseInt(w, 10) + parseInt(n, 10) / parseInt(d, 10))
-    ) : m[1];
+    const amountStr = m[1].includes('/')
+      ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
+          String(parseInt(w, 10) + parseInt(n, 10) / parseInt(d, 10)),
+        )
+      : m[1];
     const amount = parseFloat(amountStr) || 1;
     return { amount, unit: m[2], name: m[3] };
   }
@@ -45,8 +47,8 @@ function extractStepText(step: unknown): string {
   if (typeof step === 'string') return step;
   if (step && typeof step === 'object') {
     const s = step as Record<string, unknown>;
-    if (typeof s['text'] === 'string') return s['text'];
-    if (typeof s['name'] === 'string') return s['name'];
+    if (typeof s.text === 'string') return s.text;
+    if (typeof s.name === 'string') return s.name;
   }
   return '';
 }
@@ -231,7 +233,9 @@ export class RecipesService {
     }
 
     // Try JSON-LD first
-    const jsonLdBlocks = [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+    const jsonLdBlocks = [
+      ...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi),
+    ];
     for (const block of jsonLdBlocks) {
       try {
         const raw: unknown = JSON.parse(block[1]);
@@ -245,33 +249,40 @@ export class RecipesService {
           if (!item || typeof item !== 'object') continue;
           const obj = item as Record<string, unknown>;
           const type = obj['@type'];
-          const isRecipe =
-            type === 'Recipe' ||
-            (Array.isArray(type) && (type as string[]).includes('Recipe'));
+          const isRecipe = type === 'Recipe' || (Array.isArray(type) && (type as string[]).includes('Recipe'));
           if (!isRecipe) continue;
 
-          const rawInstructions = obj['recipeInstructions'];
-          const stepsRaw: unknown[] = Array.isArray(rawInstructions) ? rawInstructions : rawInstructions ? [rawInstructions] : [];
+          const rawInstructions = obj.recipeInstructions;
+          const stepsRaw: unknown[] = Array.isArray(rawInstructions)
+            ? rawInstructions
+            : rawInstructions
+              ? [rawInstructions]
+              : [];
           const steps = stepsRaw
             .map(extractStepText)
             .filter(Boolean)
             .map((text, i) => ({ order: i + 1, text }));
 
-          const rawIngredients = obj['recipeIngredient'];
-          const ingredients = (Array.isArray(rawIngredients) ? rawIngredients : [])
-            .map((r) => parseIngredient(String(r)));
+          const rawIngredients = obj.recipeIngredient;
+          const ingredients = (Array.isArray(rawIngredients) ? rawIngredients : []).map((r) =>
+            parseIngredient(String(r)),
+          );
 
-          const keywordsRaw = obj['keywords'];
-          const tags = typeof keywordsRaw === 'string'
-            ? keywordsRaw.split(/[,;]/).map((t) => t.trim()).filter(Boolean)
-            : [];
+          const keywordsRaw = obj.keywords;
+          const tags =
+            typeof keywordsRaw === 'string'
+              ? keywordsRaw
+                  .split(/[,;]/)
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+              : [];
 
           return {
-            title: String(obj['name'] ?? '').trim() || 'Imported recipe',
-            description: typeof obj['description'] === 'string' ? obj['description'].slice(0, 2000) : undefined,
-            servings: parseServings(obj['recipeYield'] as string | number | undefined),
-            prepTime: typeof obj['prepTime'] === 'string' ? parseDuration(obj['prepTime']) : undefined,
-            cookTime: typeof obj['cookTime'] === 'string' ? parseDuration(obj['cookTime']) : undefined,
+            title: String(obj.name ?? '').trim() || 'Imported recipe',
+            description: typeof obj.description === 'string' ? obj.description.slice(0, 2000) : undefined,
+            servings: parseServings(obj.recipeYield as string | number | undefined),
+            prepTime: typeof obj.prepTime === 'string' ? parseDuration(obj.prepTime) : undefined,
+            cookTime: typeof obj.cookTime === 'string' ? parseDuration(obj.cookTime) : undefined,
             ingredients,
             steps,
             tags,
@@ -284,8 +295,9 @@ export class RecipesService {
 
     // Fallback: Open Graph meta tags
     const ogTitle = /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
-    const ogDesc = /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1]
-      ?? /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
+    const ogDesc =
+      /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1] ??
+      /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
     const pageTitle = /<title[^>]*>([^<]+)<\/title>/i.exec(html)?.[1]?.trim();
 
     if (ogTitle ?? pageTitle) {
