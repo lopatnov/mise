@@ -66,6 +66,10 @@ export class CreateRecipeDto {
   isPublic?: boolean;
 }
 
+export class ImportUrlDto {
+  @IsString() url: string;
+}
+
 export class RecipeQueryDto {
   @IsOptional() @IsString() q?: string;
   @IsOptional() @IsString() tag?: string;

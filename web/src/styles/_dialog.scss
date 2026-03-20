@@ -1,3 +1,21 @@
+// Import URL dialog extensions
+.import-dialog__title {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.import-dialog__hint {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--c-text-muted);
+}
+
+.import-dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 // Confirm dialog modal
 
 .confirm-overlay {

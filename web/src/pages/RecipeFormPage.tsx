@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import ImportUrlDialog from '../components/ImportUrlDialog';
 import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function RecipeFormPage() {
@@ -29,6 +30,7 @@ export default function RecipeFormPage() {
   const [steps, setSteps] = useState(['']);
   const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
+  const [showImport, setShowImport] = useState(false);
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -54,6 +56,18 @@ export default function RecipeFormPage() {
       if (existing.steps.length) setSteps(existing.steps.map((s) => s.text));
     }
   }, [existing]);
+
+  function applyImport(data: Partial<Recipe>) {
+    if (data.title) setTitle(data.title);
+    if (data.description) setDescription(data.description);
+    if (data.servings) setServings(data.servings);
+    if (data.prepTime) setPrepTime(String(data.prepTime));
+    if (data.cookTime) setCookTime(String(data.cookTime));
+    if (data.tags?.length) setTags(data.tags.join(', '));
+    if (data.ingredients?.length) setIngredients(data.ingredients);
+    if (data.steps?.length) setSteps(data.steps.map((s) => s.text));
+    setShowImport(false);
+  }
 
   const saveMut = useMutation({
     mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id ?? '', data) : recipesApi.create(data)),
@@ -118,10 +132,19 @@ export default function RecipeFormPage() {
 
   return (
     <div className="page-container">
-      <div className="form-back">
+      {showImport && (
+        <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />
+      )}
+
+      <div className="recipe-actions form-back">
         <button onClick={() => navigate(-1)} className="btn btn--ghost">
           {t('recipe.form.back')}
         </button>
+        {!isEdit && (
+          <button type="button" onClick={() => setShowImport(true)} className="btn btn--outline ms-auto">
+            {t('recipe.import.button')}
+          </button>
+        )}
       </div>
       <h1 className="form-title">{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
 
