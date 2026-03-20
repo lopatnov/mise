@@ -164,10 +164,7 @@ export default function RecipeListPage() {
           ))}
         </select>
         {isLoggedIn && (
-          <button
-            onClick={changeMine}
-            className={mine ? 'btn btn--primary' : 'btn btn--outline'}
-          >
+          <button onClick={changeMine} className={mine ? 'btn btn--primary' : 'btn btn--outline'}>
             {t('recipe.list.mine')}
           </button>
         )}
@@ -203,11 +200,7 @@ export default function RecipeListPage() {
             <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
               <div className="recipe-card">
                 {r.photoUrl ? (
-                  <img
-                    src={`${API_URL}${r.photoUrl}`}
-                    alt={r.title}
-                    className="recipe-card__photo"
-                  />
+                  <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
                 ) : (
                   <div className="recipe-card__placeholder">🍽</div>
                 )}
@@ -251,11 +244,7 @@ export default function RecipeListPage() {
             {t('recipe.list.prev')}
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <button
-              key={p}
-              onClick={() => goToPage(p)}
-              className={`page-btn${p === page ? ' page-btn--active' : ''}`}
-            >
+            <button key={p} onClick={() => goToPage(p)} className={`page-btn${p === page ? ' page-btn--active' : ''}`}>
               {p}
             </button>
           ))}

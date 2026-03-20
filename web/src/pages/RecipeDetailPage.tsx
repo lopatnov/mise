@@ -114,8 +114,7 @@ export default function RecipeDetailPage() {
   });
 
   const favoriteMut = useMutation({
-    mutationFn: () =>
-      isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? ''),
+    mutationFn: () => (isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? '')),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['recipe', id] });
       qc.invalidateQueries({ queryKey: ['recipes'] });
@@ -177,13 +176,17 @@ export default function RecipeDetailPage() {
 
       {/* Action bar */}
       <div className="recipe-actions no-print">
-        <Link to="/" className="btn btn--ghost">{t('recipe.detail.back')}</Link>
+        <Link to="/" className="btn btn--ghost">
+          {t('recipe.detail.back')}
+        </Link>
         <button onClick={() => window.print()} className="btn btn--outline ms-auto">
           {t('recipe.detail.print')}
         </button>
         {canEdit && (
           <>
-            <Link to={`/recipes/${id}/edit`} className="btn btn--outline">{t('recipe.detail.edit')}</Link>
+            <Link to={`/recipes/${id}/edit`} className="btn btn--outline">
+              {t('recipe.detail.edit')}
+            </Link>
             <button
               onClick={() => duplicateMut.mutate()}
               disabled={duplicateMut.isPending}
@@ -197,11 +200,7 @@ export default function RecipeDetailPage() {
           </>
         )}
         {isLoggedIn && !canEdit && (
-          <button
-            onClick={() => duplicateMut.mutate()}
-            disabled={duplicateMut.isPending}
-            className="btn btn--outline"
-          >
+          <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="btn btn--outline">
             {t('recipe.detail.duplicate')}
           </button>
         )}
@@ -285,20 +284,13 @@ export default function RecipeDetailPage() {
             {recipeCategory.icon} {recipeCategory.name}
           </span>
         )}
-        {recipe.isPublic && (
-          <span className="tag tag--public">
-            🌐 {t('recipe.detail.public')}
-          </span>
-        )}
+        {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}
       </div>
 
       {/* Scaling control */}
       <div className="scaling-control no-print">
         <span>{t('recipe.detail.servings')}</span>
-        <button
-          onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
-          className="btn btn--icon"
-        >
+        <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} className="btn btn--icon">
           −
         </button>
         <span className="scaling-control__count">{effectiveServings}</span>
@@ -306,10 +298,7 @@ export default function RecipeDetailPage() {
           +
         </button>
         {scale !== 1 && (
-          <button
-            onClick={() => setTargetServings(null)}
-            className="btn btn--ghost ms-auto"
-          >
+          <button onClick={() => setTargetServings(null)} className="btn btn--ghost ms-auto">
             {t('recipe.detail.reset')}
           </button>
         )}
@@ -318,14 +307,14 @@ export default function RecipeDetailPage() {
       {recipe.tags.length > 0 && (
         <div className="recipe-tags">
           {recipe.tags.map((tag) => (
-            <span key={tag} className="tag tag--large">{tag}</span>
+            <span key={tag} className="tag tag--large">
+              {tag}
+            </span>
           ))}
         </div>
       )}
 
-      {recipe.description && (
-        <p className="recipe-detail__description">{recipe.description}</p>
-      )}
+      {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
 
       {recipe.ingredients.length > 0 && (
         <section className="recipe-section">

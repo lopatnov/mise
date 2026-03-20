@@ -132,9 +132,7 @@ export default function RecipeFormPage() {
 
   return (
     <div className="page-container">
-      {showImport && (
-        <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />
-      )}
+      {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
 
       <div className="recipe-actions form-back">
         <button onClick={() => navigate(-1)} className="btn btn--ghost">
@@ -309,11 +307,7 @@ export default function RecipeFormPage() {
                 onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
                 className="form-input"
               />
-              <button
-                type="button"
-                onClick={() => removeIngredient(i)}
-                className="btn btn--small btn--remove"
-              >
+              <button type="button" onClick={() => removeIngredient(i)} className="btn btn--small btn--remove">
                 ×
               </button>
             </div>
@@ -351,11 +345,7 @@ export default function RecipeFormPage() {
                   className="form-input resize-v flex-1"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => removeStep(i)}
-                className="btn btn--small btn--remove"
-              >
+              <button type="button" onClick={() => removeStep(i)} className="btn btn--small btn--remove">
                 ×
               </button>
             </div>
@@ -380,7 +370,9 @@ export default function RecipeFormPage() {
 function Field({ label, children, id }: { label: string; children: React.ReactNode; id?: string }) {
   return (
     <div className="field">
-      <label className="field__label" htmlFor={id}>{label}</label>
+      <label className="field__label" htmlFor={id}>
+        {label}
+      </label>
       {children}
     </div>
   );

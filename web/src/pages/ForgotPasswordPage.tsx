@@ -35,7 +35,9 @@ export default function ForgotPasswordPage() {
             {result.devLink}
           </a>
         )}
-        <Link to="/login" className="auth-links link--sm">← {t('auth.signIn')}</Link>
+        <Link to="/login" className="auth-links link--sm">
+          ← {t('auth.signIn')}
+        </Link>
       </div>
     );
   }
@@ -58,7 +60,9 @@ export default function ForgotPasswordPage() {
         </button>
       </form>
       <p className="auth-links--sm">
-        <Link to="/login" className="link--sm">← {t('auth.signIn')}</Link>
+        <Link to="/login" className="link--sm">
+          ← {t('auth.signIn')}
+        </Link>
       </p>
     </div>
   );

@@ -6,7 +6,12 @@ export default function Footer() {
         lopatnov
       </a>
       {' · '}
-      <a href="https://github.com/lopatnov/mise" target="_blank" rel="noopener noreferrer" className="site-footer__link">
+      <a
+        href="https://github.com/lopatnov/mise"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="site-footer__link"
+      >
         GitHub
       </a>
       {' · '}

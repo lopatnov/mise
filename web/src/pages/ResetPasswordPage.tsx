@@ -39,7 +39,9 @@ export default function ResetPasswordPage() {
     return (
       <div className="page-container--auth page-container--auth--center">
         <p className="form-error">{t('auth.resetInvalidLink')}</p>
-        <Link to="/login" className="link--sm">← {t('auth.signIn')}</Link>
+        <Link to="/login" className="link--sm">
+          ← {t('auth.signIn')}
+        </Link>
       </div>
     );
   }

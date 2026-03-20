@@ -18,16 +18,14 @@ export default function AdminPage() {
     <div className="page-container page-container--wide">
       <div className="page-header">
         <h1 className="admin-page-title">{t('admin.title')}</h1>
-        <Link to="/" className="link--sm">{t('recipe.detail.back')}</Link>
+        <Link to="/" className="link--sm">
+          {t('recipe.detail.back')}
+        </Link>
       </div>
 
       <div className="tab-bar">
         {(['users', 'invites', 'settings'] as Tab[]).map((t2) => (
-          <button
-            key={t2}
-            onClick={() => setTab(t2)}
-            className={`tab-btn${tab === t2 ? ' tab-btn--active' : ''}`}
-          >
+          <button key={t2} onClick={() => setTab(t2)} className={`tab-btn${tab === t2 ? ' tab-btn--active' : ''}`}>
             {t(`admin.tab.${t2}`)}
           </button>
         ))}
@@ -78,7 +76,9 @@ function UsersTab() {
 
   return (
     <div>
-      <p className="admin-stat">{users?.length ?? 0} {t('admin.users.total')}</p>
+      <p className="admin-stat">
+        {users?.length ?? 0} {t('admin.users.total')}
+      </p>
       <table className="admin-table">
         <thead>
           <tr>
@@ -223,7 +223,9 @@ function InvitesTab() {
         <p>{t('recipe.list.loading')}</p>
       ) : (
         <div>
-          <p className="admin-stat">{invites?.length ?? 0} {t('admin.invites.active')}</p>
+          <p className="admin-stat">
+            {invites?.length ?? 0} {t('admin.invites.active')}
+          </p>
           {invites?.map((inv) => (
             <div key={inv._id} className="invite-row">
               <div>

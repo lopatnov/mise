@@ -42,7 +42,6 @@ export default function ImportUrlDialog({ onImport, onClose }: ImportUrlDialogPr
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com/recipe/..."
             required
-            autoFocus
             className="form-input"
           />
           {error && <p className="form-error">{error}</p>}

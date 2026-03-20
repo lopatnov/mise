@@ -80,10 +80,14 @@ export default function LoginPage() {
         {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
       </p>
       <p className="auth-links--sm">
-        <Link to="/forgot-password" className="link--sm">{t('auth.forgotPassword')}</Link>
+        <Link to="/forgot-password" className="link--sm">
+          {t('auth.forgotPassword')}
+        </Link>
       </p>
       <p className="auth-links--sm">
-        <Link to="/" className="link--xlight">← {t('recipe.list.communityTitle')}</Link>
+        <Link to="/" className="link--xlight">
+          ← {t('recipe.list.communityTitle')}
+        </Link>
       </p>
     </div>
   );
