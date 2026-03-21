@@ -273,7 +273,7 @@ export default function RecipeListPage() {
                         {tg}
                       </button>
                     ))}
-                    {r.rating && <span className="tag">{'⭐'.repeat(r.rating)}</span>}
+                    {r.rating && <span className="rating-badge">★ {r.rating}/5</span>}
                   </div>
                 </div>
               </article>
