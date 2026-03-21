@@ -1,12 +1,12 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
+import { UploadsService } from '../uploads/uploads.service';
 import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
-import { UploadsService } from '../uploads/uploads.service';
 
 /** Parse duration in various formats → minutes */
 function parseDuration(raw: string | number): number | undefined {
@@ -28,8 +28,7 @@ function parseDuration(raw: string | number): number | undefined {
   const hourMatch = /(\d+)\s*(?:h(?:r|rs|ours?)?|час)/i.exec(s);
   const minMatch = /(\d+)\s*(?:m(?:in(?:utes?)?)?(?!\w)|мин)/i.exec(s);
   if (hourMatch ?? minMatch) {
-    const total =
-      parseInt(hourMatch?.[1] ?? '0', 10) * 60 + parseInt(minMatch?.[1] ?? '0', 10);
+    const total = parseInt(hourMatch?.[1] ?? '0', 10) * 60 + parseInt(minMatch?.[1] ?? '0', 10);
     return total > 0 ? total : undefined;
   }
   // Last resort: first number in string → assume minutes
@@ -50,10 +49,9 @@ function parseIngredient(raw: string): { name: string; amount: number; unit: str
   const cleaned = raw.replace(/\s+/g, ' ').trim();
   const normNum = (s: string) => parseFloat(s.replace(',', '.'));
   // Match patterns like "1 1/2 cups", "2.5 grams", "2,5 гр", "1/3 cup", "3 large"
-  const m =
-    /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)?)\s+(.+)/.exec(
-      cleaned,
-    );
+  const m = /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)?)\s+(.+)/.exec(
+    cleaned,
+  );
   if (m) {
     const amountStr = m[1].includes('/')
       ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
@@ -320,9 +318,7 @@ export class RecipesService {
       let charset = /charset=([\w-]+)/i.exec(ct)?.[1];
       if (!charset) {
         const peek = new TextDecoder('latin1').decode(new Uint8Array(buf, 0, 4096));
-        charset =
-          /<meta[^>]+charset=["']?\s*([\w-]+)/i.exec(peek)?.[1] ??
-          /charset=([\w-]+)/i.exec(peek)?.[1];
+        charset = /<meta[^>]+charset=["']?\s*([\w-]+)/i.exec(peek)?.[1] ?? /charset=([\w-]+)/i.exec(peek)?.[1];
       }
       html = new TextDecoder(charset ?? 'utf-8', { fatal: false }).decode(buf);
     } catch (err: unknown) {
