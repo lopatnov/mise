@@ -105,7 +105,6 @@ export default function RecipeDetailPage() {
       });
     },
     onSuccess: (saved) => {
-      // Pre-populate cache so the edit form renders immediately without a loading state
       qc.setQueryData(['recipe', saved._id], saved);
       qc.invalidateQueries({ queryKey: ['recipes'] });
       navigate(`/recipes/${saved._id}/edit`);
@@ -148,7 +147,6 @@ export default function RecipeDetailPage() {
   const canEdit = isOwner || isAdmin;
   const isFavorited = isLoggedIn && (recipe.savedBy ?? []).includes(user?.id ?? '');
 
-  // Use toString() for safe ObjectId comparison
   const recipeCategory = categories?.find((c) => c._id.toString() === recipe.categoryId?.toString());
 
   const effectiveServings = targetServings ?? recipe.servings;
@@ -160,7 +158,7 @@ export default function RecipeDetailPage() {
   }
 
   return (
-    <div className="page-container">
+    <div className="page-container recipe-detail__page">
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
       {showConfirmDelete && (
@@ -173,79 +171,6 @@ export default function RecipeDetailPage() {
           isPending={deleteMut.isPending}
         />
       )}
-
-      {/* Action bar */}
-      <div className="recipe-actions no-print">
-        <Link to="/" className="btn btn--ghost">
-          {t('recipe.detail.back')}
-        </Link>
-        <button onClick={() => window.print()} className="btn btn--outline ms-auto">
-          {t('recipe.detail.print')}
-        </button>
-        {canEdit && (
-          <>
-            <Link to={`/recipes/${id}/edit`} className="btn btn--outline">
-              {t('recipe.detail.edit')}
-            </Link>
-            <button
-              onClick={() => duplicateMut.mutate()}
-              disabled={duplicateMut.isPending}
-              className="btn btn--outline"
-            >
-              {t('recipe.detail.duplicate')}
-            </button>
-            <button onClick={() => setShowConfirmDelete(true)} className="btn btn--danger">
-              {t('recipe.detail.delete')}
-            </button>
-          </>
-        )}
-        {isLoggedIn && !canEdit && (
-          <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="btn btn--outline">
-            {t('recipe.detail.duplicate')}
-          </button>
-        )}
-        {isLoggedIn && (
-          <button
-            onClick={() => favoriteMut.mutate()}
-            disabled={favoriteMut.isPending}
-            className="btn btn--outline"
-            title={isFavorited ? t('recipe.detail.unfavorite') : t('recipe.detail.favorite')}
-          >
-            {isFavorited ? '❤️' : '🤍'}
-          </button>
-        )}
-      </div>
-
-      {/* Main photo */}
-      <div
-        className="photo-container"
-        onMouseEnter={() => setMainPhotoHover(true)}
-        onMouseLeave={() => setMainPhotoHover(false)}
-      >
-        {recipe.photoUrl ? (
-          <>
-            <img
-              src={`${API_URL}${recipe.photoUrl}`}
-              alt={recipe.title}
-              onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
-              className="recipe-photo__img"
-            />
-            {canEdit && mainPhotoHover && (
-              <button
-                onClick={() => fileRef.current?.click()}
-                title={t('recipe.detail.changePhoto')}
-                className="photo-replace-btn"
-              >
-                📷
-              </button>
-            )}
-          </>
-        ) : canEdit ? (
-          <div onClick={() => fileRef.current?.click()} className="photo-placeholder">
-            {t('recipe.detail.addPhoto')}
-          </div>
-        ) : null}
-      </div>
 
       <input
         ref={fileRef}
@@ -272,121 +197,197 @@ export default function RecipeDetailPage() {
         }}
       />
 
-      <h1 className="recipe-detail__title">{recipe.title}</h1>
-
-      {/* Meta row: prep/cook time, rating, category, public badge */}
-      <div className="recipe-meta">
-        {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
-        {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
-        {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
-        {recipeCategory && (
-          <span className="recipe-card__category">
-            {recipeCategory.icon} {recipeCategory.name}
-          </span>
-        )}
-        {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}
-      </div>
-
-      {/* Scaling control */}
-      <div className="scaling-control no-print">
-        <span>{t('recipe.detail.servings')}</span>
-        <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} className="btn btn--icon">
-          −
-        </button>
-        <span className="scaling-control__count">{effectiveServings}</span>
-        <button onClick={() => setTargetServings(effectiveServings + 1)} className="btn btn--icon">
-          +
-        </button>
-        {scale !== 1 && (
-          <button onClick={() => setTargetServings(null)} className="btn btn--ghost ms-auto">
-            {t('recipe.detail.reset')}
+      {/* Action bar: full width */}
+      <div className="recipe-actions no-print">
+        <Link to="/" className="btn-ghost">
+          {t('recipe.detail.back')}
+        </Link>
+        {isLoggedIn && (
+          <button onClick={() => favoriteMut.mutate()} disabled={favoriteMut.isPending} className="outline">
+            {isFavorited ? t('recipe.detail.unfavorite') : t('recipe.detail.favorite')}
           </button>
         )}
+        <div className="recipe-actions__right">
+          <button onClick={() => window.print()} className="outline">
+            {t('recipe.detail.print')}
+          </button>
+          {isLoggedIn && !canEdit && (
+            <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="outline">
+              {t('recipe.detail.duplicate')}
+            </button>
+          )}
+          {canEdit && (
+            <>
+              <Link to={`/recipes/${id}/edit`} role="button" className="outline">
+                {t('recipe.detail.edit')}
+              </Link>
+              <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="outline">
+                {t('recipe.detail.duplicate')}
+              </button>
+              <button onClick={() => setShowConfirmDelete(true)} className="btn-danger">
+                {t('recipe.detail.delete')}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
-      {recipe.tags.length > 0 && (
-        <div className="recipe-tags">
-          {recipe.tags.map((tag) => (
-            <span key={tag} className="tag tag--large">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      {/* 2-column grid */}
+      <div className="recipe-detail__grid">
+        {/* LEFT: main content */}
+        <div className="recipe-detail__main">
+          <h1 className="recipe-detail__title">{recipe.title}</h1>
 
-      {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
+          {/* Meta row */}
+          <div className="recipe-meta">
+            {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
+            {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
+            {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
+            {recipeCategory && (
+              <span className="recipe-card__category">
+                {recipeCategory.icon} {recipeCategory.name}
+              </span>
+            )}
+            {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}
+          </div>
 
-      {recipe.ingredients.length > 0 && (
-        <section className="recipe-section">
-          <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
-          <ul className="recipe-section__list">
-            {recipe.ingredients.map((ing) => (
-              <li key={ing.name} className="recipe-section__item">
-                <strong>
-                  {fmtAmount(ing.amount)} {ing.unit}
-                </strong>{' '}
-                {ing.name}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {recipe.steps.length > 0 && (
-        <section className="recipe-section">
-          <h2 className="recipe-section__title">{t('recipe.detail.steps')}</h2>
-          <ol className="recipe-section__list">
-            {recipe.steps
-              .sort((a, b) => a.order - b.order)
-              .map((step) => (
-                <li key={step.order} className="recipe-step__item">
-                  <div className="recipe-step__row">
-                    <span className="recipe-step__text">{step.text}</span>
-                    {canEdit && !step.photoUrl && (
-                      <button
-                        onClick={() => {
-                          pendingStepOrder.current = step.order;
-                          stepFileRef.current?.click();
-                        }}
-                        title={t('recipe.detail.addPhoto')}
-                        className="step-photo-add-btn"
-                      >
-                        📷
-                      </button>
-                    )}
-                  </div>
-                  {step.photoUrl && (
-                    <div
-                      className="photo-container recipe-step__photo-container"
-                      onMouseEnter={() => setHoveredStepOrder(step.order)}
-                      onMouseLeave={() => setHoveredStepOrder(null)}
-                    >
-                      <img
-                        src={`${API_URL}${step.photoUrl}`}
-                        alt=""
-                        onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
-                        className="recipe-step__photo"
-                      />
-                      {canEdit && hoveredStepOrder === step.order && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            pendingStepOrder.current = step.order;
-                            stepFileRef.current?.click();
-                          }}
-                          title={t('recipe.detail.changePhoto')}
-                          className="photo-replace-btn"
-                        >
-                          📷
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </li>
+          {recipe.tags.length > 0 && (
+            <div className="recipe-tags">
+              {recipe.tags.map((tag) => (
+                <span key={tag} className="tag tag--large">
+                  {tag}
+                </span>
               ))}
-          </ol>
-        </section>
-      )}
+            </div>
+          )}
+
+          {/* Main photo */}
+          <div
+            className="photo-container"
+            onMouseEnter={() => setMainPhotoHover(true)}
+            onMouseLeave={() => setMainPhotoHover(false)}
+          >
+            {recipe.photoUrl ? (
+              <>
+                <img
+                  src={`${API_URL}${recipe.photoUrl}`}
+                  alt={recipe.title}
+                  onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
+                  className="recipe-photo__img"
+                />
+                {canEdit && mainPhotoHover && (
+                  <button
+                    onClick={() => fileRef.current?.click()}
+                    title={t('recipe.detail.changePhoto')}
+                    className="photo-replace-btn"
+                  >
+                    📷
+                  </button>
+                )}
+              </>
+            ) : canEdit ? (
+              <div onClick={() => fileRef.current?.click()} className="photo-placeholder">
+                {t('recipe.detail.addPhoto')}
+              </div>
+            ) : null}
+          </div>
+
+          {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
+
+          {/* Steps */}
+          {recipe.steps.length > 0 && (
+            <section className="recipe-section">
+              <h2 className="recipe-section__title">{t('recipe.detail.steps')}</h2>
+              <ol className="recipe-section__list">
+                {recipe.steps
+                  .sort((a, b) => a.order - b.order)
+                  .map((step) => (
+                    <li key={step.order} className="recipe-step__item">
+                      <div className="recipe-step__row">
+                        <span className="recipe-step__text">{step.text}</span>
+                        {canEdit && !step.photoUrl && (
+                          <button
+                            onClick={() => {
+                              pendingStepOrder.current = step.order;
+                              stepFileRef.current?.click();
+                            }}
+                            title={t('recipe.detail.addPhoto')}
+                            className="step-photo-add-btn"
+                          >
+                            📷
+                          </button>
+                        )}
+                      </div>
+                      {step.photoUrl && (
+                        <div
+                          className="photo-container recipe-step__photo-container"
+                          onMouseEnter={() => setHoveredStepOrder(step.order)}
+                          onMouseLeave={() => setHoveredStepOrder(null)}
+                        >
+                          <img
+                            src={`${API_URL}${step.photoUrl}`}
+                            alt=""
+                            onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
+                            className="recipe-step__photo"
+                          />
+                          {canEdit && hoveredStepOrder === step.order && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                pendingStepOrder.current = step.order;
+                                stepFileRef.current?.click();
+                              }}
+                              title={t('recipe.detail.changePhoto')}
+                              className="photo-replace-btn"
+                            >
+                              📷
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+              </ol>
+            </section>
+          )}
+        </div>
+
+        {/* RIGHT: ingredients sidebar */}
+        <aside className="recipe-detail__sidebar">
+          {/* Servings scaler */}
+          <div className="scaling-control no-print">
+            <span>{t('recipe.detail.servings')}</span>
+            <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} className="btn-icon">
+              −
+            </button>
+            <span className="scaling-control__count">{effectiveServings}</span>
+            <button onClick={() => setTargetServings(effectiveServings + 1)} className="btn-icon">
+              +
+            </button>
+            {scale !== 1 && (
+              <button onClick={() => setTargetServings(null)} className="btn-ghost ms-auto">
+                {t('recipe.detail.reset')}
+              </button>
+            )}
+          </div>
+
+          {recipe.ingredients.length > 0 && (
+            <section className="recipe-section">
+              <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
+              <ul className="recipe-section__list">
+                {recipe.ingredients.map((ing) => (
+                  <li key={ing.name} className="recipe-section__item">
+                    <strong>
+                      {fmtAmount(ing.amount)} {ing.unit}
+                    </strong>{' '}
+                    {ing.name}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </aside>
+      </div>
     </div>
   );
 }

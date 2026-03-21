@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
+import NavBar from './components/NavBar';
 import ToastContainer from './components/Toast';
 import AdminPage from './pages/AdminPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
@@ -33,9 +34,10 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastContainer />
-      <Footer />
       <BrowserRouter>
+        <NavBar />
+        <ToastContainer />
+        <Footer />
         <Routes>
           <Route path="/setup" element={<SetupPage />} />
           <Route path="/login" element={<LoginPage />} />

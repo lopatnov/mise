@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import { recipesApi } from '../api/recipes';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useAuthStore } from '../store/authStore';
 
@@ -22,14 +21,14 @@ function useDebounce<T>(value: T, ms = 400): T {
 
 export default function RecipeListPage() {
   const { t } = useTranslation();
-  const siteTitle = usePageTitle();
+  usePageTitle();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
   const [mine, setMine] = useState(false);
   const [saved, setSaved] = useState(false);
   const [page, setPage] = useState(1);
-  const { user, token } = useAuthStore();
+  const { token } = useAuthStore();
   const isLoggedIn = !!token;
 
   const debouncedSearch = useDebounce(search, 400);
@@ -51,7 +50,6 @@ export default function RecipeListPage() {
     setSaved(false);
     setPage(1);
   }
-
   function changeSaved() {
     setSaved((v) => !v);
     setMine(false);
@@ -83,8 +81,14 @@ export default function RecipeListPage() {
     placeholderData: keepPreviousData,
   });
 
-  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
-  const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: categoriesApi.list,
+  });
+  const { data: allTags } = useQuery({
+    queryKey: ['recipe-tags'],
+    queryFn: recipesApi.getTags,
+  });
 
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 1;
 
@@ -95,93 +99,53 @@ export default function RecipeListPage() {
 
   return (
     <div className="page-container page-container--wide">
-      <header className="page-header">
-        <div>
-          <h1 className="page-header__title">🍽 {siteTitle}</h1>
-          {data && (
-            <p className="page-header__subtitle">
-              {data.total} {t('profile.recipesCount')}
-              {isFetching && ' …'}
-            </p>
-          )}
-        </div>
-        <div className="page-header__actions">
-          <LanguageSwitcher />
-          {isLoggedIn ? (
-            <>
-              {user?.role === 'admin' && (
-                <Link to="/admin" className="btn btn--nav">
-                  ⚙️ {t('admin.link')}
-                </Link>
-              )}
-              <Link to="/profile" className="profile-link">
-                <span className="profile-link__name">{user?.displayName ?? user?.email}</span>
-                <span className="btn btn--small">👤</span>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <button className="btn btn--outline">{t('auth.signIn')}</button>
-              </Link>
-              <Link to="/register">
-                <button className="btn btn--primary">{t('auth.register')}</button>
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
+      {data && (
+        <p className="page-header__subtitle list-recipe-count">
+          {data.total} {t('profile.recipesCount')}
+          {isFetching && ' …'}
+        </p>
+      )}
 
+      {/* Filter bar — Row 1: search, Row 2: selects + toggles */}
       <div className="filter-bar">
         <input
+          type="search"
           placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
           onChange={(e) => changeSearch(e.target.value)}
-          className="filter-search form-input"
         />
-        <select
-          value={tag}
-          onChange={(e) => changeTag(e.target.value)}
-          className="filter-aux filter-aux--sm form-input"
-        >
-          <option value="">{t('recipe.list.allTags')}</option>
-          {allTags?.map((tg) => (
-            <option key={tg} value={tg}>
-              {tg}
-            </option>
-          ))}
-        </select>
-        <select
-          value={category}
-          onChange={(e) => changeCategory(e.target.value)}
-          className="filter-aux filter-aux--md form-input"
-        >
-          <option value="">{t('recipe.list.allCategories')}</option>
-          {categories?.map((c) => (
-            <option key={c._id} value={c._id}>
-              {c.icon} {c.name}
-            </option>
-          ))}
-        </select>
-        {isLoggedIn && (
-          <button onClick={changeMine} className={mine ? 'btn btn--primary' : 'btn btn--outline'}>
-            {t('recipe.list.mine')}
-          </button>
-        )}
-        {isLoggedIn && (
-          <button
-            onClick={changeSaved}
-            className={saved ? 'btn btn--primary' : 'btn btn--outline'}
-            title={t('recipe.list.savedTitle')}
-          >
-            {t('recipe.list.saved')}
-          </button>
-        )}
-        {isLoggedIn && (
-          <Link to="/recipes/new">
-            <button className="btn btn--primary">{t('recipe.list.addButton')}</button>
-          </Link>
-        )}
+        <div className="filter-bar__row">
+          <select value={tag} onChange={(e) => changeTag(e.target.value)}>
+            <option value="">{t('recipe.list.allTags')}</option>
+            {allTags?.map((tg) => (
+              <option key={tg} value={tg}>
+                {tg}
+              </option>
+            ))}
+          </select>
+          <select value={category} onChange={(e) => changeCategory(e.target.value)}>
+            <option value="">{t('recipe.list.allCategories')}</option>
+            {categories?.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.icon} {c.name}
+              </option>
+            ))}
+          </select>
+          {isLoggedIn && (
+            <>
+              <button onClick={changeMine} className={mine ? undefined : 'outline'}>
+                {t('recipe.list.mine')}
+              </button>
+              <button
+                onClick={changeSaved}
+                className={saved ? undefined : 'outline'}
+                title={t('recipe.list.savedTitle')}
+              >
+                {t('recipe.list.saved')}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {isLoading && !data && <p>{t('recipe.list.loading')}</p>}
@@ -198,12 +162,17 @@ export default function RecipeListPage() {
           const cat = categories?.find((c) => c._id.toString() === r.categoryId?.toString());
           return (
             <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
-              <div className="recipe-card">
-                {r.photoUrl ? (
-                  <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
-                ) : (
-                  <div className="recipe-card__placeholder">🍽</div>
-                )}
+              <article className="recipe-card">
+                <div className="recipe-card__photo-wrap">
+                  {r.photoUrl ? (
+                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
+                  ) : (
+                    <div className="recipe-card__placeholder">🍽</div>
+                  )}
+                  {(r.prepTime || r.cookTime) && (
+                    <span className="card-time-badge">⏱ {(r.prepTime ?? 0) + (r.cookTime ?? 0)} min</span>
+                  )}
+                </div>
                 <div className="recipe-card__body">
                   <h3 className="recipe-card__title">{r.title}</h3>
                   {r.description && <p className="recipe-card__desc">{r.description}</p>}
@@ -228,7 +197,7 @@ export default function RecipeListPage() {
                     {r.rating && <span className="tag">{'⭐'.repeat(r.rating)}</span>}
                   </div>
                 </div>
-              </div>
+              </article>
             </Link>
           );
         })}

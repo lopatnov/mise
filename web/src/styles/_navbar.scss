@@ -1,0 +1,54 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background: var(--pico-card-background-color);
+  border-bottom: 1px solid var(--c-border-light);
+  box-shadow: var(--shadow-sm);
+  gap: 8px;
+
+  &__logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--c-primary);
+    margin-right: auto;
+    flex-shrink: 0;
+
+    &:hover { color: var(--pico-primary-hover); }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button, [role="button"], select {
+      --pico-form-element-spacing-vertical: 0.4rem;
+      font-size: 0.875rem;
+      margin-bottom: 0;
+    }
+  }
+
+  &__btn {
+    white-space: nowrap;
+  }
+}
+
+.navbar .profile-link {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 12px;
+    gap: 6px;
+
+    &__logo { font-size: 1rem; }
+  }
+}

@@ -91,3 +91,48 @@
   display: block;
   cursor: zoom-in;
 }
+
+// ── 2-column detail layout ──────────────────────────────────────────────────
+
+.recipe-detail__page {
+  max-width: 960px;
+}
+
+.recipe-detail__grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+  align-items: start;
+}
+
+.recipe-detail__sidebar {
+  position: sticky;
+  top: calc(56px + 16px);
+  max-height: calc(100vh - 56px - 48px);
+  overflow-y: auto;
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+
+  .scaling-control {
+    margin-bottom: 16px;
+    background: none;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--c-border-light);
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .recipe-detail__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe-detail__sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    order: -1;
+  }
+}
