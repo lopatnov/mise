@@ -2,6 +2,7 @@ import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { Types } from 'mongoose';
+import { UploadsService } from '../uploads/uploads.service';
 import { Recipe } from './recipe.schema';
 import { RecipesService } from './recipes.service';
 
@@ -42,8 +43,17 @@ describe('RecipesService', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
+    const mockUploadsService = {
+      buildPhotoUrl: jest.fn((filename: string) => `/uploads/${filename}`),
+      deletePhoto: jest.fn().mockResolvedValue(undefined),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RecipesService, { provide: getModelToken(Recipe.name), useValue: mockModel }],
+      providers: [
+        RecipesService,
+        { provide: getModelToken(Recipe.name), useValue: mockModel },
+        { provide: UploadsService, useValue: mockUploadsService },
+      ],
     }).compile();
 
     service = module.get<RecipesService>(RecipesService);
