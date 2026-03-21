@@ -55,7 +55,8 @@ export default function RecipeFormPage() {
       setIsPublic(existing.isPublic ?? false);
       if (existing.ingredients.length)
         setIngredients(existing.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
-      if (existing.steps.length) setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
+      if (existing.steps.length)
+        setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
     }
   }, [existing]);
 
@@ -68,7 +69,9 @@ export default function RecipeFormPage() {
     if (data.tags?.length) setTags(data.tags.join(', '));
     if (data.ingredients?.length) setIngredients(data.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
     if (data.steps?.length)
-      setSteps(data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })));
+      setSteps(
+        data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
+      );
     if (data.externalImageUrl) setImportedImageUrl(data.externalImageUrl);
     setShowImport(false);
   }
@@ -98,7 +101,9 @@ export default function RecipeFormPage() {
       categoryId: categoryId || undefined,
       isPublic,
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
-      steps: steps.filter((s) => s.text).map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
+      steps: steps
+        .filter((s) => s.text)
+        .map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
       externalImageUrl: importedImageUrl || undefined,
     });
   }
@@ -150,11 +155,7 @@ export default function RecipeFormPage() {
               {t('recipe.import.button')}
             </button>
             {importedImageUrl && (
-              <img
-                src={importedImageUrl}
-                alt={t('recipe.form.importedPhoto')}
-                className="import-photo-preview"
-              />
+              <img src={importedImageUrl} alt={t('recipe.form.importedPhoto')} className="import-photo-preview" />
             )}
           </>
         )}
