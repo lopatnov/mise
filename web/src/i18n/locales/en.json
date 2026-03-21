@@ -69,7 +69,9 @@
       "duplicate": "Save a copy",
       "duplicateTitle": "Copy of {{title}}",
       "duplicateError": "Failed to copy recipe",
-      "print": "Print"
+      "print": "Print",
+      "favorite": "🤍 Save",
+      "unfavorite": "❤️ Saved"
     },
     "form": {
       "back": "← Back",
@@ -142,7 +144,8 @@
       "updateError": "Failed to update user",
       "deleted": "User deleted",
       "deleteError": "Failed to delete user",
-      "confirmDelete": "Delete this user?"
+      "confirmDelete": "Delete this user?",
+      "name": "Name"
     },
     "invites": {
       "create": "Create invite link",

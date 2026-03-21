@@ -45,50 +45,50 @@ export default function LoginPage() {
       <div className="auth-header">
         <LanguageSwitcher />
       </div>
-      <h1 className="auth-title">🍽 {siteTitle}</h1>
-      {setupStatus?.setupDone === false && (
-        <div className="setup-warning">
-          <span>⚠️ {t('admin.setup.notDone')}</span>
-          <Link to="/setup" className="link--warn">
-            {t('admin.setup.goSetup')}
+      <article>
+        <h1 className="auth-title">🍽 {siteTitle}</h1>
+        {setupStatus?.setupDone === false && (
+          <div className="setup-warning">
+            <span>⚠️ {t('admin.setup.notDone')}</span>
+            <Link to="/setup" className="link--warn">
+              {t('admin.setup.goSetup')}
+            </Link>
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="email"
+            placeholder={t('auth.email')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder={t('auth.password')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? t('auth.signingIn') : t('auth.signIn')}
+          </button>
+        </form>
+        <p className="auth-links">
+          {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
+        </p>
+        <p className="auth-links--sm">
+          <Link to="/forgot-password" className="link--sm">
+            {t('auth.forgotPassword')}
           </Link>
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          type="email"
-          placeholder={t('auth.email')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="auth-input"
-        />
-        <input
-          type="password"
-          placeholder={t('auth.password')}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="auth-input"
-        />
-        {error && <p className="form-error">{error}</p>}
-        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
-          {loading ? t('auth.signingIn') : t('auth.signIn')}
-        </button>
-      </form>
-      <p className="auth-links">
-        {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
-      </p>
-      <p className="auth-links--sm">
-        <Link to="/forgot-password" className="link--sm">
-          {t('auth.forgotPassword')}
-        </Link>
-      </p>
-      <p className="auth-links--sm">
-        <Link to="/" className="link--xlight">
-          ← {t('recipe.list.communityTitle')}
-        </Link>
-      </p>
+        </p>
+        <p className="auth-links--sm">
+          <Link to="/" className="link--xlight">
+            ← {t('recipe.list.communityTitle')}
+          </Link>
+        </p>
+      </article>
     </div>
   );
 }

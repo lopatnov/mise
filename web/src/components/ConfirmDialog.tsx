@@ -20,10 +20,10 @@ export default function ConfirmDialog({
       <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
         <p className="confirm-dialog__message">{message}</p>
         <div className="confirm-dialog__actions">
-          <button onClick={onCancel} className="btn btn--outline">
+          <button onClick={onCancel} className="outline">
             {cancelLabel}
           </button>
-          <button onClick={onConfirm} disabled={isPending} className="btn btn--danger">
+          <button onClick={onConfirm} disabled={isPending} className="btn-danger">
             {confirmLabel}
           </button>
         </div>

@@ -69,7 +69,9 @@
       "duplicate": "Spara en kopia",
       "duplicateTitle": "Kopia av {{title}}",
       "duplicateError": "Det gick inte att kopiera receptet",
-      "print": "Skriv ut"
+      "print": "Skriv ut",
+      "favorite": "🤍 Spara",
+      "unfavorite": "❤️ Sparad"
     },
     "form": {
       "back": "← Tillbaka",
@@ -142,7 +144,8 @@
       "updateError": "Det gick inte att uppdatera användaren",
       "deleted": "Användare borttagen",
       "deleteError": "Det gick inte att ta bort användaren",
-      "confirmDelete": "Ta bort den här användaren?"
+      "confirmDelete": "Ta bort den här användaren?",
+      "name": "Namn"
     },
     "invites": {
       "create": "Skapa inbjudningslänk",

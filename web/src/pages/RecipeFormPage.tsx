@@ -135,11 +135,11 @@ export default function RecipeFormPage() {
       {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
 
       <div className="recipe-actions form-back">
-        <button onClick={() => navigate(-1)} className="btn btn--ghost">
+        <button onClick={() => navigate(-1)} className="btn-ghost">
           {t('recipe.form.back')}
         </button>
         {!isEdit && (
-          <button type="button" onClick={() => setShowImport(true)} className="btn btn--outline ms-auto">
+          <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
             {t('recipe.import.button')}
           </button>
         )}
@@ -148,13 +148,7 @@ export default function RecipeFormPage() {
 
       <form onSubmit={handleSubmit} className="form-stack">
         <Field id="f-title" label={t('recipe.form.titleLabel')}>
-          <input
-            id="f-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="form-input"
-          />
+          <input id="f-title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         </Field>
 
         <Field id="f-desc" label={t('recipe.form.description')}>
@@ -163,7 +157,7 @@ export default function RecipeFormPage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="form-input resize-v"
+            className="resize-v"
           />
         </Field>
 
@@ -175,39 +169,19 @@ export default function RecipeFormPage() {
               min={1}
               value={servings}
               onChange={(e) => setServings(Number(e.target.value))}
-              className="form-input"
             />
           </Field>
           <Field id="f-prep" label={t('recipe.form.prepTime')}>
-            <input
-              id="f-prep"
-              type="number"
-              min={0}
-              value={prepTime}
-              onChange={(e) => setPrepTime(e.target.value)}
-              className="form-input"
-            />
+            <input id="f-prep" type="number" min={0} value={prepTime} onChange={(e) => setPrepTime(e.target.value)} />
           </Field>
           <Field id="f-cook" label={t('recipe.form.cookTime')}>
-            <input
-              id="f-cook"
-              type="number"
-              min={0}
-              value={cookTime}
-              onChange={(e) => setCookTime(e.target.value)}
-              className="form-input"
-            />
+            <input id="f-cook" type="number" min={0} value={cookTime} onChange={(e) => setCookTime(e.target.value)} />
           </Field>
         </div>
 
         <div className="grid-2">
           <Field id="f-cat" label={t('recipe.form.category')}>
-            <select
-              id="f-cat"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              className="form-input"
-            >
+            <select id="f-cat" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -224,7 +198,6 @@ export default function RecipeFormPage() {
               max={5}
               value={rating}
               onChange={(e) => setRating(e.target.value)}
-              className="form-input"
             />
           </Field>
         </div>
@@ -235,7 +208,6 @@ export default function RecipeFormPage() {
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             placeholder={t('recipe.form.tagsPlaceholder')}
-            className="form-input"
           />
           {allTags && allTags.length > 0 && (
             <div className="tag-chips">
@@ -267,13 +239,8 @@ export default function RecipeFormPage() {
           )}
         </Field>
 
-        <div>
-          <div className="section-header">
-            <label className="field__label">{t('recipe.form.ingredients')}</label>
-            <button type="button" onClick={addIngredient} className="btn btn--small">
-              {t('recipe.form.add')}
-            </button>
-          </div>
+        <fieldset>
+          <legend className="field__label">{t('recipe.form.ingredients')}</legend>
           {ingredients.map((ing, i) => (
             <div
               key={i}
@@ -292,35 +259,36 @@ export default function RecipeFormPage() {
                 placeholder={t('recipe.form.ingredientName')}
                 value={ing.name}
                 onChange={(e) => updateIngredient(i, 'name', e.target.value)}
-                className="ingredient-name form-input"
+                className="ingredient-name"
               />
               <input
                 type="number"
                 placeholder={t('recipe.form.ingredientQty')}
                 value={ing.amount}
                 onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))}
-                className="form-input"
               />
               <input
                 placeholder={t('recipe.form.ingredientUnit')}
                 value={ing.unit}
                 onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
-                className="form-input"
               />
-              <button type="button" onClick={() => removeIngredient(i)} className="btn btn--small btn--remove">
+              <button type="button" onClick={() => removeIngredient(i)} className="btn-remove">
                 ×
               </button>
             </div>
           ))}
-        </div>
+          <button
+            type="button"
+            onClick={addIngredient}
+            className="secondary outline btn-sm"
+            style={{ marginTop: '6px' }}
+          >
+            + {t('recipe.form.add')}
+          </button>
+        </fieldset>
 
-        <div>
-          <div className="section-header">
-            <label className="field__label">{t('recipe.form.steps')}</label>
-            <button type="button" onClick={addStep} className="btn btn--small">
-              {t('recipe.form.add')}
-            </button>
-          </div>
+        <fieldset>
+          <legend className="field__label">{t('recipe.form.steps')}</legend>
           {steps.map((step, i) => (
             <div
               key={i}
@@ -342,15 +310,18 @@ export default function RecipeFormPage() {
                   onChange={(e) => updateStep(i, e.target.value)}
                   rows={2}
                   placeholder={t('recipe.form.step', { n: i + 1 })}
-                  className="form-input resize-v flex-1"
+                  className="resize-v flex-1"
                 />
               </div>
-              <button type="button" onClick={() => removeStep(i)} className="btn btn--small btn--remove">
+              <button type="button" onClick={() => removeStep(i)} className="btn-remove">
                 ×
               </button>
             </div>
           ))}
-        </div>
+          <button type="button" onClick={addStep} className="secondary outline btn-sm" style={{ marginTop: '6px' }}>
+            + {t('recipe.form.add')}
+          </button>
+        </fieldset>
 
         <label className="checkbox-label">
           <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
@@ -359,7 +330,7 @@ export default function RecipeFormPage() {
 
         {saveMut.isError && <p className="form-error">{t('recipe.form.saveError')}</p>}
 
-        <button type="submit" disabled={saveMut.isPending} className="btn btn--primary btn--submit">
+        <button type="submit" disabled={saveMut.isPending}>
           {saveMut.isPending ? t('recipe.form.saving') : isEdit ? t('recipe.form.save') : t('recipe.form.create')}
         </button>
       </form>

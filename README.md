@@ -27,6 +27,11 @@ Scale servings, search by text, filter by category and tag, share recipes public
 - **Search** — partial text search across title, description, and tags
 - **Servings scaler** — ingredient amounts scale automatically
 - **Sharing** — mark recipes as public, visible to anyone
+- **Favorites** — save recipes from the community feed to a personal bookmarks list
+- **Import from URL** — paste any recipe page URL, structured data (JSON-LD / Open Graph) is extracted automatically
+- **Duplicate** — save a copy of any recipe as a starting point
+- **Drag-and-drop reorder** — reorder ingredients and steps by dragging
+- **Print view** — clean print layout via CSS `@media print`
 - **Admin panel** — user management, invite links, SMTP, password reset
 - **18 languages** — EN, UK, RU, DE, FR, ES, ZH, JA, KO, IT, PT, PL, CS, NL, RO, SV, HU, TR
 
@@ -41,7 +46,7 @@ Scale servings, search by text, filter by category and tag, share recipes public
 | Tool           | Version | Download                                       |
 | -------------- | ------- | ---------------------------------------------- |
 | Git            | any     | https://git-scm.com                            |
-| Node.js        | 20+     | https://nodejs.org (LTS)                       |
+| Node.js        | 24+     | https://nodejs.org (LTS)                       |
 | Docker Desktop | any     | https://www.docker.com/products/docker-desktop |
 
 ### Step 1 — Clone
@@ -254,8 +259,11 @@ PATCH  /api/recipes/:id          Update recipe
 DELETE /api/recipes/:id          Delete recipe
 POST   /api/recipes/:id/photo    Upload main photo
 POST   /api/recipes/:id/steps/:order/photo  Upload step photo
+POST   /api/recipes/import-url   Import recipe data from URL (JSON-LD / Open Graph)
 GET    /api/recipes/public       Public recipes (no auth)
 GET    /api/recipes/tags         All distinct tags (no auth)
+POST   /api/recipes/:id/saved    Save recipe to favorites
+DELETE /api/recipes/:id/saved    Remove recipe from favorites
 
 GET  /api/categories             List categories
 ```

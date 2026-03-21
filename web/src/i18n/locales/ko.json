@@ -69,7 +69,9 @@
       "duplicate": "복사본 저장",
       "duplicateTitle": "{{title}} 복사본",
       "duplicateError": "레시피 복사에 실패했습니다",
-      "print": "인쇄"
+      "print": "인쇄",
+      "favorite": "🤍 저장",
+      "unfavorite": "❤️ 저장됨"
     },
     "form": {
       "back": "← 뒤로",
@@ -142,7 +144,8 @@
       "updateError": "사용자 업데이트 실패",
       "deleted": "사용자가 삭제되었습니다",
       "deleteError": "사용자 삭제 실패",
-      "confirmDelete": "이 사용자를 삭제하시겠습니까?"
+      "confirmDelete": "이 사용자를 삭제하시겠습니까?",
+      "name": "이름"
     },
     "invites": {
       "create": "초대 링크 만들기",

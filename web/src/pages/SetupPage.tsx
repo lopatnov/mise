@@ -39,22 +39,16 @@ export default function SetupPage() {
     <div className="page-container--setup">
       <h1 className="auth-logo">🍽 Mise</h1>
       <h2 className="auth-subtitle">{t('admin.setup.title')}</h2>
-      <div className="setup-card">
+      <article>
         <p className="setup-desc">{t('admin.setup.description')}</p>
         <form onSubmit={handleSubmit} className="auth-form">
-          <input
-            placeholder={t('auth.name')}
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            className="auth-input"
-          />
+          <input placeholder={t('auth.name')} value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
           <input
             type="email"
             placeholder={t('auth.email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="auth-input"
           />
           <input
             type="password"
@@ -63,14 +57,13 @@ export default function SetupPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="auth-input"
           />
           {error && <p className="form-error">{error}</p>}
-          <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
+          <button type="submit" disabled={loading}>
             {loading ? t('admin.setup.creating') : t('admin.setup.createBtn')}
           </button>
         </form>
-      </div>
+      </article>
     </div>
   );
 }

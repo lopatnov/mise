@@ -1,55 +1,5 @@
-// Field wrapper
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+// ── Drag & drop ───────────────────────────────────────────────────────────
 
-// Label
-.field__label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #444;
-}
-
-// Input / select / textarea base style
-.form-input {
-  padding: 9px 12px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--c-border);
-  font-size: 14px;
-  font-family: inherit;
-  width: 100%;
-  box-sizing: border-box;
-  background: var(--c-white);
-  color: var(--c-text);
-  outline: none;
-
-  &:focus {
-    border-color: var(--c-primary);
-    box-shadow: 0 0 0 3px var(--pico-primary-focus, rgba(45, 106, 79, 0.15));
-  }
-}
-
-// Auth page inputs (slightly larger)
-.auth-input {
-  padding: 10px 12px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--c-border);
-  font-size: 15px;
-  font-family: inherit;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-  background: var(--c-white);
-  color: var(--c-text);
-
-  &:focus {
-    border-color: var(--c-primary);
-  }
-}
-
-// Drag handle
 .drag-handle {
   cursor: grab;
   color: #ccc;
@@ -59,92 +9,18 @@
   align-self: center;
 }
 
-// Auth page header row (language switcher)
-.auth-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
+// Drag handle shifted down to align with textarea
+.drag-handle--top {
+  padding-top: 10px;
 }
 
-// Auth page title
-.auth-title {
-  text-align: center;
-  margin-bottom: 32px;
+// Item being dragged
+.is-dragging {
+  opacity: 0.4;
 }
 
-// Auth page bottom links
-.auth-links {
-  text-align: center;
-  margin-top: 16px;
-}
+// ── Accessibility ─────────────────────────────────────────────────────────
 
-.auth-links--sm {
-  text-align: center;
-  margin-top: 8px;
-}
-
-// Small muted link (forgot password, back to list)
-.link--sm {
-  font-size: 13px;
-  color: var(--c-text-light);
-}
-
-.link--xlight {
-  font-size: 13px;
-  color: var(--c-text-xlight);
-}
-
-// Warning link (in setup banner)
-.link--warn {
-  color: #856404;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-// Invite token input: highlight when filled
-.invite-input--filled {
-  color: var(--c-primary);
-}
-
-// Auth form
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-// Small admin inline select
-.inline-select {
-  font-size: 13px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid var(--c-border);
-  background: var(--c-white);
-  font-family: inherit;
-}
-
-// Admin label (compact)
-.admin-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 4px;
-}
-
-// Language switcher
-.lang-select {
-  padding: 4px 8px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--c-border);
-  font-size: 13px;
-  background: var(--c-white);
-  cursor: pointer;
-  color: #555;
-  font-family: inherit;
-}
-
-// Visually hidden (accessible, e.g. file inputs)
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -157,14 +33,36 @@
   border: 0;
 }
 
-// Form error message
+// ── Form feedback ─────────────────────────────────────────────────────────
+
 .form-error {
   color: var(--c-danger);
   font-size: 14px;
   margin: 0;
 }
 
-// Checkbox row with label text
+// ── Form element layout ───────────────────────────────────────────────────
+
+// Field wrapper: label above input with small gap
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  input,
+  select,
+  textarea {
+    margin-bottom: 0;
+  }
+}
+
+.field__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+// Checkbox row with inline label
 .checkbox-label {
   display: flex;
   align-items: center;
@@ -174,25 +72,88 @@
   color: #444;
 }
 
-// Textarea vertical resize
+// Textarea: vertical resize only
 .resize-v {
   resize: vertical;
 }
 
-// Drag-and-drop: item being dragged
-.is-dragging {
-  opacity: 0.4;
+// ── Auth pages ─────────────────────────────────────────────────────────────
+
+// Language switcher: let Pico style it natively, only override width
+.lang-select {
+  width: auto;
+  min-width: unset;
 }
 
-// Admin input
-.admin-input {
-  padding: 8px 10px;
-  border-radius: 7px;
-  border: 1px solid var(--c-border);
-  font-size: 14px;
-  font-family: inherit;
-  width: 100%;
-  box-sizing: border-box;
-  background: var(--c-white);
-  outline: none;
+// Header row above the auth card (holds language switcher)
+.auth-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+// Title inside auth cards
+.auth-title {
+  text-align: center;
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+// Auth form: flex column with gap
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  // Full-width submit button inside auth forms
+  button[type="submit"] {
+    width: 100%;
+    margin-top: 4px;
+  }
+}
+
+// Link groups below auth forms
+.auth-links {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.auth-links--sm {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+// Small muted link
+.link--sm {
+  font-size: 13px;
+  color: var(--c-text-light);
+}
+
+.link--xlight {
+  font-size: 13px;
+  color: var(--c-text-xlight);
+}
+
+// Warning/action link (in setup banner)
+.link--warn {
+  color: #856404;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// Invite token: highlight when value is filled
+.invite-input--filled {
+  color: var(--c-primary);
+}
+
+// ── Admin form labels ──────────────────────────────────────────────────────
+
+.admin-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
 }

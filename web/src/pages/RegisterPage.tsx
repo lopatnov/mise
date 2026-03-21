@@ -41,45 +41,40 @@ export default function RegisterPage() {
       <div className="auth-header">
         <LanguageSwitcher />
       </div>
-      <h1 className="auth-title">🍽 {siteTitle}</h1>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          placeholder={t('auth.name')}
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          className="auth-input"
-        />
-        <input
-          type="email"
-          placeholder={t('auth.email')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="auth-input"
-        />
-        <input
-          type="password"
-          placeholder={t('auth.passwordMin')}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-          className="auth-input"
-        />
-        <input
-          placeholder={t('auth.inviteToken')}
-          value={inviteToken}
-          onChange={(e) => setInviteToken(e.target.value)}
-          className={`auth-input${inviteToken ? ' invite-input--filled' : ''}`}
-        />
-        {error && <p className="form-error">{error}</p>}
-        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
-          {loading ? t('auth.registering') : t('auth.createAccount')}
-        </button>
-      </form>
-      <p className="auth-links">
-        {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
-      </p>
+      <article>
+        <h1 className="auth-title">🍽 {siteTitle}</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input placeholder={t('auth.name')} value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+          <input
+            type="email"
+            placeholder={t('auth.email')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder={t('auth.passwordMin')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          <input
+            placeholder={t('auth.inviteToken')}
+            value={inviteToken}
+            onChange={(e) => setInviteToken(e.target.value)}
+            className={inviteToken ? 'invite-input--filled' : undefined}
+          />
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? t('auth.registering') : t('auth.createAccount')}
+          </button>
+        </form>
+        <p className="auth-links">
+          {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
+        </p>
+      </article>
     </div>
   );
 }

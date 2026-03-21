@@ -69,7 +69,9 @@
       "duplicate": "Mentés másolatként",
       "duplicateTitle": "{{title}} másolata",
       "duplicateError": "Nem sikerült másolni a receptet",
-      "print": "Nyomtatás"
+      "print": "Nyomtatás",
+      "favorite": "🤍 Mentés",
+      "unfavorite": "❤️ Mentve"
     },
     "form": {
       "back": "← Vissza",
@@ -142,7 +144,8 @@
       "updateError": "A felhasználó frissítése sikertelen",
       "deleted": "Felhasználó törölve",
       "deleteError": "A felhasználó törlése sikertelen",
-      "confirmDelete": "Törli ezt a felhasználót?"
+      "confirmDelete": "Törli ezt a felhasználót?",
+      "name": "Név"
     },
     "invites": {
       "create": "Meghívó link létrehozása",

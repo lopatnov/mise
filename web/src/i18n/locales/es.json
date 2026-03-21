@@ -69,7 +69,9 @@
       "duplicate": "Guardar una copia",
       "duplicateTitle": "Copia de {{title}}",
       "duplicateError": "Error al copiar la receta",
-      "print": "Imprimir"
+      "print": "Imprimir",
+      "favorite": "🤍 Guardar",
+      "unfavorite": "❤️ Guardado"
     },
     "form": {
       "back": "← Volver",
@@ -142,7 +144,8 @@
       "updateError": "Error al actualizar el usuario",
       "deleted": "Usuario eliminado",
       "deleteError": "Error al eliminar el usuario",
-      "confirmDelete": "¿Eliminar este usuario?"
+      "confirmDelete": "¿Eliminar este usuario?",
+      "name": "Nombre"
     },
     "invites": {
       "create": "Crear enlace de invitación",

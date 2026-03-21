@@ -69,7 +69,9 @@
       "duplicate": "Salva una copia",
       "duplicateTitle": "Copia di {{title}}",
       "duplicateError": "Impossibile copiare la ricetta",
-      "print": "Stampa"
+      "print": "Stampa",
+      "favorite": "🤍 Salva",
+      "unfavorite": "❤️ Salvato"
     },
     "form": {
       "back": "← Indietro",
@@ -142,7 +144,8 @@
       "updateError": "Impossibile aggiornare l'utente",
       "deleted": "Utente eliminato",
       "deleteError": "Impossibile eliminare l'utente",
-      "confirmDelete": "Eliminare questo utente?"
+      "confirmDelete": "Eliminare questo utente?",
+      "name": "Nome"
     },
     "invites": {
       "create": "Crea link di invito",

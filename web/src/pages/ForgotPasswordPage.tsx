@@ -28,42 +28,47 @@ export default function ForgotPasswordPage() {
   if (result) {
     return (
       <div className="page-container--auth page-container--auth--center">
-        <p className="auth-result-icon">📧</p>
-        <p className="auth-result-text">{result.message}</p>
-        {result.devLink && (
-          <a href={result.devLink} className="dev-link">
-            {result.devLink}
-          </a>
-        )}
-        <Link to="/login" className="auth-links link--sm">
-          ← {t('auth.signIn')}
-        </Link>
+        <article>
+          <p className="auth-result-icon">📧</p>
+          <p className="auth-result-text">{result.message}</p>
+          {result.devLink && (
+            <a href={result.devLink} className="dev-link">
+              {result.devLink}
+            </a>
+          )}
+          <p className="auth-links--sm">
+            <Link to="/login" className="link--sm">
+              ← {t('auth.signIn')}
+            </Link>
+          </p>
+        </article>
       </div>
     );
   }
 
   return (
     <div className="page-container--auth">
-      <h1 className="auth-logo">🍽 Mise</h1>
-      <h2 className="auth-subtitle">{t('auth.forgotTitle')}</h2>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          type="email"
-          placeholder={t('auth.email')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="auth-input"
-        />
-        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
-          {loading ? '...' : t('auth.forgotSend')}
-        </button>
-      </form>
-      <p className="auth-links--sm">
-        <Link to="/login" className="link--sm">
-          ← {t('auth.signIn')}
-        </Link>
-      </p>
+      <article>
+        <h1 className="auth-logo">🍽 Mise</h1>
+        <h2 className="auth-subtitle">{t('auth.forgotTitle')}</h2>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="email"
+            placeholder={t('auth.email')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? '...' : t('auth.forgotSend')}
+          </button>
+        </form>
+        <p className="auth-links--sm">
+          <Link to="/login" className="link--sm">
+            ← {t('auth.signIn')}
+          </Link>
+        </p>
+      </article>
     </div>
   );
 }

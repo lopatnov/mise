@@ -69,7 +69,9 @@
       "duplicate": "Uložit kopii",
       "duplicateTitle": "Kopie {{title}}",
       "duplicateError": "Nepodařilo se zkopírovat recept",
-      "print": "Tisk"
+      "print": "Tisk",
+      "favorite": "🤍 Uložit",
+      "unfavorite": "❤️ Uloženo"
     },
     "form": {
       "back": "← Zpět",
@@ -142,7 +144,8 @@
       "updateError": "Aktualizace uživatele se nezdařila",
       "deleted": "Uživatel smazán",
       "deleteError": "Smazání uživatele se nezdařilo",
-      "confirmDelete": "Smazat tohoto uživatele?"
+      "confirmDelete": "Smazat tohoto uživatele?",
+      "name": "Jméno"
     },
     "invites": {
       "create": "Vytvořit pozvánkový odkaz",

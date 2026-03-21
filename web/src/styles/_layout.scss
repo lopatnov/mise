@@ -1,12 +1,13 @@
-// Page containers
+// ── Page containers ────────────────────────────────────────────────────────
+
 .page-container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 24px 16px 40px; // extra bottom padding clears the fixed footer
 }
 
 .page-container--wide {
-  max-width: 900px;
+  max-width: 960px;
 }
 
 .page-container--narrow {
@@ -14,39 +15,116 @@
 }
 
 .page-container--auth {
-  max-width: 380px;
-  margin: 80px auto 0;
-  padding: 0 16px;
+  max-width: 400px;
+  margin: 60px auto 0;
+  padding: 0 16px 40px;
 }
 
 .page-container--setup {
   max-width: 440px;
-  margin: 80px auto 0;
-  padding: 0 16px;
+  margin: 60px auto 0;
+  padding: 0 16px 40px;
 }
 
-// Page header bar
+// ── Page header bar ────────────────────────────────────────────────────────
+
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .page-header__actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  // Shrink all header interactive elements to ~40px height
+  button,
+  [role="button"],
+  select {
+    --pico-form-element-spacing-vertical: 0.5rem;
+    font-size: 0.875rem;
+  }
 }
 
-// Filter bar
+.page-header__title {
+  margin: 0;
+}
+
+.page-header__subtitle {
+  font-size: 13px;
+  color: var(--c-text-light);
+  margin: 2px 0 0;
+}
+
+// ── Filter bar (2-row layout) ──────────────────────────────────────────────
+
 .filter-bar {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+
+  // Row 1: search input spans full width
+  input[type="search"],
+  input:not([type="checkbox"]):not([type="radio"]) {
+    margin-bottom: 0;
+  }
 }
 
-// Grids
+// Row 2: selects + toggle group
+.filter-bar__row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  select {
+    width: auto;
+    flex: 1;
+    min-width: 110px;
+    max-width: 200px;
+    margin-bottom: 0;
+  }
+
+  // Pico role="group" — connected toggle buttons
+  [role="group"] {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    button {
+      white-space: nowrap;
+    }
+  }
+}
+
+// ── Profile link in page header ────────────────────────────────────────────
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--pico-border-radius);
+  border: var(--pico-border-width) solid var(--pico-muted-border-color);
+  text-decoration: none;
+  color: var(--pico-color);
+  font-size: 0.875rem;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--pico-primary);
+    color: var(--pico-primary);
+  }
+}
+
+// ── Grids ──────────────────────────────────────────────────────────────────
+
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -59,34 +137,48 @@
   gap: 12px;
 }
 
-// Ingredient row (name + qty + unit + remove)
+// ── Ingredient / step form rows ────────────────────────────────────────────
+
 .ingredient-row {
   display: grid;
-  grid-template-columns: 16px 1fr 80px 80px 32px;
+  grid-template-columns: 16px 1fr 80px 80px 36px;
   gap: 6px;
   margin-bottom: 6px;
   align-items: start;
+
+  input {
+    margin-bottom: 0;
+  }
 }
 
-// Step row (drag handle + content + remove)
 .step-row {
   display: grid;
-  grid-template-columns: 16px 1fr 32px;
+  grid-template-columns: 16px 1fr 36px;
   gap: 6px;
   margin-bottom: 6px;
   align-items: start;
 }
 
-// Recipe actions bar (top of detail page)
+// ── Recipe actions bar ─────────────────────────────────────────────────────
+
 .recipe-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 20px;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+
+  &__right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
 }
 
-// Recipe meta row (prep/cook time, rating, badges)
+// ── Recipe meta row ────────────────────────────────────────────────────────
+
 .recipe-meta {
   display: flex;
   gap: 12px;
@@ -97,7 +189,8 @@
   align-items: center;
 }
 
-// Servings scaler
+// ── Servings scaler ────────────────────────────────────────────────────────
+
 .scaling-control {
   display: flex;
   align-items: center;
@@ -117,7 +210,8 @@
   text-align: center;
 }
 
-// Recipe tags row
+// ── Recipe tags row ────────────────────────────────────────────────────────
+
 .recipe-tags {
   display: flex;
   gap: 6px;
@@ -125,7 +219,8 @@
   margin-bottom: 16px;
 }
 
-// Photo container for hover effect
+// ── Photo container ────────────────────────────────────────────────────────
+
 .photo-container {
   position: relative;
   margin-bottom: 20px;
@@ -133,20 +228,17 @@
   overflow: hidden;
 }
 
-// ── Auth page shared elements ─────────────────────────────────────────────────
+// ── Auth page shared elements ─────────────────────────────────────────────
 
-// Modifier: center all content in the auth container
 .page-container--auth--center {
   text-align: center;
 }
 
-// Logo line in auth/setup pages
 .auth-logo {
   text-align: center;
   margin-bottom: 8px;
 }
 
-// Subtitle line in auth/setup pages
 .auth-subtitle {
   text-align: center;
   margin-bottom: 28px;
@@ -155,19 +247,16 @@
   font-size: 20px;
 }
 
-// Large icon in result screens (e.g. ✉️)
 .auth-result-icon {
   font-size: 32px;
   margin-bottom: 8px;
 }
 
-// Description text in result screens
 .auth-result-text {
   color: #444;
   line-height: 1.6;
 }
 
-// Dev-only reset link (word-break for long tokens)
 .dev-link {
   color: var(--c-primary);
   word-break: break-all;
@@ -176,7 +265,6 @@
   display: block;
 }
 
-// Setup description paragraph
 .setup-desc {
   margin: 0 0 20px;
   color: var(--c-text-muted);
@@ -184,43 +272,17 @@
   line-height: 1.5;
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────────
+// ── Utilities ──────────────────────────────────────────────────────────────
 
-// Push element to the right inside a flex row
 .ms-auto {
   margin-left: auto;
 }
 
-// Generic flex helpers
 .flex-1 {
   flex: 1;
 }
 
-// ── Page header ───────────────────────────────────────────────────────────────
-
-.page-header__title {
-  margin: 0;
-}
-
-.page-header__subtitle {
-  font-size: 13px;
-  color: var(--c-text-light);
-  margin: 2px 0 0;
-}
-
-.profile-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: #555;
-}
-
-.profile-link__name {
-  font-size: 13px;
-}
-
-// ── Recipe list ───────────────────────────────────────────────────────────────
+// ── Recipe list grid ───────────────────────────────────────────────────────
 
 .recipe-cards-grid {
   display: grid;
@@ -239,20 +301,7 @@
   margin: 0 0 8px;
 }
 
-// Filter bar widths
-.filter-search {
-  flex: 1;
-}
-
-.filter-aux--sm {
-  width: 140px;
-}
-
-.filter-aux--md {
-  width: 160px;
-}
-
-// ── Form layout ───────────────────────────────────────────────────────────────
+// ── Form layout ────────────────────────────────────────────────────────────
 
 .form-stack {
   display: flex;
@@ -284,7 +333,7 @@
   margin-top: 6px;
 }
 
-// Step content (number + textarea)
+// Step content (number badge + textarea)
 .step-content {
   display: flex;
   gap: 8px;
@@ -298,23 +347,13 @@
   font-size: 13px;
 }
 
-// Drag handle shifted down to align with input
-.drag-handle--top {
-  padding-top: 10px;
-}
+// ── Responsive ─────────────────────────────────────────────────────────────
 
-// Responsive
 @media (max-width: 600px) {
-  .filter-bar {
-    flex-wrap: wrap;
-
-    .filter-search {
-      flex: 1 1 100%;
-    }
-
-    .filter-aux {
-      flex: 1 1 auto;
-      width: auto;
+  .filter-bar__row {
+    select {
+      flex: 1 1 100px;
+      max-width: unset;
     }
   }
 
@@ -327,10 +366,14 @@
   }
 
   .ingredient-row {
-    grid-template-columns: 16px 1fr 1fr 32px;
+    grid-template-columns: 16px 1fr 1fr 36px;
 
     .ingredient-name {
       grid-column: 2 / -1;
     }
+  }
+
+  .recipe-cards-grid {
+    grid-template-columns: 1fr;
   }
 }

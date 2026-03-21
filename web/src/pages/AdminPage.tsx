@@ -83,7 +83,7 @@ function UsersTab() {
         <thead>
           <tr>
             <th>{t('auth.email')}</th>
-            <th>{t('auth.name')}</th>
+            <th>{t('admin.users.name')}</th>
             <th>{t('admin.users.role')}</th>
             <th>{t('admin.users.status')}</th>
             <th></th>
@@ -98,7 +98,6 @@ function UsersTab() {
                 <select
                   value={u.role}
                   onChange={(e) => updateMut.mutate({ id: u._id, data: { role: e.target.value } })}
-                  className="inline-select"
                 >
                   <option value="user">user</option>
                   <option value="admin">admin</option>
@@ -117,7 +116,7 @@ function UsersTab() {
                   onClick={() => {
                     if (confirm(t('admin.users.confirmDelete'))) deleteMut.mutate(u._id);
                   }}
-                  className="btn btn--danger"
+                  className="btn-danger"
                   title={t('recipe.detail.delete')}
                 >
                   🗑
@@ -181,7 +180,6 @@ function InvitesTab() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="user@example.com"
-              className="admin-input admin-input--md"
             />
           </div>
           <div>
@@ -192,10 +190,10 @@ function InvitesTab() {
               max={30}
               value={days}
               onChange={(e) => setDays(e.target.value)}
-              className="admin-input admin-input--sm"
+              style={{ width: '90px' }}
             />
           </div>
-          <button onClick={() => createMut.mutate()} disabled={createMut.isPending} className="btn btn--primary">
+          <button onClick={() => createMut.mutate()} disabled={createMut.isPending}>
             {t('admin.invites.generateBtn')}
           </button>
         </div>
@@ -211,7 +209,7 @@ function InvitesTab() {
                 void navigator.clipboard.writeText(`${appUrl}/register?invite=${newInvite.token}`);
                 toast.success(t('admin.invites.copied'));
               }}
-              className="btn btn--outline btn--small invite-copy-btn"
+              className="outline btn-sm invite-copy-btn"
             >
               {t('admin.invites.copy')}
             </button>
@@ -237,7 +235,7 @@ function InvitesTab() {
                   {t('admin.invites.expires')}: {new Date(inv.expiresAt).toLocaleDateString()}
                 </span>
               </div>
-              <button onClick={() => deleteMut.mutate(inv._id)} className="btn btn--danger">
+              <button onClick={() => deleteMut.mutate(inv._id)} className="btn-danger">
                 🗑
               </button>
             </div>
@@ -287,12 +285,7 @@ function SettingsTab() {
         <h3>{t('admin.settings.general')}</h3>
         <div>
           <label className="admin-label">{t('admin.settings.siteTitle')}</label>
-          <input
-            value={form.siteTitle ?? ''}
-            onChange={(e) => set('siteTitle', e.target.value)}
-            placeholder="Mise"
-            className="admin-input"
-          />
+          <input value={form.siteTitle ?? ''} onChange={(e) => set('siteTitle', e.target.value)} placeholder="Mise" />
         </div>
       </div>
 
@@ -319,7 +312,6 @@ function SettingsTab() {
                 value={form.smtpHost ?? ''}
                 onChange={(e) => set('smtpHost', e.target.value)}
                 placeholder="smtp.gmail.com"
-                className="admin-input"
               />
             </div>
             <div>
@@ -329,7 +321,6 @@ function SettingsTab() {
                 value={form.smtpPort ?? ''}
                 onChange={(e) => set('smtpPort', Number(e.target.value))}
                 placeholder="587"
-                className="admin-input"
               />
             </div>
           </div>
@@ -339,7 +330,6 @@ function SettingsTab() {
               value={form.smtpUser ?? ''}
               onChange={(e) => set('smtpUser', e.target.value)}
               placeholder="noreply@example.com"
-              className="admin-input"
             />
           </div>
           <div>
@@ -349,7 +339,6 @@ function SettingsTab() {
               value={form.smtpPass ?? ''}
               onChange={(e) => set('smtpPass', e.target.value)}
               placeholder="••••••••"
-              className="admin-input"
             />
           </div>
           <div>
@@ -358,7 +347,6 @@ function SettingsTab() {
               value={form.smtpFrom ?? ''}
               onChange={(e) => set('smtpFrom', e.target.value)}
               placeholder="Mise <noreply@example.com>"
-              className="admin-input"
             />
           </div>
           <div>
@@ -367,13 +355,12 @@ function SettingsTab() {
               value={form.appUrl ?? ''}
               onChange={(e) => set('appUrl', e.target.value)}
               placeholder="https://mise.example.com"
-              className="admin-input"
             />
           </div>
         </div>
       </div>
 
-      <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending} className="btn btn--primary">
+      <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending}>
         {saveMut.isPending ? t('recipe.form.saving') : t('admin.settings.saveBtn')}
       </button>
     </div>

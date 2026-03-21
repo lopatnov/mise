@@ -42,14 +42,13 @@ export default function ImportUrlDialog({ onImport, onClose }: ImportUrlDialogPr
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com/recipe/..."
             required
-            className="form-input"
           />
           {error && <p className="form-error">{error}</p>}
           <div className="confirm-dialog__actions">
-            <button type="button" onClick={onClose} className="btn btn--outline">
+            <button type="button" onClick={onClose} className="outline">
               {t('recipe.import.cancel')}
             </button>
-            <button type="submit" disabled={loading} className="btn btn--primary">
+            <button type="submit" disabled={loading}>
               {loading ? t('recipe.import.importing') : t('recipe.import.import')}
             </button>
           </div>

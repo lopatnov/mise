@@ -69,7 +69,9 @@
       "duplicate": "Salvar uma cópia",
       "duplicateTitle": "Cópia de {{title}}",
       "duplicateError": "Erro ao copiar receita",
-      "print": "Imprimir"
+      "print": "Imprimir",
+      "favorite": "🤍 Salvar",
+      "unfavorite": "❤️ Salvo"
     },
     "form": {
       "back": "← Voltar",
@@ -142,7 +144,8 @@
       "updateError": "Falha ao atualizar usuário",
       "deleted": "Usuário excluído",
       "deleteError": "Falha ao excluir usuário",
-      "confirmDelete": "Excluir este usuário?"
+      "confirmDelete": "Excluir este usuário?",
+      "name": "Nome"
     },
     "invites": {
       "create": "Criar link de convite",

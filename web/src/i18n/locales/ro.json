@@ -69,7 +69,9 @@
       "duplicate": "Salvează o copie",
       "duplicateTitle": "Copie după {{title}}",
       "duplicateError": "Eroare la copierea rețetei",
-      "print": "Tipărește"
+      "print": "Tipărește",
+      "favorite": "🤍 Salvează",
+      "unfavorite": "❤️ Salvat"
     },
     "form": {
       "back": "← Înapoi",
@@ -142,7 +144,8 @@
       "updateError": "Actualizarea utilizatorului a eșuat",
       "deleted": "Utilizator șters",
       "deleteError": "Ștergerea utilizatorului a eșuat",
-      "confirmDelete": "Șterge acest utilizator?"
+      "confirmDelete": "Șterge acest utilizator?",
+      "name": "Nume"
     },
     "invites": {
       "create": "Crează link de invitație",

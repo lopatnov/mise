@@ -69,7 +69,9 @@
       "duplicate": "Zapisz kopię",
       "duplicateTitle": "Kopia {{title}}",
       "duplicateError": "Nie udało się skopiować przepisu",
-      "print": "Drukuj"
+      "print": "Drukuj",
+      "favorite": "🤍 Zapisz",
+      "unfavorite": "❤️ Zapisano"
     },
     "form": {
       "back": "← Wróć",
@@ -142,7 +144,8 @@
       "updateError": "Nie udało się zaktualizować użytkownika",
       "deleted": "Użytkownik usunięty",
       "deleteError": "Nie udało się usunąć użytkownika",
-      "confirmDelete": "Usunąć tego użytkownika?"
+      "confirmDelete": "Usunąć tego użytkownika?",
+      "name": "Nazwa"
     },
     "invites": {
       "create": "Utwórz link zaproszenia",

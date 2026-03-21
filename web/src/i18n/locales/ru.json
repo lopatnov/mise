@@ -69,7 +69,9 @@
       "duplicate": "Сохранить копию",
       "duplicateTitle": "Копия {{title}}",
       "duplicateError": "Ошибка копирования рецепта",
-      "print": "Печать"
+      "print": "Печать",
+      "favorite": "🤍 Сохранить",
+      "unfavorite": "❤️ Сохранено"
     },
     "form": {
       "back": "← Назад",
@@ -142,7 +144,8 @@
       "updateError": "Ошибка обновления",
       "deleted": "Пользователь удалён",
       "deleteError": "Ошибка удаления",
-      "confirmDelete": "Удалить этого пользователя?"
+      "confirmDelete": "Удалить этого пользователя?",
+      "name": "Имя"
     },
     "invites": {
       "create": "Создать ссылку-приглашение",

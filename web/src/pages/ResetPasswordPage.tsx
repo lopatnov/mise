@@ -38,42 +38,46 @@ export default function ResetPasswordPage() {
   if (!token) {
     return (
       <div className="page-container--auth page-container--auth--center">
-        <p className="form-error">{t('auth.resetInvalidLink')}</p>
-        <Link to="/login" className="link--sm">
-          ← {t('auth.signIn')}
-        </Link>
+        <article>
+          <p className="form-error">{t('auth.resetInvalidLink')}</p>
+          <p className="auth-links--sm">
+            <Link to="/login" className="link--sm">
+              ← {t('auth.signIn')}
+            </Link>
+          </p>
+        </article>
       </div>
     );
   }
 
   return (
     <div className="page-container--auth">
-      <h1 className="auth-logo">🍽 Mise</h1>
-      <h2 className="auth-subtitle">{t('auth.resetTitle')}</h2>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          type="password"
-          placeholder={t('auth.newPassword')}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-          className="auth-input"
-        />
-        <input
-          type="password"
-          placeholder={t('auth.confirmPassword')}
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-          minLength={6}
-          className="auth-input"
-        />
-        {error && <p className="form-error">{error}</p>}
-        <button type="submit" disabled={loading} className="btn btn--primary btn--full btn--submit">
-          {loading ? '...' : t('auth.resetSave')}
-        </button>
-      </form>
+      <article>
+        <h1 className="auth-logo">🍽 Mise</h1>
+        <h2 className="auth-subtitle">{t('auth.resetTitle')}</h2>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="password"
+            placeholder={t('auth.newPassword')}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          <input
+            type="password"
+            placeholder={t('auth.confirmPassword')}
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            required
+            minLength={6}
+          />
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? '...' : t('auth.resetSave')}
+          </button>
+        </form>
+      </article>
     </div>
   );
 }

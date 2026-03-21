@@ -69,7 +69,9 @@
       "duplicate": "Sla een kopie op",
       "duplicateTitle": "Kopie van {{title}}",
       "duplicateError": "Recept kopiëren mislukt",
-      "print": "Afdrukken"
+      "print": "Afdrukken",
+      "favorite": "🤍 Opslaan",
+      "unfavorite": "❤️ Opgeslagen"
     },
     "form": {
       "back": "← Terug",
@@ -142,7 +144,8 @@
       "updateError": "Gebruiker bijwerken mislukt",
       "deleted": "Gebruiker verwijderd",
       "deleteError": "Gebruiker verwijderen mislukt",
-      "confirmDelete": "Deze gebruiker verwijderen?"
+      "confirmDelete": "Deze gebruiker verwijderen?",
+      "name": "Naam"
     },
     "invites": {
       "create": "Uitnodigingslink aanmaken",

@@ -27,23 +27,20 @@ export default function ProfilePage() {
         {t('profile.back')}
       </Link>
 
-      <div className="profile-card">
+      <article style={{ marginTop: '24px', textAlign: 'center' }}>
         <div className="profile-avatar">👤</div>
-
         <h2 className="profile-name">{user?.displayName ?? t('profile.noName')}</h2>
         <p className="profile-email">{user?.email}</p>
 
-        <div className="stat-box">
-          <div className="stat-box__inner">
-            <div className="stat-box__value">{isLoading ? '…' : (data?.total ?? '—')}</div>
-            <div className="stat-box__label">{t('profile.recipesCount')}</div>
-          </div>
+        <div className="profile-stat">
+          <strong className="profile-stat__value">{isLoading ? '…' : (data?.total ?? '—')}</strong>
+          <span className="profile-stat__label">{t('profile.recipesCount')}</span>
         </div>
 
-        <button onClick={handleLogout} className="btn btn--outline btn--full">
+        <button onClick={handleLogout} className="outline" style={{ width: '100%' }}>
           {t('profile.signOut')}
         </button>
-      </div>
+      </article>
     </div>
   );
 }

@@ -69,7 +69,9 @@
       "duplicate": "コピーを保存",
       "duplicateTitle": "{{title}} のコピー",
       "duplicateError": "レシピのコピーに失敗しました",
-      "print": "印刷"
+      "print": "印刷",
+      "favorite": "🤍 保存",
+      "unfavorite": "❤️ 保存済み"
     },
     "form": {
       "back": "← 戻る",
@@ -142,7 +144,8 @@
       "updateError": "ユーザーの更新に失敗しました",
       "deleted": "ユーザーを削除しました",
       "deleteError": "ユーザーの削除に失敗しました",
-      "confirmDelete": "このユーザーを削除しますか？"
+      "confirmDelete": "このユーザーを削除しますか？",
+      "name": "名前"
     },
     "invites": {
       "create": "招待リンクを作成",

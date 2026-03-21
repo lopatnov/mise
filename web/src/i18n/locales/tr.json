@@ -69,7 +69,9 @@
       "duplicate": "Kopyayı kaydet",
       "duplicateTitle": "{{title}} kopyası",
       "duplicateError": "Tarif kopyalanamadı",
-      "print": "Yazdır"
+      "print": "Yazdır",
+      "favorite": "🤍 Kaydet",
+      "unfavorite": "❤️ Kaydedildi"
     },
     "form": {
       "back": "← Geri",
@@ -142,7 +144,8 @@
       "updateError": "Kullanıcı güncellenemedi",
       "deleted": "Kullanıcı silindi",
       "deleteError": "Kullanıcı silinemedi",
-      "confirmDelete": "Bu kullanıcıyı sil?"
+      "confirmDelete": "Bu kullanıcıyı sil?",
+      "name": "Ad"
     },
     "invites": {
       "create": "Davet bağlantısı oluştur",

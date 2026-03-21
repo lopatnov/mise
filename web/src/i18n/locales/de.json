@@ -69,7 +69,9 @@
       "duplicate": "Kopie speichern",
       "duplicateTitle": "Kopie von {{title}}",
       "duplicateError": "Rezept konnte nicht kopiert werden",
-      "print": "Drucken"
+      "print": "Drucken",
+      "favorite": "🤍 Speichern",
+      "unfavorite": "❤️ Gespeichert"
     },
     "form": {
       "back": "← Zurück",
@@ -142,7 +144,8 @@
       "updateError": "Benutzer konnte nicht aktualisiert werden",
       "deleted": "Benutzer gelöscht",
       "deleteError": "Benutzer konnte nicht gelöscht werden",
-      "confirmDelete": "Diesen Benutzer löschen?"
+      "confirmDelete": "Diesen Benutzer löschen?",
+      "name": "Name"
     },
     "invites": {
       "create": "Einladungslink erstellen",

@@ -1,108 +1,6 @@
-// Base button
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 9px 18px;
-  border-radius: var(--r-md);
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: inherit;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
+// ── Photo UI ──────────────────────────────────────────────────────────────
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-}
-
-// Variants
-.btn--primary {
-  background: var(--c-primary);
-  color: #fff;
-  border: none;
-}
-
-.btn--outline {
-  background: none;
-  color: var(--c-primary);
-  border: 1px solid var(--c-primary);
-}
-
-.btn--ghost {
-  background: none;
-  border: none;
-  color: var(--c-primary);
-  font-size: 14px;
-  padding: 0;
-}
-
-.btn--danger {
-  background: none;
-  color: var(--c-danger);
-  border: 1px solid var(--c-danger);
-
-  &:hover {
-    background: var(--c-danger-bg);
-  }
-}
-
-// Remove / delete icon button in forms
-.btn--remove {
-  background: var(--c-danger-bg);
-  color: var(--c-danger-dark);
-  border: none;
-}
-
-.btn--small {
-  padding: 4px 10px;
-  border-radius: var(--r-sm);
-  background: #f0f0f0;
-  border: none;
-  font-size: 13px;
-}
-
-.btn--icon {
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border-radius: 50%;
-  border: 1px solid var(--c-border);
-  background: var(--c-white);
-  font-size: 16px;
-  line-height: 1;
-}
-
-// Full-width
-.btn--full {
-  width: 100%;
-}
-
-// Submit button (larger, full-width)
-.btn--submit {
-  padding: 12px;
-  font-size: 15px;
-  width: 100%;
-  margin-top: 8px;
-}
-
-// Nav/admin link
-.btn--nav {
-  font-size: 13px;
-  color: var(--c-primary);
-  padding: 6px 10px;
-  border-radius: var(--r-sm);
-  background: var(--c-primary-light);
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-
-// Floating photo replace button
+// Floating camera button (hover overlay on photos)
 .photo-replace-btn {
   position: absolute;
   bottom: 10px;
@@ -118,9 +16,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
-// Photo placeholder (click to upload)
+// Photo placeholder (click to upload when no photo exists)
 .photo-placeholder {
   height: 160px;
   border: 2px dashed var(--c-border);
@@ -130,4 +29,83 @@
   justify-content: center;
   color: var(--c-text-light);
   cursor: pointer;
+}
+
+// ── Button variant extensions ──────────────────────────────────────────────
+// Pico handles primary / outline / secondary natively.
+// The classes below cover cases Pico doesn't provide.
+
+// Ghost: text-only link-style button (works on <button> and <a>)
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--c-primary);
+  box-shadow: none;
+  padding-inline: 0;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background: transparent;
+    border-color: transparent;
+    color: var(--c-primary);
+    text-decoration: underline;
+    box-shadow: none;
+  }
+}
+
+//Small: compact button for utility actions (add item, copy, etc.)
+button.btn-sm {
+  font-size: 13px;
+  padding: 5px 12px;
+}
+
+// Icon: round button for counters (+/−)
+button.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50% !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background: var(--c-white);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+
+  &:hover {
+    background: var(--c-primary-light);
+    border-color: var(--c-primary);
+    color: var(--c-primary);
+  }
+}
+
+// Remove: small destructive button inside form rows
+button.btn-remove {
+  background: var(--c-danger-bg);
+  color: var(--c-danger-dark);
+  border: none;
+  font-size: 14px;
+  padding: 5px 10px;
+
+  &:hover {
+    background: var(--c-danger);
+    color: #fff;
+  }
+}
+
+// Danger: red outline (delete / destructive actions)
+button.btn-danger {
+  background: transparent;
+  color: var(--c-danger);
+  border: 1px solid var(--c-danger);
+  box-shadow: none;
+
+  &:hover,
+  &:focus {
+    background: var(--c-danger-bg);
+    color: var(--c-danger-dark);
+    border-color: var(--c-danger-dark);
+  }
 }

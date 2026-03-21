@@ -11,6 +11,9 @@
   --pico-primary-focus: rgba(45, 106, 79, 0.25);
   --pico-form-element-border-color: #ddd;
   --pico-form-element-focus-color: rgba(45, 106, 79, 0.25);
+  --pico-card-background-color: #fff;
+  --pico-card-border-color: #eee;
+  --pico-card-sectioning-background-color: #f9f9f7;
 
   // Custom design tokens
   --c-primary: #2d6a4f;
@@ -52,8 +55,10 @@ a {
   color: var(--c-primary);
 }
 
-input,
+// Override Pico's per-element margin-bottom — we use flex gap for spacing instead
+input:not([type="checkbox"]):not([type="radio"]),
+select,
 textarea,
-select {
-  font-family: inherit;
+button {
+  margin-bottom: 0;
 }
