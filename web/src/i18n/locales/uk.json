@@ -39,14 +39,22 @@
       "allCategories": "Всі категорії",
       "communityTitle": "Рецепти спільноти",
       "mine": "Мої рецепти",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Всі теги",
       "prev": "← Назад",
-      "next": "Вперед →"
+      "next": "Вперед →",
+      "clearFilters": "Скинути фільтри",
+      "filterByTag": "Фільтр за тегом",
+      "filterByCategory": "Фільтр за категорією"
     },
     "detail": {
       "back": "← Назад",
       "edit": "✏️ Редагувати",
       "delete": "🗑 Видалити",
+      "deleteConfirm": "Ви впевнені?",
+      "deleteCancel": "Скасувати",
+      "deleteConfirmBtn": "Видалити",
       "loading": "Завантаження...",
       "notFound": "Рецепт не знайдено",
       "addPhoto": "📷 Додати фото",
@@ -61,10 +69,12 @@
       "photoError": "Помилка завантаження фото",
       "deleteError": "Помилка видалення рецепту",
       "public": "Публічний",
-      "duplicate": "Зберегти копію",
+      "duplicate": "📋 Зберегти копію",
       "duplicateTitle": "Копія {{title}}",
       "duplicateError": "Помилка копіювання рецепту",
-      "print": "Друкувати"
+      "print": "🖨 Друкувати",
+      "favorite": "🤍 Зберегти",
+      "unfavorite": "❤️ Збережено"
     },
     "form": {
       "back": "← Назад",
@@ -91,7 +101,21 @@
       "saving": "Збереження...",
       "save": "Зберегти",
       "create": "Створити рецепт",
-      "isPublic": "Поділитися з усіма"
+      "isPublic": "Поділитися з усіма",
+      "removeIngredient": "Видалити інгредієнт {{n}}",
+      "removeStep": "Видалити крок {{n}}",
+      "addIngredient": "Додати інгредієнт",
+      "addStep": "Додати крок",
+      "importedPhoto": "Імпортоване фото"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Не вдалося оновити користувача",
       "deleted": "Користувача видалено",
       "deleteError": "Не вдалося видалити користувача",
-      "confirmDelete": "Видалити цього користувача?"
+      "confirmDelete": "Видалити цього користувача?",
+      "name": "Ім'я"
     },
     "invites": {
       "create": "Створити посилання-запрошення",

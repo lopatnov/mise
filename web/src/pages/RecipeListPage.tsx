@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import { recipesApi } from '../api/recipes';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useAuthStore } from '../store/authStore';
 
@@ -20,15 +19,29 @@ function useDebounce<T>(value: T, ms = 400): T {
   return v;
 }
 
+function getPaginationRange(current: number, total: number): (number | 'ellipsis-left' | 'ellipsis-right')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const delta = 1;
+  const range: (number | 'ellipsis-left' | 'ellipsis-right')[] = [1];
+  const left = Math.max(2, current - delta);
+  const right = Math.min(total - 1, current + delta);
+  if (left > 2) range.push('ellipsis-left');
+  for (let i = left; i <= right; i++) range.push(i);
+  if (right < total - 1) range.push('ellipsis-right');
+  range.push(total);
+  return range;
+}
+
 export default function RecipeListPage() {
   const { t } = useTranslation();
-  const siteTitle = usePageTitle();
+  usePageTitle();
   const [search, setSearch] = useState('');
   const [tag, setTag] = useState('');
   const [category, setCategory] = useState('');
   const [mine, setMine] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [page, setPage] = useState(1);
-  const { user, token } = useAuthStore();
+  const { token } = useAuthStore();
   const isLoggedIn = !!token;
 
   const debouncedSearch = useDebounce(search, 400);
@@ -47,12 +60,26 @@ export default function RecipeListPage() {
   }
   function changeMine() {
     setMine((v) => !v);
+    setSaved(false);
+    setPage(1);
+  }
+  function changeSaved() {
+    setSaved((v) => !v);
+    setMine(false);
+    setPage(1);
+  }
+  function clearFilters() {
+    setSearch('');
+    setTag('');
+    setCategory('');
     setPage(1);
   }
 
+  const hasFilters = !!(debouncedSearch || tag || category);
+
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
-      ? ['recipes', debouncedSearch, tag, category, mine, page]
+      ? ['recipes', debouncedSearch, tag, category, mine, saved, page]
       : ['recipes', 'public', debouncedSearch, tag, category, page],
     queryFn: () =>
       isLoggedIn
@@ -61,6 +88,7 @@ export default function RecipeListPage() {
             tag: tag || undefined,
             category: category || undefined,
             mine: mine || undefined,
+            saved: saved || undefined,
             page,
             limit: PAGE_SIZE,
           })
@@ -74,8 +102,14 @@ export default function RecipeListPage() {
     placeholderData: keepPreviousData,
   });
 
-  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
-  const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: categoriesApi.list,
+  });
+  const { data: allTags } = useQuery({
+    queryKey: ['recipe-tags'],
+    queryFn: recipesApi.getTags,
+  });
 
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 1;
 
@@ -85,184 +119,200 @@ export default function RecipeListPage() {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px 16px' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div>
-          <h1 style={{ margin: 0 }}>🍽 {siteTitle}</h1>
-          {data && (
-            <span style={{ fontSize: 13, color: '#888' }}>
-              {data.total} {t('profile.recipesCount')}
-              {isFetching && ' …'}
-            </span>
-          )}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <LanguageSwitcher />
-          {isLoggedIn ? (
-            <>
-              {user?.role === 'admin' && (
-                <Link
-                  to="/admin"
-                  style={{
-                    fontSize: 13,
-                    color: '#2d6a4f',
-                    padding: '6px 10px',
-                    borderRadius: 6,
-                    background: '#e8f5e9',
-                    textDecoration: 'none',
-                  }}
-                >
-                  ⚙️ {t('admin.link')}
-                </Link>
-              )}
-              <Link
-                to="/profile"
-                style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#555' }}
-              >
-                <span style={{ fontSize: 13 }}>{user?.displayName ?? user?.email}</span>
-                <span style={smallBtnStyle}>👤</span>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <button style={outlineBtnStyle}>{t('auth.signIn')}</button>
-              </Link>
-              <Link to="/register">
-                <button style={btnStyle}>{t('auth.register')}</button>
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
+    <div className="page-container page-container--wide">
+      {data && (
+        <p className="page-header__subtitle list-recipe-count">
+          {data.total} {t('profile.recipesCount')}
+          {isFetching && ' …'}
+        </p>
+      )}
 
+      {/* Filter bar — Row 1: search, Row 2: selects + toggles */}
       <div className="filter-bar">
         <input
+          type="search"
           placeholder={t('recipe.list.searchPlaceholder')}
           value={search}
           onChange={(e) => changeSearch(e.target.value)}
-          className="filter-search"
-          style={inputStyle}
         />
-        <select
-          value={tag}
-          onChange={(e) => changeTag(e.target.value)}
-          className="filter-aux"
-          style={{ ...inputStyle, width: 140 }}
-        >
-          <option value="">{t('recipe.list.allTags')}</option>
-          {allTags?.map((tg) => (
-            <option key={tg} value={tg}>
-              {tg}
-            </option>
-          ))}
-        </select>
-        <select
-          value={category}
-          onChange={(e) => changeCategory(e.target.value)}
-          className="filter-aux"
-          style={{ ...inputStyle, width: 160 }}
-        >
-          <option value="">{t('recipe.list.allCategories')}</option>
-          {categories?.map((c) => (
-            <option key={c._id} value={c._id}>
-              {c.icon} {c.name}
-            </option>
-          ))}
-        </select>
-        {isLoggedIn && (
-          <button
-            onClick={changeMine}
-            style={mine ? { ...btnStyle, fontSize: 14 } : { ...outlineBtnStyle, fontSize: 14 }}
+        <div className="filter-bar__row">
+          <select aria-label={t('recipe.list.filterByTag')} value={tag} onChange={(e) => changeTag(e.target.value)}>
+            <option value="">{t('recipe.list.allTags')}</option>
+            {allTags?.map((tg) => (
+              <option key={tg} value={tg}>
+                {tg}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label={t('recipe.list.filterByCategory')}
+            value={category}
+            onChange={(e) => changeCategory(e.target.value)}
           >
-            {t('recipe.list.mine')}
-          </button>
-        )}
-        {isLoggedIn && (
-          <Link to="/recipes/new">
-            <button style={btnStyle}>{t('recipe.list.addButton')}</button>
-          </Link>
-        )}
+            <option value="">{t('recipe.list.allCategories')}</option>
+            {categories?.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.icon} {c.name}
+              </option>
+            ))}
+          </select>
+          {isLoggedIn && (
+            <>
+              <button type="button" onClick={changeMine} className={mine ? undefined : 'outline'}>
+                {t('recipe.list.mine')}
+              </button>
+              <button
+                type="button"
+                onClick={changeSaved}
+                className={saved ? undefined : 'outline'}
+                title={t('recipe.list.savedTitle')}
+              >
+                {t('recipe.list.saved')}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
-      {isLoading && !data && <p>{t('recipe.list.loading')}</p>}
-
-      {data && data.items.length === 0 && (
-        <div style={{ textAlign: 'center', padding: 60, color: '#888' }}>
-          <p style={{ fontSize: 48 }}>🍳</p>
-          <p>{t('recipe.list.empty')}</p>
+      {hasFilters && (
+        <div className="filter-chips">
+          {debouncedSearch && (
+            <span className="filter-chip">
+              🔍 {debouncedSearch}
+              <button type="button" onClick={() => changeSearch('')}>
+                ×
+              </button>
+            </span>
+          )}
+          {tag && (
+            <span className="filter-chip">
+              🏷 {tag}
+              <button type="button" onClick={() => changeTag('')}>
+                ×
+              </button>
+            </span>
+          )}
+          {category && (
+            <span className="filter-chip">
+              📂 {categories?.find((c) => c._id === category)?.name ?? category}
+              <button type="button" onClick={() => changeCategory('')}>
+                ×
+              </button>
+            </span>
+          )}
+          <button type="button" className="btn-ghost btn-sm" onClick={clearFilters}>
+            {t('recipe.list.clearFilters')}
+          </button>
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-        {data?.items.map((r) => (
-          <Link key={r._id} to={`/recipes/${r._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div style={cardStyle}>
-              {r.photoUrl ? (
-                <img
-                  src={`${API_URL}${r.photoUrl}`}
-                  alt={r.title}
-                  style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: '8px 8px 0 0' }}
-                />
-              ) : (
-                <div
-                  style={{ height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}
-                >
-                  🍽
-                </div>
-              )}
-              <div style={{ padding: '12px 14px' }}>
-                <h3 style={{ margin: '0 0 6px', fontSize: 16 }}>{r.title}</h3>
-                {r.description && (
-                  <p
-                    style={{
-                      margin: 0,
-                      color: '#666',
-                      fontSize: 13,
-                      overflow: 'hidden',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                    }}
-                  >
-                    {r.description}
-                  </p>
-                )}
-                <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {r.tags.slice(0, 3).map((tg) => (
-                    <span
-                      key={tg}
-                      style={{ ...tagStyle, cursor: 'pointer' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        changeTag(tg);
-                      }}
-                    >
-                      {tg}
-                    </span>
-                  ))}
-                  {r.rating && <span style={tagStyle}>{'⭐'.repeat(r.rating)}</span>}
-                </div>
+      {isLoading && !data && (
+        <div className="recipe-cards-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholder
+            <div key={i} className="skeleton-card">
+              <div className="skeleton-card__photo skeleton" />
+              <div className="skeleton-card__body">
+                <div className="skeleton-card__title skeleton" />
+                <div className="skeleton-card__desc skeleton" />
+                <div className="skeleton-card__desc2 skeleton" />
+                <div className="skeleton-card__meta skeleton" />
               </div>
             </div>
-          </Link>
-        ))}
+          ))}
+        </div>
+      )}
+
+      {data && data.items.length === 0 && (
+        <div className="recipe-list__empty">
+          <p className="recipe-list__empty-icon">🍳</p>
+          <p>{t('recipe.list.empty')}</p>
+          {hasFilters && (
+            <button type="button" className="outline btn-sm" onClick={clearFilters}>
+              {t('recipe.list.clearFilters')}
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="recipe-cards-grid">
+        {data?.items.map((r) => {
+          const cat = categories?.find((c) => c._id.toString() === r.categoryId?.toString());
+          return (
+            <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
+              <article className="recipe-card">
+                <div className="recipe-card__photo-wrap">
+                  {r.photoUrl ? (
+                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
+                  ) : (
+                    <div className="recipe-card__placeholder">🍽</div>
+                  )}
+                  {(r.prepTime || r.cookTime) && (
+                    <span className="card-time-badge">⏱ {(r.prepTime ?? 0) + (r.cookTime ?? 0)} min</span>
+                  )}
+                </div>
+                <div className="recipe-card__body">
+                  <h3 className="recipe-card__title">{r.title}</h3>
+                  {r.description && <p className="recipe-card__desc">{r.description}</p>}
+                  <div className="recipe-card__meta">
+                    {cat && (
+                      <span className="recipe-card__category">
+                        {cat.icon} {cat.name}
+                      </span>
+                    )}
+                    {r.tags.slice(0, 3).map((tg) => (
+                      <button
+                        type="button"
+                        key={tg}
+                        className="tag tag--btn"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          changeTag(tg);
+                        }}
+                      >
+                        {tg}
+                      </button>
+                    ))}
+                    {r.rating && <span className="rating-badge">★ {r.rating}/5</span>}
+                  </div>
+                </div>
+              </article>
+            </Link>
+          );
+        })}
       </div>
 
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, marginTop: 32 }}>
-          <button onClick={() => goToPage(page - 1)} disabled={page === 1} style={pageBtn(page === 1)}>
+        <div className="pagination">
+          <button
+            type="button"
+            onClick={() => goToPage(page - 1)}
+            disabled={page === 1}
+            className={`page-btn${page === 1 ? ' page-btn--disabled' : ''}`}
+          >
             {t('recipe.list.prev')}
           </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <button key={p} onClick={() => goToPage(p)} style={pageBtn(false, p === page)}>
-              {p}
-            </button>
-          ))}
+          {getPaginationRange(page, totalPages).map((p) =>
+            typeof p === 'string' ? (
+              <span key={p} className="page-ellipsis">
+                …
+              </span>
+            ) : (
+              <button
+                type="button"
+                key={p}
+                onClick={() => goToPage(p)}
+                className={`page-btn${p === page ? ' page-btn--active' : ''}`}
+              >
+                {p}
+              </button>
+            ),
+          )}
           <button
+            type="button"
             onClick={() => goToPage(page + 1)}
             disabled={page === totalPages}
-            style={pageBtn(page === totalPages)}
+            className={`page-btn${page === totalPages ? ' page-btn--disabled' : ''}`}
           >
             {t('recipe.list.next')}
           </button>
@@ -270,67 +320,4 @@ export default function RecipeListPage() {
       )}
     </div>
   );
-}
-
-const inputStyle: React.CSSProperties = {
-  padding: '9px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 14,
-};
-const btnStyle: React.CSSProperties = {
-  padding: '9px 18px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 14,
-};
-const outlineBtnStyle: React.CSSProperties = {
-  padding: '9px 18px',
-  borderRadius: 8,
-  background: 'none',
-  color: '#2d6a4f',
-  border: '1px solid #2d6a4f',
-  cursor: 'pointer',
-  fontSize: 14,
-};
-const smallBtnStyle: React.CSSProperties = {
-  padding: '6px 12px',
-  borderRadius: 6,
-  background: '#f0f0f0',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 13,
-};
-const cardStyle: React.CSSProperties = {
-  borderRadius: 10,
-  border: '1px solid #eee',
-  overflow: 'hidden',
-  background: '#fff',
-  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-  cursor: 'pointer',
-};
-const tagStyle: React.CSSProperties = {
-  background: '#e8f5e9',
-  color: '#2d6a4f',
-  padding: '2px 8px',
-  borderRadius: 12,
-  fontSize: 12,
-};
-
-function pageBtn(disabled: boolean, active = false): React.CSSProperties {
-  return {
-    minWidth: 36,
-    height: 36,
-    borderRadius: 8,
-    border: active ? '2px solid #2d6a4f' : '1px solid #ddd',
-    background: active ? '#2d6a4f' : disabled ? '#f5f5f5' : '#fff',
-    color: active ? '#fff' : disabled ? '#bbb' : '#333',
-    cursor: disabled ? 'default' : 'pointer',
-    fontSize: 14,
-    fontWeight: active ? 600 : 400,
-    padding: '0 10px',
-  };
 }

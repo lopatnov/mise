@@ -1,0 +1,160 @@
+// ── Tab bar ────────────────────────────────────────────────────────────────
+
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--c-border-light);
+}
+
+.tab-btn {
+  padding: 8px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--c-text-light);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+
+  &--active {
+    font-weight: 600;
+    color: var(--c-primary);
+    border-bottom-color: var(--c-primary);
+  }
+}
+
+// ── Users table ────────────────────────────────────────────────────────────
+
+// Pico styles <table> natively. These overrides refine cell sizing/color.
+.admin-table {
+  font-size: 14px;
+
+  th {
+    font-size: 13px;
+    color: var(--c-text-muted);
+    font-weight: 600;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  // Compact the role select to match table rows
+  select {
+    width: auto;
+    min-width: 90px;
+    font-size: 13px;
+    padding: 4px 8px;
+    margin-bottom: 0;
+  }
+}
+
+// ── Page title / stat line ─────────────────────────────────────────────────
+
+.admin-page-title {
+  margin: 0;
+  font-size: var(--font-size-page);
+}
+
+.admin-stat {
+  color: var(--c-text-light);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.admin-empty {
+  color: var(--c-text-xlight);
+  font-size: 14px;
+}
+
+.admin-hint {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-bottom: 12px;
+}
+
+// ── Settings section ───────────────────────────────────────────────────────
+
+.admin-section--narrow {
+  max-width: 520px;
+}
+
+.admin-form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-section {
+  margin-bottom: 28px;
+
+  h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+}
+
+// ── Invite create row ──────────────────────────────────────────────────────
+
+.invite-create-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+
+  // Email field expands; days field stays compact
+  > div:first-child {
+    flex: 1;
+    min-width: 160px;
+  }
+
+  > div:nth-child(2) {
+    input {
+      width: 90px;
+    }
+  }
+
+  // Generate button: align to bottom edge of inputs, no extra margin
+  > button {
+    margin-bottom: 0;
+    align-self: flex-end;
+  }
+}
+
+// ── Invite display ─────────────────────────────────────────────────────────
+
+.invite-ready-label {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+
+.invite-code {
+  font-size: 12px;
+  word-break: break-all;
+  color: var(--c-text);
+}
+
+.invite-copy-btn {
+  margin-left: 12px;
+}
+
+.invite-row-code {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.invite-row-meta {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-left: 10px;
+}
+
+.invite-row-expires {
+  color: var(--c-text-xlight);
+  margin-left: 10px;
+}

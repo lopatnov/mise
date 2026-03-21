@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CurrentUser, type JwtUser } from '../common/decorators/current-user.decorator';
 import { OptionalAuth, Public } from '../common/decorators/public.decorator';
 import { UploadsService } from '../uploads/uploads.service';
-import { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import { CreateRecipeDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
 import { RecipesService } from './recipes.service';
 
 @ApiTags('recipes')
@@ -38,6 +38,11 @@ export class RecipesController {
   @Post()
   create(@CurrentUser() user: JwtUser, @Body() dto: CreateRecipeDto) {
     return this.service.create(user.userId, dto);
+  }
+
+  @Post('import-url')
+  importFromUrl(@Body() dto: ImportUrlDto) {
+    return this.service.importFromUrl(dto.url);
   }
 
   @Public()
@@ -66,6 +71,16 @@ export class RecipesController {
   @Delete(':id')
   remove(@Param('id') id: string, @CurrentUser() user: JwtUser) {
     return this.service.remove(id, user.userId, user.role === 'admin');
+  }
+
+  @Post(':id/favorite')
+  addFavorite(@Param('id') id: string, @CurrentUser() user: JwtUser) {
+    return this.service.addFavorite(id, user.userId);
+  }
+
+  @Delete(':id/favorite')
+  removeFavorite(@Param('id') id: string, @CurrentUser() user: JwtUser) {
+    return this.service.removeFavorite(id, user.userId);
   }
 
   @Post(':id/photo')

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import ImportUrlDialog from '../components/ImportUrlDialog';
 import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function RecipeFormPage() {
@@ -25,10 +26,12 @@ export default function RecipeFormPage() {
   const [tags, setTags] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [isPublic, setIsPublic] = useState(false);
-  const [ingredients, setIngredients] = useState([{ name: '', amount: 1, unit: '' }]);
-  const [steps, setSteps] = useState(['']);
+  const [ingredients, setIngredients] = useState([{ _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
+  const [steps, setSteps] = useState([{ _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
   const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
+  const [showImport, setShowImport] = useState(false);
+  const [importedImageUrl, setImportedImageUrl] = useState('');
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -50,10 +53,28 @@ export default function RecipeFormPage() {
       setTags(existing.tags.join(', '));
       setCategoryId(existing.categoryId ?? '');
       setIsPublic(existing.isPublic ?? false);
-      if (existing.ingredients.length) setIngredients(existing.ingredients);
-      if (existing.steps.length) setSteps(existing.steps.map((s) => s.text));
+      if (existing.ingredients.length)
+        setIngredients(existing.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
+      if (existing.steps.length)
+        setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
     }
   }, [existing]);
+
+  function applyImport(data: Partial<Recipe>) {
+    if (data.title) setTitle(data.title);
+    if (data.description) setDescription(data.description);
+    if (data.servings) setServings(data.servings);
+    if (data.prepTime) setPrepTime(String(data.prepTime));
+    if (data.cookTime) setCookTime(String(data.cookTime));
+    if (data.tags?.length) setTags(data.tags.join(', '));
+    if (data.ingredients?.length) setIngredients(data.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
+    if (data.steps?.length)
+      setSteps(
+        data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
+      );
+    if (data.externalImageUrl) setImportedImageUrl(data.externalImageUrl);
+    setShowImport(false);
+  }
 
   const saveMut = useMutation({
     mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id ?? '', data) : recipesApi.create(data)),
@@ -79,12 +100,16 @@ export default function RecipeFormPage() {
         .filter(Boolean),
       categoryId: categoryId || undefined,
       isPublic,
-      ingredients: ingredients.filter((i) => i.name),
-      steps: steps.filter(Boolean).map((text, i) => ({ order: i + 1, text })),
+      ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
+      steps: steps
+        .filter((s) => s.text)
+        .map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
+      externalImageUrl: importedImageUrl || undefined,
     });
   }
 
-  const addIngredient = () => setIngredients([...ingredients, { name: '', amount: 1, unit: '' }]);
+  const addIngredient = () =>
+    setIngredients([...ingredients, { _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
   const removeIngredient = (i: number) => setIngredients(ingredients.filter((_, idx) => idx !== i));
   const updateIngredient = (i: number, field: string, value: string | number) => {
     const updated = [...ingredients];
@@ -92,11 +117,11 @@ export default function RecipeFormPage() {
     setIngredients(updated);
   };
 
-  const addStep = () => setSteps([...steps, '']);
+  const addStep = () => setSteps([...steps, { _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
   const removeStep = (i: number) => setSteps(steps.filter((_, idx) => idx !== i));
   const updateStep = (i: number, value: string) => {
     const updated = [...steps];
-    updated[i] = value;
+    updated[i] = { ...updated[i], text: value };
     setSteps(updated);
   };
 
@@ -117,61 +142,89 @@ export default function RecipeFormPage() {
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ marginBottom: 20 }}>
-        <button onClick={() => navigate(-1)} style={linkBtn}>
+    <div className="page-container">
+      {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
+
+      <div className="recipe-actions form-back">
+        <button type="button" onClick={() => navigate(-1)} className="btn-ghost">
           {t('recipe.form.back')}
         </button>
+        {!isEdit && (
+          <>
+            <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
+              {t('recipe.import.button')}
+            </button>
+            {importedImageUrl && (
+              <img src={importedImageUrl} alt={t('recipe.form.importedPhoto')} className="import-photo-preview" />
+            )}
+          </>
+        )}
       </div>
-      <h1 style={{ marginBottom: 24 }}>{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
+      <h1 className="form-title">{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <Field label={t('recipe.form.titleLabel')}>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required style={inputStyle} />
+      <form onSubmit={handleSubmit} className="form-stack">
+        <Field id="f-title" label={t('recipe.form.titleLabel')}>
+          <input
+            id="f-title"
+            title={t('recipe.form.titleLabel')}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
         </Field>
 
-        <Field label={t('recipe.form.description')}>
+        <Field id="f-desc" label={t('recipe.form.description')}>
           <textarea
+            id="f-desc"
+            title={t('recipe.form.description')}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            style={{ ...inputStyle, resize: 'vertical' }}
+            className="resize-v"
           />
         </Field>
 
         <div className="grid-3">
-          <Field label={t('recipe.form.servings')}>
+          <Field id="f-servings" label={t('recipe.form.servings')}>
             <input
+              id="f-servings"
+              title={t('recipe.form.servings')}
               type="number"
               min={1}
               value={servings}
               onChange={(e) => setServings(Number(e.target.value))}
-              style={inputStyle}
             />
           </Field>
-          <Field label={t('recipe.form.prepTime')}>
+          <Field id="f-prep" label={t('recipe.form.prepTime')}>
             <input
+              id="f-prep"
+              title={t('recipe.form.prepTime')}
               type="number"
               min={0}
               value={prepTime}
               onChange={(e) => setPrepTime(e.target.value)}
-              style={inputStyle}
             />
           </Field>
-          <Field label={t('recipe.form.cookTime')}>
+          <Field id="f-cook" label={t('recipe.form.cookTime')}>
             <input
+              id="f-cook"
+              title={t('recipe.form.cookTime')}
               type="number"
               min={0}
               value={cookTime}
               onChange={(e) => setCookTime(e.target.value)}
-              style={inputStyle}
             />
           </Field>
         </div>
 
         <div className="grid-2">
-          <Field label={t('recipe.form.category')}>
-            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={inputStyle}>
+          <Field id="f-cat" label={t('recipe.form.category')}>
+            <select
+              id="f-cat"
+              title={t('recipe.form.category')}
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -180,56 +233,61 @@ export default function RecipeFormPage() {
               ))}
             </select>
           </Field>
-          <Field label={t('recipe.form.rating')}>
+          <Field id="f-rating" label={t('recipe.form.rating')}>
             <input
+              id="f-rating"
+              title={t('recipe.form.rating')}
               type="number"
               min={1}
               max={5}
               value={rating}
               onChange={(e) => setRating(e.target.value)}
-              style={inputStyle}
             />
           </Field>
         </div>
 
-        <Field label={t('recipe.form.tags')}>
+        <Field id="f-tags" label={t('recipe.form.tags')}>
           <input
+            id="f-tags"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             placeholder={t('recipe.form.tagsPlaceholder')}
-            style={inputStyle}
           />
           {allTags && allTags.length > 0 && (
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
-              {allTags.map((t) => {
+            <div className="tag-chips">
+              {allTags.map((tg) => {
                 const current = tags
                   .split(',')
                   .map((x) => x.trim())
                   .filter(Boolean);
-                const active = current.includes(t);
-                return (
+                const active = current.includes(tg);
+                const handleTagClick = () => {
+                  const list = tags
+                    .split(',')
+                    .map((x) => x.trim())
+                    .filter(Boolean);
+                  const next = active ? list.filter((x) => x !== tg) : [...list, tg];
+                  setTags(next.join(', '));
+                };
+                return active ? (
                   <button
-                    key={t}
+                    key={tg}
                     type="button"
-                    onClick={() => {
-                      const list = tags
-                        .split(',')
-                        .map((x) => x.trim())
-                        .filter(Boolean);
-                      const next = active ? list.filter((x) => x !== t) : [...list, t];
-                      setTags(next.join(', '));
-                    }}
-                    style={{
-                      padding: '2px 10px',
-                      borderRadius: 12,
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: 12,
-                      background: active ? '#2d6a4f' : '#e8f5e9',
-                      color: active ? '#fff' : '#2d6a4f',
-                    }}
+                    onClick={handleTagClick}
+                    className="tag tag--btn tag--large tag--active"
+                    aria-pressed="true"
                   >
-                    {t}
+                    {tg}
+                  </button>
+                ) : (
+                  <button
+                    key={tg}
+                    type="button"
+                    onClick={handleTagClick}
+                    className="tag tag--btn tag--large"
+                    aria-pressed="false"
+                  >
+                    {tg}
                   </button>
                 );
               })}
@@ -237,118 +295,127 @@ export default function RecipeFormPage() {
           )}
         </Field>
 
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>{t('recipe.form.ingredients')}</label>
-            <button type="button" onClick={addIngredient} style={smallBtn}>
-              {t('recipe.form.add')}
-            </button>
-          </div>
-          {ingredients.map((ing, i) => (
-            <div
-              key={i}
-              className="ingredient-row"
-              draggable
-              onDragStart={() => setDragIngIdx(i)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => {
-                if (dragIngIdx !== null) moveIngredient(dragIngIdx, i);
-                setDragIngIdx(null);
-              }}
-              onDragEnd={() => setDragIngIdx(null)}
-              style={{ opacity: dragIngIdx === i ? 0.4 : 1 }}
-            >
-              <span style={dragHandle}>⠿</span>
-              <input
-                placeholder={t('recipe.form.ingredientName')}
-                value={ing.name}
-                onChange={(e) => updateIngredient(i, 'name', e.target.value)}
-                className="ingredient-name"
-                style={inputStyle}
-              />
-              <input
-                type="number"
-                placeholder={t('recipe.form.ingredientQty')}
-                value={ing.amount}
-                onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))}
-                style={inputStyle}
-              />
-              <input
-                placeholder={t('recipe.form.ingredientUnit')}
-                value={ing.unit}
-                onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
-                style={inputStyle}
-              />
-              <button
-                type="button"
-                onClick={() => removeIngredient(i)}
-                style={{ ...smallBtn, background: '#fee', color: '#c00' }}
+        <fieldset>
+          <legend className="field__label">{t('recipe.form.ingredients')}</legend>
+          <ol className="drag-list">
+            {ingredients.map((ing, i) => (
+              <li
+                key={ing._id}
+                className={`ingredient-row${dragIngIdx === i ? ' is-dragging' : ''}`}
+                draggable
+                onDragStart={() => setDragIngIdx(i)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => {
+                  if (dragIngIdx !== null) moveIngredient(dragIngIdx, i);
+                  setDragIngIdx(null);
+                }}
+                onDragEnd={() => setDragIngIdx(null)}
               >
-                ×
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <label style={labelStyle}>{t('recipe.form.steps')}</label>
-            <button type="button" onClick={addStep} style={smallBtn}>
-              {t('recipe.form.add')}
-            </button>
-          </div>
-          {steps.map((step, i) => (
-            <div
-              key={i}
-              draggable
-              onDragStart={() => setDragStepIdx(i)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => {
-                if (dragStepIdx !== null) moveStep(dragStepIdx, i);
-                setDragStepIdx(null);
-              }}
-              onDragEnd={() => setDragStepIdx(null)}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '16px 1fr 32px',
-                gap: 6,
-                marginBottom: 6,
-                alignItems: 'start',
-                opacity: dragStepIdx === i ? 0.4 : 1,
-              }}
-            >
-              <span style={{ ...dragHandle, paddingTop: 10 }}>⠿</span>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                <span style={{ minWidth: 24, paddingTop: 10, color: '#888', fontSize: 13 }}>{i + 1}.</span>
-                <textarea
-                  value={step}
-                  onChange={(e) => updateStep(i, e.target.value)}
-                  rows={2}
-                  placeholder={t('recipe.form.step', { n: i + 1 })}
-                  style={{ ...inputStyle, flex: 1, resize: 'vertical' }}
+                <span className="drag-handle" aria-hidden="true">
+                  ⠿
+                </span>
+                <input
+                  aria-label={t('recipe.form.ingredientName')}
+                  placeholder={t('recipe.form.ingredientName')}
+                  value={ing.name}
+                  onChange={(e) => updateIngredient(i, 'name', e.target.value)}
+                  className="ingredient-name"
                 />
-              </div>
-              <button
-                type="button"
-                onClick={() => removeStep(i)}
-                style={{ ...smallBtn, background: '#fee', color: '#c00', marginTop: 6 }}
-              >
-                ×
-              </button>
-            </div>
-          ))}
-        </div>
+                <input
+                  type="number"
+                  aria-label={t('recipe.form.ingredientQty')}
+                  placeholder={t('recipe.form.ingredientQty')}
+                  value={ing.amount}
+                  onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))}
+                />
+                <input
+                  aria-label={t('recipe.form.ingredientUnit')}
+                  placeholder={t('recipe.form.ingredientUnit')}
+                  value={ing.unit}
+                  onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeIngredient(i)}
+                  className="btn-remove"
+                  aria-label={t('recipe.form.removeIngredient', { n: i + 1 })}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ol>
+          <button
+            type="button"
+            onClick={addIngredient}
+            className="secondary outline btn-sm btn-list-add"
+            aria-label={t('recipe.form.addIngredient')}
+          >
+            {t('recipe.form.add')}
+          </button>
+        </fieldset>
 
-        <label
-          style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, color: '#444' }}
-        >
+        <fieldset>
+          <legend className="field__label">{t('recipe.form.steps')}</legend>
+          <ol className="drag-list">
+            {steps.map((step, i) => (
+              <li
+                key={step._id}
+                className={`step-row${dragStepIdx === i ? ' is-dragging' : ''}`}
+                draggable
+                onDragStart={() => setDragStepIdx(i)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => {
+                  if (dragStepIdx !== null) moveStep(dragStepIdx, i);
+                  setDragStepIdx(null);
+                }}
+                onDragEnd={() => setDragStepIdx(null)}
+              >
+                <span className="drag-handle drag-handle--top" aria-hidden="true">
+                  ⠿
+                </span>
+                <div className="step-content">
+                  <span className="step-number" aria-hidden="true">
+                    {i + 1}.
+                  </span>
+                  <textarea
+                    aria-label={t('recipe.form.step', { n: i + 1 })}
+                    value={step.text}
+                    onChange={(e) => updateStep(i, e.target.value)}
+                    rows={2}
+                    placeholder={t('recipe.form.step', { n: i + 1 })}
+                    className="resize-v flex-1"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeStep(i)}
+                  className="btn-remove"
+                  aria-label={t('recipe.form.removeStep', { n: i + 1 })}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ol>
+          <button
+            type="button"
+            onClick={addStep}
+            className="secondary outline btn-sm btn-list-add"
+            aria-label={t('recipe.form.addStep')}
+          >
+            {t('recipe.form.add')}
+          </button>
+        </fieldset>
+
+        <label className="checkbox-label">
           <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
           {t('recipe.form.isPublic')}
         </label>
 
-        {saveMut.isError && <p style={{ color: 'red' }}>{t('recipe.form.saveError')}</p>}
+        {saveMut.isError && <p className="form-error">{t('recipe.form.saveError')}</p>}
 
-        <button type="submit" disabled={saveMut.isPending} style={submitBtn}>
+        <button type="submit" disabled={saveMut.isPending}>
           {saveMut.isPending ? t('recipe.form.saving') : isEdit ? t('recipe.form.save') : t('recipe.form.create')}
         </button>
       </form>
@@ -356,55 +423,13 @@ export default function RecipeFormPage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, id }: { label: string; children: React.ReactNode; id?: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <label style={labelStyle}>{label}</label>
+    <div className="field">
+      <label className="field__label" htmlFor={id}>
+        {label}
+      </label>
       {children}
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '9px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 14,
-  width: '100%',
-  boxSizing: 'border-box',
-};
-const labelStyle: React.CSSProperties = { fontSize: 13, fontWeight: 500, color: '#444' };
-const smallBtn: React.CSSProperties = {
-  padding: '4px 10px',
-  borderRadius: 6,
-  background: '#f0f0f0',
-  border: 'none',
-  cursor: 'pointer',
-  fontSize: 13,
-};
-const linkBtn: React.CSSProperties = {
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  color: '#2d6a4f',
-  fontSize: 14,
-  padding: 0,
-};
-const dragHandle: React.CSSProperties = {
-  cursor: 'grab',
-  color: '#ccc',
-  fontSize: 16,
-  textAlign: 'center',
-  userSelect: 'none',
-  alignSelf: 'center',
-};
-const submitBtn: React.CSSProperties = {
-  padding: '12px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-  marginTop: 8,
-};

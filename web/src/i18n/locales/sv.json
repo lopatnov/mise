@@ -39,14 +39,22 @@
       "allCategories": "Alla kategorier",
       "communityTitle": "Communityrecept",
       "mine": "Mina recept",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Alla taggar",
       "prev": "← Föregående",
-      "next": "Nästa →"
+      "next": "Nästa →",
+      "clearFilters": "Rensa filter",
+      "filterByTag": "Filtrera efter tagg",
+      "filterByCategory": "Filtrera efter kategori"
     },
     "detail": {
       "back": "← Tillbaka",
       "edit": "✏️ Redigera",
       "delete": "🗑 Radera",
+      "deleteConfirm": "Är du säker?",
+      "deleteCancel": "Avbryt",
+      "deleteConfirmBtn": "Ta bort",
       "loading": "Laddar...",
       "notFound": "Receptet hittades inte",
       "addPhoto": "📷 Lägg till foto",
@@ -61,10 +69,12 @@
       "photoError": "Fel vid uppladdning av foto",
       "deleteError": "Fel vid radering av recept",
       "public": "Offentlig",
-      "duplicate": "Spara en kopia",
+      "duplicate": "📋 Spara en kopia",
       "duplicateTitle": "Kopia av {{title}}",
       "duplicateError": "Det gick inte att kopiera receptet",
-      "print": "Skriv ut"
+      "print": "🖨 Skriv ut",
+      "favorite": "🤍 Spara",
+      "unfavorite": "❤️ Sparad"
     },
     "form": {
       "back": "← Tillbaka",
@@ -91,7 +101,21 @@
       "saving": "Sparar...",
       "save": "Spara",
       "create": "Skapa recept",
-      "isPublic": "Dela med alla"
+      "isPublic": "Dela med alla",
+      "removeIngredient": "Ta bort ingrediens {{n}}",
+      "removeStep": "Ta bort steg {{n}}",
+      "addIngredient": "Lägg till ingrediens",
+      "addStep": "Lägg till steg",
+      "importedPhoto": "Importerat foto"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Det gick inte att uppdatera användaren",
       "deleted": "Användare borttagen",
       "deleteError": "Det gick inte att ta bort användaren",
-      "confirmDelete": "Ta bort den här användaren?"
+      "confirmDelete": "Ta bort den här användaren?",
+      "name": "Namn"
     },
     "invites": {
       "create": "Skapa inbjudningslänk",

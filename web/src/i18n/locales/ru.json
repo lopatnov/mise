@@ -39,14 +39,22 @@
       "allCategories": "Все категории",
       "communityTitle": "Рецепты сообщества",
       "mine": "Мои рецепты",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Все теги",
       "prev": "← Назад",
-      "next": "Вперёд →"
+      "next": "Вперёд →",
+      "clearFilters": "Сбросить фильтры",
+      "filterByTag": "Фильтр по тегу",
+      "filterByCategory": "Фильтр по категории"
     },
     "detail": {
       "back": "← Назад",
       "edit": "✏️ Редактировать",
       "delete": "🗑 Удалить",
+      "deleteConfirm": "Вы уверены?",
+      "deleteCancel": "Отмена",
+      "deleteConfirmBtn": "Удалить",
       "loading": "Загрузка...",
       "notFound": "Рецепт не найден",
       "addPhoto": "📷 Добавить фото",
@@ -61,10 +69,12 @@
       "photoError": "Ошибка загрузки фото",
       "deleteError": "Ошибка удаления рецепта",
       "public": "Публичный",
-      "duplicate": "Сохранить копию",
+      "duplicate": "📋 Сохранить копию",
       "duplicateTitle": "Копия {{title}}",
       "duplicateError": "Ошибка копирования рецепта",
-      "print": "Печать"
+      "print": "🖨 Печать",
+      "favorite": "🤍 Сохранить",
+      "unfavorite": "❤️ Сохранено"
     },
     "form": {
       "back": "← Назад",
@@ -91,7 +101,21 @@
       "saving": "Сохранение...",
       "save": "Сохранить",
       "create": "Создать рецепт",
-      "isPublic": "Поделиться со всеми"
+      "isPublic": "Поделиться со всеми",
+      "removeIngredient": "Удалить ингредиент {{n}}",
+      "removeStep": "Удалить шаг {{n}}",
+      "addIngredient": "Добавить ингредиент",
+      "addStep": "Добавить шаг",
+      "importedPhoto": "Импортированное фото"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Ошибка обновления",
       "deleted": "Пользователь удалён",
       "deleteError": "Ошибка удаления",
-      "confirmDelete": "Удалить этого пользователя?"
+      "confirmDelete": "Удалить этого пользователя?",
+      "name": "Имя"
     },
     "invites": {
       "create": "Создать ссылку-приглашение",

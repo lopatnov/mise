@@ -1,0 +1,46 @@
+// Pagination row
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+// Pagination button
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  color: var(--c-text);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0 10px;
+  font-family: inherit;
+
+  &--active {
+    border: 2px solid var(--c-primary);
+    background: var(--c-primary);
+    color: var(--c-on-primary);
+    font-weight: 600;
+  }
+
+  &--disabled {
+    background: var(--c-border-light);
+    color: var(--c-text-xlight);
+    cursor: default;
+  }
+}
+
+.page-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  color: var(--c-text-light);
+  font-size: 14px;
+  user-select: none;
+}

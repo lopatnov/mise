@@ -39,14 +39,22 @@
       "allCategories": "Tüm kategoriler",
       "communityTitle": "Topluluk tarifleri",
       "mine": "Tariflerim",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Tüm etiketler",
       "prev": "← Önceki",
-      "next": "Sonraki →"
+      "next": "Sonraki →",
+      "clearFilters": "Filtreleri temizle",
+      "filterByTag": "Etikete göre filtrele",
+      "filterByCategory": "Kategoriye göre filtrele"
     },
     "detail": {
       "back": "← Geri",
       "edit": "✏️ Düzenle",
       "delete": "🗑 Sil",
+      "deleteConfirm": "Emin misiniz?",
+      "deleteCancel": "İptal",
+      "deleteConfirmBtn": "Sil",
       "loading": "Yükleniyor...",
       "notFound": "Tarif bulunamadı",
       "addPhoto": "📷 Fotoğraf ekle",
@@ -61,10 +69,12 @@
       "photoError": "Fotoğraf yüklenemedi",
       "deleteError": "Tarif silinemedi",
       "public": "Herkese açık",
-      "duplicate": "Kopyayı kaydet",
+      "duplicate": "📋 Kopyayı kaydet",
       "duplicateTitle": "{{title}} kopyası",
       "duplicateError": "Tarif kopyalanamadı",
-      "print": "Yazdır"
+      "print": "🖨 Yazdır",
+      "favorite": "🤍 Kaydet",
+      "unfavorite": "❤️ Kaydedildi"
     },
     "form": {
       "back": "← Geri",
@@ -91,7 +101,21 @@
       "saving": "Kaydediliyor...",
       "save": "Kaydet",
       "create": "Tarif oluştur",
-      "isPublic": "Herkesle paylaş"
+      "isPublic": "Herkesle paylaş",
+      "removeIngredient": "{{n}}. malzemeyi kaldır",
+      "removeStep": "{{n}}. adımı kaldır",
+      "addIngredient": "Malzeme ekle",
+      "addStep": "Adım ekle",
+      "importedPhoto": "İçe aktarılan fotoğraf"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Kullanıcı güncellenemedi",
       "deleted": "Kullanıcı silindi",
       "deleteError": "Kullanıcı silinemedi",
-      "confirmDelete": "Bu kullanıcıyı sil?"
+      "confirmDelete": "Bu kullanıcıyı sil?",
+      "name": "Ad"
     },
     "invites": {
       "create": "Davet bağlantısı oluştur",

@@ -1,0 +1,42 @@
+// Toast notification container
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// Individual toast
+.toast {
+  padding: 10px 16px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  color: var(--c-on-primary);
+  font-size: 14px;
+  max-width: 320px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: toast-in 0.2s ease;
+
+  &--success {
+    background: var(--c-primary);
+  }
+
+  &--error {
+    background: var(--c-danger-dark);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

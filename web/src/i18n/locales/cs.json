@@ -39,14 +39,22 @@
       "allCategories": "Všechny kategorie",
       "communityTitle": "Komunitní recepty",
       "mine": "Moje recepty",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Všechny tagy",
       "prev": "← Předchozí",
-      "next": "Další →"
+      "next": "Další →",
+      "clearFilters": "Vymazat filtry",
+      "filterByTag": "Filtrovat podle tagu",
+      "filterByCategory": "Filtrovat podle kategorie"
     },
     "detail": {
       "back": "← Zpět",
       "edit": "✏️ Upravit",
       "delete": "🗑 Smazat",
+      "deleteConfirm": "Jsi si jistý?",
+      "deleteCancel": "Zrušit",
+      "deleteConfirmBtn": "Smazat",
       "loading": "Načítání...",
       "notFound": "Recept nebyl nalezen",
       "addPhoto": "📷 Přidat foto",
@@ -61,10 +69,12 @@
       "photoError": "Chyba nahrávání fotografie",
       "deleteError": "Chyba mazání receptu",
       "public": "Veřejný",
-      "duplicate": "Uložit kopii",
+      "duplicate": "📋 Uložit kopii",
       "duplicateTitle": "Kopie {{title}}",
       "duplicateError": "Nepodařilo se zkopírovat recept",
-      "print": "Tisk"
+      "print": "🖨 Tisk",
+      "favorite": "🤍 Uložit",
+      "unfavorite": "❤️ Uloženo"
     },
     "form": {
       "back": "← Zpět",
@@ -91,7 +101,21 @@
       "saving": "Ukládání...",
       "save": "Uložit",
       "create": "Vytvořit recept",
-      "isPublic": "Sdílet se všemi"
+      "isPublic": "Sdílet se všemi",
+      "removeIngredient": "Odebrat ingredienci {{n}}",
+      "removeStep": "Odebrat krok {{n}}",
+      "addIngredient": "Přidat ingredienci",
+      "addStep": "Přidat krok",
+      "importedPhoto": "Importovaná fotka"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Aktualizace uživatele se nezdařila",
       "deleted": "Uživatel smazán",
       "deleteError": "Smazání uživatele se nezdařilo",
-      "confirmDelete": "Smazat tohoto uživatele?"
+      "confirmDelete": "Smazat tohoto uživatele?",
+      "name": "Jméno"
     },
     "invites": {
       "create": "Vytvořit pozvánkový odkaz",

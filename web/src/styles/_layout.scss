@@ -1,0 +1,440 @@
+// ── Page containers ────────────────────────────────────────────────────────
+
+.page-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 16px 40px; // extra bottom padding clears the fixed footer
+}
+
+.page-container--wide {
+  max-width: 960px;
+}
+
+.page-container--narrow {
+  max-width: 480px;
+}
+
+.page-container--auth {
+  max-width: 445px;
+  margin: 60px auto 0;
+  padding: 0 16px 40px;
+}
+
+.page-container--setup {
+  max-width: 440px;
+  margin: 60px auto 0;
+  padding: 0 16px 40px;
+}
+
+// ── Page header bar ────────────────────────────────────────────────────────
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  // Shrink all header interactive elements to ~40px height
+  button,
+  [role="button"],
+  select {
+    --pico-form-element-spacing-vertical: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+.page-header__title {
+  margin: 0;
+}
+
+.page-header__subtitle {
+  font-size: 13px;
+  color: var(--c-text-light);
+  margin: 2px 0 0;
+}
+
+// ── Filter bar (2-row layout) ──────────────────────────────────────────────
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+
+  // Row 1: search input spans full width
+  input[type="search"],
+  input:not([type="checkbox"]):not([type="radio"]) {
+    margin-bottom: 0;
+  }
+}
+
+// Row 2: selects + toggle group
+.filter-bar__row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  button,
+  select {
+    --pico-form-element-spacing-vertical: 0.4rem;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+  }
+
+  select {
+    width: auto;
+    flex: 1;
+    min-width: 110px;
+    max-width: 200px;
+  }
+
+  // Pico role="group" — connected toggle buttons
+  [role="group"] {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    button {
+      white-space: nowrap;
+    }
+  }
+}
+
+// ── Profile link in page header ────────────────────────────────────────────
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--pico-border-radius);
+  border: var(--pico-border-width) solid var(--pico-muted-border-color);
+  text-decoration: none;
+  color: var(--pico-color);
+  font-size: 0.875rem;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--pico-primary);
+    color: var(--pico-primary);
+  }
+}
+
+// ── Grids ──────────────────────────────────────────────────────────────────
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+// ── Drag-and-drop list wrapper ──────────────────────────────────────────────
+
+.drag-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Ingredient / step form rows ────────────────────────────────────────────
+
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 16px 1fr 80px 80px 36px;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: start;
+
+  input {
+    margin-bottom: 0;
+  }
+}
+
+.step-row {
+  display: grid;
+  grid-template-columns: 16px 1fr 36px;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: start;
+}
+
+// ── Recipe actions bar ─────────────────────────────────────────────────────
+
+.recipe-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  button,
+  [role="button"],
+  a[role="button"] {
+    --pico-form-element-spacing-vertical: 0.4rem;
+    font-size: 0.875rem;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  &__right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+}
+
+// ── Recipe meta row ────────────────────────────────────────────────────────
+
+.recipe-meta {
+  display: flex;
+  gap: 12px;
+  color: var(--c-text-muted);
+  font-size: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+// ── Servings scaler ────────────────────────────────────────────────────────
+
+.scaling-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: var(--c-border-light);
+  border-radius: var(--r-lg);
+  font-size: 14px;
+  color: var(--c-text-muted);
+}
+
+.scaling-control__count {
+  font-weight: 600;
+  font-size: 16px;
+  min-width: 28px;
+  text-align: center;
+}
+
+// ── Recipe tags row ────────────────────────────────────────────────────────
+
+.recipe-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+// ── Photo container ────────────────────────────────────────────────────────
+
+.photo-container {
+  position: relative;
+  margin-bottom: 20px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+
+  // Show replace button only on hover — no JS hover state needed
+  .photo-replace-btn { display: none; }
+  &:hover .photo-replace-btn { display: flex; }
+}
+
+// ── Auth page shared elements ─────────────────────────────────────────────
+
+.page-container--auth--center {
+  text-align: center;
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  margin-bottom: 28px;
+  font-weight: 400;
+  color: var(--c-text-muted);
+  font-size: var(--font-size-page);
+}
+
+.auth-result-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.auth-result-text {
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+.dev-link {
+  color: var(--c-primary);
+  word-break: break-all;
+  font-size: 13px;
+  margin-top: 12px;
+  display: block;
+}
+
+.setup-desc {
+  margin: 0 0 20px;
+  color: var(--c-text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+// ── Filter chips ────────────────────────────────────────────────────────────
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--c-primary-light);
+  color: var(--c-primary);
+  border-radius: var(--r-pill);
+  padding: 3px 10px 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 0 0 2px;
+    color: var(--c-text-muted);
+    margin-bottom: 0;
+    &:hover { color: var(--c-primary); }
+  }
+}
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+
+.ms-auto {
+  margin-left: auto;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+// ── Recipe list grid ───────────────────────────────────────────────────────
+
+.recipe-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.recipe-list__empty {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--c-text-light);
+}
+
+.recipe-list__empty-icon {
+  font-size: 48px;
+  margin: 0 0 8px;
+}
+
+// ── Form layout ────────────────────────────────────────────────────────────
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-back {
+  margin-bottom: 20px;
+}
+
+.form-title {
+  margin-bottom: 24px;
+}
+
+// Section header: label on left, "Add" button on right
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+// Tag autocomplete chip row
+.tag-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+// Step content (number badge + textarea)
+.step-content {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.step-number {
+  min-width: 24px;
+  padding-top: 10px;
+  color: var(--c-text-light);
+  font-size: 13px;
+}
+
+// ── Responsive ─────────────────────────────────────────────────────────────
+
+@media (max-width: 600px) {
+  .filter-bar__row {
+    select {
+      flex: 1 1 100px;
+      max-width: unset;
+    }
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredient-row {
+    grid-template-columns: 16px 1fr 1fr 36px;
+
+    .ingredient-name {
+      grid-column: 2 / -1;
+    }
+  }
+
+  .recipe-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

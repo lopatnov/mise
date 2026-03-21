@@ -13,6 +13,7 @@ export default function RegisterPage() {
   const [params] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPwd, setShowPwd] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [inviteToken, setInviteToken] = useState(params.get('invite') ?? '');
   const [error, setError] = useState('');
@@ -37,66 +38,54 @@ export default function RegisterPage() {
   }
 
   return (
-    <div style={{ maxWidth: 380, margin: '80px auto', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+    <div className="page-container--auth">
+      <div className="auth-header">
         <LanguageSwitcher />
       </div>
-      <h1 style={{ textAlign: 'center', marginBottom: 32 }}>🍽 {siteTitle}</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <input
-          placeholder={t('auth.name')}
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="email"
-          placeholder={t('auth.email')}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder={t('auth.passwordMin')}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-          style={inputStyle}
-        />
-        <input
-          placeholder={t('auth.inviteToken')}
-          value={inviteToken}
-          onChange={(e) => setInviteToken(e.target.value)}
-          style={{ ...inputStyle, color: inviteToken ? '#2d6a4f' : undefined }}
-        />
-        {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
-        <button type="submit" disabled={loading} style={btnStyle}>
-          {loading ? t('auth.registering') : t('auth.createAccount')}
-        </button>
-      </form>
-      <p style={{ textAlign: 'center', marginTop: 16 }}>
-        {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
-      </p>
+      <article>
+        <h1 className="auth-title">🍽 {siteTitle}</h1>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input placeholder={t('auth.name')} value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+          <input
+            type="email"
+            placeholder={t('auth.email')}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <div className="input-with-action">
+            <input
+              type={showPwd ? 'text' : 'password'}
+              placeholder={t('auth.passwordMin')}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+            <button
+              type="button"
+              className="input-action-btn"
+              onClick={() => setShowPwd((v) => !v)}
+              aria-label={showPwd ? 'Hide password' : 'Show password'}
+            >
+              {showPwd ? '🙈' : '👁'}
+            </button>
+          </div>
+          <input
+            placeholder={t('auth.inviteToken')}
+            value={inviteToken}
+            onChange={(e) => setInviteToken(e.target.value)}
+            className={inviteToken ? 'invite-input--filled' : undefined}
+          />
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? t('auth.registering') : t('auth.createAccount')}
+          </button>
+        </form>
+        <p className="auth-links">
+          {t('auth.hasAccount')} <Link to="/login">{t('auth.signIn')}</Link>
+        </p>
+      </article>
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  padding: '10px 12px',
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  fontSize: 15,
-  outline: 'none',
-};
-const btnStyle: React.CSSProperties = {
-  padding: '10px',
-  borderRadius: 8,
-  background: '#2d6a4f',
-  color: '#fff',
-  border: 'none',
-  fontSize: 15,
-  cursor: 'pointer',
-};

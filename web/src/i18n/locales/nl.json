@@ -39,14 +39,22 @@
       "allCategories": "Alle categorieën",
       "communityTitle": "Community recepten",
       "mine": "Mijn recepten",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Alle tags",
       "prev": "← Vorige",
-      "next": "Volgende →"
+      "next": "Volgende →",
+      "clearFilters": "Filters wissen",
+      "filterByTag": "Filter op tag",
+      "filterByCategory": "Filter op categorie"
     },
     "detail": {
       "back": "← Terug",
       "edit": "✏️ Bewerken",
       "delete": "🗑 Verwijderen",
+      "deleteConfirm": "Weet je het zeker?",
+      "deleteCancel": "Annuleren",
+      "deleteConfirmBtn": "Verwijderen",
       "loading": "Laden...",
       "notFound": "Recept niet gevonden",
       "addPhoto": "📷 Foto toevoegen",
@@ -61,10 +69,12 @@
       "photoError": "Fout bij uploaden foto",
       "deleteError": "Fout bij verwijderen recept",
       "public": "Openbaar",
-      "duplicate": "Sla een kopie op",
+      "duplicate": "📋 Sla een kopie op",
       "duplicateTitle": "Kopie van {{title}}",
       "duplicateError": "Recept kopiëren mislukt",
-      "print": "Afdrukken"
+      "print": "🖨 Afdrukken",
+      "favorite": "🤍 Opslaan",
+      "unfavorite": "❤️ Opgeslagen"
     },
     "form": {
       "back": "← Terug",
@@ -91,7 +101,21 @@
       "saving": "Opslaan...",
       "save": "Opslaan",
       "create": "Recept aanmaken",
-      "isPublic": "Delen met iedereen"
+      "isPublic": "Delen met iedereen",
+      "removeIngredient": "Ingrediënt {{n}} verwijderen",
+      "removeStep": "Stap {{n}} verwijderen",
+      "addIngredient": "Ingrediënt toevoegen",
+      "addStep": "Stap toevoegen",
+      "importedPhoto": "Geïmporteerde foto"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Gebruiker bijwerken mislukt",
       "deleted": "Gebruiker verwijderd",
       "deleteError": "Gebruiker verwijderen mislukt",
-      "confirmDelete": "Deze gebruiker verwijderen?"
+      "confirmDelete": "Deze gebruiker verwijderen?",
+      "name": "Naam"
     },
     "invites": {
       "create": "Uitnodigingslink aanmaken",

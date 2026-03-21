@@ -1,0 +1,159 @@
+// Recipe detail page – layout and visual elements
+
+// Loading / not-found message
+.recipe-detail__loading {
+  padding: 32px 16px;
+}
+
+// Page title
+.recipe-detail__title {
+  margin: 0 0 8px;
+}
+
+// Description paragraph
+.recipe-detail__description {
+  color: var(--c-text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+// Section block (ingredients, steps)
+.recipe-section {
+  margin-bottom: 24px;
+}
+
+.recipe-section__title {
+  font-size: var(--font-size-section);
+  margin-bottom: 10px;
+}
+
+.recipe-section__list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recipe-section__item {
+  margin-bottom: 8px;
+}
+
+// Step list item
+.recipe-step__item {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+// Row inside a step (text + optional photo-add button)
+.recipe-step__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.recipe-step__text {
+  flex: 1;
+}
+
+// Small icon button to add a photo to a step
+.step-photo-add-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--c-border);
+  font-size: 18px;
+  padding: 2px 4px;
+  line-height: 1;
+
+  &:hover {
+    color: var(--c-text-muted);
+  }
+}
+
+// Step photo thumbnail container
+.recipe-step__photo-container {
+  margin-top: 8px;
+}
+
+// Step photo image
+.recipe-step__photo {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
+
+// Main recipe hero photo
+.recipe-photo__img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
+
+// ── 2-column detail layout ──────────────────────────────────────────────────
+
+.recipe-detail__page {
+  max-width: 960px;
+}
+
+.recipe-detail__grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+  align-items: start;
+}
+
+.recipe-detail__sidebar {
+  position: sticky;
+  top: calc(56px + 16px);
+  max-height: calc(100vh - 56px - 48px);
+  overflow-y: auto;
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+
+  .scaling-control {
+    margin-bottom: 16px;
+    background: none;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--c-border-light);
+    border-radius: 0;
+  }
+
+  // Ingredient list: two-column alignment (amount | name)
+  .recipe-section__list {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .recipe-section__item {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    margin-bottom: 4px;
+
+    strong {
+      min-width: 68px;
+      text-align: right;
+      flex-shrink: 0;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .recipe-detail__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe-detail__sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    order: -1;
+  }
+}

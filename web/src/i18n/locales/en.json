@@ -39,14 +39,22 @@
       "allCategories": "All categories",
       "communityTitle": "Community recipes",
       "mine": "My recipes",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "All tags",
       "prev": "← Previous",
-      "next": "Next →"
+      "next": "Next →",
+      "clearFilters": "Clear filters",
+      "filterByTag": "Filter by tag",
+      "filterByCategory": "Filter by category"
     },
     "detail": {
       "back": "← Back",
       "edit": "✏️ Edit",
       "delete": "🗑 Delete",
+      "deleteConfirm": "Are you sure?",
+      "deleteCancel": "Cancel",
+      "deleteConfirmBtn": "Delete",
       "loading": "Loading...",
       "notFound": "Recipe not found",
       "addPhoto": "📷 Add photo",
@@ -61,10 +69,12 @@
       "photoError": "Failed to upload photo",
       "deleteError": "Failed to delete recipe",
       "public": "Public",
-      "duplicate": "Save a copy",
+      "duplicate": "📋 Save a copy",
       "duplicateTitle": "Copy of {{title}}",
       "duplicateError": "Failed to copy recipe",
-      "print": "Print"
+      "print": "🖨 Print",
+      "favorite": "🤍 Save",
+      "unfavorite": "❤️ Saved"
     },
     "form": {
       "back": "← Back",
@@ -91,7 +101,21 @@
       "saving": "Saving...",
       "save": "Save",
       "create": "Create recipe",
-      "isPublic": "Share with everyone"
+      "isPublic": "Share with everyone",
+      "removeIngredient": "Remove ingredient {{n}}",
+      "removeStep": "Remove step {{n}}",
+      "addIngredient": "Add ingredient",
+      "addStep": "Add step",
+      "importedPhoto": "Imported photo"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We'll try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Failed to update user",
       "deleted": "User deleted",
       "deleteError": "Failed to delete user",
-      "confirmDelete": "Delete this user?"
+      "confirmDelete": "Delete this user?",
+      "name": "Name"
     },
     "invites": {
       "create": "Create invite link",

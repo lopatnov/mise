@@ -3,12 +3,14 @@ import { SUPPORTED_LANGUAGES } from '../i18n';
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const currentCode =
+    SUPPORTED_LANGUAGES.find((l) => i18n.language === l.code || i18n.language.startsWith(`${l.code}-`))?.code ?? 'en';
 
   return (
     <select
-      value={i18n.language.split('-')[0]}
+      value={currentCode}
       onChange={(e) => i18n.changeLanguage(e.target.value)}
-      style={selectStyle}
+      className="lang-select"
       aria-label="Language"
     >
       {SUPPORTED_LANGUAGES.map(({ code, label }) => (
@@ -19,13 +21,3 @@ export default function LanguageSwitcher() {
     </select>
   );
 }
-
-const selectStyle: React.CSSProperties = {
-  padding: '4px 8px',
-  borderRadius: 6,
-  border: '1px solid #ddd',
-  fontSize: 13,
-  background: '#fff',
-  cursor: 'pointer',
-  color: '#555',
-};

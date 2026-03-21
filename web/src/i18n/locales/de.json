@@ -39,14 +39,22 @@
       "allCategories": "Alle Kategorien",
       "communityTitle": "Community-Rezepte",
       "mine": "Meine Rezepte",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Alle Tags",
       "prev": "← Zurück",
-      "next": "Weiter →"
+      "next": "Weiter →",
+      "clearFilters": "Filter löschen",
+      "filterByTag": "Nach Tag filtern",
+      "filterByCategory": "Nach Kategorie filtern"
     },
     "detail": {
       "back": "← Zurück",
       "edit": "✏️ Bearbeiten",
       "delete": "🗑 Löschen",
+      "deleteConfirm": "Bist du sicher?",
+      "deleteCancel": "Abbrechen",
+      "deleteConfirmBtn": "Löschen",
       "loading": "Laden...",
       "notFound": "Rezept nicht gefunden",
       "addPhoto": "📷 Foto hinzufügen",
@@ -61,10 +69,12 @@
       "photoError": "Fehler beim Hochladen",
       "deleteError": "Fehler beim Löschen",
       "public": "Öffentlich",
-      "duplicate": "Kopie speichern",
+      "duplicate": "📋 Kopie speichern",
       "duplicateTitle": "Kopie von {{title}}",
       "duplicateError": "Rezept konnte nicht kopiert werden",
-      "print": "Drucken"
+      "print": "🖨 Drucken",
+      "favorite": "🤍 Speichern",
+      "unfavorite": "❤️ Gespeichert"
     },
     "form": {
       "back": "← Zurück",
@@ -91,7 +101,21 @@
       "saving": "Speichern...",
       "save": "Speichern",
       "create": "Rezept erstellen",
-      "isPublic": "Mit allen teilen"
+      "isPublic": "Mit allen teilen",
+      "removeIngredient": "Zutat {{n}} entfernen",
+      "removeStep": "Schritt {{n}} entfernen",
+      "addIngredient": "Zutat hinzufügen",
+      "addStep": "Schritt hinzufügen",
+      "importedPhoto": "Importiertes Foto"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Benutzer konnte nicht aktualisiert werden",
       "deleted": "Benutzer gelöscht",
       "deleteError": "Benutzer konnte nicht gelöscht werden",
-      "confirmDelete": "Diesen Benutzer löschen?"
+      "confirmDelete": "Diesen Benutzer löschen?",
+      "name": "Name"
     },
     "invites": {
       "create": "Einladungslink erstellen",

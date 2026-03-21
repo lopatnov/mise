@@ -39,14 +39,22 @@
       "allCategories": "Wszystkie kategorie",
       "communityTitle": "Przepisy społeczności",
       "mine": "Moje przepisy",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Wszystkie tagi",
       "prev": "← Poprzednia",
-      "next": "Następna →"
+      "next": "Następna →",
+      "clearFilters": "Wyczyść filtry",
+      "filterByTag": "Filtruj według tagu",
+      "filterByCategory": "Filtruj według kategorii"
     },
     "detail": {
       "back": "← Wróć",
       "edit": "✏️ Edytuj",
       "delete": "🗑 Usuń",
+      "deleteConfirm": "Czy na pewno?",
+      "deleteCancel": "Anuluj",
+      "deleteConfirmBtn": "Usuń",
       "loading": "Ładowanie...",
       "notFound": "Przepis nie znaleziony",
       "addPhoto": "📷 Dodaj zdjęcie",
@@ -61,10 +69,12 @@
       "photoError": "Błąd przesyłania zdjęcia",
       "deleteError": "Błąd usuwania przepisu",
       "public": "Publiczny",
-      "duplicate": "Zapisz kopię",
+      "duplicate": "📋 Zapisz kopię",
       "duplicateTitle": "Kopia {{title}}",
       "duplicateError": "Nie udało się skopiować przepisu",
-      "print": "Drukuj"
+      "print": "🖨 Drukuj",
+      "favorite": "🤍 Zapisz",
+      "unfavorite": "❤️ Zapisano"
     },
     "form": {
       "back": "← Wróć",
@@ -91,7 +101,21 @@
       "saving": "Zapisywanie...",
       "save": "Zapisz",
       "create": "Utwórz przepis",
-      "isPublic": "Udostępnij wszystkim"
+      "isPublic": "Udostępnij wszystkim",
+      "removeIngredient": "Usuń składnik {{n}}",
+      "removeStep": "Usuń krok {{n}}",
+      "addIngredient": "Dodaj składnik",
+      "addStep": "Dodaj krok",
+      "importedPhoto": "Zaimportowane zdjęcie"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Nie udało się zaktualizować użytkownika",
       "deleted": "Użytkownik usunięty",
       "deleteError": "Nie udało się usunąć użytkownika",
-      "confirmDelete": "Usunąć tego użytkownika?"
+      "confirmDelete": "Usunąć tego użytkownika?",
+      "name": "Nazwa"
     },
     "invites": {
       "create": "Utwórz link zaproszenia",

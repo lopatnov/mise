@@ -1,32 +1,26 @@
 export default function Footer() {
-  const linkStyle: React.CSSProperties = { color: '#2d6a4f', textDecoration: 'none' };
   return (
-    <footer
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        textAlign: 'center',
-        padding: '5px 16px',
-        fontSize: 12,
-        color: '#bbb',
-        background: 'rgba(249,249,247,0.93)',
-        backdropFilter: 'blur(4px)',
-        borderTop: '1px solid #eee',
-        zIndex: 10,
-      }}
-    >
+    <footer className="site-footer no-print">
       Built by{' '}
-      <a href="https://github.com/lopatnov" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+      <a href="https://github.com/lopatnov" target="_blank" rel="noopener noreferrer" className="site-footer__link">
         lopatnov
       </a>
       {' · '}
-      <a href="https://github.com/lopatnov/mise" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+      <a
+        href="https://github.com/lopatnov/mise"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="site-footer__link"
+      >
         GitHub
       </a>
       {' · '}
-      <a href="https://www.linkedin.com/in/lopatnov" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+      <a
+        href="https://www.linkedin.com/in/lopatnov"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="site-footer__link"
+      >
         LinkedIn
       </a>
     </footer>

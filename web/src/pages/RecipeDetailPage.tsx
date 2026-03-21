@@ -2,8 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import ConfirmDialog from '../components/ConfirmDialog';
 import Lightbox from '../components/Lightbox';
 import { useMetaTags } from '../hooks/useMetaTags';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -23,7 +25,7 @@ function buildRecipeSchema(recipe: Recipe, appUrl: string): object {
     recipeIngredient: recipe.ingredients.map((i) => `${i.amount} ${i.unit} ${i.name}`.trim()),
     recipeInstructions: [...recipe.steps]
       .sort((a, b) => a.order - b.order)
-      .map((s) => ({ '@type': 'HowToStep', text: s.text })),
+      .map((s) => ({ '@type': 'HowToStep', text: s.text, ...(s.photoUrl ? { image: `${appUrl}${s.photoUrl}` } : {}) })),
     datePublished: recipe.createdAt,
   };
   if (recipe.photoUrl) schema.image = `${appUrl}${recipe.photoUrl}`;
@@ -46,8 +48,7 @@ export default function RecipeDetailPage() {
   const pendingStepOrder = useRef<number | null>(null);
   const [targetServings, setTargetServings] = useState<number | null>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [mainPhotoHover, setMainPhotoHover] = useState(false);
-  const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const toast = useToast();
   const { user } = useAuthStore();
   const isLoggedIn = !!user;
@@ -57,6 +58,9 @@ export default function RecipeDetailPage() {
     queryFn: () => recipesApi.get(id ?? ''),
     enabled: !!id,
   });
+
+  const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
+
   usePageTitle(recipe?.title);
   useStructuredData(recipe?.isPublic ? buildRecipeSchema(recipe, API_URL) : null);
   useMetaTags(
@@ -99,10 +103,20 @@ export default function RecipeDetailPage() {
       });
     },
     onSuccess: (saved) => {
+      qc.setQueryData(['recipe', saved._id], saved);
       qc.invalidateQueries({ queryKey: ['recipes'] });
-      navigate(`/recipes/${saved._id}`);
+      navigate(`/recipes/${saved._id}/edit`);
     },
     onError: () => toast.error(t('recipe.detail.duplicateError')),
+  });
+
+  const favoriteMut = useMutation({
+    mutationFn: () => (isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? '')),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['recipe', id] });
+      qc.invalidateQueries({ queryKey: ['recipes'] });
+    },
+    onError: () => toast.error(t('recipe.detail.deleteError')),
   });
 
   const photoMut = useMutation({
@@ -123,12 +137,15 @@ export default function RecipeDetailPage() {
     onError: () => toast.error(t('recipe.detail.photoError')),
   });
 
-  if (isLoading) return <p style={{ padding: 32 }}>{t('recipe.detail.loading')}</p>;
-  if (!recipe) return <p style={{ padding: 32 }}>{t('recipe.detail.notFound')}</p>;
+  if (isLoading) return <p className="recipe-detail__loading">{t('recipe.detail.loading')}</p>;
+  if (!recipe) return <p className="recipe-detail__loading">{t('recipe.detail.notFound')}</p>;
 
   const isOwner = !!user && recipe.authorId?.toString() === user.id;
   const isAdmin = user?.role === 'admin';
   const canEdit = isOwner || isAdmin;
+  const isFavorited = isLoggedIn && (recipe.savedBy ?? []).includes(user?.id ?? '');
+
+  const recipeCategory = categories?.find((c) => c._id.toString() === recipe.categoryId?.toString());
 
   const effectiveServings = targetServings ?? recipe.servings;
   const scale = effectiveServings / recipe.servings;
@@ -139,83 +156,26 @@ export default function RecipeDetailPage() {
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
+    <div className="page-container recipe-detail__page">
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
-      <div className="no-print" style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-        <Link to="/">{t('recipe.detail.back')}</Link>
-        <button onClick={() => window.print()} style={{ ...dupBtnStyle, marginLeft: 'auto' }}>
-          {t('recipe.detail.print')}
-        </button>
-        {canEdit && (
-          <>
-            <Link to={`/recipes/${id}/edit`}>{t('recipe.detail.edit')}</Link>
-            <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
-              {t('recipe.detail.duplicate')}
-            </button>
-            <button
-              onClick={() => deleteMut.mutate()}
-              style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              {t('recipe.detail.delete')}
-            </button>
-          </>
-        )}
-        {isLoggedIn && !canEdit && (
-          <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} style={dupBtnStyle}>
-            {t('recipe.detail.duplicate')}
-          </button>
-        )}
-      </div>
-
-      {/* Main photo */}
-      <div
-        style={{ position: 'relative', marginBottom: 20, borderRadius: 12, overflow: 'hidden' }}
-        onMouseEnter={() => setMainPhotoHover(true)}
-        onMouseLeave={() => setMainPhotoHover(false)}
-      >
-        {recipe.photoUrl ? (
-          <>
-            <img
-              src={`${API_URL}${recipe.photoUrl}`}
-              alt={recipe.title}
-              onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
-              style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
-            />
-            {canEdit && mainPhotoHover && (
-              <button
-                onClick={() => fileRef.current?.click()}
-                title={t('recipe.detail.changePhoto')}
-                style={replacePhotoBtn}
-              >
-                📷
-              </button>
-            )}
-          </>
-        ) : canEdit ? (
-          <div
-            onClick={() => fileRef.current?.click()}
-            style={{
-              height: 160,
-              border: '2px dashed #ccc',
-              borderRadius: 12,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#888',
-              cursor: 'pointer',
-            }}
-          >
-            {t('recipe.detail.addPhoto')}
-          </div>
-        ) : null}
-      </div>
+      {showConfirmDelete && (
+        <ConfirmDialog
+          message={t('recipe.detail.deleteConfirm')}
+          confirmLabel={t('recipe.detail.deleteConfirmBtn')}
+          cancelLabel={t('recipe.detail.deleteCancel')}
+          onConfirm={() => deleteMut.mutate()}
+          onCancel={() => setShowConfirmDelete(false)}
+          isPending={deleteMut.isPending}
+        />
+      )}
 
       <input
         ref={fileRef}
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        aria-label={t('recipe.detail.changePhoto')}
+        className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f) photoMut.mutate(f);
@@ -226,7 +186,8 @@ export default function RecipeDetailPage() {
         ref={stepFileRef}
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        aria-label={t('recipe.detail.changePhoto')}
+        className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f && pendingStepOrder.current !== null) {
@@ -236,199 +197,215 @@ export default function RecipeDetailPage() {
         }}
       />
 
-      <h1 style={{ margin: '0 0 8px' }}>{recipe.title}</h1>
-
-      <div style={{ display: 'flex', gap: 12, color: '#666', fontSize: 14, marginBottom: 16, flexWrap: 'wrap' }}>
-        {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
-        {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
-        {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
-        {recipe.isPublic && (
-          <span style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 8px', borderRadius: 10, fontSize: 12 }}>
-            🌐 {t('recipe.detail.public')}
-          </span>
-        )}
-      </div>
-
-      {/* Scaling control */}
-      <div
-        className="no-print"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          marginBottom: 20,
-          padding: '10px 14px',
-          background: '#f5f5f5',
-          borderRadius: 10,
-        }}
-      >
-        <span style={{ fontSize: 14, color: '#555' }}>{t('recipe.detail.servings')}</span>
-        <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} style={scaleBtn}>
-          −
-        </button>
-        <span style={{ fontWeight: 600, fontSize: 16, minWidth: 28, textAlign: 'center' }}>{effectiveServings}</span>
-        <button onClick={() => setTargetServings(effectiveServings + 1)} style={scaleBtn}>
-          +
-        </button>
-        {scale !== 1 && (
+      {/* Action bar: full width */}
+      <div className="recipe-actions no-print">
+        <Link to="/" className="btn-ghost">
+          {t('recipe.detail.back')}
+        </Link>
+        {isLoggedIn && (
           <button
-            onClick={() => setTargetServings(null)}
-            style={{
-              marginLeft: 'auto',
-              fontSize: 12,
-              color: '#888',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            type="button"
+            onClick={() => favoriteMut.mutate()}
+            disabled={favoriteMut.isPending}
+            className="outline"
           >
-            {t('recipe.detail.reset')}
+            {isFavorited ? t('recipe.detail.unfavorite') : t('recipe.detail.favorite')}
           </button>
         )}
+        <div className="recipe-actions__right">
+          <button type="button" onClick={() => window.print()} className="outline">
+            {t('recipe.detail.print')}
+          </button>
+          {isLoggedIn && !canEdit && (
+            <button
+              type="button"
+              onClick={() => duplicateMut.mutate()}
+              disabled={duplicateMut.isPending}
+              className="outline"
+            >
+              {t('recipe.detail.duplicate')}
+            </button>
+          )}
+          {canEdit && (
+            <>
+              <Link to={`/recipes/${id}/edit`} role="button" className="outline">
+                {t('recipe.detail.edit')}
+              </Link>
+              <button
+                type="button"
+                onClick={() => duplicateMut.mutate()}
+                disabled={duplicateMut.isPending}
+                className="outline"
+              >
+                {t('recipe.detail.duplicate')}
+              </button>
+              <button type="button" onClick={() => setShowConfirmDelete(true)} className="btn-danger">
+                {t('recipe.detail.delete')}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
-      {recipe.tags.length > 0 && (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
-          {recipe.tags.map((tag) => (
-            <span
-              key={tag}
-              style={{ background: '#e8f5e9', color: '#2d6a4f', padding: '2px 10px', borderRadius: 12, fontSize: 13 }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      {/* 2-column grid */}
+      <div className="recipe-detail__grid">
+        {/* LEFT: main content */}
+        <div className="recipe-detail__main">
+          <h1 className="recipe-detail__title">{recipe.title}</h1>
 
-      {recipe.description && <p style={{ color: '#444', lineHeight: 1.6, marginBottom: 20 }}>{recipe.description}</p>}
+          {/* Meta row */}
+          <div className="recipe-meta">
+            {recipe.prepTime && <span>{t('recipe.detail.prepTime', { min: recipe.prepTime })}</span>}
+            {recipe.cookTime && <span>{t('recipe.detail.cookTime', { min: recipe.cookTime })}</span>}
+            {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
+            {recipeCategory && (
+              <span className="recipe-card__category">
+                {recipeCategory.icon} {recipeCategory.name}
+              </span>
+            )}
+            {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}
+          </div>
 
-      {recipe.ingredients.length > 0 && (
-        <section style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.ingredients')}</h2>
-          <ul style={{ margin: 0, paddingLeft: 20 }}>
-            {recipe.ingredients.map((ing) => (
-              <li key={ing.name} style={{ marginBottom: 4 }}>
-                <strong>
-                  {fmtAmount(ing.amount)} {ing.unit}
-                </strong>{' '}
-                {ing.name}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {recipe.steps.length > 0 && (
-        <section>
-          <h2 style={{ fontSize: 18, marginBottom: 10 }}>{t('recipe.detail.steps')}</h2>
-          <ol style={{ margin: 0, paddingLeft: 20 }}>
-            {recipe.steps
-              .sort((a, b) => a.order - b.order)
-              .map((step) => (
-                <li key={step.order} style={{ marginBottom: 16, lineHeight: 1.6 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                    <span style={{ flex: 1 }}>{step.text}</span>
-                    {canEdit && !step.photoUrl && (
-                      <button
-                        onClick={() => {
-                          pendingStepOrder.current = step.order;
-                          stepFileRef.current?.click();
-                        }}
-                        title={t('recipe.detail.addPhoto')}
-                        style={{
-                          flexShrink: 0,
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          color: '#ccc',
-                          fontSize: 18,
-                          padding: '2px 4px',
-                          lineHeight: 1,
-                        }}
-                      >
-                        📷
-                      </button>
-                    )}
-                  </div>
-                  {step.photoUrl && (
-                    <div
-                      style={{ position: 'relative', marginTop: 8, borderRadius: 8, overflow: 'hidden' }}
-                      onMouseEnter={() => setHoveredStepOrder(step.order)}
-                      onMouseLeave={() => setHoveredStepOrder(null)}
-                    >
-                      <img
-                        src={`${API_URL}${step.photoUrl}`}
-                        alt=""
-                        onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
-                        style={{
-                          width: '100%',
-                          maxHeight: 240,
-                          objectFit: 'cover',
-                          display: 'block',
-                          cursor: 'zoom-in',
-                        }}
-                      />
-                      {canEdit && hoveredStepOrder === step.order && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            pendingStepOrder.current = step.order;
-                            stepFileRef.current?.click();
-                          }}
-                          title={t('recipe.detail.changePhoto')}
-                          style={replacePhotoBtn}
-                        >
-                          📷
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </li>
+          {recipe.tags.length > 0 && (
+            <div className="recipe-tags">
+              {recipe.tags.map((tag) => (
+                <span key={tag} className="tag tag--large">
+                  {tag}
+                </span>
               ))}
-          </ol>
-        </section>
-      )}
+            </div>
+          )}
+
+          {/* Main photo */}
+          <div className="photo-container">
+            {recipe.photoUrl ? (
+              <>
+                <button
+                  type="button"
+                  className="photo-btn"
+                  onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
+                  aria-label={recipe.title}
+                >
+                  <img src={`${API_URL}${recipe.photoUrl}`} alt={recipe.title} className="recipe-photo__img" />
+                </button>
+                {canEdit && (
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    title={t('recipe.detail.changePhoto')}
+                    className="photo-replace-btn"
+                  >
+                    📷
+                  </button>
+                )}
+              </>
+            ) : canEdit ? (
+              <button type="button" onClick={() => fileRef.current?.click()} className="photo-placeholder">
+                {t('recipe.detail.addPhoto')}
+              </button>
+            ) : null}
+          </div>
+
+          {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
+
+          {/* Steps */}
+          {recipe.steps.length > 0 && (
+            <section className="recipe-section">
+              <h2 className="recipe-section__title">{t('recipe.detail.steps')}</h2>
+              <ol className="recipe-section__list">
+                {recipe.steps
+                  .sort((a, b) => a.order - b.order)
+                  .map((step) => (
+                    <li key={step.order} className="recipe-step__item">
+                      <div className="recipe-step__row">
+                        <span className="recipe-step__text">{step.text}</span>
+                        {canEdit && !step.photoUrl && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              pendingStepOrder.current = step.order;
+                              stepFileRef.current?.click();
+                            }}
+                            title={t('recipe.detail.addPhoto')}
+                            className="step-photo-add-btn"
+                          >
+                            📷
+                          </button>
+                        )}
+                      </div>
+                      {step.photoUrl && (
+                        <div className="photo-container recipe-step__photo-container">
+                          <button
+                            type="button"
+                            className="photo-btn"
+                            onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
+                            aria-label={t('recipe.detail.addPhoto')}
+                          >
+                            <img src={`${API_URL}${step.photoUrl}`} alt="" className="recipe-step__photo" />
+                          </button>
+                          {canEdit && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                pendingStepOrder.current = step.order;
+                                stepFileRef.current?.click();
+                              }}
+                              title={t('recipe.detail.changePhoto')}
+                              className="photo-replace-btn"
+                            >
+                              📷
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+              </ol>
+            </section>
+          )}
+        </div>
+
+        {/* RIGHT: ingredients sidebar */}
+        <aside className="recipe-detail__sidebar">
+          {/* Servings scaler */}
+          <div className="scaling-control no-print">
+            <span>{t('recipe.detail.servings')}</span>
+            <button
+              type="button"
+              onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
+              className="btn-icon"
+            >
+              −
+            </button>
+            <span className="scaling-control__count">{effectiveServings}</span>
+            <button type="button" onClick={() => setTargetServings(effectiveServings + 1)} className="btn-icon">
+              +
+            </button>
+            {scale !== 1 && (
+              <button type="button" onClick={() => setTargetServings(null)} className="btn-ghost ms-auto">
+                {t('recipe.detail.reset')}
+              </button>
+            )}
+          </div>
+
+          {recipe.ingredients.length > 0 && (
+            <section className="recipe-section">
+              <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
+              <ul className="recipe-section__list">
+                {recipe.ingredients.map((ing) => (
+                  <li key={ing.name} className="recipe-section__item">
+                    <strong>
+                      {fmtAmount(ing.amount)} {ing.unit}
+                    </strong>{' '}
+                    {ing.name}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </aside>
+      </div>
     </div>
   );
 }
-
-const scaleBtn: React.CSSProperties = {
-  width: 28,
-  height: 28,
-  borderRadius: '50%',
-  border: '1px solid #ccc',
-  background: '#fff',
-  cursor: 'pointer',
-  fontSize: 16,
-  lineHeight: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const dupBtnStyle: React.CSSProperties = {
-  background: 'none',
-  border: '1px solid #2d6a4f',
-  color: '#2d6a4f',
-  cursor: 'pointer',
-  fontSize: 14,
-  padding: '4px 10px',
-  borderRadius: 6,
-};
-
-const replacePhotoBtn: React.CSSProperties = {
-  position: 'absolute',
-  bottom: 10,
-  right: 10,
-  background: 'rgba(0,0,0,0.5)',
-  border: 'none',
-  color: '#fff',
-  fontSize: 16,
-  width: 36,
-  height: 36,
-  borderRadius: '50%',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};

@@ -39,14 +39,22 @@
       "allCategories": "모든 카테고리",
       "communityTitle": "커뮤니티 레시피",
       "mine": "내 레시피",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "모든 태그",
       "prev": "← 이전",
-      "next": "다음 →"
+      "next": "다음 →",
+      "clearFilters": "필터 지우기",
+      "filterByTag": "태그로 필터",
+      "filterByCategory": "카테고리로 필터"
     },
     "detail": {
       "back": "← 뒤로",
       "edit": "✏️ 수정",
       "delete": "🗑 삭제",
+      "deleteConfirm": "정말 삭제하시겠어요?",
+      "deleteCancel": "취소",
+      "deleteConfirmBtn": "삭제",
       "loading": "불러오는 중...",
       "notFound": "레시피를 찾을 수 없습니다",
       "addPhoto": "📷 사진 추가",
@@ -61,10 +69,12 @@
       "photoError": "사진 업로드 실패",
       "deleteError": "레시피 삭제 실패",
       "public": "공개",
-      "duplicate": "복사본 저장",
+      "duplicate": "📋 복사본 저장",
       "duplicateTitle": "{{title}} 복사본",
       "duplicateError": "레시피 복사에 실패했습니다",
-      "print": "인쇄"
+      "print": "🖨 인쇄",
+      "favorite": "🤍 저장",
+      "unfavorite": "❤️ 저장됨"
     },
     "form": {
       "back": "← 뒤로",
@@ -91,7 +101,21 @@
       "saving": "저장 중...",
       "save": "저장",
       "create": "레시피 만들기",
-      "isPublic": "모두와 공유하기"
+      "isPublic": "모두와 공유하기",
+      "removeIngredient": "재료 {{n}} 삭제",
+      "removeStep": "단계 {{n}} 삭제",
+      "addIngredient": "재료 추가",
+      "addStep": "단계 추가",
+      "importedPhoto": "가져온 사진"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "사용자 업데이트 실패",
       "deleted": "사용자가 삭제되었습니다",
       "deleteError": "사용자 삭제 실패",
-      "confirmDelete": "이 사용자를 삭제하시겠습니까?"
+      "confirmDelete": "이 사용자를 삭제하시겠습니까?",
+      "name": "이름"
     },
     "invites": {
       "create": "초대 링크 만들기",

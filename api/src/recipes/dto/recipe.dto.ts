@@ -11,6 +11,9 @@ export class IngredientDto {
 export class StepDto {
   @IsNumber() order: number;
   @IsString() text: string;
+  @IsOptional()
+  @IsString()
+  externalImageUrl?: string;
 }
 
 export class CreateRecipeDto {
@@ -64,6 +67,14 @@ export class CreateRecipeDto {
   @IsOptional()
   @IsBoolean()
   isPublic?: boolean;
+
+  @IsOptional()
+  @IsString()
+  externalImageUrl?: string;
+}
+
+export class ImportUrlDto {
+  @IsString() url: string;
 }
 
 export class RecipeQueryDto {
@@ -73,4 +84,5 @@ export class RecipeQueryDto {
   @IsOptional() @Type(() => Number) @IsNumber() page?: number = 1;
   @IsOptional() @Type(() => Number) @IsNumber() limit?: number = 20;
   @IsOptional() @Transform(({ value }) => value === 'true' || value === true) @IsBoolean() mine?: boolean;
+  @IsOptional() @Transform(({ value }) => value === 'true' || value === true) @IsBoolean() saved?: boolean;
 }

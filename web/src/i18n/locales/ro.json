@@ -39,14 +39,22 @@
       "allCategories": "Toate categoriile",
       "communityTitle": "Rețete ale comunității",
       "mine": "Rețetele mele",
+      "saved": "❤️ Saved",
+      "savedTitle": "Recipes saved as favourites",
       "allTags": "Toate etichetele",
       "prev": "← Anterior",
-      "next": "Următor →"
+      "next": "Următor →",
+      "clearFilters": "Șterge filtrele",
+      "filterByTag": "Filtrează după etichetă",
+      "filterByCategory": "Filtrează după categorie"
     },
     "detail": {
       "back": "← Înapoi",
       "edit": "✏️ Editează",
       "delete": "🗑 Șterge",
+      "deleteConfirm": "Ești sigur?",
+      "deleteCancel": "Anulați",
+      "deleteConfirmBtn": "Șterge",
       "loading": "Se încarcă...",
       "notFound": "Rețeta nu a fost găsită",
       "addPhoto": "📷 Adaugă fotografie",
@@ -61,10 +69,12 @@
       "photoError": "Eroare la încărcarea fotografiei",
       "deleteError": "Eroare la ștergerea rețetei",
       "public": "Public",
-      "duplicate": "Salvează o copie",
+      "duplicate": "📋 Salvează o copie",
       "duplicateTitle": "Copie după {{title}}",
       "duplicateError": "Eroare la copierea rețetei",
-      "print": "Tipărește"
+      "print": "🖨 Tipărește",
+      "favorite": "🤍 Salvează",
+      "unfavorite": "❤️ Salvat"
     },
     "form": {
       "back": "← Înapoi",
@@ -91,7 +101,21 @@
       "saving": "Se salvează...",
       "save": "Salvează",
       "create": "Crează rețeta",
-      "isPublic": "Distribuie cu toți"
+      "isPublic": "Distribuie cu toți",
+      "removeIngredient": "Elimină ingredientul {{n}}",
+      "removeStep": "Elimină pasul {{n}}",
+      "addIngredient": "Adaugă ingredient",
+      "addStep": "Adaugă pas",
+      "importedPhoto": "Fotografie importată"
+    },
+    "import": {
+      "button": "⬇️ Import from URL",
+      "title": "Import recipe from URL",
+      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
+      "import": "Import",
+      "importing": "Importing…",
+      "cancel": "Cancel",
+      "error": "Failed to import recipe from this URL"
     }
   },
   "profile": {
@@ -128,7 +152,8 @@
       "updateError": "Actualizarea utilizatorului a eșuat",
       "deleted": "Utilizator șters",
       "deleteError": "Ștergerea utilizatorului a eșuat",
-      "confirmDelete": "Șterge acest utilizator?"
+      "confirmDelete": "Șterge acest utilizator?",
+      "name": "Nume"
     },
     "invites": {
       "create": "Crează link de invitație",

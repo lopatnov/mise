@@ -1,0 +1,30 @@
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+    padding: 0;
+    font-size: 12pt;
+    color: #000;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  // Recipe detail: force single column, reset mobile sidebar order
+  .recipe-detail__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .recipe-detail__sidebar {
+    order: 0;
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
