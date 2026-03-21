@@ -8,14 +8,33 @@ import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
 import { UploadsService } from '../uploads/uploads.service';
 
-/** Parse ISO 8601 duration (e.g. "PT1H30M", "PT20M") → minutes */
-function parseDuration(iso: string): number | undefined {
-  const m = /(?:(\d+)H)?(?:(\d+)M)?/.exec(iso);
-  if (!m) return undefined;
-  const hours = parseInt(m[1] ?? '0', 10);
-  const mins = parseInt(m[2] ?? '0', 10);
-  const total = hours * 60 + mins;
-  return total > 0 ? total : undefined;
+/** Parse duration in various formats → minutes */
+function parseDuration(raw: string | number): number | undefined {
+  if (typeof raw === 'number') return raw > 0 ? Math.round(raw) : undefined;
+  const s = raw.trim();
+  // ISO 8601: PT30M, PT1H30M, P0DT30M
+  if (/^P/i.test(s)) {
+    const h = /(\d+)H/i.exec(s);
+    const m = /(\d+)M/i.exec(s);
+    const total = parseInt(h?.[1] ?? '0', 10) * 60 + parseInt(m?.[1] ?? '0', 10);
+    return total > 0 ? total : undefined;
+  }
+  // "H:MM" / "HH:MM"
+  const hm = /^(\d+):(\d{2})$/.exec(s);
+  if (hm) return parseInt(hm[1], 10) * 60 + parseInt(hm[2], 10) || undefined;
+  // Plain number — assume minutes
+  if (/^\d+$/.test(s)) return parseInt(s, 10) || undefined;
+  // "X hour(s) Y min(utes)" in various languages
+  const hourMatch = /(\d+)\s*(?:h(?:r|rs|ours?)?|час)/i.exec(s);
+  const minMatch = /(\d+)\s*(?:m(?:in(?:utes?)?)?(?!\w)|мин)/i.exec(s);
+  if (hourMatch ?? minMatch) {
+    const total =
+      parseInt(hourMatch?.[1] ?? '0', 10) * 60 + parseInt(minMatch?.[1] ?? '0', 10);
+    return total > 0 ? total : undefined;
+  }
+  // Last resort: first number in string → assume minutes
+  const first = /(\d+)/.exec(s);
+  return first ? parseInt(first[1], 10) || undefined : undefined;
 }
 
 /** Parse first integer from a string (e.g. "4 servings" → 4, "Makes 4 to 6" → 4) */
@@ -29,20 +48,23 @@ function parseServings(raw: string | number | undefined): number | undefined {
 /** Parse ingredient string into name/amount/unit */
 function parseIngredient(raw: string): { name: string; amount: number; unit: string } {
   const cleaned = raw.replace(/\s+/g, ' ').trim();
-  // Match patterns like "1 1/2 cups", "2.5 grams", "1/3 cup", "3 large"
-  const m = /^(\d+(?:[./]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z]+(?:\s+[a-zA-Z]+)?)\s+(.+)/.exec(cleaned);
+  const normNum = (s: string) => parseFloat(s.replace(',', '.'));
+  // Match patterns like "1 1/2 cups", "2.5 grams", "2,5 гр", "1/3 cup", "3 large"
+  const m =
+    /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)?)\s+(.+)/.exec(
+      cleaned,
+    );
   if (m) {
     const amountStr = m[1].includes('/')
       ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
           String(parseInt(w, 10) + parseInt(n, 10) / parseInt(d, 10)),
         )
       : m[1];
-    const amount = parseFloat(amountStr) || 1;
-    return { amount, unit: m[2], name: m[3] };
+    return { amount: normNum(amountStr) || 1, unit: m[2], name: m[3] };
   }
-  // Just a number + name (e.g. "2 eggs")
-  const m2 = /^(\d+(?:\.\d+)?)\s+(.+)/.exec(cleaned);
-  if (m2) return { amount: parseFloat(m2[1]), unit: '', name: m2[2] };
+  // Just a number + name (e.g. "2 eggs", "2,5 стакана")
+  const m2 = /^(\d+(?:[.,]\d+)?)\s+(.+)/.exec(cleaned);
+  if (m2) return { amount: normNum(m2[1]), unit: '', name: m2[2] };
   return { amount: 1, unit: '', name: cleaned };
 }
 
@@ -78,15 +100,15 @@ async function downloadImage(url: string, uploadsDir: string): Promise<string | 
   }
 }
 
-/** Extract text from a JSON-LD HowToStep, string, or array */
-function extractStepText(step: unknown): string {
-  if (typeof step === 'string') return step;
+/** Extract text and optional image from a JSON-LD HowToStep, string, or array */
+function extractStepData(step: unknown): { text: string; externalImageUrl?: string } {
+  if (typeof step === 'string') return { text: step };
   if (step && typeof step === 'object') {
     const s = step as Record<string, unknown>;
-    if (typeof s.text === 'string') return s.text;
-    if (typeof s.name === 'string') return s.name;
+    const text = typeof s.text === 'string' ? s.text : typeof s.name === 'string' ? s.name : '';
+    return { text, externalImageUrl: extractImageUrl(s.image) };
   }
-  return '';
+  return { text: '' };
 }
 
 @Injectable()
@@ -149,14 +171,34 @@ export class RecipesService {
   }
 
   async create(userId: string, dto: CreateRecipeDto) {
+    const uploadsDir = join(process.cwd(), 'uploads');
+
+    // Main photo
     let photoUrl: string | undefined;
     if (dto.externalImageUrl) {
-      const filename = await downloadImage(dto.externalImageUrl, join(process.cwd(), 'uploads'));
+      const filename = await downloadImage(dto.externalImageUrl, uploadsDir);
       if (filename) photoUrl = this.uploads.buildPhotoUrl(filename);
     }
+
+    // Step photos
+    const stepsWithPhotos = await Promise.all(
+      (dto.steps ?? []).map(async (step) => {
+        const result: { order: number; text: string; photoUrl?: string } = {
+          order: step.order,
+          text: step.text,
+        };
+        if (step.externalImageUrl) {
+          const filename = await downloadImage(step.externalImageUrl, uploadsDir);
+          if (filename) result.photoUrl = this.uploads.buildPhotoUrl(filename);
+        }
+        return result;
+      }),
+    );
+
     return this.model.create({
       ...dto,
       photoUrl,
+      steps: stepsWithPhotos,
       authorId: new Types.ObjectId(userId),
       categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
     });
@@ -273,7 +315,16 @@ export class RecipesService {
         signal: AbortSignal.timeout(10_000),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      html = await res.text();
+      const buf = await res.arrayBuffer();
+      const ct = res.headers.get('content-type') ?? '';
+      let charset = /charset=([\w-]+)/i.exec(ct)?.[1];
+      if (!charset) {
+        const peek = new TextDecoder('latin1').decode(new Uint8Array(buf, 0, 4096));
+        charset =
+          /<meta[^>]+charset=["']?\s*([\w-]+)/i.exec(peek)?.[1] ??
+          /charset=([\w-]+)/i.exec(peek)?.[1];
+      }
+      html = new TextDecoder(charset ?? 'utf-8', { fatal: false }).decode(buf);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       throw new BadRequestException(`Failed to fetch URL: ${msg}`);
@@ -306,9 +357,9 @@ export class RecipesService {
               ? [rawInstructions]
               : [];
           const steps = stepsRaw
-            .map(extractStepText)
-            .filter(Boolean)
-            .map((text, i) => ({ order: i + 1, text }));
+            .map(extractStepData)
+            .filter((s) => s.text)
+            .map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl }));
 
           const rawIngredients = obj.recipeIngredient;
           const ingredients = (Array.isArray(rawIngredients) ? rawIngredients : []).map((r) =>
@@ -328,8 +379,8 @@ export class RecipesService {
             title: String(obj.name ?? '').trim() || 'Imported recipe',
             description: typeof obj.description === 'string' ? obj.description.slice(0, 2000) : undefined,
             servings: parseServings(obj.recipeYield as string | number | undefined),
-            prepTime: typeof obj.prepTime === 'string' ? parseDuration(obj.prepTime) : undefined,
-            cookTime: typeof obj.cookTime === 'string' ? parseDuration(obj.cookTime) : undefined,
+            prepTime: obj.prepTime != null ? parseDuration(obj.prepTime as string | number) : undefined,
+            cookTime: obj.cookTime != null ? parseDuration(obj.cookTime as string | number) : undefined,
             ingredients,
             steps,
             tags,

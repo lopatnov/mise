@@ -11,6 +11,9 @@ export class IngredientDto {
 export class StepDto {
   @IsNumber() order: number;
   @IsString() text: string;
+  @IsOptional()
+  @IsString()
+  externalImageUrl?: string;
 }
 
 export class CreateRecipeDto {

@@ -9,6 +9,7 @@ export interface Step {
   order: number;
   text: string;
   photoUrl?: string;
+  externalImageUrl?: string;
 }
 export interface Recipe {
   _id: string;

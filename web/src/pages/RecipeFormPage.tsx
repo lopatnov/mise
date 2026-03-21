@@ -27,7 +27,7 @@ export default function RecipeFormPage() {
   const [categoryId, setCategoryId] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [ingredients, setIngredients] = useState([{ _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
-  const [steps, setSteps] = useState([{ _id: crypto.randomUUID(), text: '' }]);
+  const [steps, setSteps] = useState([{ _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
   const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
   const [showImport, setShowImport] = useState(false);
@@ -55,7 +55,7 @@ export default function RecipeFormPage() {
       setIsPublic(existing.isPublic ?? false);
       if (existing.ingredients.length)
         setIngredients(existing.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
-      if (existing.steps.length) setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text })));
+      if (existing.steps.length) setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
     }
   }, [existing]);
 
@@ -67,7 +67,8 @@ export default function RecipeFormPage() {
     if (data.cookTime) setCookTime(String(data.cookTime));
     if (data.tags?.length) setTags(data.tags.join(', '));
     if (data.ingredients?.length) setIngredients(data.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
-    if (data.steps?.length) setSteps(data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text })));
+    if (data.steps?.length)
+      setSteps(data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })));
     if (data.externalImageUrl) setImportedImageUrl(data.externalImageUrl);
     setShowImport(false);
   }
@@ -97,7 +98,7 @@ export default function RecipeFormPage() {
       categoryId: categoryId || undefined,
       isPublic,
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
-      steps: steps.filter((s) => s.text).map((s, i) => ({ order: i + 1, text: s.text })),
+      steps: steps.filter((s) => s.text).map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
       externalImageUrl: importedImageUrl || undefined,
     });
   }
@@ -111,7 +112,7 @@ export default function RecipeFormPage() {
     setIngredients(updated);
   };
 
-  const addStep = () => setSteps([...steps, { _id: crypto.randomUUID(), text: '' }]);
+  const addStep = () => setSteps([...steps, { _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
   const removeStep = (i: number) => setSteps(steps.filter((_, idx) => idx !== i));
   const updateStep = (i: number, value: string) => {
     const updated = [...steps];
