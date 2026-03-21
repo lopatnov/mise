@@ -25,7 +25,7 @@ function buildRecipeSchema(recipe: Recipe, appUrl: string): object {
     recipeIngredient: recipe.ingredients.map((i) => `${i.amount} ${i.unit} ${i.name}`.trim()),
     recipeInstructions: [...recipe.steps]
       .sort((a, b) => a.order - b.order)
-      .map((s) => ({ '@type': 'HowToStep', text: s.text })),
+      .map((s) => ({ '@type': 'HowToStep', text: s.text, ...(s.photoUrl ? { image: `${appUrl}${s.photoUrl}` } : {}) })),
     datePublished: recipe.createdAt,
   };
   if (recipe.photoUrl) schema.image = `${appUrl}${recipe.photoUrl}`;
