@@ -25,7 +25,7 @@ export default function ConfirmDialog({
         aria-label={cancelLabel}
       />
       <div role="dialog" aria-modal="true" className="confirm-dialog">
-        <p className="confirm-dialog__message">{message}</p>
+        <p className="confirm-dialog__message">⚠️ {message}</p>
         <div className="confirm-dialog__actions">
           <button type="button" onClick={onCancel} className="outline">
             {cancelLabel}

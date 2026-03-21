@@ -107,18 +107,18 @@ button.btn-remove {
   }
 }
 
-// Danger: red outline (delete / destructive actions)
+// Danger: solid red (delete / destructive actions)
 button.btn-danger {
-  background: transparent;
-  color: var(--c-danger);
-  border: 1px solid var(--c-danger);
+  background: var(--c-danger);
+  color: var(--c-on-primary);
+  border-color: var(--c-danger);
   box-shadow: none;
   margin-bottom: 0;
 
   &:hover,
   &:focus {
-    background: var(--c-danger-bg);
-    color: var(--c-danger-dark);
+    background: var(--c-danger-dark);
     border-color: var(--c-danger-dark);
+    color: var(--c-on-primary);
   }
 }
