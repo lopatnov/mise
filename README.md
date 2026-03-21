@@ -13,7 +13,7 @@ Scale servings, search by text, filter by category and tag, share recipes public
 | Database       | MongoDB 8, Mongoose                        |
 | Auth           | JWT Bearer, bcrypt                         |
 | Frontend       | React 19, Vite 8, React Query 5, Zustand 5 |
-| i18n           | react-i18next · 18 languages               |
+| i18n           | react-i18next · 33 languages               |
 | Reverse proxy  | nginx (single-port, CSP headers)           |
 | Infrastructure | Docker Compose                             |
 
@@ -34,7 +34,7 @@ Scale servings, search by text, filter by category and tag, share recipes public
 - **Dark / light theme** — toggle in the navbar, respects system preference
 - **Print view** — clean print layout via CSS `@media print`
 - **Admin panel** — user management, invite links, SMTP, password reset
-- **18 languages** — EN, UK, RU, DE, FR, ES, ZH, JA, KO, IT, PT, PL, CS, NL, RO, SV, HU, TR
+- **33 languages** — EN, UK, RU, BG, CS, DA, DE, EL, ES, FI, FR, HI, HR, HU, ID, IT, JA, KO, LT, LV, NL, NO, PL, PT, PT-BR, RO, SK, SV, TH, TR, VI, ZH, ZH-TW
 
 ---
 
