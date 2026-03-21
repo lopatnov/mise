@@ -105,7 +105,8 @@
       "removeIngredient": "{{n}}. malzemeyi kaldır",
       "removeStep": "{{n}}. adımı kaldır",
       "addIngredient": "Malzeme ekle",
-      "addStep": "Adım ekle"
+      "addStep": "Adım ekle",
+      "importedPhoto": "İçe aktarılan fotoğraf"
     },
     "import": {
       "button": "⬇️ Import from URL",

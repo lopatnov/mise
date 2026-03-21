@@ -105,7 +105,8 @@
       "removeIngredient": "Odstrániť surovinu {{n}}",
       "removeStep": "Odstrániť krok {{n}}",
       "addIngredient": "Pridať surovinu",
-      "addStep": "Pridať krok"
+      "addStep": "Pridať krok",
+      "importedPhoto": "Importovaná fotka"
     },
     "import": {
       "button": "⬇️ Importovať z URL",

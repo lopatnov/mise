@@ -105,7 +105,8 @@
       "removeIngredient": "Fjern ingrediens {{n}}",
       "removeStep": "Fjern steg {{n}}",
       "addIngredient": "Legg til ingrediens",
-      "addStep": "Legg til steg"
+      "addStep": "Legg til steg",
+      "importedPhoto": "Importert bilde"
     },
     "import": {
       "button": "⬇️ Importer fra URL",

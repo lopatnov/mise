@@ -105,7 +105,8 @@
       "removeIngredient": "Hapus bahan {{n}}",
       "removeStep": "Hapus langkah {{n}}",
       "addIngredient": "Tambah bahan",
-      "addStep": "Tambah langkah"
+      "addStep": "Tambah langkah",
+      "importedPhoto": "Foto yang diimpor"
     },
     "import": {
       "button": "⬇️ Impor dari URL",

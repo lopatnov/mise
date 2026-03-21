@@ -105,7 +105,8 @@
       "removeIngredient": "移除食材 {{n}}",
       "removeStep": "移除步驟 {{n}}",
       "addIngredient": "新增食材",
-      "addStep": "新增步驟"
+      "addStep": "新增步驟",
+      "importedPhoto": "匯入的照片"
     },
     "import": {
       "button": "⬇️ 從 URL 匯入",

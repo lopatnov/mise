@@ -105,7 +105,8 @@
       "removeIngredient": "Αφαίρεση υλικού {{n}}",
       "removeStep": "Αφαίρεση βήματος {{n}}",
       "addIngredient": "Προσθήκη υλικού",
-      "addStep": "Προσθήκη βήματος"
+      "addStep": "Προσθήκη βήματος",
+      "importedPhoto": "Εισαγόμενη φωτογραφία"
     },
     "import": {
       "button": "⬇️ Εισαγωγή από URL",

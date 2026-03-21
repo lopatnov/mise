@@ -105,7 +105,8 @@
       "removeIngredient": "材料{{n}}を削除",
       "removeStep": "手順{{n}}を削除",
       "addIngredient": "材料を追加",
-      "addStep": "手順を追加"
+      "addStep": "手順を追加",
+      "importedPhoto": "インポートした写真"
     },
     "import": {
       "button": "⬇️ Import from URL",

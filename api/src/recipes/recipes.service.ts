@@ -1,8 +1,12 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { randomUUID } from 'node:crypto';
+import { writeFile } from 'node:fs/promises';
+import { extname, join } from 'node:path';
 import { type Model, Types } from 'mongoose';
 import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
+import { UploadsService } from '../uploads/uploads.service';
 
 /** Parse ISO 8601 duration (e.g. "PT1H30M", "PT20M") → minutes */
 function parseDuration(iso: string): number | undefined {
@@ -42,6 +46,38 @@ function parseIngredient(raw: string): { name: string; amount: number; unit: str
   return { amount: 1, unit: '', name: cleaned };
 }
 
+/** Extract image URL from JSON-LD image field (string, array, or ImageObject) */
+function extractImageUrl(raw: unknown): string | undefined {
+  if (typeof raw === 'string' && /^https?:\/\//i.test(raw)) return raw;
+  if (Array.isArray(raw) && raw.length > 0) return extractImageUrl(raw[0]);
+  if (raw && typeof raw === 'object') {
+    const url = (raw as Record<string, unknown>).url;
+    if (typeof url === 'string' && /^https?:\/\//i.test(url)) return url;
+  }
+  return undefined;
+}
+
+/** Download image from URL, save to uploadsDir, return filename or undefined on failure */
+async function downloadImage(url: string, uploadsDir: string): Promise<string | undefined> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+    if (!res.ok) return undefined;
+    const mime = res.headers.get('content-type') ?? '';
+    const extMap: Record<string, string> = {
+      'image/jpeg': '.jpg',
+      'image/png': '.png',
+      'image/webp': '.webp',
+      'image/gif': '.gif',
+    };
+    const ext = extMap[mime.split(';')[0].trim()] ?? (extname(new URL(url).pathname).toLowerCase() || '.jpg');
+    const filename = `imported-${randomUUID()}${ext}`;
+    await writeFile(join(uploadsDir, filename), Buffer.from(await res.arrayBuffer()));
+    return filename;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Extract text from a JSON-LD HowToStep, string, or array */
 function extractStepText(step: unknown): string {
   if (typeof step === 'string') return step;
@@ -55,7 +91,10 @@ function extractStepText(step: unknown): string {
 
 @Injectable()
 export class RecipesService {
-  constructor(@InjectModel(Recipe.name) private model: Model<RecipeDocument>) {}
+  constructor(
+    @InjectModel(Recipe.name) private model: Model<RecipeDocument>,
+    private uploads: UploadsService,
+  ) {}
 
   async findAll(userId: string, isAdmin: boolean, query: RecipeQueryDto) {
     const { q, tag, category, page = 1, limit = 20, mine, saved } = query;
@@ -110,8 +149,14 @@ export class RecipesService {
   }
 
   async create(userId: string, dto: CreateRecipeDto) {
+    let photoUrl: string | undefined;
+    if (dto.externalImageUrl) {
+      const filename = await downloadImage(dto.externalImageUrl, join(process.cwd(), 'uploads'));
+      if (filename) photoUrl = this.uploads.buildPhotoUrl(filename);
+    }
     return this.model.create({
       ...dto,
+      photoUrl,
       authorId: new Types.ObjectId(userId),
       categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
     });
@@ -151,6 +196,7 @@ export class RecipesService {
     const recipe = await this.model.findById(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
+    await this.uploads.deletePhoto(recipe.photoUrl);
     recipe.photoUrl = photoUrl;
     return recipe.save();
   }
@@ -185,6 +231,7 @@ export class RecipesService {
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     const step = recipe.steps.find((s) => s.order === order);
     if (!step) throw new NotFoundException('Step not found');
+    await this.uploads.deletePhoto(step.photoUrl as string | undefined);
     step.photoUrl = photoUrl;
     recipe.markModified('steps');
     return recipe.save();
@@ -286,6 +333,7 @@ export class RecipesService {
             ingredients,
             steps,
             tags,
+            externalImageUrl: extractImageUrl(obj.image),
           };
         }
       } catch {
@@ -298,12 +346,14 @@ export class RecipesService {
     const ogDesc =
       /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1] ??
       /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
+    const ogImage = /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
     const pageTitle = /<title[^>]*>([^<]+)<\/title>/i.exec(html)?.[1]?.trim();
 
     if (ogTitle ?? pageTitle) {
       return {
         title: (ogTitle ?? pageTitle ?? 'Imported recipe').trim(),
         description: ogDesc?.trim(),
+        externalImageUrl: ogImage ?? undefined,
       };
     }
 

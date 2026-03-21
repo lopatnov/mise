@@ -105,7 +105,8 @@
       "removeIngredient": "Elimină ingredientul {{n}}",
       "removeStep": "Elimină pasul {{n}}",
       "addIngredient": "Adaugă ingredient",
-      "addStep": "Adaugă pas"
+      "addStep": "Adaugă pas",
+      "importedPhoto": "Fotografie importată"
     },
     "import": {
       "button": "⬇️ Import from URL",

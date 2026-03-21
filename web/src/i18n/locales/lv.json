@@ -105,7 +105,8 @@
       "removeIngredient": "Noņemt sastāvdaļu {{n}}",
       "removeStep": "Noņemt soli {{n}}",
       "addIngredient": "Pievienot sastāvdaļu",
-      "addStep": "Pievienot soli"
+      "addStep": "Pievienot soli",
+      "importedPhoto": "Importēts fotoattēls"
     },
     "import": {
       "button": "⬇️ Importēt no URL",

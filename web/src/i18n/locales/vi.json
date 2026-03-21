@@ -105,7 +105,8 @@
       "removeIngredient": "Xóa nguyên liệu {{n}}",
       "removeStep": "Xóa bước {{n}}",
       "addIngredient": "Thêm nguyên liệu",
-      "addStep": "Thêm bước"
+      "addStep": "Thêm bước",
+      "importedPhoto": "Ảnh đã nhập"
     },
     "import": {
       "button": "⬇️ Nhập từ URL",

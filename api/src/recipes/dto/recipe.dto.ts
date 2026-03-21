@@ -64,6 +64,10 @@ export class CreateRecipeDto {
   @IsOptional()
   @IsBoolean()
   isPublic?: boolean;
+
+  @IsOptional()
+  @IsString()
+  externalImageUrl?: string;
 }
 
 export class ImportUrlDto {

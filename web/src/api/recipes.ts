@@ -27,6 +27,7 @@ export interface Recipe {
   authorId?: string;
   savedBy?: string[];
   createdAt: string;
+  externalImageUrl?: string;
 }
 
 export interface RecipesPage {

@@ -1,3 +1,10 @@
+.import-photo-preview {
+  max-height: 180px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  margin-top: var(--space-sm);
+}
+
 // ── Drag & drop ───────────────────────────────────────────────────────────
 
 .drag-handle {

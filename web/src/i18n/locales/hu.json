@@ -105,7 +105,8 @@
       "removeIngredient": "{{n}}. hozzávaló eltávolítása",
       "removeStep": "{{n}}. lépés eltávolítása",
       "addIngredient": "Hozzávaló hozzáadása",
-      "addStep": "Lépés hozzáadása"
+      "addStep": "Lépés hozzáadása",
+      "importedPhoto": "Importált fotó"
     },
     "import": {
       "button": "⬇️ Import from URL",

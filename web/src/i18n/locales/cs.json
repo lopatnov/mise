@@ -105,7 +105,8 @@
       "removeIngredient": "Odebrat ingredienci {{n}}",
       "removeStep": "Odebrat krok {{n}}",
       "addIngredient": "Přidat ingredienci",
-      "addStep": "Přidat krok"
+      "addStep": "Přidat krok",
+      "importedPhoto": "Importovaná fotka"
     },
     "import": {
       "button": "⬇️ Import from URL",

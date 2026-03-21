@@ -105,7 +105,8 @@
       "removeIngredient": "Poista aines {{n}}",
       "removeStep": "Poista vaihe {{n}}",
       "addIngredient": "Lisää aines",
-      "addStep": "Lisää vaihe"
+      "addStep": "Lisää vaihe",
+      "importedPhoto": "Tuotu kuva"
     },
     "import": {
       "button": "⬇️ Tuo URL:sta",

@@ -105,7 +105,8 @@
       "removeIngredient": "재료 {{n}} 삭제",
       "removeStep": "단계 {{n}} 삭제",
       "addIngredient": "재료 추가",
-      "addStep": "단계 추가"
+      "addStep": "단계 추가",
+      "importedPhoto": "가져온 사진"
     },
     "import": {
       "button": "⬇️ Import from URL",

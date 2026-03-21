@@ -105,7 +105,8 @@
       "removeIngredient": "Видалити інгредієнт {{n}}",
       "removeStep": "Видалити крок {{n}}",
       "addIngredient": "Додати інгредієнт",
-      "addStep": "Додати крок"
+      "addStep": "Додати крок",
+      "importedPhoto": "Імпортоване фото"
     },
     "import": {
       "button": "⬇️ Import from URL",

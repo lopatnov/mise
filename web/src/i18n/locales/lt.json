@@ -105,7 +105,8 @@
       "removeIngredient": "Pašalinti ingredientą {{n}}",
       "removeStep": "Pašalinti žingsnį {{n}}",
       "addIngredient": "Pridėti ingredientą",
-      "addStep": "Pridėti žingsnį"
+      "addStep": "Pridėti žingsnį",
+      "importedPhoto": "Importuota nuotrauka"
     },
     "import": {
       "button": "⬇️ Importuoti iš URL",

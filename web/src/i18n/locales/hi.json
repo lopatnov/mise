@@ -105,7 +105,8 @@
       "removeIngredient": "सामग्री {{n}} हटाएं",
       "removeStep": "चरण {{n}} हटाएं",
       "addIngredient": "सामग्री जोड़ें",
-      "addStep": "चरण जोड़ें"
+      "addStep": "चरण जोड़ें",
+      "importedPhoto": "आयातित फ़ोटो"
     },
     "import": {
       "button": "⬇️ URL से आयात करें",

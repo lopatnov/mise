@@ -31,6 +31,7 @@ export default function RecipeFormPage() {
   const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
   const [showImport, setShowImport] = useState(false);
+  const [importedImageUrl, setImportedImageUrl] = useState('');
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -67,6 +68,7 @@ export default function RecipeFormPage() {
     if (data.tags?.length) setTags(data.tags.join(', '));
     if (data.ingredients?.length) setIngredients(data.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
     if (data.steps?.length) setSteps(data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text })));
+    if (data.externalImageUrl) setImportedImageUrl(data.externalImageUrl);
     setShowImport(false);
   }
 
@@ -96,6 +98,7 @@ export default function RecipeFormPage() {
       isPublic,
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
       steps: steps.filter((s) => s.text).map((s, i) => ({ order: i + 1, text: s.text })),
+      externalImageUrl: importedImageUrl || undefined,
     });
   }
 
@@ -141,9 +144,18 @@ export default function RecipeFormPage() {
           {t('recipe.form.back')}
         </button>
         {!isEdit && (
-          <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
-            {t('recipe.import.button')}
-          </button>
+          <>
+            <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
+              {t('recipe.import.button')}
+            </button>
+            {importedImageUrl && (
+              <img
+                src={importedImageUrl}
+                alt={t('recipe.form.importedPhoto')}
+                className="import-photo-preview"
+              />
+            )}
+          </>
         )}
       </div>
       <h1 className="form-title">{isEdit ? t('recipe.form.editTitle') : t('recipe.form.newTitle')}</h1>

@@ -105,7 +105,8 @@
       "removeIngredient": "Ukloni sastojak {{n}}",
       "removeStep": "Ukloni korak {{n}}",
       "addIngredient": "Dodaj sastojak",
-      "addStep": "Dodaj korak"
+      "addStep": "Dodaj korak",
+      "importedPhoto": "Uvezena fotografija"
     },
     "import": {
       "button": "⬇️ Uvezi s URL-a",
