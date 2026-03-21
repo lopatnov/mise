@@ -2,7 +2,7 @@
 
 .drag-handle {
   cursor: grab;
-  color: #ccc;
+  color: var(--c-border);
   font-size: 16px;
   text-align: center;
   user-select: none;
@@ -43,6 +43,14 @@
 
 // ── Form element layout ───────────────────────────────────────────────────
 
+// Fieldset inside form-stack: same visual treatment as a regular .field —
+// no border box, no default padding, so all inputs align consistently.
+.form-stack fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
 // Field wrapper: label above input with small gap
 .field {
   display: flex;
@@ -59,7 +67,7 @@
 .field__label {
   font-size: 13px;
   font-weight: 500;
-  color: #444;
+  color: var(--c-text-muted);
 }
 
 // Checkbox row with inline label
@@ -69,12 +77,22 @@
   gap: 8px;
   cursor: pointer;
   font-size: 14px;
-  color: #444;
+  color: var(--c-text-muted);
 }
 
 // Textarea: vertical resize only
 .resize-v {
   resize: vertical;
+}
+
+// Narrow number input (e.g. days field)
+.input--narrow {
+  width: 90px;
+}
+
+// Add-item button inside fieldset (ingredient / step lists)
+.btn-list-add {
+  margin-top: 6px;
 }
 
 // ── Auth pages ─────────────────────────────────────────────────────────────
@@ -103,7 +121,7 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 
   // Full-width submit button inside auth forms
   button[type="submit"] {
@@ -138,7 +156,7 @@
 
 // Warning/action link (in setup banner)
 .link--warn {
-  color: #856404;
+  color: var(--c-warning-text);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -148,12 +166,36 @@
   color: var(--c-primary);
 }
 
+// ── Password show/hide toggle ─────────────────────────────────────────────
+
+.input-with-action {
+  position: relative;
+
+  input { padding-right: 42px; }
+
+  .input-action-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--c-text-muted);
+    padding: 4px;
+    margin-bottom: 0;
+    line-height: 1;
+    &:hover { color: var(--c-text); }
+  }
+}
+
 // ── Admin form labels ──────────────────────────────────────────────────────
 
 .admin-label {
   display: block;
   font-size: 12px;
   font-weight: 500;
-  color: #555;
+  color: var(--c-text-muted);
   margin-bottom: 4px;
 }

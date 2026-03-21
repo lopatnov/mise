@@ -3,11 +3,20 @@
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: rgba(0, 0, 0, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  border: none;
+  cursor: default;
+  padding: 0;
+  margin: 0;
 }
 
 .lightbox__close {
@@ -16,7 +25,7 @@
   right: 16px;
   background: rgba(255, 255, 255, 0.15);
   border: none;
-  color: #fff;
+  color: var(--c-on-primary);
   font-size: 24px;
   width: 44px;
   height: 44px;

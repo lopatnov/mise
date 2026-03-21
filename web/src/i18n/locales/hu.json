@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Összes tag",
       "prev": "← Előző",
-      "next": "Következő →"
+      "next": "Következő →",
+      "clearFilters": "Szűrők törlése",
+      "filterByTag": "Szűrés cimke szerint",
+      "filterByCategory": "Szűrés kategória szerint"
     },
     "detail": {
       "back": "← Vissza",
@@ -66,10 +69,10 @@
       "photoError": "Hiba a fotó feltöltésekor",
       "deleteError": "Hiba a recept törlésekor",
       "public": "Nyilvános",
-      "duplicate": "Mentés másolatként",
+      "duplicate": "📋 Mentés másolatként",
       "duplicateTitle": "{{title}} másolata",
       "duplicateError": "Nem sikerült másolni a receptet",
-      "print": "Nyomtatás",
+      "print": "🖨 Nyomtatás",
       "favorite": "🤍 Mentés",
       "unfavorite": "❤️ Mentve"
     },
@@ -98,7 +101,11 @@
       "saving": "Mentés...",
       "save": "Mentés",
       "create": "Recept létrehozása",
-      "isPublic": "Megosztás mindenkivel"
+      "isPublic": "Megosztás mindenkivel",
+      "removeIngredient": "{{n}}. hozzávaló eltávolítása",
+      "removeStep": "{{n}}. lépés eltávolítása",
+      "addIngredient": "Hozzávaló hozzáadása",
+      "addStep": "Lépés hozzáadása"
     },
     "import": {
       "button": "⬇️ Import from URL",

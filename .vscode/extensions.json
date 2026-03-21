@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    "github.vscode-github-actions",
+    "ms-azuretools.vscode-containers",
+    "pflannery.vscode-versionlens"
+  ]
+}

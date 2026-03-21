@@ -13,6 +13,7 @@ export default function RegisterPage() {
   const [params] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPwd, setShowPwd] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [inviteToken, setInviteToken] = useState(params.get('invite') ?? '');
   const [error, setError] = useState('');
@@ -52,14 +53,24 @@ export default function RegisterPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder={t('auth.passwordMin')}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-          />
+          <div className="input-with-action">
+            <input
+              type={showPwd ? 'text' : 'password'}
+              placeholder={t('auth.passwordMin')}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+            <button
+              type="button"
+              className="input-action-btn"
+              onClick={() => setShowPwd((v) => !v)}
+              aria-label={showPwd ? 'Hide password' : 'Show password'}
+            >
+              {showPwd ? '🙈' : '👁'}
+            </button>
+          </div>
           <input
             placeholder={t('auth.inviteToken')}
             value={inviteToken}

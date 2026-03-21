@@ -14,6 +14,7 @@ export default function LoginPage() {
   const siteTitle = usePageTitle(t('auth.signIn'));
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -63,13 +64,23 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder={t('auth.password')}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="input-with-action">
+            <input
+              type={showPwd ? 'text' : 'password'}
+              placeholder={t('auth.password')}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="input-action-btn"
+              onClick={() => setShowPwd((v) => !v)}
+              aria-label={showPwd ? 'Hide password' : 'Show password'}
+            >
+              {showPwd ? '🙈' : '👁'}
+            </button>
+          </div>
           {error && <p className="form-error">{error}</p>}
           <button type="submit" disabled={loading}>
             {loading ? t('auth.signingIn') : t('auth.signIn')}

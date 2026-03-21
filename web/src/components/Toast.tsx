@@ -7,9 +7,9 @@ export default function ToastContainer() {
   return (
     <div className="toast-container">
       {toasts.map((t) => (
-        <div key={t.id} onClick={() => remove(t.id)} className={`toast toast--${t.type}`}>
+        <button type="button" key={t.id} onClick={() => remove(t.id)} className={`toast toast--${t.type}`}>
           {t.message}
-        </div>
+        </button>
       ))}
     </div>
   );

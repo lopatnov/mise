@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "모든 태그",
       "prev": "← 이전",
-      "next": "다음 →"
+      "next": "다음 →",
+      "clearFilters": "필터 지우기",
+      "filterByTag": "태그로 필터",
+      "filterByCategory": "카테고리로 필터"
     },
     "detail": {
       "back": "← 뒤로",
@@ -66,10 +69,10 @@
       "photoError": "사진 업로드 실패",
       "deleteError": "레시피 삭제 실패",
       "public": "공개",
-      "duplicate": "복사본 저장",
+      "duplicate": "📋 복사본 저장",
       "duplicateTitle": "{{title}} 복사본",
       "duplicateError": "레시피 복사에 실패했습니다",
-      "print": "인쇄",
+      "print": "🖨 인쇄",
       "favorite": "🤍 저장",
       "unfavorite": "❤️ 저장됨"
     },
@@ -98,7 +101,11 @@
       "saving": "저장 중...",
       "save": "저장",
       "create": "레시피 만들기",
-      "isPublic": "모두와 공유하기"
+      "isPublic": "모두와 공유하기",
+      "removeIngredient": "재료 {{n}} 삭제",
+      "removeStep": "단계 {{n}} 삭제",
+      "addIngredient": "재료 추가",
+      "addStep": "단계 추가"
     },
     "import": {
       "button": "⬇️ Import from URL",

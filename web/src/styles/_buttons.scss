@@ -1,5 +1,16 @@
 // ── Photo UI ──────────────────────────────────────────────────────────────
 
+// Transparent wrapper button around clickable photos (for lightbox)
+.photo-btn {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: zoom-in;
+  width: 100%;
+}
+
 // Floating camera button (hover overlay on photos)
 .photo-replace-btn {
   position: absolute;
@@ -7,7 +18,7 @@
   right: 10px;
   background: rgba(0, 0, 0, 0.5);
   border: none;
-  color: #fff;
+  color: var(--c-on-primary);
   font-size: 16px;
   width: 36px;
   height: 36px;
@@ -88,10 +99,11 @@ button.btn-remove {
   border: none;
   font-size: 14px;
   padding: 5px 10px;
+  margin-bottom: 0;
 
   &:hover {
     background: var(--c-danger);
-    color: #fff;
+    color: var(--c-on-primary);
   }
 }
 
@@ -101,6 +113,7 @@ button.btn-danger {
   color: var(--c-danger);
   border: 1px solid var(--c-danger);
   box-shadow: none;
+  margin-bottom: 0;
 
   &:hover,
   &:focus {

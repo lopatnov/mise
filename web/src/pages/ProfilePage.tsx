@@ -27,7 +27,7 @@ export default function ProfilePage() {
         {t('profile.back')}
       </Link>
 
-      <article style={{ marginTop: '24px', textAlign: 'center' }}>
+      <article className="profile-card">
         <div className="profile-avatar">👤</div>
         <h2 className="profile-name">{user?.displayName ?? t('profile.noName')}</h2>
         <p className="profile-email">{user?.email}</p>
@@ -37,7 +37,7 @@ export default function ProfilePage() {
           <span className="profile-stat__label">{t('profile.recipesCount')}</span>
         </div>
 
-        <button onClick={handleLogout} className="outline" style={{ width: '100%' }}>
+        <button type="button" onClick={handleLogout} className="outline">
           {t('profile.signOut')}
         </button>
       </article>

@@ -48,8 +48,6 @@ export default function RecipeDetailPage() {
   const pendingStepOrder = useRef<number | null>(null);
   const [targetServings, setTargetServings] = useState<number | null>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [mainPhotoHover, setMainPhotoHover] = useState(false);
-  const [hoveredStepOrder, setHoveredStepOrder] = useState<number | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const toast = useToast();
   const { user } = useAuthStore();
@@ -176,6 +174,7 @@ export default function RecipeDetailPage() {
         ref={fileRef}
         type="file"
         accept="image/*"
+        aria-label={t('recipe.detail.changePhoto')}
         className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
@@ -187,6 +186,7 @@ export default function RecipeDetailPage() {
         ref={stepFileRef}
         type="file"
         accept="image/*"
+        aria-label={t('recipe.detail.changePhoto')}
         className="visually-hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
@@ -203,16 +203,26 @@ export default function RecipeDetailPage() {
           {t('recipe.detail.back')}
         </Link>
         {isLoggedIn && (
-          <button onClick={() => favoriteMut.mutate()} disabled={favoriteMut.isPending} className="outline">
+          <button
+            type="button"
+            onClick={() => favoriteMut.mutate()}
+            disabled={favoriteMut.isPending}
+            className="outline"
+          >
             {isFavorited ? t('recipe.detail.unfavorite') : t('recipe.detail.favorite')}
           </button>
         )}
         <div className="recipe-actions__right">
-          <button onClick={() => window.print()} className="outline">
+          <button type="button" onClick={() => window.print()} className="outline">
             {t('recipe.detail.print')}
           </button>
           {isLoggedIn && !canEdit && (
-            <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="outline">
+            <button
+              type="button"
+              onClick={() => duplicateMut.mutate()}
+              disabled={duplicateMut.isPending}
+              className="outline"
+            >
               {t('recipe.detail.duplicate')}
             </button>
           )}
@@ -221,10 +231,15 @@ export default function RecipeDetailPage() {
               <Link to={`/recipes/${id}/edit`} role="button" className="outline">
                 {t('recipe.detail.edit')}
               </Link>
-              <button onClick={() => duplicateMut.mutate()} disabled={duplicateMut.isPending} className="outline">
+              <button
+                type="button"
+                onClick={() => duplicateMut.mutate()}
+                disabled={duplicateMut.isPending}
+                className="outline"
+              >
                 {t('recipe.detail.duplicate')}
               </button>
-              <button onClick={() => setShowConfirmDelete(true)} className="btn-danger">
+              <button type="button" onClick={() => setShowConfirmDelete(true)} className="btn-danger">
                 {t('recipe.detail.delete')}
               </button>
             </>
@@ -262,21 +277,20 @@ export default function RecipeDetailPage() {
           )}
 
           {/* Main photo */}
-          <div
-            className="photo-container"
-            onMouseEnter={() => setMainPhotoHover(true)}
-            onMouseLeave={() => setMainPhotoHover(false)}
-          >
+          <div className="photo-container">
             {recipe.photoUrl ? (
               <>
-                <img
-                  src={`${API_URL}${recipe.photoUrl}`}
-                  alt={recipe.title}
+                <button
+                  type="button"
+                  className="photo-btn"
                   onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
-                  className="recipe-photo__img"
-                />
-                {canEdit && mainPhotoHover && (
+                  aria-label={recipe.title}
+                >
+                  <img src={`${API_URL}${recipe.photoUrl}`} alt={recipe.title} className="recipe-photo__img" />
+                </button>
+                {canEdit && (
                   <button
+                    type="button"
                     onClick={() => fileRef.current?.click()}
                     title={t('recipe.detail.changePhoto')}
                     className="photo-replace-btn"
@@ -286,9 +300,9 @@ export default function RecipeDetailPage() {
                 )}
               </>
             ) : canEdit ? (
-              <div onClick={() => fileRef.current?.click()} className="photo-placeholder">
+              <button type="button" onClick={() => fileRef.current?.click()} className="photo-placeholder">
                 {t('recipe.detail.addPhoto')}
-              </div>
+              </button>
             ) : null}
           </div>
 
@@ -307,6 +321,7 @@ export default function RecipeDetailPage() {
                         <span className="recipe-step__text">{step.text}</span>
                         {canEdit && !step.photoUrl && (
                           <button
+                            type="button"
                             onClick={() => {
                               pendingStepOrder.current = step.order;
                               stepFileRef.current?.click();
@@ -319,19 +334,18 @@ export default function RecipeDetailPage() {
                         )}
                       </div>
                       {step.photoUrl && (
-                        <div
-                          className="photo-container recipe-step__photo-container"
-                          onMouseEnter={() => setHoveredStepOrder(step.order)}
-                          onMouseLeave={() => setHoveredStepOrder(null)}
-                        >
-                          <img
-                            src={`${API_URL}${step.photoUrl}`}
-                            alt=""
+                        <div className="photo-container recipe-step__photo-container">
+                          <button
+                            type="button"
+                            className="photo-btn"
                             onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
-                            className="recipe-step__photo"
-                          />
-                          {canEdit && hoveredStepOrder === step.order && (
+                            aria-label={t('recipe.detail.addPhoto')}
+                          >
+                            <img src={`${API_URL}${step.photoUrl}`} alt="" className="recipe-step__photo" />
+                          </button>
+                          {canEdit && (
                             <button
+                              type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 pendingStepOrder.current = step.order;
@@ -357,15 +371,19 @@ export default function RecipeDetailPage() {
           {/* Servings scaler */}
           <div className="scaling-control no-print">
             <span>{t('recipe.detail.servings')}</span>
-            <button onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))} className="btn-icon">
+            <button
+              type="button"
+              onClick={() => setTargetServings(Math.max(1, effectiveServings - 1))}
+              className="btn-icon"
+            >
               −
             </button>
             <span className="scaling-control__count">{effectiveServings}</span>
-            <button onClick={() => setTargetServings(effectiveServings + 1)} className="btn-icon">
+            <button type="button" onClick={() => setTargetServings(effectiveServings + 1)} className="btn-icon">
               +
             </button>
             {scale !== 1 && (
-              <button onClick={() => setTargetServings(null)} className="btn-ghost ms-auto">
+              <button type="button" onClick={() => setTargetServings(null)} className="btn-ghost ms-auto">
                 {t('recipe.detail.reset')}
               </button>
             )}

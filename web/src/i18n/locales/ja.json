@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "すべてのタグ",
       "prev": "← 前へ",
-      "next": "次へ →"
+      "next": "次へ →",
+      "clearFilters": "フィルターをクリア",
+      "filterByTag": "タグで絞り込む",
+      "filterByCategory": "カテゴリで絞り込む"
     },
     "detail": {
       "back": "← 戻る",
@@ -66,10 +69,10 @@
       "photoError": "写真のアップロードに失敗しました",
       "deleteError": "レシピの削除に失敗しました",
       "public": "公開",
-      "duplicate": "コピーを保存",
+      "duplicate": "📋 コピーを保存",
       "duplicateTitle": "{{title}} のコピー",
       "duplicateError": "レシピのコピーに失敗しました",
-      "print": "印刷",
+      "print": "🖨 印刷",
       "favorite": "🤍 保存",
       "unfavorite": "❤️ 保存済み"
     },
@@ -98,7 +101,11 @@
       "saving": "保存中...",
       "save": "保存",
       "create": "レシピを作成",
-      "isPublic": "みんなに公開する"
+      "isPublic": "みんなに公開する",
+      "removeIngredient": "材料{{n}}を削除",
+      "removeStep": "手順{{n}}を削除",
+      "addIngredient": "材料を追加",
+      "addStep": "手順を追加"
     },
     "import": {
       "button": "⬇️ Import from URL",

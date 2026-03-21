@@ -30,8 +30,15 @@ export default function ImportUrlDialog({ onImport, onClose }: ImportUrlDialogPr
   }
 
   return (
-    <div className="confirm-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+    <div className="confirm-overlay">
+      <button
+        type="button"
+        className="confirm-overlay__backdrop"
+        onClick={onClose}
+        tabIndex={-1}
+        aria-label={t('recipe.import.cancel')}
+      />
+      <div role="dialog" aria-modal="true" className="confirm-dialog">
         <h2 className="import-dialog__title">{t('recipe.import.title')}</h2>
         <p className="import-dialog__hint">{t('recipe.import.hint')}</p>
         <form onSubmit={handleSubmit} className="import-dialog__form">

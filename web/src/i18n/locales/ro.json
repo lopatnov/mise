@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Toate etichetele",
       "prev": "← Anterior",
-      "next": "Următor →"
+      "next": "Următor →",
+      "clearFilters": "Șterge filtrele",
+      "filterByTag": "Filtrează după etichetă",
+      "filterByCategory": "Filtrează după categorie"
     },
     "detail": {
       "back": "← Înapoi",
@@ -66,10 +69,10 @@
       "photoError": "Eroare la încărcarea fotografiei",
       "deleteError": "Eroare la ștergerea rețetei",
       "public": "Public",
-      "duplicate": "Salvează o copie",
+      "duplicate": "📋 Salvează o copie",
       "duplicateTitle": "Copie după {{title}}",
       "duplicateError": "Eroare la copierea rețetei",
-      "print": "Tipărește",
+      "print": "🖨 Tipărește",
       "favorite": "🤍 Salvează",
       "unfavorite": "❤️ Salvat"
     },
@@ -98,7 +101,11 @@
       "saving": "Se salvează...",
       "save": "Salvează",
       "create": "Crează rețeta",
-      "isPublic": "Distribuie cu toți"
+      "isPublic": "Distribuie cu toți",
+      "removeIngredient": "Elimină ingredientul {{n}}",
+      "removeStep": "Elimină pasul {{n}}",
+      "addIngredient": "Adaugă ingredient",
+      "addStep": "Adaugă pas"
     },
     "import": {
       "button": "⬇️ Import from URL",

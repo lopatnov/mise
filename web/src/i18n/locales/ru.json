@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Все теги",
       "prev": "← Назад",
-      "next": "Вперёд →"
+      "next": "Вперёд →",
+      "clearFilters": "Сбросить фильтры",
+      "filterByTag": "Фильтр по тегу",
+      "filterByCategory": "Фильтр по категории"
     },
     "detail": {
       "back": "← Назад",
@@ -66,10 +69,10 @@
       "photoError": "Ошибка загрузки фото",
       "deleteError": "Ошибка удаления рецепта",
       "public": "Публичный",
-      "duplicate": "Сохранить копию",
+      "duplicate": "📋 Сохранить копию",
       "duplicateTitle": "Копия {{title}}",
       "duplicateError": "Ошибка копирования рецепта",
-      "print": "Печать",
+      "print": "🖨 Печать",
       "favorite": "🤍 Сохранить",
       "unfavorite": "❤️ Сохранено"
     },
@@ -98,7 +101,11 @@
       "saving": "Сохранение...",
       "save": "Сохранить",
       "create": "Создать рецепт",
-      "isPublic": "Поделиться со всеми"
+      "isPublic": "Поделиться со всеми",
+      "removeIngredient": "Удалить ингредиент {{n}}",
+      "removeStep": "Удалить шаг {{n}}",
+      "addIngredient": "Добавить ингредиент",
+      "addStep": "Добавить шаг"
     },
     "import": {
       "button": "⬇️ Import from URL",

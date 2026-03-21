@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Alla taggar",
       "prev": "← Föregående",
-      "next": "Nästa →"
+      "next": "Nästa →",
+      "clearFilters": "Rensa filter",
+      "filterByTag": "Filtrera efter tagg",
+      "filterByCategory": "Filtrera efter kategori"
     },
     "detail": {
       "back": "← Tillbaka",
@@ -66,10 +69,10 @@
       "photoError": "Fel vid uppladdning av foto",
       "deleteError": "Fel vid radering av recept",
       "public": "Offentlig",
-      "duplicate": "Spara en kopia",
+      "duplicate": "📋 Spara en kopia",
       "duplicateTitle": "Kopia av {{title}}",
       "duplicateError": "Det gick inte att kopiera receptet",
-      "print": "Skriv ut",
+      "print": "🖨 Skriv ut",
       "favorite": "🤍 Spara",
       "unfavorite": "❤️ Sparad"
     },
@@ -98,7 +101,11 @@
       "saving": "Sparar...",
       "save": "Spara",
       "create": "Skapa recept",
-      "isPublic": "Dela med alla"
+      "isPublic": "Dela med alla",
+      "removeIngredient": "Ta bort ingrediens {{n}}",
+      "removeStep": "Ta bort steg {{n}}",
+      "addIngredient": "Lägg till ingrediens",
+      "addStep": "Lägg till steg"
     },
     "import": {
       "button": "⬇️ Import from URL",

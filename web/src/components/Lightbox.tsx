@@ -15,11 +15,12 @@ export default function Lightbox({ src, onClose }: Props) {
   }, [onClose]);
 
   return (
-    <div className="lightbox" onClick={onClose}>
-      <button className="lightbox__close" onClick={onClose}>
+    <div className="lightbox">
+      <button type="button" className="lightbox__backdrop" onClick={onClose} tabIndex={-1} aria-label="Close" />
+      <button type="button" className="lightbox__close" onClick={onClose}>
         ✕
       </button>
-      <img src={src} alt="" onClick={(e) => e.stopPropagation()} className="lightbox__img" />
+      <img src={src} alt="" className="lightbox__img" />
     </div>
   );
 }

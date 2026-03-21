@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Všechny tagy",
       "prev": "← Předchozí",
-      "next": "Další →"
+      "next": "Další →",
+      "clearFilters": "Vymazat filtry",
+      "filterByTag": "Filtrovat podle tagu",
+      "filterByCategory": "Filtrovat podle kategorie"
     },
     "detail": {
       "back": "← Zpět",
@@ -66,10 +69,10 @@
       "photoError": "Chyba nahrávání fotografie",
       "deleteError": "Chyba mazání receptu",
       "public": "Veřejný",
-      "duplicate": "Uložit kopii",
+      "duplicate": "📋 Uložit kopii",
       "duplicateTitle": "Kopie {{title}}",
       "duplicateError": "Nepodařilo se zkopírovat recept",
-      "print": "Tisk",
+      "print": "🖨 Tisk",
       "favorite": "🤍 Uložit",
       "unfavorite": "❤️ Uloženo"
     },
@@ -98,7 +101,11 @@
       "saving": "Ukládání...",
       "save": "Uložit",
       "create": "Vytvořit recept",
-      "isPublic": "Sdílet se všemi"
+      "isPublic": "Sdílet se všemi",
+      "removeIngredient": "Odebrat ingredienci {{n}}",
+      "removeStep": "Odebrat krok {{n}}",
+      "addIngredient": "Přidat ingredienci",
+      "addStep": "Přidat krok"
     },
     "import": {
       "button": "⬇️ Import from URL",

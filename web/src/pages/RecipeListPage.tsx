@@ -19,6 +19,19 @@ function useDebounce<T>(value: T, ms = 400): T {
   return v;
 }
 
+function getPaginationRange(current: number, total: number): (number | 'ellipsis-left' | 'ellipsis-right')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const delta = 1;
+  const range: (number | 'ellipsis-left' | 'ellipsis-right')[] = [1];
+  const left = Math.max(2, current - delta);
+  const right = Math.min(total - 1, current + delta);
+  if (left > 2) range.push('ellipsis-left');
+  for (let i = left; i <= right; i++) range.push(i);
+  if (right < total - 1) range.push('ellipsis-right');
+  range.push(total);
+  return range;
+}
+
 export default function RecipeListPage() {
   const { t } = useTranslation();
   usePageTitle();
@@ -55,6 +68,14 @@ export default function RecipeListPage() {
     setMine(false);
     setPage(1);
   }
+  function clearFilters() {
+    setSearch('');
+    setTag('');
+    setCategory('');
+    setPage(1);
+  }
+
+  const hasFilters = !!(debouncedSearch || tag || category);
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
@@ -115,7 +136,7 @@ export default function RecipeListPage() {
           onChange={(e) => changeSearch(e.target.value)}
         />
         <div className="filter-bar__row">
-          <select value={tag} onChange={(e) => changeTag(e.target.value)}>
+          <select aria-label={t('recipe.list.filterByTag')} value={tag} onChange={(e) => changeTag(e.target.value)}>
             <option value="">{t('recipe.list.allTags')}</option>
             {allTags?.map((tg) => (
               <option key={tg} value={tg}>
@@ -123,7 +144,11 @@ export default function RecipeListPage() {
               </option>
             ))}
           </select>
-          <select value={category} onChange={(e) => changeCategory(e.target.value)}>
+          <select
+            aria-label={t('recipe.list.filterByCategory')}
+            value={category}
+            onChange={(e) => changeCategory(e.target.value)}
+          >
             <option value="">{t('recipe.list.allCategories')}</option>
             {categories?.map((c) => (
               <option key={c._id} value={c._id}>
@@ -133,10 +158,11 @@ export default function RecipeListPage() {
           </select>
           {isLoggedIn && (
             <>
-              <button onClick={changeMine} className={mine ? undefined : 'outline'}>
+              <button type="button" onClick={changeMine} className={mine ? undefined : 'outline'}>
                 {t('recipe.list.mine')}
               </button>
               <button
+                type="button"
                 onClick={changeSaved}
                 className={saved ? undefined : 'outline'}
                 title={t('recipe.list.savedTitle')}
@@ -148,12 +174,64 @@ export default function RecipeListPage() {
         </div>
       </div>
 
-      {isLoading && !data && <p>{t('recipe.list.loading')}</p>}
+      {hasFilters && (
+        <div className="filter-chips">
+          {debouncedSearch && (
+            <span className="filter-chip">
+              🔍 {debouncedSearch}
+              <button type="button" onClick={() => changeSearch('')}>
+                ×
+              </button>
+            </span>
+          )}
+          {tag && (
+            <span className="filter-chip">
+              🏷 {tag}
+              <button type="button" onClick={() => changeTag('')}>
+                ×
+              </button>
+            </span>
+          )}
+          {category && (
+            <span className="filter-chip">
+              📂 {categories?.find((c) => c._id === category)?.name ?? category}
+              <button type="button" onClick={() => changeCategory('')}>
+                ×
+              </button>
+            </span>
+          )}
+          <button type="button" className="btn-ghost btn-sm" onClick={clearFilters}>
+            {t('recipe.list.clearFilters')}
+          </button>
+        </div>
+      )}
+
+      {isLoading && !data && (
+        <div className="recipe-cards-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholder
+            <div key={i} className="skeleton-card">
+              <div className="skeleton-card__photo skeleton" />
+              <div className="skeleton-card__body">
+                <div className="skeleton-card__title skeleton" />
+                <div className="skeleton-card__desc skeleton" />
+                <div className="skeleton-card__desc2 skeleton" />
+                <div className="skeleton-card__meta skeleton" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {data && data.items.length === 0 && (
         <div className="recipe-list__empty">
           <p className="recipe-list__empty-icon">🍳</p>
           <p>{t('recipe.list.empty')}</p>
+          {hasFilters && (
+            <button type="button" className="outline btn-sm" onClick={clearFilters}>
+              {t('recipe.list.clearFilters')}
+            </button>
+          )}
         </div>
       )}
 
@@ -183,7 +261,8 @@ export default function RecipeListPage() {
                       </span>
                     )}
                     {r.tags.slice(0, 3).map((tg) => (
-                      <span
+                      <button
+                        type="button"
                         key={tg}
                         className="tag tag--btn"
                         onClick={(e) => {
@@ -192,7 +271,7 @@ export default function RecipeListPage() {
                         }}
                       >
                         {tg}
-                      </span>
+                      </button>
                     ))}
                     {r.rating && <span className="tag">{'⭐'.repeat(r.rating)}</span>}
                   </div>
@@ -206,18 +285,31 @@ export default function RecipeListPage() {
       {totalPages > 1 && (
         <div className="pagination">
           <button
+            type="button"
             onClick={() => goToPage(page - 1)}
             disabled={page === 1}
             className={`page-btn${page === 1 ? ' page-btn--disabled' : ''}`}
           >
             {t('recipe.list.prev')}
           </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <button key={p} onClick={() => goToPage(p)} className={`page-btn${p === page ? ' page-btn--active' : ''}`}>
-              {p}
-            </button>
-          ))}
+          {getPaginationRange(page, totalPages).map((p) =>
+            typeof p === 'string' ? (
+              <span key={p} className="page-ellipsis">
+                …
+              </span>
+            ) : (
+              <button
+                type="button"
+                key={p}
+                onClick={() => goToPage(p)}
+                className={`page-btn${p === page ? ' page-btn--active' : ''}`}
+              >
+                {p}
+              </button>
+            ),
+          )}
           <button
+            type="button"
             onClick={() => goToPage(page + 1)}
             disabled={page === totalPages}
             className={`page-btn${page === totalPages ? ' page-btn--disabled' : ''}`}

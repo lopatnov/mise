@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Todas las etiquetas",
       "prev": "← Anterior",
-      "next": "Siguiente →"
+      "next": "Siguiente →",
+      "clearFilters": "Borrar filtros",
+      "filterByTag": "Filtrar por etiqueta",
+      "filterByCategory": "Filtrar por categoría"
     },
     "detail": {
       "back": "← Volver",
@@ -66,10 +69,10 @@
       "photoError": "Error al subir la foto",
       "deleteError": "Error al eliminar la receta",
       "public": "Público",
-      "duplicate": "Guardar una copia",
+      "duplicate": "📋 Guardar una copia",
       "duplicateTitle": "Copia de {{title}}",
       "duplicateError": "Error al copiar la receta",
-      "print": "Imprimir",
+      "print": "🖨 Imprimir",
       "favorite": "🤍 Guardar",
       "unfavorite": "❤️ Guardado"
     },
@@ -98,7 +101,11 @@
       "saving": "Guardando...",
       "save": "Guardar",
       "create": "Crear receta",
-      "isPublic": "Compartir con todos"
+      "isPublic": "Compartir con todos",
+      "removeIngredient": "Eliminar ingrediente {{n}}",
+      "removeStep": "Eliminar paso {{n}}",
+      "addIngredient": "Añadir ingrediente",
+      "addStep": "Añadir paso"
     },
     "import": {
       "button": "⬇️ Import from URL",

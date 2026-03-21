@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Tüm etiketler",
       "prev": "← Önceki",
-      "next": "Sonraki →"
+      "next": "Sonraki →",
+      "clearFilters": "Filtreleri temizle",
+      "filterByTag": "Etikete göre filtrele",
+      "filterByCategory": "Kategoriye göre filtrele"
     },
     "detail": {
       "back": "← Geri",
@@ -66,10 +69,10 @@
       "photoError": "Fotoğraf yüklenemedi",
       "deleteError": "Tarif silinemedi",
       "public": "Herkese açık",
-      "duplicate": "Kopyayı kaydet",
+      "duplicate": "📋 Kopyayı kaydet",
       "duplicateTitle": "{{title}} kopyası",
       "duplicateError": "Tarif kopyalanamadı",
-      "print": "Yazdır",
+      "print": "🖨 Yazdır",
       "favorite": "🤍 Kaydet",
       "unfavorite": "❤️ Kaydedildi"
     },
@@ -98,7 +101,11 @@
       "saving": "Kaydediliyor...",
       "save": "Kaydet",
       "create": "Tarif oluştur",
-      "isPublic": "Herkesle paylaş"
+      "isPublic": "Herkesle paylaş",
+      "removeIngredient": "{{n}}. malzemeyi kaldır",
+      "removeStep": "{{n}}. adımı kaldır",
+      "addIngredient": "Malzeme ekle",
+      "addStep": "Adım ekle"
     },
     "import": {
       "button": "⬇️ Import from URL",

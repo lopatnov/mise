@@ -16,14 +16,21 @@ export default function ConfirmDialog({
   isPending,
 }: ConfirmDialogProps) {
   return (
-    <div className="confirm-overlay" onClick={onCancel} role="dialog" aria-modal="true">
-      <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+    <div className="confirm-overlay">
+      <button
+        type="button"
+        className="confirm-overlay__backdrop"
+        onClick={onCancel}
+        tabIndex={-1}
+        aria-label={cancelLabel}
+      />
+      <div role="dialog" aria-modal="true" className="confirm-dialog">
         <p className="confirm-dialog__message">{message}</p>
         <div className="confirm-dialog__actions">
-          <button onClick={onCancel} className="outline">
+          <button type="button" onClick={onCancel} className="outline">
             {cancelLabel}
           </button>
-          <button onClick={onConfirm} disabled={isPending} className="btn-danger">
+          <button type="button" onClick={onConfirm} disabled={isPending} className="btn-danger">
             {confirmLabel}
           </button>
         </div>

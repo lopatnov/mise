@@ -43,7 +43,10 @@
       "savedTitle": "Recipes saved as favourites",
       "allTags": "Alle tags",
       "prev": "← Vorige",
-      "next": "Volgende →"
+      "next": "Volgende →",
+      "clearFilters": "Filters wissen",
+      "filterByTag": "Filter op tag",
+      "filterByCategory": "Filter op categorie"
     },
     "detail": {
       "back": "← Terug",
@@ -66,10 +69,10 @@
       "photoError": "Fout bij uploaden foto",
       "deleteError": "Fout bij verwijderen recept",
       "public": "Openbaar",
-      "duplicate": "Sla een kopie op",
+      "duplicate": "📋 Sla een kopie op",
       "duplicateTitle": "Kopie van {{title}}",
       "duplicateError": "Recept kopiëren mislukt",
-      "print": "Afdrukken",
+      "print": "🖨 Afdrukken",
       "favorite": "🤍 Opslaan",
       "unfavorite": "❤️ Opgeslagen"
     },
@@ -98,7 +101,11 @@
       "saving": "Opslaan...",
       "save": "Opslaan",
       "create": "Recept aanmaken",
-      "isPublic": "Delen met iedereen"
+      "isPublic": "Delen met iedereen",
+      "removeIngredient": "Ingrediënt {{n}} verwijderen",
+      "removeStep": "Stap {{n}} verwijderen",
+      "addIngredient": "Ingrediënt toevoegen",
+      "addStep": "Stap toevoegen"
     },
     "import": {
       "button": "⬇️ Import from URL",

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import type { AppSettings } from '../api/admin';
 import { adminApi } from '../api/admin';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useToast } from '../store/toastStore';
 
@@ -25,7 +26,12 @@ export default function AdminPage() {
 
       <div className="tab-bar">
         {(['users', 'invites', 'settings'] as Tab[]).map((t2) => (
-          <button key={t2} onClick={() => setTab(t2)} className={`tab-btn${tab === t2 ? ' tab-btn--active' : ''}`}>
+          <button
+            type="button"
+            key={t2}
+            onClick={() => setTab(t2)}
+            className={`tab-btn${tab === t2 ? ' tab-btn--active' : ''}`}
+          >
             {t(`admin.tab.${t2}`)}
           </button>
         ))}
@@ -44,6 +50,7 @@ function UsersTab() {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const toast = useToast();
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const { data: users, isLoading } = useQuery({
     queryKey: ['admin', 'users'],
@@ -96,6 +103,7 @@ function UsersTab() {
               <td>{u.displayName ?? '—'}</td>
               <td>
                 <select
+                  aria-label={t('admin.users.role')}
                   value={u.role}
                   onChange={(e) => updateMut.mutate({ id: u._id, data: { role: e.target.value } })}
                 >
@@ -105,6 +113,7 @@ function UsersTab() {
               </td>
               <td>
                 <button
+                  type="button"
                   onClick={() => updateMut.mutate({ id: u._id, data: { isActive: !u.isActive } })}
                   className={`badge badge--${u.isActive ? 'active' : 'blocked'}`}
                 >
@@ -113,9 +122,8 @@ function UsersTab() {
               </td>
               <td>
                 <button
-                  onClick={() => {
-                    if (confirm(t('admin.users.confirmDelete'))) deleteMut.mutate(u._id);
-                  }}
+                  type="button"
+                  onClick={() => setConfirmDeleteId(u._id)}
                   className="btn-danger"
                   title={t('recipe.detail.delete')}
                 >
@@ -126,6 +134,19 @@ function UsersTab() {
           ))}
         </tbody>
       </table>
+      {confirmDeleteId && (
+        <ConfirmDialog
+          message={t('admin.users.confirmDelete')}
+          confirmLabel={t('recipe.detail.deleteConfirmBtn')}
+          cancelLabel={t('recipe.detail.deleteCancel')}
+          onConfirm={() => {
+            deleteMut.mutate(confirmDeleteId);
+            setConfirmDeleteId(null);
+          }}
+          onCancel={() => setConfirmDeleteId(null)}
+          isPending={deleteMut.isPending}
+        />
+      )}
     </div>
   );
 }
@@ -172,10 +193,11 @@ function InvitesTab() {
         <h3>{t('admin.invites.create')}</h3>
         <div className="invite-create-row">
           <div>
-            <label className="admin-label">
+            <label className="admin-label" htmlFor="inv-email">
               {t('auth.email')} ({t('admin.invites.emailOptional')})
             </label>
             <input
+              id="inv-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -183,17 +205,20 @@ function InvitesTab() {
             />
           </div>
           <div>
-            <label className="admin-label">{t('admin.invites.expiresInDays')}</label>
+            <label className="admin-label" htmlFor="inv-days">
+              {t('admin.invites.expiresInDays')}
+            </label>
             <input
+              id="inv-days"
               type="number"
               min={1}
               max={30}
               value={days}
               onChange={(e) => setDays(e.target.value)}
-              style={{ width: '90px' }}
+              className="input--narrow"
             />
           </div>
-          <button onClick={() => createMut.mutate()} disabled={createMut.isPending}>
+          <button type="button" onClick={() => createMut.mutate()} disabled={createMut.isPending}>
             {t('admin.invites.generateBtn')}
           </button>
         </div>
@@ -205,6 +230,7 @@ function InvitesTab() {
               {appUrl}/register?invite={newInvite.token}
             </code>
             <button
+              type="button"
               onClick={() => {
                 void navigator.clipboard.writeText(`${appUrl}/register?invite=${newInvite.token}`);
                 toast.success(t('admin.invites.copied'));
@@ -235,7 +261,7 @@ function InvitesTab() {
                   {t('admin.invites.expires')}: {new Date(inv.expiresAt).toLocaleDateString()}
                 </span>
               </div>
-              <button onClick={() => deleteMut.mutate(inv._id)} className="btn-danger">
+              <button type="button" onClick={() => deleteMut.mutate(inv._id)} className="btn-danger">
                 🗑
               </button>
             </div>
@@ -284,8 +310,15 @@ function SettingsTab() {
       <div className="admin-section">
         <h3>{t('admin.settings.general')}</h3>
         <div>
-          <label className="admin-label">{t('admin.settings.siteTitle')}</label>
-          <input value={form.siteTitle ?? ''} onChange={(e) => set('siteTitle', e.target.value)} placeholder="Mise" />
+          <label className="admin-label" htmlFor="s-siteTitle">
+            {t('admin.settings.siteTitle')}
+          </label>
+          <input
+            id="s-siteTitle"
+            value={form.siteTitle ?? ''}
+            onChange={(e) => set('siteTitle', e.target.value)}
+            placeholder="Mise"
+          />
         </div>
       </div>
 
@@ -307,16 +340,22 @@ function SettingsTab() {
         <div className="admin-form-stack">
           <div className="grid-2">
             <div>
-              <label className="admin-label">{t('admin.settings.smtpHost')}</label>
+              <label className="admin-label" htmlFor="s-smtpHost">
+                {t('admin.settings.smtpHost')}
+              </label>
               <input
+                id="s-smtpHost"
                 value={form.smtpHost ?? ''}
                 onChange={(e) => set('smtpHost', e.target.value)}
                 placeholder="smtp.gmail.com"
               />
             </div>
             <div>
-              <label className="admin-label">{t('admin.settings.smtpPort')}</label>
+              <label className="admin-label" htmlFor="s-smtpPort">
+                {t('admin.settings.smtpPort')}
+              </label>
               <input
+                id="s-smtpPort"
                 type="number"
                 value={form.smtpPort ?? ''}
                 onChange={(e) => set('smtpPort', Number(e.target.value))}
@@ -325,16 +364,22 @@ function SettingsTab() {
             </div>
           </div>
           <div>
-            <label className="admin-label">{t('admin.settings.smtpUser')}</label>
+            <label className="admin-label" htmlFor="s-smtpUser">
+              {t('admin.settings.smtpUser')}
+            </label>
             <input
+              id="s-smtpUser"
               value={form.smtpUser ?? ''}
               onChange={(e) => set('smtpUser', e.target.value)}
               placeholder="noreply@example.com"
             />
           </div>
           <div>
-            <label className="admin-label">{t('admin.settings.smtpPass')}</label>
+            <label className="admin-label" htmlFor="s-smtpPass">
+              {t('admin.settings.smtpPass')}
+            </label>
             <input
+              id="s-smtpPass"
               type="password"
               value={form.smtpPass ?? ''}
               onChange={(e) => set('smtpPass', e.target.value)}
@@ -342,16 +387,22 @@ function SettingsTab() {
             />
           </div>
           <div>
-            <label className="admin-label">{t('admin.settings.smtpFrom')}</label>
+            <label className="admin-label" htmlFor="s-smtpFrom">
+              {t('admin.settings.smtpFrom')}
+            </label>
             <input
+              id="s-smtpFrom"
               value={form.smtpFrom ?? ''}
               onChange={(e) => set('smtpFrom', e.target.value)}
               placeholder="Mise <noreply@example.com>"
             />
           </div>
           <div>
-            <label className="admin-label">{t('admin.settings.appUrl')}</label>
+            <label className="admin-label" htmlFor="s-appUrl">
+              {t('admin.settings.appUrl')}
+            </label>
             <input
+              id="s-appUrl"
               value={form.appUrl ?? ''}
               onChange={(e) => set('appUrl', e.target.value)}
               placeholder="https://mise.example.com"
@@ -360,7 +411,7 @@ function SettingsTab() {
         </div>
       </div>
 
-      <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending}>
+      <button type="button" onClick={() => saveMut.mutate()} disabled={saveMut.isPending}>
         {saveMut.isPending ? t('recipe.form.saving') : t('admin.settings.saveBtn')}
       </button>
     </div>

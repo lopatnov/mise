@@ -31,6 +31,7 @@ Scale servings, search by text, filter by category and tag, share recipes public
 - **Import from URL** — paste any recipe page URL, structured data (JSON-LD / Open Graph) is extracted automatically
 - **Duplicate** — save a copy of any recipe as a starting point
 - **Drag-and-drop reorder** — reorder ingredients and steps by dragging
+- **Dark / light theme** — toggle in the navbar, respects system preference
 - **Print view** — clean print layout via CSS `@media print`
 - **Admin panel** — user management, invite links, SMTP, password reset
 - **18 languages** — EN, UK, RU, DE, FR, ES, ZH, JA, KO, IT, PT, PL, CS, NL, RO, SV, HU, TR
