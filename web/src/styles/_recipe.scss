@@ -122,6 +122,27 @@
     border-bottom: 1px solid var(--c-border-light);
     border-radius: 0;
   }
+
+  // Ingredient list: two-column alignment (amount | name)
+  .recipe-section__list {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .recipe-section__item {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    margin-bottom: 4px;
+
+    strong {
+      min-width: 68px;
+      text-align: right;
+      flex-shrink: 0;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
