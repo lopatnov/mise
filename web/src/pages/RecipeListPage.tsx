@@ -72,10 +72,12 @@ export default function RecipeListPage() {
     setSearch('');
     setTag('');
     setCategory('');
+    setMine(false);
+    setSaved(false);
     setPage(1);
   }
 
-  const hasFilters = !!(debouncedSearch || tag || category);
+  const hasFilters = !!(debouncedSearch || tag || category || mine || saved);
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
