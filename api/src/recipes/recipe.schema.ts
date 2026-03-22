@@ -47,6 +47,9 @@ export class Recipe {
   @Prop({ default: false })
   isPublic: boolean;
 
+  @Prop({ unique: true, sparse: true })
+  slug?: string;
+
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   authorId: Types.ObjectId;
 

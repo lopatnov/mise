@@ -239,7 +239,7 @@ export default function RecipeListPage() {
         {data?.items.map((r) => {
           const cat = categories?.find((c) => c._id.toString() === r.categoryId?.toString());
           return (
-            <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
+            <Link key={r._id} to={`/recipes/${r.slug ?? r._id}`} className="card-link">
               <article className="recipe-card">
                 <div className="recipe-card__photo-wrap">
                   {r.photoUrl ? (

@@ -82,7 +82,7 @@ export default function RecipeFormPage() {
     onSuccess: (saved) => {
       qc.invalidateQueries({ queryKey: ['recipes'] });
       qc.invalidateQueries({ queryKey: ['recipe', saved._id] });
-      navigate(`/recipes/${saved._id}`);
+      navigate(`/recipes/${saved.slug ?? saved._id}`);
     },
   });
 

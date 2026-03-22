@@ -105,7 +105,7 @@ export default function RecipeDetailPage() {
     onSuccess: (saved) => {
       qc.setQueryData(['recipe', saved._id], saved);
       qc.invalidateQueries({ queryKey: ['recipes'] });
-      navigate(`/recipes/${saved._id}/edit`);
+      navigate(`/recipes/${saved.slug ?? saved._id}/edit`);
     },
     onError: () => toast.error(t('recipe.detail.duplicateError')),
   });
