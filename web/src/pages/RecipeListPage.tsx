@@ -205,7 +205,7 @@ export default function RecipeListPage() {
               </button>
             </span>
           )}
-          <button type="button" className="btn-ghost btn-sm" onClick={clearFilters}>
+          <button type="button" className="btn-ghost btn-sm ms-auto" onClick={clearFilters}>
             {t('recipe.list.clearFilters')}
           </button>
         </div>
