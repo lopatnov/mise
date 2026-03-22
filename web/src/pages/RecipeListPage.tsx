@@ -243,7 +243,7 @@ export default function RecipeListPage() {
               <article className="recipe-card">
                 <div className="recipe-card__photo-wrap">
                   {r.photoUrl ? (
-                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
+                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" loading="lazy" />
                   ) : (
                     <div className="recipe-card__placeholder">🍽</div>
                   )}

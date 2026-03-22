@@ -286,7 +286,7 @@ export default function RecipeDetailPage() {
                   onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
                   aria-label={recipe.title}
                 >
-                  <img src={`${API_URL}${recipe.photoUrl}`} alt={recipe.title} className="recipe-photo__img" />
+                  <img src={`${API_URL}${recipe.photoUrl}`} alt={recipe.title} className="recipe-photo__img" loading="lazy" />
                 </button>
                 {canEdit && (
                   <button
@@ -341,7 +341,7 @@ export default function RecipeDetailPage() {
                             onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
                             aria-label={t('recipe.detail.addPhoto')}
                           >
-                            <img src={`${API_URL}${step.photoUrl}`} alt="" className="recipe-step__photo" />
+                            <img src={`${API_URL}${step.photoUrl}`} alt="" className="recipe-step__photo" loading="lazy" />
                           </button>
                           {canEdit && (
                             <button
