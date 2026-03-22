@@ -5,8 +5,12 @@ import { join } from 'path';
 
 @Injectable()
 export class UploadsService implements OnModuleInit {
+  private get uploadsDir(): string {
+    return join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads');
+  }
+
   onModuleInit() {
-    mkdirSync(join(process.cwd(), 'uploads'), { recursive: true });
+    mkdirSync(this.uploadsDir, { recursive: true });
   }
 
   buildPhotoUrl(filename: string): string {
@@ -18,7 +22,7 @@ export class UploadsService implements OnModuleInit {
     const filename = photoUrl.replace(/^\/uploads\//, '');
     if (!filename || filename.includes('/')) return;
     try {
-      await unlink(join(process.cwd(), 'uploads', filename));
+      await unlink(join(this.uploadsDir, filename));
     } catch {
       // file already gone — ignore
     }

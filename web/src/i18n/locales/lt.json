@@ -106,7 +106,8 @@
       "removeStep": "Pašalinti žingsnį {{n}}",
       "addIngredient": "Pridėti ingredientą",
       "addStep": "Pridėti žingsnį",
-      "importedPhoto": "Importuota nuotrauka"
+      "importedPhoto": "Importuota nuotrauka",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Importuoti iš URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Kalba"
+  },
+  "categories": {
+    "breakfast": "Pusryčiai",
+    "lunch": "Pietūs",
+    "dinner": "Vakarienė",
+    "dessert": "Desertas",
+    "drink": "Gėrimas",
+    "snack": "Užkandis",
+    "bakery": "Kepiniai",
+    "soup": "Sriuba"
   }
 }

@@ -39,8 +39,8 @@
       "allCategories": "Alle categorieën",
       "communityTitle": "Community recepten",
       "mine": "Mijn recepten",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Opgeslagen",
+      "savedTitle": "Als favoriet opgeslagen recepten",
       "allTags": "Alle tags",
       "prev": "← Vorige",
       "next": "Volgende →",
@@ -106,16 +106,17 @@
       "removeStep": "Stap {{n}} verwijderen",
       "addIngredient": "Ingrediënt toevoegen",
       "addStep": "Stap toevoegen",
-      "importedPhoto": "Geïmporteerde foto"
+      "importedPhoto": "Geïmporteerde foto",
+      "importedPhotoNote": "📷 Foto wordt gedownload bij opslaan (voorbeeld geblokkeerd door bronsite)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importeren via URL",
+      "title": "Recept importeren via URL",
+      "hint": "Plak een link naar een receptpagina. We proberen de gegevens automatisch te extraheren.",
+      "import": "Importeren",
+      "importing": "Importeren…",
+      "cancel": "Annuleren",
+      "error": "Kan het recept niet importeren van deze URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Taal"
+  },
+  "categories": {
+    "breakfast": "Ontbijt",
+    "lunch": "Lunch",
+    "dinner": "Diner",
+    "dessert": "Dessert",
+    "drink": "Drank",
+    "snack": "Snack",
+    "bakery": "Bakkerij",
+    "soup": "Soep"
   }
 }

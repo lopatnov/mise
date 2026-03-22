@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
@@ -13,11 +13,8 @@ import RecipeListPage from './pages/RecipeListPage';
 import RegisterPage from './pages/RegisterPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import SetupPage from './pages/SetupPage';
+import { queryClient } from './queryClient';
 import { useAuthStore } from './store/authStore';
-
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
-});
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { queryClient } from '../queryClient';
 import { useAuthStore } from '../store/authStore';
 
 export default function ProfilePage() {
@@ -12,12 +13,13 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['recipes', '', '', ''],
-    queryFn: () => recipesApi.list(),
+    queryKey: ['recipes', 'mine-count'],
+    queryFn: () => recipesApi.list({ mine: true, limit: 1 }),
   });
 
   function handleLogout() {
     logout();
+    queryClient.clear();
     navigate('/login');
   }
 

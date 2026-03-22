@@ -13,6 +13,7 @@ export interface Step {
 }
 export interface Recipe {
   _id: string;
+  slug?: string;
   title: string;
   description?: string;
   ingredients: Ingredient[];

@@ -106,7 +106,8 @@
       "removeStep": "Hapus langkah {{n}}",
       "addIngredient": "Tambah bahan",
       "addStep": "Tambah langkah",
-      "importedPhoto": "Foto yang diimpor"
+      "importedPhoto": "Foto yang diimpor",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Impor dari URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Bahasa"
+  },
+  "categories": {
+    "breakfast": "Sarapan",
+    "lunch": "Makan siang",
+    "dinner": "Makan malam",
+    "dessert": "Dessert",
+    "drink": "Minuman",
+    "snack": "Camilan",
+    "bakery": "Bakeri",
+    "soup": "Sup"
   }
 }

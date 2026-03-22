@@ -39,8 +39,8 @@
       "allCategories": "Всі категорії",
       "communityTitle": "Рецепти спільноти",
       "mine": "Мої рецепти",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Збережені",
+      "savedTitle": "Рецепти, збережені як улюблені",
       "allTags": "Всі теги",
       "prev": "← Назад",
       "next": "Вперед →",
@@ -106,16 +106,17 @@
       "removeStep": "Видалити крок {{n}}",
       "addIngredient": "Додати інгредієнт",
       "addStep": "Додати крок",
-      "importedPhoto": "Імпортоване фото"
+      "importedPhoto": "Імпортоване фото",
+      "importedPhotoNote": "📷 Фото буде завантажено при збереженні (попередній перегляд заблоковано сайтом-джерелом)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Імпортувати з URL",
+      "title": "Імпортувати рецепт з URL",
+      "hint": "Вставте посилання на сторінку з рецептом. Ми спробуємо витягти дані автоматично.",
+      "import": "Імпортувати",
+      "importing": "Імпортуємо…",
+      "cancel": "Скасувати",
+      "error": "Не вдалося імпортувати рецепт з цього URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Мова"
+  },
+  "categories": {
+    "breakfast": "Сніданок",
+    "lunch": "Обід",
+    "dinner": "Вечеря",
+    "dessert": "Десерт",
+    "drink": "Напій",
+    "snack": "Закуска",
+    "bakery": "Випічка",
+    "soup": "Суп"
   }
 }

@@ -106,7 +106,8 @@
       "removeStep": "Fjern steg {{n}}",
       "addIngredient": "Legg til ingrediens",
       "addStep": "Legg til steg",
-      "importedPhoto": "Importert bilde"
+      "importedPhoto": "Importert bilde",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Importer fra URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Språk"
+  },
+  "categories": {
+    "breakfast": "Frokost",
+    "lunch": "Lunsj",
+    "dinner": "Middag",
+    "dessert": "Dessert",
+    "drink": "Drikke",
+    "snack": "Snacks",
+    "bakery": "Bakeri",
+    "soup": "Suppe"
   }
 }

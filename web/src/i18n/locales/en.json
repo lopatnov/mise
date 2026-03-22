@@ -106,7 +106,8 @@
       "removeStep": "Remove step {{n}}",
       "addIngredient": "Add ingredient",
       "addStep": "Add step",
-      "importedPhoto": "Imported photo"
+      "importedPhoto": "Imported photo",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Import from URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Language"
+  },
+  "categories": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "dessert": "Dessert",
+    "drink": "Drink",
+    "snack": "Snack",
+    "bakery": "Bakery",
+    "soup": "Soup"
   }
 }

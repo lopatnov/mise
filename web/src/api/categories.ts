@@ -4,6 +4,7 @@ export interface Category {
   _id: string;
   name: string;
   icon?: string;
+  slug?: string;
 }
 
 export const categoriesApi = {

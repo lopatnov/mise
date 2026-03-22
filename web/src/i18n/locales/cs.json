@@ -39,8 +39,8 @@
       "allCategories": "Všechny kategorie",
       "communityTitle": "Komunitní recepty",
       "mine": "Moje recepty",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Uložené",
+      "savedTitle": "Recepty uložené jako oblíbené",
       "allTags": "Všechny tagy",
       "prev": "← Předchozí",
       "next": "Další →",
@@ -106,16 +106,17 @@
       "removeStep": "Odebrat krok {{n}}",
       "addIngredient": "Přidat ingredienci",
       "addStep": "Přidat krok",
-      "importedPhoto": "Importovaná fotka"
+      "importedPhoto": "Importovaná fotka",
+      "importedPhotoNote": "📷 Fotografie bude stažena při uložení (náhled zablokován zdrojovým webem)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importovat z URL",
+      "title": "Importovat recept z URL",
+      "hint": "Vložte odkaz na stránku s receptem. Pokusíme se automaticky extrahovat data.",
+      "import": "Importovat",
+      "importing": "Importuji…",
+      "cancel": "Zrušit",
+      "error": "Recept z tohoto URL se nepodařilo importovat"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Jazyk"
+  },
+  "categories": {
+    "breakfast": "Snídaně",
+    "lunch": "Oběd",
+    "dinner": "Večeře",
+    "dessert": "Dezert",
+    "drink": "Nápoj",
+    "snack": "Svačina",
+    "bakery": "Pečivo",
+    "soup": "Polévka"
   }
 }

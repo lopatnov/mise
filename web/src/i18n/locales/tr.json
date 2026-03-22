@@ -39,8 +39,8 @@
       "allCategories": "Tüm kategoriler",
       "communityTitle": "Topluluk tarifleri",
       "mine": "Tariflerim",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Kaydedilenler",
+      "savedTitle": "Favori olarak kaydedilen tarifler",
       "allTags": "Tüm etiketler",
       "prev": "← Önceki",
       "next": "Sonraki →",
@@ -106,16 +106,17 @@
       "removeStep": "{{n}}. adımı kaldır",
       "addIngredient": "Malzeme ekle",
       "addStep": "Adım ekle",
-      "importedPhoto": "İçe aktarılan fotoğraf"
+      "importedPhoto": "İçe aktarılan fotoğraf",
+      "importedPhotoNote": "📷 Fotoğraf kaydedilirken indirilecek (önizleme kaynak site tarafından engellendi)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ URL'den içe aktar",
+      "title": "URL'den tarif içe aktar",
+      "hint": "Bir tarif sayfasına bağlantı yapıştırın. Verileri otomatik olarak çıkarmaya çalışacağız.",
+      "import": "İçe aktar",
+      "importing": "İçe aktarılıyor…",
+      "cancel": "İptal",
+      "error": "Bu URL'den tarif içe aktarılamadı"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Dil"
+  },
+  "categories": {
+    "breakfast": "Kahvaltı",
+    "lunch": "Öğle yemeği",
+    "dinner": "Akşam yemeği",
+    "dessert": "Tatlı",
+    "drink": "İçecek",
+    "snack": "Atıştırmalık",
+    "bakery": "Fırın ürünleri",
+    "soup": "Çorba"
   }
 }

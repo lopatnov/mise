@@ -106,7 +106,8 @@
       "removeStep": "चरण {{n}} हटाएं",
       "addIngredient": "सामग्री जोड़ें",
       "addStep": "चरण जोड़ें",
-      "importedPhoto": "आयातित फ़ोटो"
+      "importedPhoto": "आयातित फ़ोटो",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ URL से आयात करें",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "भाषा"
+  },
+  "categories": {
+    "breakfast": "नाश्ता",
+    "lunch": "दोपहर का खाना",
+    "dinner": "रात का खाना",
+    "dessert": "मिठाई",
+    "drink": "पेय",
+    "snack": "स्नैक",
+    "bakery": "बेकरी",
+    "soup": "सूप"
   }
 }

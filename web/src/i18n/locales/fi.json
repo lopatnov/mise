@@ -106,7 +106,8 @@
       "removeStep": "Poista vaihe {{n}}",
       "addIngredient": "Lisää aines",
       "addStep": "Lisää vaihe",
-      "importedPhoto": "Tuotu kuva"
+      "importedPhoto": "Tuotu kuva",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Tuo URL:sta",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Kieli"
+  },
+  "categories": {
+    "breakfast": "Aamiainen",
+    "lunch": "Lounas",
+    "dinner": "Illallinen",
+    "dessert": "Jälkiruoka",
+    "drink": "Juoma",
+    "snack": "Välipala",
+    "bakery": "Leivonnaiset",
+    "soup": "Keitto"
   }
 }

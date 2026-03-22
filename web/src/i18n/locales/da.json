@@ -106,7 +106,8 @@
       "removeStep": "Fjern trin {{n}}",
       "addIngredient": "Tilføj ingrediens",
       "addStep": "Tilføj trin",
-      "importedPhoto": "Importeret billede"
+      "importedPhoto": "Importeret billede",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Importer fra URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Sprog"
+  },
+  "categories": {
+    "breakfast": "Morgenmad",
+    "lunch": "Frokost",
+    "dinner": "Aftensmad",
+    "dessert": "Dessert",
+    "drink": "Drikkevare",
+    "snack": "Snack",
+    "bakery": "Bagværk",
+    "soup": "Suppe"
   }
 }

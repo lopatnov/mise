@@ -21,8 +21,12 @@
     gap: 16px;
   }
 
+  .recipe-detail__main {
+    order: 1;
+  }
+
   .recipe-detail__sidebar {
-    order: 0;
+    order: 2;
     position: static;
     max-height: none;
     overflow: visible;

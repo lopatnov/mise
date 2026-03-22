@@ -39,8 +39,8 @@
       "allCategories": "모든 카테고리",
       "communityTitle": "커뮤니티 레시피",
       "mine": "내 레시피",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ 저장됨",
+      "savedTitle": "즐겨찾기에 저장된 레시피",
       "allTags": "모든 태그",
       "prev": "← 이전",
       "next": "다음 →",
@@ -106,16 +106,17 @@
       "removeStep": "단계 {{n}} 삭제",
       "addIngredient": "재료 추가",
       "addStep": "단계 추가",
-      "importedPhoto": "가져온 사진"
+      "importedPhoto": "가져온 사진",
+      "importedPhotoNote": "📷 사진은 저장 시 다운로드됩니다（미리보기가 소스 사이트에 의해 차단됨）"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ URL에서 가져오기",
+      "title": "URL에서 레시피 가져오기",
+      "hint": "레시피 페이지 링크를 붙여넣으세요. 데이터를 자동으로 추출하겠습니다.",
+      "import": "가져오기",
+      "importing": "가져오는 중…",
+      "cancel": "취소",
+      "error": "이 URL에서 레시피를 가져올 수 없습니다"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "언어"
+  },
+  "categories": {
+    "breakfast": "아침",
+    "lunch": "점심",
+    "dinner": "저녁",
+    "dessert": "디저트",
+    "drink": "음료",
+    "snack": "스낵",
+    "bakery": "베이커리",
+    "soup": "수프"
   }
 }

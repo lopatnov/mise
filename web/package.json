@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "biome ci src/",
     "format": "biome check --write src/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:locales": "node scripts/check-locales.mjs"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",

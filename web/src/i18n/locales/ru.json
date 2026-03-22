@@ -39,8 +39,8 @@
       "allCategories": "Все категории",
       "communityTitle": "Рецепты сообщества",
       "mine": "Мои рецепты",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Сохранённые",
+      "savedTitle": "Рецепты, добавленные в избранное",
       "allTags": "Все теги",
       "prev": "← Назад",
       "next": "Вперёд →",
@@ -106,16 +106,17 @@
       "removeStep": "Удалить шаг {{n}}",
       "addIngredient": "Добавить ингредиент",
       "addStep": "Добавить шаг",
-      "importedPhoto": "Импортированное фото"
+      "importedPhoto": "Импортированное фото",
+      "importedPhotoNote": "📷 Фото будет скачано при сохранении (предпросмотр заблокирован сайтом-источником)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Импортировать из URL",
+      "title": "Импортировать рецепт из URL",
+      "hint": "Вставьте ссылку на страницу с рецептом. Мы постараемся извлечь данные автоматически.",
+      "import": "Импортировать",
+      "importing": "Импортируем…",
+      "cancel": "Отмена",
+      "error": "Не удалось импортировать рецепт с этого URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Язык"
+  },
+  "categories": {
+    "breakfast": "Завтрак",
+    "lunch": "Обед",
+    "dinner": "Ужин",
+    "dessert": "Десерт",
+    "drink": "Напиток",
+    "snack": "Закуска",
+    "bakery": "Выпечка",
+    "soup": "Суп"
   }
 }

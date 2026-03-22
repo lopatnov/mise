@@ -106,7 +106,8 @@
       "removeStep": "Noņemt soli {{n}}",
       "addIngredient": "Pievienot sastāvdaļu",
       "addStep": "Pievienot soli",
-      "importedPhoto": "Importēts fotoattēls"
+      "importedPhoto": "Importēts fotoattēls",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Importēt no URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Valoda"
+  },
+  "categories": {
+    "breakfast": "Brokastis",
+    "lunch": "Pusdienas",
+    "dinner": "Vakariņas",
+    "dessert": "Deserts",
+    "drink": "Dzēriens",
+    "snack": "Uzkoda",
+    "bakery": "Maizes izstrādājumi",
+    "soup": "Zupa"
   }
 }

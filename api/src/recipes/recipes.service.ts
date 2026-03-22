@@ -1,7 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
@@ -109,12 +115,83 @@ function extractStepData(step: unknown): { text: string; externalImageUrl?: stri
   return { text: '' };
 }
 
+const CYRILLIC: Record<string, string> = {
+  а: 'a',
+  б: 'b',
+  в: 'v',
+  г: 'g',
+  д: 'd',
+  е: 'e',
+  ё: 'yo',
+  ж: 'zh',
+  з: 'z',
+  и: 'i',
+  й: 'j',
+  к: 'k',
+  л: 'l',
+  м: 'm',
+  н: 'n',
+  о: 'o',
+  п: 'p',
+  р: 'r',
+  с: 's',
+  т: 't',
+  у: 'u',
+  ф: 'f',
+  х: 'kh',
+  ц: 'ts',
+  ч: 'ch',
+  ш: 'sh',
+  щ: 'shch',
+  ъ: '',
+  ы: 'y',
+  ь: '',
+  э: 'e',
+  ю: 'yu',
+  я: 'ya',
+};
+function makeSlug(title: string): string {
+  return (
+    title
+      .toLowerCase()
+      .split('')
+      .map((c) => CYRILLIC[c] ?? c)
+      .join('')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'recipe'
+  );
+}
+
 @Injectable()
-export class RecipesService {
+export class RecipesService implements OnModuleInit {
   constructor(
     @InjectModel(Recipe.name) private model: Model<RecipeDocument>,
     private uploads: UploadsService,
   ) {}
+
+  async onModuleInit() {
+    const recipes = await this.model.find({ slug: { $exists: false } }, { _id: 1, title: 1 }).lean();
+    for (const r of recipes) {
+      const slug = await this.generateUniqueSlug(r.title, r._id.toString());
+      await this.model.updateOne({ _id: r._id }, { $set: { slug } });
+    }
+  }
+
+  private async generateUniqueSlug(title: string, excludeId?: string): Promise<string> {
+    const base = makeSlug(title);
+    let slug = base;
+    let n = 1;
+    while (true) {
+      const filter: Record<string, unknown> = { slug };
+      if (excludeId) filter._id = { $ne: new Types.ObjectId(excludeId) };
+      if (!(await this.model.exists(filter))) return slug;
+      slug = `${base}-${++n}`;
+    }
+  }
+
+  private findDocByIdOrSlug(idOrSlug: string) {
+    return /^[0-9a-f]{24}$/i.test(idOrSlug) ? this.model.findById(idOrSlug) : this.model.findOne({ slug: idOrSlug });
+  }
 
   async findAll(userId: string, isAdmin: boolean, query: RecipeQueryDto) {
     const { q, tag, category, page = 1, limit = 20, mine, saved } = query;
@@ -161,7 +238,10 @@ export class RecipesService {
   }
 
   async findOne(id: string, userId?: string, isAdmin = false) {
-    const recipe = await this.model.findById(id).lean();
+    const recipe = await (/^[0-9a-f]{24}$/i.test(id)
+      ? this.model.findById(id)
+      : this.model.findOne({ slug: id })
+    ).lean();
     if (!recipe) throw new NotFoundException('Recipe not found');
     const isOwner = !!userId && recipe.authorId.toString() === userId;
     if (!recipe.isPublic && !isOwner && !isAdmin) throw new ForbiddenException();
@@ -169,7 +249,7 @@ export class RecipesService {
   }
 
   async create(userId: string, dto: CreateRecipeDto) {
-    const uploadsDir = join(process.cwd(), 'uploads');
+    const uploadsDir = join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads');
 
     // Main photo
     let photoUrl: string | undefined;
@@ -193,8 +273,10 @@ export class RecipesService {
       }),
     );
 
+    const slug = await this.generateUniqueSlug(dto.title);
     return this.model.create({
       ...dto,
+      slug,
       photoUrl,
       steps: stepsWithPhotos,
       authorId: new Types.ObjectId(userId),
@@ -203,7 +285,7 @@ export class RecipesService {
   }
 
   async update(id: string, userId: string, isAdmin: boolean, dto: Partial<CreateRecipeDto>) {
-    const recipe = await this.model.findById(id);
+    const recipe = await this.findDocByIdOrSlug(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     if (dto.steps) {
@@ -225,7 +307,7 @@ export class RecipesService {
   }
 
   async remove(id: string, userId: string, isAdmin: boolean) {
-    const recipe = await this.model.findById(id);
+    const recipe = await this.findDocByIdOrSlug(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     await recipe.deleteOne();
@@ -233,7 +315,7 @@ export class RecipesService {
   }
 
   async setPhoto(id: string, userId: string, isAdmin: boolean, photoUrl: string) {
-    const recipe = await this.model.findById(id);
+    const recipe = await this.findDocByIdOrSlug(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     await this.uploads.deletePhoto(recipe.photoUrl);
@@ -266,7 +348,7 @@ export class RecipesService {
   }
 
   async setStepPhoto(id: string, userId: string, isAdmin: boolean, order: number, photoUrl: string) {
-    const recipe = await this.model.findById(id);
+    const recipe = await this.findDocByIdOrSlug(id);
     if (!recipe) throw new NotFoundException('Recipe not found');
     if (recipe.authorId.toString() !== userId && !isAdmin) throw new ForbiddenException();
     const step = recipe.steps.find((s) => s.order === order);
@@ -278,21 +360,29 @@ export class RecipesService {
   }
 
   async addFavorite(recipeId: string, userId: string) {
-    const recipe = await this.model.findById(recipeId);
+    const recipe = await this.findDocByIdOrSlug(recipeId);
     if (!recipe) throw new NotFoundException('Recipe not found');
-    await this.model.updateOne({ _id: recipeId }, { $addToSet: { savedBy: new Types.ObjectId(userId) } });
+    await this.model.updateOne({ _id: recipe._id }, { $addToSet: { savedBy: new Types.ObjectId(userId) } });
     return { saved: true };
   }
 
   async removeFavorite(recipeId: string, userId: string) {
-    const recipe = await this.model.findById(recipeId);
+    const recipe = await this.findDocByIdOrSlug(recipeId);
     if (!recipe) throw new NotFoundException('Recipe not found');
-    await this.model.updateOne({ _id: recipeId }, { $pull: { savedBy: new Types.ObjectId(userId) } });
+    await this.model.updateOne({ _id: recipe._id }, { $pull: { savedBy: new Types.ObjectId(userId) } });
     return { saved: false };
   }
 
-  async findAllTags(): Promise<string[]> {
-    return this.model.distinct('tags');
+  async findAllTags(userId?: string, isAdmin = false): Promise<string[]> {
+    const filter: Record<string, unknown> = {};
+    if (isAdmin) {
+      // admin sees tags from all recipes
+    } else if (userId) {
+      filter.$or = [{ authorId: new Types.ObjectId(userId) }, { isPublic: true }];
+    } else {
+      filter.isPublic = true;
+    }
+    return this.model.distinct('tags', filter);
   }
 
   async findPublicForSitemap(): Promise<Array<{ _id: unknown; updatedAt: Date }>> {

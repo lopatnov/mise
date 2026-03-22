@@ -39,7 +39,7 @@
       "allCategories": "Todas as categorias",
       "communityTitle": "Receitas da comunidade",
       "mine": "Minhas receitas",
-      "saved": "❤️ Salvo",
+      "saved": "❤️ Salvos",
       "savedTitle": "Receitas salvas como favoritas",
       "allTags": "Todas as tags",
       "prev": "← Anterior",
@@ -106,7 +106,8 @@
       "removeStep": "Remover passo {{n}}",
       "addIngredient": "Adicionar ingrediente",
       "addStep": "Adicionar passo",
-      "importedPhoto": "Foto importada"
+      "importedPhoto": "Foto importada",
+      "importedPhotoNote": "📷 A foto será baixada ao salvar (pré-visualização bloqueada pelo site de origem)"
     },
     "import": {
       "button": "⬇️ Importar de URL",
@@ -115,7 +116,7 @@
       "import": "Importar",
       "importing": "Importando…",
       "cancel": "Cancelar",
-      "error": "Falha ao importar receita desta URL"
+      "error": "Não foi possível importar a receita desta URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Idioma"
+  },
+  "categories": {
+    "breakfast": "Café da manhã",
+    "lunch": "Almoço",
+    "dinner": "Jantar",
+    "dessert": "Sobremesa",
+    "drink": "Bebida",
+    "snack": "Lanche",
+    "bakery": "Padaria",
+    "soup": "Sopa"
   }
 }

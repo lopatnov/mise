@@ -72,10 +72,12 @@ export default function RecipeListPage() {
     setSearch('');
     setTag('');
     setCategory('');
+    setMine(false);
+    setSaved(false);
     setPage(1);
   }
 
-  const hasFilters = !!(debouncedSearch || tag || category);
+  const hasFilters = !!(debouncedSearch || tag || category || mine || saved);
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: isLoggedIn
@@ -152,7 +154,7 @@ export default function RecipeListPage() {
             <option value="">{t('recipe.list.allCategories')}</option>
             {categories?.map((c) => (
               <option key={c._id} value={c._id}>
-                {c.icon} {c.name}
+                {c.icon} {c.slug ? t(`categories.${c.slug}`, c.name) : c.name}
               </option>
             ))}
           </select>
@@ -194,7 +196,10 @@ export default function RecipeListPage() {
           )}
           {category && (
             <span className="filter-chip">
-              📂 {categories?.find((c) => c._id === category)?.name ?? category}
+              📂 {(() => {
+                const c = categories?.find((x) => x._id === category);
+                return c ? (c.slug ? t(`categories.${c.slug}`, c.name) : c.name) : category;
+              })()}
               <button type="button" onClick={() => changeCategory('')}>
                 ×
               </button>
@@ -239,11 +244,11 @@ export default function RecipeListPage() {
         {data?.items.map((r) => {
           const cat = categories?.find((c) => c._id.toString() === r.categoryId?.toString());
           return (
-            <Link key={r._id} to={`/recipes/${r._id}`} className="card-link">
+            <Link key={r._id} to={`/recipes/${r.slug ?? r._id}`} className="card-link">
               <article className="recipe-card">
                 <div className="recipe-card__photo-wrap">
                   {r.photoUrl ? (
-                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" />
+                    <img src={`${API_URL}${r.photoUrl}`} alt={r.title} className="recipe-card__photo" loading="lazy" />
                   ) : (
                     <div className="recipe-card__placeholder">🍽</div>
                   )}
@@ -257,7 +262,7 @@ export default function RecipeListPage() {
                   <div className="recipe-card__meta">
                     {cat && (
                       <span className="recipe-card__category">
-                        {cat.icon} {cat.name}
+                        {cat.icon} {cat.slug ? t(`categories.${cat.slug}`, cat.name) : cat.name}
                       </span>
                     )}
                     {r.tags.slice(0, 3).map((tg) => (

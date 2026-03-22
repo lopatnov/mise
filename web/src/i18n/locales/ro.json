@@ -39,8 +39,8 @@
       "allCategories": "Toate categoriile",
       "communityTitle": "Rețete ale comunității",
       "mine": "Rețetele mele",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Salvate",
+      "savedTitle": "Rețete salvate ca favorite",
       "allTags": "Toate etichetele",
       "prev": "← Anterior",
       "next": "Următor →",
@@ -106,16 +106,17 @@
       "removeStep": "Elimină pasul {{n}}",
       "addIngredient": "Adaugă ingredient",
       "addStep": "Adaugă pas",
-      "importedPhoto": "Fotografie importată"
+      "importedPhoto": "Fotografie importată",
+      "importedPhotoNote": "📷 Fotografia va fi descărcată la salvare (previzualizare blocată de site-ul sursă)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importă din URL",
+      "title": "Importă rețetă din URL",
+      "hint": "Lipiți un link către o pagină cu rețetă. Vom încerca să extragem datele automat.",
+      "import": "Importă",
+      "importing": "Se importă…",
+      "cancel": "Anulează",
+      "error": "Nu s-a putut importa rețeta din această URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Limbă"
+  },
+  "categories": {
+    "breakfast": "Mic dejun",
+    "lunch": "Prânz",
+    "dinner": "Cină",
+    "dessert": "Desert",
+    "drink": "Băutură",
+    "snack": "Gustare",
+    "bakery": "Produse de patiserie",
+    "soup": "Supă"
   }
 }

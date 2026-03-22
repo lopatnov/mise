@@ -40,7 +40,7 @@
       "communityTitle": "社群食譜",
       "mine": "我的食譜",
       "saved": "❤️ 已收藏",
-      "savedTitle": "已儲存為最愛的食譜",
+      "savedTitle": "收藏的食譜",
       "allTags": "所有標籤",
       "prev": "← 上一頁",
       "next": "下一頁 →",
@@ -106,16 +106,17 @@
       "removeStep": "移除步驟 {{n}}",
       "addIngredient": "新增食材",
       "addStep": "新增步驟",
-      "importedPhoto": "匯入的照片"
+      "importedPhoto": "匯入的照片",
+      "importedPhotoNote": "📷 照片將在儲存時下載（來源網站阻止了預覽）"
     },
     "import": {
-      "button": "⬇️ 從 URL 匯入",
-      "title": "從 URL 匯入食譜",
-      "hint": "貼上食譜頁面的連結，我們將嘗試自動擷取資料。",
+      "button": "⬇️ 從URL匯入",
+      "title": "從URL匯入食譜",
+      "hint": "貼上食譜頁面的連結，我們將嘗試自動提取資料。",
       "import": "匯入",
       "importing": "匯入中…",
       "cancel": "取消",
-      "error": "從此 URL 匯入食譜失敗"
+      "error": "無法從此URL匯入食譜"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "語言"
+  },
+  "categories": {
+    "breakfast": "早餐",
+    "lunch": "午餐",
+    "dinner": "晚餐",
+    "dessert": "甜點",
+    "drink": "飲料",
+    "snack": "小吃",
+    "bakery": "烘焙",
+    "soup": "湯"
   }
 }
