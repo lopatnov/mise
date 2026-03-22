@@ -169,7 +169,7 @@ export class RecipesService {
   }
 
   async create(userId: string, dto: CreateRecipeDto) {
-    const uploadsDir = join(process.cwd(), 'uploads');
+    const uploadsDir = join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads');
 
     // Main photo
     let photoUrl: string | undefined;

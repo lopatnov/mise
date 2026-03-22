@@ -87,7 +87,7 @@ export class RecipesController {
   @UseInterceptors(
     FileInterceptor('photo', {
       storage: diskStorage({
-        destination: join(process.cwd(), 'uploads'),
+        destination: join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads'),
         filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
       }),
       limits: { fileSize: 5 * 1024 * 1024 },
@@ -102,7 +102,7 @@ export class RecipesController {
   @UseInterceptors(
     FileInterceptor('photo', {
       storage: diskStorage({
-        destination: join(process.cwd(), 'uploads'),
+        destination: join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads'),
         filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
       }),
       limits: { fileSize: 5 * 1024 * 1024 },
