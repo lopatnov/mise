@@ -303,7 +303,9 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.setStepPhoto(recipeId, userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
+      await expect(service.setStepPhoto(recipeId, userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });
