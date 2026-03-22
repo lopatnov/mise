@@ -39,8 +39,8 @@
       "allCategories": "Alla kategorier",
       "communityTitle": "Communityrecept",
       "mine": "Mina recept",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Sparade",
+      "savedTitle": "Recept sparade som favoriter",
       "allTags": "Alla taggar",
       "prev": "← Föregående",
       "next": "Nästa →",
@@ -106,16 +106,17 @@
       "removeStep": "Ta bort steg {{n}}",
       "addIngredient": "Lägg till ingrediens",
       "addStep": "Lägg till steg",
-      "importedPhoto": "Importerat foto"
+      "importedPhoto": "Importerat foto",
+      "importedPhotoNote": "📷 Foto laddas ner vid sparande (förhandsvisning blockerad av källsidan)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importera från URL",
+      "title": "Importera recept från URL",
+      "hint": "Klistra in en länk till en receptsida. Vi försöker extrahera data automatiskt.",
+      "import": "Importera",
+      "importing": "Importerar…",
+      "cancel": "Avbryt",
+      "error": "Det gick inte att importera receptet från denna URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Språk"
+  },
+  "categories": {
+    "breakfast": "Frukost",
+    "lunch": "Lunch",
+    "dinner": "Middag",
+    "dessert": "Dessert",
+    "drink": "Dryck",
+    "snack": "Snacks",
+    "bakery": "Bakverk",
+    "soup": "Soppa"
   }
 }

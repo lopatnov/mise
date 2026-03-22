@@ -106,7 +106,8 @@
       "removeStep": "Odstrániť krok {{n}}",
       "addIngredient": "Pridať surovinu",
       "addStep": "Pridať krok",
-      "importedPhoto": "Importovaná fotka"
+      "importedPhoto": "Importovaná fotka",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Importovať z URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Jazyk"
+  },
+  "categories": {
+    "breakfast": "Raňajky",
+    "lunch": "Obed",
+    "dinner": "Večera",
+    "dessert": "Dezert",
+    "drink": "Nápoj",
+    "snack": "Snack",
+    "bakery": "Pečivo",
+    "soup": "Polievka"
   }
 }

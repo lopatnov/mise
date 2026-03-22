@@ -106,7 +106,8 @@
       "removeStep": "Ukloni korak {{n}}",
       "addIngredient": "Dodaj sastojak",
       "addStep": "Dodaj korak",
-      "importedPhoto": "Uvezena fotografija"
+      "importedPhoto": "Uvezena fotografija",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Uvezi s URL-a",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Jezik"
+  },
+  "categories": {
+    "breakfast": "Doručak",
+    "lunch": "Ručak",
+    "dinner": "Večera",
+    "dessert": "Desert",
+    "drink": "Piće",
+    "snack": "Grickalica",
+    "bakery": "Pekarski proizvodi",
+    "soup": "Juha"
   }
 }

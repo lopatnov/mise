@@ -39,8 +39,8 @@
       "allCategories": "Összes kategória",
       "communityTitle": "Közösségi receptek",
       "mine": "Saját receptek",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Mentett",
+      "savedTitle": "Kedvencként mentett receptek",
       "allTags": "Összes tag",
       "prev": "← Előző",
       "next": "Következő →",
@@ -106,16 +106,17 @@
       "removeStep": "{{n}}. lépés eltávolítása",
       "addIngredient": "Hozzávaló hozzáadása",
       "addStep": "Lépés hozzáadása",
-      "importedPhoto": "Importált fotó"
+      "importedPhoto": "Importált fotó",
+      "importedPhotoNote": "📷 A fotó mentéskor töltődik le (az előnézetet a forrásolal blokkolja)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importálás URL-ből",
+      "title": "Recept importálása URL-ből",
+      "hint": "Illesszen be egy receptoldalra mutató linket. Megpróbáljuk automatikusan kinyerni az adatokat.",
+      "import": "Importálás",
+      "importing": "Importálás…",
+      "cancel": "Mégse",
+      "error": "Nem sikerült importálni a receptet erről az URL-ről"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Nyelv"
+  },
+  "categories": {
+    "breakfast": "Reggeli",
+    "lunch": "Ebéd",
+    "dinner": "Vacsora",
+    "dessert": "Desszert",
+    "drink": "Ital",
+    "snack": "Snack",
+    "bakery": "Pékáru",
+    "soup": "Leves"
   }
 }

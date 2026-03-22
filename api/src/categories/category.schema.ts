@@ -10,6 +10,9 @@ export class Category {
 
   @Prop()
   icon: string;
+
+  @Prop({ sparse: true })
+  slug?: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

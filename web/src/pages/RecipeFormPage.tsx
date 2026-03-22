@@ -32,6 +32,7 @@ export default function RecipeFormPage() {
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
   const [showImport, setShowImport] = useState(false);
   const [importedImageUrl, setImportedImageUrl] = useState('');
+  const [photoPreviewFailed, setPhotoPreviewFailed] = useState(false);
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -72,7 +73,7 @@ export default function RecipeFormPage() {
       setSteps(
         data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
       );
-    if (data.externalImageUrl) setImportedImageUrl(data.externalImageUrl);
+    if (data.externalImageUrl) { setImportedImageUrl(data.externalImageUrl); setPhotoPreviewFailed(false); }
     setShowImport(false);
   }
 
@@ -155,7 +156,9 @@ export default function RecipeFormPage() {
               {t('recipe.import.button')}
             </button>
             {importedImageUrl && (
-              <img src={importedImageUrl} alt={t('recipe.form.importedPhoto')} className="import-photo-preview" />
+              photoPreviewFailed
+                ? <p className="import-photo-note">{t('recipe.form.importedPhotoNote')}</p>
+                : <img src={importedImageUrl} alt={t('recipe.form.importedPhoto')} className="import-photo-preview" onError={() => setPhotoPreviewFailed(true)} />
             )}
           </>
         )}
@@ -228,7 +231,7 @@ export default function RecipeFormPage() {
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
-                  {c.icon} {c.name}
+                  {c.icon} {c.slug ? t('categories.' + c.slug, c.name) : c.name}
                 </option>
               ))}
             </select>

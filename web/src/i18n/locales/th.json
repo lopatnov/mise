@@ -106,7 +106,8 @@
       "removeStep": "ลบขั้นตอน {{n}}",
       "addIngredient": "เพิ่มส่วนผสม",
       "addStep": "เพิ่มขั้นตอน",
-      "importedPhoto": "รูปภาพที่นำเข้า"
+      "importedPhoto": "รูปภาพที่นำเข้า",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ นำเข้าจาก URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "ภาษา"
+  },
+  "categories": {
+    "breakfast": "อาหารเช้า",
+    "lunch": "อาหารกลางวัน",
+    "dinner": "อาหารเย็น",
+    "dessert": "ของหวาน",
+    "drink": "เครื่องดื่ม",
+    "snack": "ของว่าง",
+    "bakery": "เบเกอรี่",
+    "soup": "ซุป"
   }
 }

@@ -106,7 +106,8 @@
       "removeStep": "Αφαίρεση βήματος {{n}}",
       "addIngredient": "Προσθήκη υλικού",
       "addStep": "Προσθήκη βήματος",
-      "importedPhoto": "Εισαγόμενη φωτογραφία"
+      "importedPhoto": "Εισαγόμενη φωτογραφία",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Εισαγωγή από URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Γλώσσα"
+  },
+  "categories": {
+    "breakfast": "Πρωινό",
+    "lunch": "Μεσημεριανό",
+    "dinner": "Βραδινό",
+    "dessert": "Επιδόρπιο",
+    "drink": "Ποτό",
+    "snack": "Σνακ",
+    "bakery": "Αρτοποιία",
+    "soup": "Σούπα"
   }
 }

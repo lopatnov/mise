@@ -39,8 +39,8 @@
       "allCategories": "すべてのカテゴリ",
       "communityTitle": "コミュニティのレシピ",
       "mine": "マイレシピ",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ 保存済み",
+      "savedTitle": "お気に入りのレシピ",
       "allTags": "すべてのタグ",
       "prev": "← 前へ",
       "next": "次へ →",
@@ -106,16 +106,17 @@
       "removeStep": "手順{{n}}を削除",
       "addIngredient": "材料を追加",
       "addStep": "手順を追加",
-      "importedPhoto": "インポートした写真"
+      "importedPhoto": "インポートした写真",
+      "importedPhotoNote": "📷 写真は保存時にダウンロードされます（ソースサイトによりプレビューがブロックされています）"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ URLからインポート",
+      "title": "URLからレシピをインポート",
+      "hint": "レシピページへのリンクを貼り付けてください。データを自動的に抽出します。",
+      "import": "インポート",
+      "importing": "インポート中…",
+      "cancel": "キャンセル",
+      "error": "このURLからレシピをインポートできませんでした"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "言語"
+  },
+  "categories": {
+    "breakfast": "朝食",
+    "lunch": "昼食",
+    "dinner": "夕食",
+    "dessert": "デザート",
+    "drink": "ドリンク",
+    "snack": "スナック",
+    "bakery": "パン",
+    "soup": "スープ"
   }
 }

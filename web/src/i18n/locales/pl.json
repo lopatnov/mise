@@ -39,8 +39,8 @@
       "allCategories": "Wszystkie kategorie",
       "communityTitle": "Przepisy społeczności",
       "mine": "Moje przepisy",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Zapisane",
+      "savedTitle": "Przepisy zapisane jako ulubione",
       "allTags": "Wszystkie tagi",
       "prev": "← Poprzednia",
       "next": "Następna →",
@@ -106,16 +106,17 @@
       "removeStep": "Usuń krok {{n}}",
       "addIngredient": "Dodaj składnik",
       "addStep": "Dodaj krok",
-      "importedPhoto": "Zaimportowane zdjęcie"
+      "importedPhoto": "Zaimportowane zdjęcie",
+      "importedPhotoNote": "📷 Zdjęcie zostanie pobrane przy zapisie (podgląd zablokowany przez stronę źródłową)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importuj z URL",
+      "title": "Importuj przepis z URL",
+      "hint": "Wklej link do strony z przepisem. Spróbujemy automatycznie wyodrębnić dane.",
+      "import": "Importuj",
+      "importing": "Importowanie…",
+      "cancel": "Anuluj",
+      "error": "Nie udało się zaimportować przepisu z tego URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Język"
+  },
+  "categories": {
+    "breakfast": "Śniadanie",
+    "lunch": "Obiad",
+    "dinner": "Kolacja",
+    "dessert": "Deser",
+    "drink": "Napój",
+    "snack": "Przekąska",
+    "bakery": "Pieczywo",
+    "soup": "Zupa"
   }
 }

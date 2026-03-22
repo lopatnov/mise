@@ -106,7 +106,8 @@
       "removeStep": "Xóa bước {{n}}",
       "addIngredient": "Thêm nguyên liệu",
       "addStep": "Thêm bước",
-      "importedPhoto": "Ảnh đã nhập"
+      "importedPhoto": "Ảnh đã nhập",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Nhập từ URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Ngôn ngữ"
+  },
+  "categories": {
+    "breakfast": "Bữa sáng",
+    "lunch": "Bữa trưa",
+    "dinner": "Bữa tối",
+    "dessert": "Tráng miệng",
+    "drink": "Đồ uống",
+    "snack": "Đồ ăn vặt",
+    "bakery": "Bánh mì",
+    "soup": "Súp"
   }
 }

@@ -260,7 +260,7 @@ export default function RecipeDetailPage() {
             {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
             {recipeCategory && (
               <span className="recipe-card__category">
-                {recipeCategory.icon} {recipeCategory.name}
+                {recipeCategory.icon} {recipeCategory.slug ? t('categories.' + recipeCategory.slug, recipeCategory.name) : recipeCategory.name}
               </span>
             )}
             {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}

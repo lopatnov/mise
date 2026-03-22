@@ -106,7 +106,8 @@
       "removeStep": "Премахване на стъпка {{n}}",
       "addIngredient": "Добавяне на съставка",
       "addStep": "Добавяне на стъпка",
-      "importedPhoto": "Импортирана снимка"
+      "importedPhoto": "Импортирана снимка",
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
     },
     "import": {
       "button": "⬇️ Импортиране от URL",
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Език"
+  },
+  "categories": {
+    "breakfast": "Закуска",
+    "lunch": "Обяд",
+    "dinner": "Вечеря",
+    "dessert": "Десерт",
+    "drink": "Напитка",
+    "snack": "Мезе",
+    "bakery": "Хлебни изделия",
+    "soup": "Супа"
   }
 }

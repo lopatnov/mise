@@ -39,8 +39,8 @@
       "allCategories": "Toutes les catégories",
       "communityTitle": "Recettes de la communauté",
       "mine": "Mes recettes",
-      "saved": "❤️ Saved",
-      "savedTitle": "Recipes saved as favourites",
+      "saved": "❤️ Sauvegardés",
+      "savedTitle": "Recettes sauvegardées comme favoris",
       "allTags": "Tous les tags",
       "prev": "← Précédent",
       "next": "Suivant →",
@@ -106,16 +106,17 @@
       "removeStep": "Supprimer l'étape {{n}}",
       "addIngredient": "Ajouter un ingrédient",
       "addStep": "Ajouter une étape",
-      "importedPhoto": "Photo importée"
+      "importedPhoto": "Photo importée",
+      "importedPhotoNote": "📷 La photo sera téléchargée à l'enregistrement (aperçu bloqué par le site source)"
     },
     "import": {
-      "button": "⬇️ Import from URL",
-      "title": "Import recipe from URL",
-      "hint": "Paste a link to a recipe page. We will try to extract the data automatically.",
-      "import": "Import",
-      "importing": "Importing…",
-      "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "button": "⬇️ Importer depuis une URL",
+      "title": "Importer une recette depuis une URL",
+      "hint": "Collez un lien vers une page de recette. Nous essaierons d'extraire les données automatiquement.",
+      "import": "Importer",
+      "importing": "Importation…",
+      "cancel": "Annuler",
+      "error": "Impossible d'importer la recette depuis cette URL"
     }
   },
   "profile": {
@@ -190,5 +191,15 @@
   },
   "lang": {
     "select": "Langue"
+  },
+  "categories": {
+    "breakfast": "Petit-déjeuner",
+    "lunch": "Déjeuner",
+    "dinner": "Dîner",
+    "dessert": "Dessert",
+    "drink": "Boisson",
+    "snack": "Encas",
+    "bakery": "Boulangerie",
+    "soup": "Soupe"
   }
 }
