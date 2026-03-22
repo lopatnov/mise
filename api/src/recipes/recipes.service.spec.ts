@@ -31,13 +31,17 @@ describe('RecipesService', () => {
   let service: RecipesService;
 
   const userId = new Types.ObjectId().toString();
+  const recipeId = new Types.ObjectId().toString();
 
   const mockModel = {
     find: jest.fn(),
     findById: jest.fn(),
+    findOne: jest.fn(),
     countDocuments: jest.fn(),
     create: jest.fn(),
     distinct: jest.fn(),
+    exists: jest.fn(),
+    updateOne: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -138,7 +142,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.findOne('nonexistent', userId)).rejects.toThrow(NotFoundException);
+      await expect(service.findOne(recipeId, userId)).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -146,7 +150,7 @@ describe('RecipesService', () => {
       const recipe = { authorId: { toString: () => otherId } };
       mockModel.findById.mockReturnValue(mockQuery(recipe));
 
-      await expect(service.findOne('someId', userId)).rejects.toThrow(ForbiddenException);
+      await expect(service.findOne(recipeId, userId)).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -156,6 +160,7 @@ describe('RecipesService', () => {
     it('creates a recipe and sets authorId from userId', async () => {
       const dto = { title: 'Soup' };
       const created = { ...dto, authorId: new Types.ObjectId(userId) };
+      mockModel.exists.mockResolvedValue(null);
       mockModel.create.mockResolvedValue(created);
 
       const result = await service.create(userId, dto as Parameters<typeof service.create>[1]);
@@ -176,7 +181,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.update('id', userId, false, { title: 'New' });
+      await service.update(recipeId, userId, false, { title: 'New' });
 
       expect(doc.save).toHaveBeenCalled();
     });
@@ -184,7 +189,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.update('id', userId, false, {})).rejects.toThrow(NotFoundException);
+      await expect(service.update(recipeId, userId, false, {})).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -192,7 +197,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, save: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.update('id', userId, false, {})).rejects.toThrow(ForbiddenException);
+      await expect(service.update(recipeId, userId, false, {})).rejects.toThrow(ForbiddenException);
     });
 
     it('allows admin to update recipe owned by another user', async () => {
@@ -200,7 +205,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, title: 'Old', save: jest.fn().mockResolvedValue({}) };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.update('id', userId, true, { title: 'New' });
+      await service.update(recipeId, userId, true, { title: 'New' });
 
       expect(doc.save).toHaveBeenCalled();
     });
@@ -216,7 +221,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      const result = await service.remove('id', userId, false);
+      const result = await service.remove(recipeId, userId, false);
 
       expect(result).toEqual({ deleted: true });
       expect(doc.deleteOne).toHaveBeenCalled();
@@ -225,7 +230,7 @@ describe('RecipesService', () => {
     it('throws NotFoundException when recipe does not exist', async () => {
       mockModel.findById.mockReturnValue(mockQuery(null));
 
-      await expect(service.remove('id', userId, false)).rejects.toThrow(NotFoundException);
+      await expect(service.remove(recipeId, userId, false)).rejects.toThrow(NotFoundException);
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
@@ -233,7 +238,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, deleteOne: jest.fn() };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.remove('id', userId, false)).rejects.toThrow(ForbiddenException);
+      await expect(service.remove(recipeId, userId, false)).rejects.toThrow(ForbiddenException);
     });
 
     it('allows admin to remove recipe owned by another user', async () => {
@@ -241,7 +246,7 @@ describe('RecipesService', () => {
       const doc = { authorId: { toString: () => other }, deleteOne: jest.fn().mockResolvedValue({}) };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      const result = await service.remove('id', userId, true);
+      const result = await service.remove(recipeId, userId, true);
 
       expect(result).toEqual({ deleted: true });
       expect(doc.deleteOne).toHaveBeenCalled();
@@ -259,7 +264,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.setPhoto('id', userId, false, '/uploads/photo.jpg');
+      await service.setPhoto(recipeId, userId, false, '/uploads/photo.jpg');
 
       expect(doc.photoUrl).toBe('/uploads/photo.jpg');
       expect(doc.save).toHaveBeenCalled();
@@ -282,7 +287,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await service.setStepPhoto('id', userId, false, 2, '/uploads/step.jpg');
+      await service.setStepPhoto(recipeId, userId, false, 2, '/uploads/step.jpg');
 
       expect(steps[1].photoUrl).toBe('/uploads/step.jpg');
       expect(doc.markModified).toHaveBeenCalledWith('steps');
@@ -298,7 +303,7 @@ describe('RecipesService', () => {
       };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      await expect(service.setStepPhoto('id', userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
+      await expect(service.setStepPhoto(recipeId, userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(NotFoundException);
     });
   });
 });
