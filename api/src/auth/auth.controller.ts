@@ -12,6 +12,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
+  @UseGuards(RateLimitGuard)
   @Post('register')
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto.email, dto.password, dto.displayName, dto.inviteToken);
