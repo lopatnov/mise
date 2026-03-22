@@ -2,9 +2,9 @@
 
 > _mise en place_ — everything in its place
 
-Self-hosted personal recipe book built as a full-stack portfolio project.
-Store, organize, and share recipes with ingredients, steps, photos, and tags.
-Scale servings, search by text, filter by category and tag, import from any recipe URL.
+Open-source recipe manager you can self-host and fully own.
+Store and share recipes with photos, ingredients, and step-by-step instructions.
+Scale servings, search by text, filter by tag and category, import from any recipe URL.
 
 ## Screenshots
 
