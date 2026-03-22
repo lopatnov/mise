@@ -1,7 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException, type OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
@@ -110,16 +116,50 @@ function extractStepData(step: unknown): { text: string; externalImageUrl?: stri
 }
 
 const CYRILLIC: Record<string, string> = {
-  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',
-  й:'j',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',
-  у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',
-  ь:'',э:'e',ю:'yu',я:'ya',
+  а: 'a',
+  б: 'b',
+  в: 'v',
+  г: 'g',
+  д: 'd',
+  е: 'e',
+  ё: 'yo',
+  ж: 'zh',
+  з: 'z',
+  и: 'i',
+  й: 'j',
+  к: 'k',
+  л: 'l',
+  м: 'm',
+  н: 'n',
+  о: 'o',
+  п: 'p',
+  р: 'r',
+  с: 's',
+  т: 't',
+  у: 'u',
+  ф: 'f',
+  х: 'kh',
+  ц: 'ts',
+  ч: 'ch',
+  ш: 'sh',
+  щ: 'shch',
+  ъ: '',
+  ы: 'y',
+  ь: '',
+  э: 'e',
+  ю: 'yu',
+  я: 'ya',
 };
 function makeSlug(title: string): string {
-  return title.toLowerCase()
-    .split('').map(c => CYRILLIC[c] ?? c).join('')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'recipe';
+  return (
+    title
+      .toLowerCase()
+      .split('')
+      .map((c) => CYRILLIC[c] ?? c)
+      .join('')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'recipe'
+  );
 }
 
 @Injectable()
@@ -143,16 +183,14 @@ export class RecipesService implements OnModuleInit {
     let n = 1;
     while (true) {
       const filter: Record<string, unknown> = { slug };
-      if (excludeId) filter['_id'] = { $ne: new Types.ObjectId(excludeId) };
+      if (excludeId) filter._id = { $ne: new Types.ObjectId(excludeId) };
       if (!(await this.model.exists(filter))) return slug;
       slug = `${base}-${++n}`;
     }
   }
 
   private findDocByIdOrSlug(idOrSlug: string) {
-    return /^[0-9a-f]{24}$/i.test(idOrSlug)
-      ? this.model.findById(idOrSlug)
-      : this.model.findOne({ slug: idOrSlug });
+    return /^[0-9a-f]{24}$/i.test(idOrSlug) ? this.model.findById(idOrSlug) : this.model.findOne({ slug: idOrSlug });
   }
 
   async findAll(userId: string, isAdmin: boolean, query: RecipeQueryDto) {
@@ -211,7 +249,7 @@ export class RecipesService implements OnModuleInit {
   }
 
   async create(userId: string, dto: CreateRecipeDto) {
-    const uploadsDir = join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads');
+    const uploadsDir = join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads');
 
     // Main photo
     let photoUrl: string | undefined;

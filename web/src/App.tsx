@@ -16,7 +16,6 @@ import SetupPage from './pages/SetupPage';
 import { queryClient } from './queryClient';
 import { useAuthStore } from './store/authStore';
 
-
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);
   return token ? children : <Navigate to="/login" replace />;

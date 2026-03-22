@@ -25,7 +25,7 @@ import { UsersModule } from './users/users.module';
       }),
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads'),
+      rootPath: join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads'),
       serveRoot: '/uploads',
     }),
     AuthModule,

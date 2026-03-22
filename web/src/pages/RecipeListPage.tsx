@@ -154,7 +154,7 @@ export default function RecipeListPage() {
             <option value="">{t('recipe.list.allCategories')}</option>
             {categories?.map((c) => (
               <option key={c._id} value={c._id}>
-                {c.icon} {c.slug ? t('categories.' + c.slug, c.name) : c.name}
+                {c.icon} {c.slug ? t(`categories.${c.slug}`, c.name) : c.name}
               </option>
             ))}
           </select>
@@ -196,7 +196,10 @@ export default function RecipeListPage() {
           )}
           {category && (
             <span className="filter-chip">
-              📂 {(() => { const c = categories?.find((x) => x._id === category); return c ? (c.slug ? t('categories.' + c.slug, c.name) : c.name) : category; })()}
+              📂 {(() => {
+                const c = categories?.find((x) => x._id === category);
+                return c ? (c.slug ? t(`categories.${c.slug}`, c.name) : c.name) : category;
+              })()}
               <button type="button" onClick={() => changeCategory('')}>
                 ×
               </button>
@@ -259,7 +262,7 @@ export default function RecipeListPage() {
                   <div className="recipe-card__meta">
                     {cat && (
                       <span className="recipe-card__category">
-                        {cat.icon} {cat.slug ? t('categories.' + cat.slug, cat.name) : cat.name}
+                        {cat.icon} {cat.slug ? t(`categories.${cat.slug}`, cat.name) : cat.name}
                       </span>
                     )}
                     {r.tags.slice(0, 3).map((tg) => (

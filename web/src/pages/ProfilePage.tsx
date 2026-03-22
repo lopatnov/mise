@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { recipesApi } from '../api/recipes';
-import { queryClient } from '../queryClient';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { queryClient } from '../queryClient';
 import { useAuthStore } from '../store/authStore';
 
 export default function ProfilePage() {

@@ -73,7 +73,10 @@ export default function RecipeFormPage() {
       setSteps(
         data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
       );
-    if (data.externalImageUrl) { setImportedImageUrl(data.externalImageUrl); setPhotoPreviewFailed(false); }
+    if (data.externalImageUrl) {
+      setImportedImageUrl(data.externalImageUrl);
+      setPhotoPreviewFailed(false);
+    }
     setShowImport(false);
   }
 
@@ -155,11 +158,17 @@ export default function RecipeFormPage() {
             <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
               {t('recipe.import.button')}
             </button>
-            {importedImageUrl && (
-              photoPreviewFailed
-                ? <p className="import-photo-note">{t('recipe.form.importedPhotoNote')}</p>
-                : <img src={importedImageUrl} alt={t('recipe.form.importedPhoto')} className="import-photo-preview" onError={() => setPhotoPreviewFailed(true)} />
-            )}
+            {importedImageUrl &&
+              (photoPreviewFailed ? (
+                <p className="import-photo-note">{t('recipe.form.importedPhotoNote')}</p>
+              ) : (
+                <img
+                  src={importedImageUrl}
+                  alt={t('recipe.form.importedPhoto')}
+                  className="import-photo-preview"
+                  onError={() => setPhotoPreviewFailed(true)}
+                />
+              ))}
           </>
         )}
       </div>
@@ -231,7 +240,7 @@ export default function RecipeFormPage() {
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
-                  {c.icon} {c.slug ? t('categories.' + c.slug, c.name) : c.name}
+                  {c.icon} {c.slug ? t(`categories.${c.slug}`, c.name) : c.name}
                 </option>
               ))}
             </select>

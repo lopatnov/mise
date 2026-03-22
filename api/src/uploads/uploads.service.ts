@@ -6,7 +6,7 @@ import { join } from 'path';
 @Injectable()
 export class UploadsService implements OnModuleInit {
   private get uploadsDir(): string {
-    return join(process.cwd(), process.env['UPLOAD_DIR'] ?? 'uploads');
+    return join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads');
   }
 
   onModuleInit() {

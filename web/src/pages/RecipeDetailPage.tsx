@@ -260,7 +260,10 @@ export default function RecipeDetailPage() {
             {recipe.rating && <span>{'⭐'.repeat(recipe.rating)}</span>}
             {recipeCategory && (
               <span className="recipe-card__category">
-                {recipeCategory.icon} {recipeCategory.slug ? t('categories.' + recipeCategory.slug, recipeCategory.name) : recipeCategory.name}
+                {recipeCategory.icon}{' '}
+                {recipeCategory.slug
+                  ? t(`categories.${recipeCategory.slug}`, recipeCategory.name)
+                  : recipeCategory.name}
               </span>
             )}
             {recipe.isPublic && <span className="tag tag--public">🌐 {t('recipe.detail.public')}</span>}
@@ -286,7 +289,12 @@ export default function RecipeDetailPage() {
                   onClick={() => setLightboxSrc(`${API_URL}${recipe.photoUrl ?? ''}`)}
                   aria-label={recipe.title}
                 >
-                  <img src={`${API_URL}${recipe.photoUrl}`} alt={recipe.title} className="recipe-photo__img" loading="lazy" />
+                  <img
+                    src={`${API_URL}${recipe.photoUrl}`}
+                    alt={recipe.title}
+                    className="recipe-photo__img"
+                    loading="lazy"
+                  />
                 </button>
                 {canEdit && (
                   <button
@@ -341,7 +349,12 @@ export default function RecipeDetailPage() {
                             onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
                             aria-label={t('recipe.detail.addPhoto')}
                           >
-                            <img src={`${API_URL}${step.photoUrl}`} alt="" className="recipe-step__photo" loading="lazy" />
+                            <img
+                              src={`${API_URL}${step.photoUrl}`}
+                              alt=""
+                              className="recipe-step__photo"
+                              loading="lazy"
+                            />
                           </button>
                           {canEdit && (
                             <button
