@@ -64,12 +64,12 @@ export class RecipesController {
     return this.service.findPublic(query);
   }
 
-  @Public()
+  @OptionalAuth()
   @Get('tags')
-  @ApiOperation({ summary: 'Get all distinct tags across all recipes' })
+  @ApiOperation({ summary: 'Get distinct tags visible to the current user' })
   @ApiResponse({ status: 200, description: 'Array of tag strings' })
-  getTags() {
-    return this.service.findAllTags();
+  getTags(@CurrentUser() user: JwtUser | null) {
+    return this.service.findAllTags(user?.userId, user?.role === 'admin');
   }
 
   @OptionalAuth()

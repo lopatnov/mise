@@ -335,8 +335,16 @@ export class RecipesService implements OnModuleInit {
     return { saved: false };
   }
 
-  async findAllTags(): Promise<string[]> {
-    return this.model.distinct('tags');
+  async findAllTags(userId?: string, isAdmin = false): Promise<string[]> {
+    const filter: Record<string, unknown> = {};
+    if (isAdmin) {
+      // admin sees tags from all recipes
+    } else if (userId) {
+      filter.$or = [{ authorId: new Types.ObjectId(userId) }, { isPublic: true }];
+    } else {
+      filter.isPublic = true;
+    }
+    return this.model.distinct('tags', filter);
   }
 
   async findPublicForSitemap(): Promise<Array<{ _id: unknown; updatedAt: Date }>> {
