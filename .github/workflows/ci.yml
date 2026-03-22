@@ -70,5 +70,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check locale completeness
+        run: npm run check:locales
+
       - name: Build
         run: npm run build

@@ -1,6 +1,6 @@
 import { BadRequestException, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,10 @@ export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}
 
   @Post('photo')
+  @ApiOperation({ summary: 'Upload a standalone photo (returns URL for use in recipe form)' })
+  @ApiResponse({ status: 201, description: 'Returns { photoUrl } path' })
+  @ApiResponse({ status: 400, description: 'No file or invalid MIME type' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
