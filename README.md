@@ -2,8 +2,27 @@
 
 > _mise en place_ — everything in its place
 
-Self-hosted personal recipe book. Store recipes with ingredients, steps, tags and photos.
-Scale servings, search by text, filter by category and tag, share recipes publicly.
+Self-hosted personal recipe book built as a full-stack portfolio project.
+Store, organize, and share recipes with ingredients, steps, photos, and tags.
+Scale servings, search by text, filter by category and tag, import from any recipe URL.
+
+## Screenshots
+
+**Recipe feed** — browse, search by text, filter by tag and category, paginate
+
+![Recipe feed](docs/screenshots/01-recipe-list.png)
+
+**Recipe detail** — ingredients sidebar, servings scaler, step-by-step instructions with photos
+
+![Recipe detail](docs/screenshots/02-recipe-detail.png)
+
+**Tag filtering** — active filter chip with one-click clear
+
+![Tag filter](docs/screenshots/03-tag-filter-savory.png)
+
+**Admin panel** — manage users, roles, invite links, SMTP and app settings
+
+![Admin panel](docs/screenshots/04-admin-settings.png)
 
 ## Stack
 
