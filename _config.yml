@@ -1,0 +1,6 @@
+title: Mise
+logo: /docs/screenshots/01-recipe-list.png
+description: Open-source recipe manager you can self-host and fully own. Store and share recipes with photos, ingredients, and step-by-step instructions. Scale servings, search by text, filter by tag and category, import from any recipe URL.
+show_downloads: true
+google_analytics: G-X26FR5BV71
+theme: jekyll-theme-minimal
