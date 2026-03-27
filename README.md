@@ -6,6 +6,11 @@ Open-source recipe manager you can self-host and fully own.
 Store and share recipes with photos, ingredients, and step-by-step instructions.
 Scale servings, search by text, filter by tag and category, import from any recipe URL.
 
+[![CI](https://github.com/lopatnov/mise/actions/workflows/ci.yml/badge.svg)](https://github.com/lopatnov/mise/actions/workflows/ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/lopatnov/mise)](https://github.com/lopatnov/mise/issues)
+[![GitHub stars](https://img.shields.io/github/stars/lopatnov/mise?style=social)](https://github.com/lopatnov/mise/stargazers)
+
 ## Screenshots
 
 **Recipe feed** — browse, search by text, filter by tag and category, paginate
@@ -310,6 +315,7 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
 - Bug reports → [open an issue](https://github.com/lopatnov/mise/issues)
 - Security vulnerabilities → [GitHub Security Advisories](https://github.com/lopatnov/mise/security/advisories/new) _(do not use public issues)_
 - Questions → [Discussions](https://github.com/lopatnov/mise/discussions)
+- Found it useful? A [star on GitHub](https://github.com/lopatnov/mise) helps others discover the project
 
 ---
 
