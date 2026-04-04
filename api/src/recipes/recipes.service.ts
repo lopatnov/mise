@@ -196,6 +196,7 @@ const CYRILLIC: Record<string, string> = {
 function makeSlug(title: string): string {
   return (
     title
+      .slice(0, 200) // bound input length to prevent ReDoS on repeated special chars
       .toLowerCase()
       .split('')
       .map((c) => CYRILLIC[c] ?? c)
