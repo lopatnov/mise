@@ -28,6 +28,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
 
   api:
     build:
@@ -51,6 +56,11 @@ services:
       timeout: 5s
       retries: 3
       start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
 
   web:
     build:
@@ -64,6 +74,11 @@ services:
       api:
         condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 64M
 
   db-backup:
     image: mongo:8
@@ -84,6 +99,11 @@ services:
       mongodb:
         condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
 
 volumes:
   mise_mongo_data:
