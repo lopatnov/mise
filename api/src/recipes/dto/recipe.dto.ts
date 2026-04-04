@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { ArrayMaxSize, IsArray, IsBoolean, IsMongoId, IsNumber, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
 
 export class IngredientDto {
   @IsString() name: string;
@@ -17,25 +17,31 @@ export class StepDto {
 }
 
 export class CreateRecipeDto {
-  @IsString() title: string;
+  @IsString()
+  @MaxLength(200)
+  title: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
+  @MaxLength(10000)
   description?: string;
 
   @IsOptional()
   @IsArray()
+  @ArrayMaxSize(100)
   @Type(() => IngredientDto)
   ingredients?: IngredientDto[];
 
   @IsOptional()
   @IsArray()
+  @ArrayMaxSize(100)
   @Type(() => StepDto)
   steps?: StepDto[];
 
   @IsOptional()
   @IsArray()
+  @ArrayMaxSize(20)
   @IsString({ each: true })
   tags?: string[];
 
