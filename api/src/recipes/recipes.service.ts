@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { lookup } from 'node:dns/promises';
 import { writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import {
@@ -85,7 +86,7 @@ function extractImageUrl(raw: unknown): string | undefined {
 
 /** Download image from URL, save to uploadsDir, return filename or undefined on failure */
 async function downloadImage(url: string, uploadsDir: string): Promise<string | undefined> {
-  if (!isSsrfSafe(url)) return undefined;
+  if (!(await isSsrfSafe(url))) return undefined;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
     if (!res.ok) return undefined;
@@ -121,8 +122,26 @@ function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-/** Return false if the URL targets a private/internal address (SSRF guard) */
-function isSsrfSafe(urlString: string): boolean {
+/** Return true if the resolved IP is not a private/internal address */
+function isPrivateIp(ip: string): boolean {
+  const h = ip.toLowerCase().replace(/^\[|\]$/g, '');
+  if (h === 'localhost' || h === '0.0.0.0') return true;
+  if (h === '127.0.0.1' || /^127\./.test(h)) return true;
+  if (/^10\./.test(h)) return true;
+  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return true;
+  if (/^192\.168\./.test(h)) return true;
+  if (h === '::1' || h === '0:0:0:0:0:0:0:1') return true;
+  if (/^f[cd]/i.test(h)) return true;
+  if (h === '169.254.169.254') return true;
+  return false;
+}
+
+/**
+ * Resolve hostname to IP and verify it is not a private/internal address.
+ * Resolving before checking prevents DNS rebinding attacks where a hostname
+ * passes the pattern check but later resolves to a private IP.
+ */
+async function isSsrfSafe(urlString: string): Promise<boolean> {
   let parsed: URL;
   try {
     parsed = new URL(urlString);
@@ -130,16 +149,13 @@ function isSsrfSafe(urlString: string): boolean {
     return false;
   }
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
-  const h = parsed.hostname.toLowerCase().replace(/^\[|\]$/g, '');
-  if (h === 'localhost' || h === '0.0.0.0') return false;
-  if (/^127\./.test(h)) return false;
-  if (/^10\./.test(h)) return false;
-  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return false;
-  if (/^192\.168\./.test(h)) return false;
-  if (h === '::1' || h === '0:0:0:0:0:0:0:1') return false;
-  if (/^f[cd]/i.test(h)) return false;
-  if (h === '169.254.169.254') return false;
-  return true;
+  const hostname = parsed.hostname.replace(/^\[|\]$/g, '');
+  try {
+    const { address } = await lookup(hostname);
+    return !isPrivateIp(address);
+  } catch {
+    return false; // unresolvable hostname → reject
+  }
 }
 
 const CYRILLIC: Record<string, string> = {
@@ -422,7 +438,7 @@ export class RecipesService implements OnModuleInit {
   }
 
   async importFromUrl(url: string) {
-    if (!isSsrfSafe(url)) {
+    if (!(await isSsrfSafe(url))) {
       throw new BadRequestException('Invalid or disallowed URL');
     }
 

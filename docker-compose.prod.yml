@@ -84,10 +84,18 @@ services:
     image: mongo:8
     container_name: mise-db-backup
     entrypoint: ["/bin/bash", "-c"]
+    # Set MONGO_USER / MONGO_PASS in .env.prod when MongoDB auth is enabled.
+    environment:
+      MONGO_USER: "${MONGO_USER:-}"
+      MONGO_PASS: "${MONGO_PASS:-}"
     command: |
       while true; do
         STAMP=$$(date +%Y%m%d_%H%M%S)
-        mongodump --host=mongodb:27017 --db=mise --out=/backups/mise_$${STAMP} \
+        AUTH_ARGS=""
+        if [ -n "$$MONGO_USER" ]; then
+          AUTH_ARGS="--username=$$MONGO_USER --password=$$MONGO_PASS --authenticationDatabase=admin"
+        fi
+        mongodump --host=mongodb:27017 --db=mise $$AUTH_ARGS --out=/backups/mise_$${STAMP} \
           && echo "[backup] mise_$${STAMP} written" \
           || echo "[backup] Failed at $${STAMP}, will retry in 24h"
         find /backups -maxdepth 1 -type d -name "mise_*" -mtime +7 -exec rm -rf {} +
