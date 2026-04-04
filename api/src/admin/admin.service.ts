@@ -86,11 +86,11 @@ export class AdminService {
   }
 
   async validateInvite(token: string): Promise<InviteDocument | null> {
-    return this.inviteModel.findOne({ token, used: false, expiresAt: { $gt: new Date() } }).lean();
+    return this.inviteModel.findOne({ token: String(token), used: false, expiresAt: { $gt: new Date() } }).lean();
   }
 
   async markInviteUsed(token: string) {
-    const result = await this.inviteModel.findOneAndUpdate({ token }, { used: true });
+    const result = await this.inviteModel.findOneAndUpdate({ token: String(token) }, { used: true });
     if (!result) throw new NotFoundException('Invite not found');
   }
 
