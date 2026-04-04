@@ -65,8 +65,30 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  db-backup:
+    image: mongo:8
+    container_name: mise-db-backup
+    entrypoint: ["/bin/bash", "-c"]
+    command: |
+      while true; do
+        STAMP=$$(date +%Y%m%d_%H%M%S)
+        mongodump --host=mongodb:27017 --db=mise --out=/backups/mise_$${STAMP} \
+          && echo "[backup] mise_$${STAMP} written" \
+          || echo "[backup] Failed at $${STAMP}, will retry in 24h"
+        find /backups -maxdepth 1 -type d -name "mise_*" -mtime +7 -exec rm -rf {} +
+        sleep 86400
+      done
+    volumes:
+      - mise_mongo_backups:/backups
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   mise_mongo_data:
-    # MongoDB data lives in a Docker-managed named volume.
-    # To back up: docker run --rm -v mise_mongo_data:/data/db -v $(pwd)/backup:/backup mongo:8 mongodump --out /backup
-    # To restore: docker run --rm -v mise_mongo_data:/data/db -v $(pwd)/backup:/backup mongo:8 mongorestore /backup
+  mise_mongo_backups:
+    # Daily mongodump backups, retained for 7 days.
+    # To restore a backup: docker run --rm \
+    #   -v mise_mongo_backups:/backups -v mise_mongo_data:/data/db \
+    #   mongo:8 mongorestore --host=mongodb:27017 /backups/mise_<STAMP>

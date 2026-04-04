@@ -4,24 +4,41 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug API",
+      "name": "API: NestJS (debug)",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start:debug"],
       "cwd": "${workspaceFolder}/api",
       "console": "integratedTerminal",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/api/dist/**/*.js"],
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "db: start"
     },
     {
       "type": "node",
       "request": "attach",
-      "name": "Attach to API",
+      "name": "API: attach",
       "port": 9229,
       "restart": true,
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/api/dist/**/*.js"],
       "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Web: Vite",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}/web",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (API + Vite)",
+      "configurations": ["API: NestJS (debug)", "Web: Vite"],
+      "stopAll": true
     }
   ]
 }
