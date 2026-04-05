@@ -139,7 +139,12 @@ export default function RecipeDetailPage() {
 
   if (isLoading)
     return (
-      <div className="page-container recipe-detail__page" aria-busy="true" aria-label={t('recipe.detail.loading')}>
+      <div
+        className="page-container recipe-detail__page"
+        aria-busy="true"
+        role="status"
+        aria-label={t('recipe.detail.loading')}
+      >
         <div className="skeleton skeleton-detail__actions" />
         <div className="skeleton skeleton-detail__title" />
         <div className="skeleton skeleton-detail__meta" />

@@ -33,53 +33,53 @@ export default function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <NavBar />
-        <ToastContainer />
-        <Footer />
-        <Routes>
-          <Route path="/setup" element={<SetupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminPage />
-              </AdminRoute>
-            }
-          />
-          <Route path="/" element={<RecipeListPage />} />
-          <Route
-            path="/recipes/new"
-            element={
-              <ProtectedRoute>
-                <RecipeFormPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/recipes/:id" element={<RecipeDetailPage />} />
-          <Route
-            path="/recipes/:id/edit"
-            element={
-              <ProtectedRoute>
-                <RecipeFormPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+        <BrowserRouter>
+          <NavBar />
+          <ToastContainer />
+          <Footer />
+          <Routes>
+            <Route path="/setup" element={<SetupPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminPage />
+                </AdminRoute>
+              }
+            />
+            <Route path="/" element={<RecipeListPage />} />
+            <Route
+              path="/recipes/new"
+              element={
+                <ProtectedRoute>
+                  <RecipeFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/recipes/:id" element={<RecipeDetailPage />} />
+            <Route
+              path="/recipes/:id/edit"
+              element={
+                <ProtectedRoute>
+                  <RecipeFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
       </QueryClientProvider>
     </ErrorBoundary>
   );

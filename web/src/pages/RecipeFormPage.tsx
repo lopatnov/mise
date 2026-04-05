@@ -220,7 +220,10 @@ export default function RecipeFormPage() {
             id="f-title"
             title={t('recipe.form.titleLabel')}
             value={title}
-            onChange={(e) => { setTitle(e.target.value); markDirty(); }}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              markDirty();
+            }}
             required
           />
         </Field>
@@ -230,7 +233,10 @@ export default function RecipeFormPage() {
             id="f-desc"
             title={t('recipe.form.description')}
             value={description}
-            onChange={(e) => { setDescription(e.target.value); markDirty(); }}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              markDirty();
+            }}
             rows={3}
             className="resize-v"
           />
@@ -244,7 +250,10 @@ export default function RecipeFormPage() {
               type="number"
               min={1}
               value={servings}
-              onChange={(e) => { setServings(Number(e.target.value)); markDirty(); }}
+              onChange={(e) => {
+                setServings(Number(e.target.value));
+                markDirty();
+              }}
             />
           </Field>
           <Field id="f-prep" label={t('recipe.form.prepTime')}>
@@ -254,7 +263,10 @@ export default function RecipeFormPage() {
               type="number"
               min={0}
               value={prepTime}
-              onChange={(e) => { setPrepTime(e.target.value); markDirty(); }}
+              onChange={(e) => {
+                setPrepTime(e.target.value);
+                markDirty();
+              }}
             />
           </Field>
           <Field id="f-cook" label={t('recipe.form.cookTime')}>
@@ -264,7 +276,10 @@ export default function RecipeFormPage() {
               type="number"
               min={0}
               value={cookTime}
-              onChange={(e) => { setCookTime(e.target.value); markDirty(); }}
+              onChange={(e) => {
+                setCookTime(e.target.value);
+                markDirty();
+              }}
             />
           </Field>
         </div>
@@ -275,7 +290,10 @@ export default function RecipeFormPage() {
               id="f-cat"
               title={t('recipe.form.category')}
               value={categoryId}
-              onChange={(e) => { setCategoryId(e.target.value); markDirty(); }}
+              onChange={(e) => {
+                setCategoryId(e.target.value);
+                markDirty();
+              }}
             >
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
@@ -293,7 +311,10 @@ export default function RecipeFormPage() {
               min={1}
               max={5}
               value={rating}
-              onChange={(e) => { setRating(e.target.value); markDirty(); }}
+              onChange={(e) => {
+                setRating(e.target.value);
+                markDirty();
+              }}
             />
           </Field>
         </div>
@@ -302,7 +323,10 @@ export default function RecipeFormPage() {
           <input
             id="f-tags"
             value={tags}
-            onChange={(e) => { setTags(e.target.value); markDirty(); }}
+            onChange={(e) => {
+              setTags(e.target.value);
+              markDirty();
+            }}
             placeholder={t('recipe.form.tagsPlaceholder')}
           />
           {allTags && allTags.length > 0 && (
@@ -462,7 +486,14 @@ export default function RecipeFormPage() {
         </fieldset>
 
         <label className="checkbox-label">
-          <input type="checkbox" checked={isPublic} onChange={(e) => { setIsPublic(e.target.checked); markDirty(); }} />
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={(e) => {
+              setIsPublic(e.target.checked);
+              markDirty();
+            }}
+          />
           {t('recipe.form.isPublic')}
         </label>
 
