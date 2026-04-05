@@ -18,10 +18,7 @@ describe('CategoriesService', () => {
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CategoriesService,
-        { provide: getModelToken(Category.name), useValue: mockModel },
-      ],
+      providers: [CategoriesService, { provide: getModelToken(Category.name), useValue: mockModel }],
     }).compile();
 
     service = module.get<CategoriesService>(CategoriesService);

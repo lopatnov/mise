@@ -1,6 +1,6 @@
 import { unlink } from 'node:fs/promises';
-import { mkdirSync } from 'fs';
 import { Test, type TestingModule } from '@nestjs/testing';
+import { mkdirSync } from 'fs';
 import { UploadsService } from './uploads.service';
 
 jest.mock('node:fs/promises');
