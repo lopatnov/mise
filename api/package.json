@@ -46,7 +46,8 @@
   },
   "overrides": {
     "path-to-regexp": "^8.4.2",
-    "picomatch": "4.0.4"
+    "picomatch": "4.0.4",
+    "lodash": "^4.18.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",

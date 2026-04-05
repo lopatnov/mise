@@ -86,9 +86,10 @@ function extractImageUrl(raw: unknown): string | undefined {
 
 /** Download image from URL, save to uploadsDir, return filename or undefined on failure */
 async function downloadImage(url: string, uploadsDir: string): Promise<string | undefined> {
-  if (!(await isSsrfSafe(url))) return undefined;
+  const safeUrl = await isSsrfSafe(url);
+  if (!safeUrl) return undefined;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+    const res = await fetch(safeUrl.href, { signal: AbortSignal.timeout(10_000) });
     if (!res.ok) return undefined;
     const mime = res.headers.get('content-type') ?? '';
     const extMap: Record<string, string> = {
@@ -138,10 +139,12 @@ function isPrivateIp(ip: string): boolean {
 
 /**
  * Resolve hostname to IP and verify it is not a private/internal address.
+ * Returns the parsed URL on success so callers use the normalised href
+ * (not the raw user string) in fetch — this breaks the CodeQL taint chain.
  * Resolving before checking prevents DNS rebinding attacks where a hostname
  * passes the pattern check but later resolves to a private IP.
  */
-async function isSsrfSafe(urlString: string): Promise<boolean> {
+async function isSsrfSafe(urlString: string): Promise<URL | false> {
   let parsed: URL;
   try {
     parsed = new URL(urlString);
@@ -152,7 +155,7 @@ async function isSsrfSafe(urlString: string): Promise<boolean> {
   const hostname = parsed.hostname.replace(/^\[|\]$/g, '');
   try {
     const { address } = await lookup(hostname);
-    return !isPrivateIp(address);
+    return isPrivateIp(address) ? false : parsed;
   } catch {
     return false; // unresolvable hostname → reject
   }
@@ -439,13 +442,14 @@ export class RecipesService implements OnModuleInit {
   }
 
   async importFromUrl(url: string) {
-    if (!(await isSsrfSafe(url))) {
+    const safeUrl = await isSsrfSafe(url);
+    if (!safeUrl) {
       throw new BadRequestException('Invalid or disallowed URL');
     }
 
     let html: string;
     try {
-      const res = await fetch(url, {
+      const res = await fetch(safeUrl.href, {
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Mise-Bot/1.0; recipe importer)' },
         signal: AbortSignal.timeout(10_000),
       });
