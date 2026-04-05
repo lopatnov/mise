@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { lookup } from 'node:dns/promises';
+import { lookup as dnsLookup } from 'node:dns/promises';
 import { writeFile } from 'node:fs/promises';
+import { request as httpRequest } from 'node:http';
+import { request as httpsRequest } from 'node:https';
 import { extname, join } from 'node:path';
 import {
   BadRequestException,
@@ -86,22 +88,22 @@ function extractImageUrl(raw: unknown): string | undefined {
 
 /** Download image from URL, save to uploadsDir, return filename or undefined on failure */
 async function downloadImage(url: string, uploadsDir: string): Promise<string | undefined> {
-  const safeUrl = await isSsrfSafe(url);
-  if (!safeUrl) return undefined;
+  const safe = await isSsrfSafe(url);
+  if (!safe) return undefined;
   try {
-    const res = await fetch(safeUrl.href, { signal: AbortSignal.timeout(10_000) });
+    const res = await fetchPinned(safe, { timeoutMs: 10_000 });
     if (!res.ok) return undefined;
-    const mime = res.headers.get('content-type') ?? '';
+    const mime = (res.getHeader('content-type') ?? '').split(';')[0].trim();
     const extMap: Record<string, string> = {
       'image/jpeg': '.jpg',
       'image/png': '.png',
       'image/webp': '.webp',
       'image/gif': '.gif',
     };
-    const fallbackExt = extname(safeUrl.pathname).toLowerCase() || '.jpg';
-    const ext = extMap[mime.split(';')[0].trim()] ?? fallbackExt;
+    const fallbackExt = extname(safe.url.pathname).toLowerCase() || '.jpg';
+    const ext = extMap[mime] ?? fallbackExt;
     const filename = `imported-${randomUUID()}${ext}`;
-    await writeFile(join(uploadsDir, filename), Buffer.from(await res.arrayBuffer()));
+    await writeFile(join(uploadsDir, filename), await res.buffer());
     return filename;
   } catch {
     return undefined;
@@ -138,14 +140,23 @@ function isPrivateIp(ip: string): boolean {
   return false;
 }
 
+interface SsrfSafeUrl {
+  url: URL;
+  address: string;
+  family: 4 | 6;
+}
+
 /**
  * Resolve hostname to IP and verify it is not a private/internal address.
- * Returns the parsed URL on success so callers use the normalised href
- * (not the raw user string) in fetch — this breaks the CodeQL taint chain.
- * Resolving before checking prevents DNS rebinding attacks where a hostname
- * passes the pattern check but later resolves to a private IP.
+ * Returns the parsed URL AND the pre-resolved IP address.
+ *
+ * The caller must use fetchPinned() with the returned SsrfSafeUrl so that
+ * the actual TCP connection is made to the validated IP — not to whatever
+ * DNS resolves to at request time. This prevents DNS rebinding attacks where
+ * a second DNS lookup (done by fetch/http.request internally) could return a
+ * different, private IP after our validation.
  */
-async function isSsrfSafe(urlString: string): Promise<URL | false> {
+async function isSsrfSafe(urlString: string): Promise<SsrfSafeUrl | false> {
   let parsed: URL;
   try {
     parsed = new URL(urlString);
@@ -155,11 +166,62 @@ async function isSsrfSafe(urlString: string): Promise<URL | false> {
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
   const hostname = parsed.hostname.replace(/^\[|\]$/g, '');
   try {
-    const { address } = await lookup(hostname);
-    return isPrivateIp(address) ? false : parsed;
+    const { address, family } = await dnsLookup(hostname);
+    return isPrivateIp(address) ? false : { url: parsed, address, family: family as 4 | 6 };
   } catch {
     return false; // unresolvable hostname → reject
   }
+}
+
+interface PinnedResponse {
+  ok: boolean;
+  status: number;
+  getHeader(name: string): string | undefined;
+  buffer(): Promise<Buffer>;
+}
+
+/**
+ * HTTP/HTTPS request pinned to the pre-resolved IP from isSsrfSafe().
+ * Uses node:http/https with a custom lookup that always returns the validated
+ * address, so no second DNS lookup occurs and DNS rebinding is not possible.
+ * TLS remains intact: the original hostname is used for SNI/cert verification.
+ */
+function fetchPinned(safe: SsrfSafeUrl, options: { headers?: Record<string, string>; timeoutMs?: number } = {}): Promise<PinnedResponse> {
+  const { url, address, family } = safe;
+  return new Promise((resolve, reject) => {
+    const isHttps = url.protocol === 'https:';
+    const port = url.port ? Number(url.port) : isHttps ? 443 : 80;
+    const pinnedLookup = (
+      _h: string,
+      _o: object,
+      cb: (err: Error | null, addr: string, fam: number) => void,
+    ) => cb(null, address, family);
+
+    const requester = isHttps ? httpsRequest : httpRequest;
+    const req = requester(
+      { hostname: url.hostname, port, path: url.pathname + url.search, method: 'GET', headers: options.headers, lookup: pinnedLookup },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on('data', (chunk: Buffer) => chunks.push(chunk));
+        res.on('end', () => {
+          const buf = Buffer.concat(chunks);
+          resolve({
+            ok: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 300,
+            status: res.statusCode ?? 0,
+            getHeader: (name) => {
+              const h = res.headers[name.toLowerCase()];
+              return Array.isArray(h) ? h[0] : h;
+            },
+            buffer: () => Promise.resolve(buf),
+          });
+        });
+        res.on('error', reject);
+      },
+    );
+    req.on('error', reject);
+    if (options.timeoutMs) req.setTimeout(options.timeoutMs, () => req.destroy(new Error('Request timeout')));
+    req.end();
+  });
 }
 
 const CYRILLIC: Record<string, string> = {
@@ -443,23 +505,23 @@ export class RecipesService implements OnModuleInit {
   }
 
   async importFromUrl(url: string) {
-    const safeUrl = await isSsrfSafe(url);
-    if (!safeUrl) {
+    const safe = await isSsrfSafe(url);
+    if (!safe) {
       throw new BadRequestException('Invalid or disallowed URL');
     }
 
     let html: string;
     try {
-      const res = await fetch(safeUrl.href, {
+      const res = await fetchPinned(safe, {
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Mise-Bot/1.0; recipe importer)' },
-        signal: AbortSignal.timeout(10_000),
+        timeoutMs: 10_000,
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const buf = await res.arrayBuffer();
-      const ct = res.headers.get('content-type') ?? '';
+      const buf = await res.buffer();
+      const ct = res.getHeader('content-type') ?? '';
       let charset = /charset=([\w-]+)/i.exec(ct)?.[1];
       if (!charset) {
-        const peek = new TextDecoder('latin1').decode(new Uint8Array(buf, 0, 4096));
+        const peek = buf.subarray(0, 4096).toString('latin1');
         charset = /<meta[^>]+charset=["']?\s*([\w-]+)/i.exec(peek)?.[1] ?? /charset=([\w-]+)/i.exec(peek)?.[1];
       }
       html = new TextDecoder(charset ?? 'utf-8', { fatal: false }).decode(buf);

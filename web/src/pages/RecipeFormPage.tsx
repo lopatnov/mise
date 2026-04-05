@@ -43,6 +43,9 @@ export default function RecipeFormPage() {
     if (!isDirty) return;
     const handler = (e: BeforeUnloadEvent) => {
       e.preventDefault();
+      // Deprecated per spec but still required by Chrome < 119 and legacy browsers
+      // to show the confirmation dialog; the string value itself is ignored.
+      e.returnValue = '';
     };
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
