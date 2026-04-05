@@ -1,5 +1,6 @@
 @media print {
-  .no-print {
+  .no-print,
+  .navbar {
     display: none;
   }
 
