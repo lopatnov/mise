@@ -347,6 +347,23 @@ export default function RecipeDetailPage() {
 
           {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
 
+          {/* Ingredients — print only (screen version is in the sidebar) */}
+          {recipe.ingredients.length > 0 && (
+            <section className="recipe-section print-only">
+              <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
+              <ul className="recipe-section__list">
+                {recipe.ingredients.map((ing) => (
+                  <li key={ing.name} className="recipe-section__item">
+                    <strong>
+                      {fmtAmount(ing.amount)} {ing.unit}
+                    </strong>{' '}
+                    {ing.name}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           {/* Steps */}
           {recipe.steps.length > 0 && (
             <section className="recipe-section">
