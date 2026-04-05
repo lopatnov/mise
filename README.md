@@ -305,6 +305,7 @@ GET  /api/categories             List categories
 | Frontend network errors           | Wrong `VITE_API_URL`                         | Check `web/.env`                                                                                                            |
 | 500 on login                      | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
 | Images not loading in Docker      | Old named volume for uploads                 | The volume should be a bind mount — see `docker-compose.prod.yml`                                                           |
+| `npm error ECONNRESET` during `--build` | Transient network drop from npm registry | Re-run `docker compose -f docker-compose.prod.yml up -d --build` — the error is intermittent and usually clears on retry   |
 
 ---
 
