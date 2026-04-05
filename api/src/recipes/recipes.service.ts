@@ -186,20 +186,27 @@ interface PinnedResponse {
  * address, so no second DNS lookup occurs and DNS rebinding is not possible.
  * TLS remains intact: the original hostname is used for SNI/cert verification.
  */
-function fetchPinned(safe: SsrfSafeUrl, options: { headers?: Record<string, string>; timeoutMs?: number } = {}): Promise<PinnedResponse> {
+function fetchPinned(
+  safe: SsrfSafeUrl,
+  options: { headers?: Record<string, string>; timeoutMs?: number } = {},
+): Promise<PinnedResponse> {
   const { url, address, family } = safe;
   return new Promise((resolve, reject) => {
     const isHttps = url.protocol === 'https:';
     const port = url.port ? Number(url.port) : isHttps ? 443 : 80;
-    const pinnedLookup = (
-      _h: string,
-      _o: object,
-      cb: (err: Error | null, addr: string, fam: number) => void,
-    ) => cb(null, address, family);
+    const pinnedLookup = (_h: string, _o: object, cb: (err: Error | null, addr: string, fam: number) => void) =>
+      cb(null, address, family);
 
     const requester = isHttps ? httpsRequest : httpRequest;
     const req = requester(
-      { hostname: url.hostname, port, path: url.pathname + url.search, method: 'GET', headers: options.headers, lookup: pinnedLookup },
+      {
+        hostname: url.hostname,
+        port,
+        path: url.pathname + url.search,
+        method: 'GET',
+        headers: options.headers,
+        lookup: pinnedLookup,
+      },
       (res) => {
         const chunks: Buffer[] = [];
         res.on('data', (chunk: Buffer) => chunks.push(chunk));
