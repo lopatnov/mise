@@ -27,7 +27,14 @@
     "resetInvalidLink": "Odkaz pro obnovení chybí nebo je neplatný.",
     "newPassword": "Nové heslo (min. 6 znaků)",
     "confirmPassword": "Potvrdit heslo",
-    "passwordMismatch": "Hesla se neshodují"
+    "passwordMismatch": "Hesla se neshodují",
+    "verifyEmailTitle": "Ověřte svůj e-mail",
+    "verifyEmailSent": "Na {{email}} byl odeslán ověřovací odkaz. Zkontrolujte svou doručenou poštu.",
+    "verifyEmailNoSmtp": "E-mail není nakonfigurován. Použijte odkaz níže pro ověření.",
+    "verifyEmailSuccess": "E-mail byl ověřen! Nyní se můžete přihlásit.",
+    "verifyEmailError": "Neplatný nebo vypršelý ověřovací odkaz.",
+    "verifyEmailInvalidLink": "Ověřovací odkaz chybí nebo je neplatný.",
+    "verifyEmailNotVerified": "Před přihlášením prosím ověřte svou e-mailovou adresu."
   },
   "recipe": {
     "list": {

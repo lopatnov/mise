@@ -27,7 +27,14 @@
     "resetInvalidLink": "De resetlink ontbreekt of is ongeldig.",
     "newPassword": "Nieuw wachtwoord (min. 6 tekens)",
     "confirmPassword": "Wachtwoord bevestigen",
-    "passwordMismatch": "Wachtwoorden komen niet overeen"
+    "passwordMismatch": "Wachtwoorden komen niet overeen",
+    "verifyEmailTitle": "Verifieer uw e-mail",
+    "verifyEmailSent": "Er is een verificatielink verzonden naar {{email}}. Controleer uw inbox.",
+    "verifyEmailNoSmtp": "E-mail is niet geconfigureerd. Gebruik de onderstaande link voor verificatie.",
+    "verifyEmailSuccess": "E-mail geverifieerd! U kunt nu inloggen.",
+    "verifyEmailError": "Ongeldige of verlopen verificatielink.",
+    "verifyEmailInvalidLink": "De verificatielink ontbreekt of is ongeldig.",
+    "verifyEmailNotVerified": "Verifieer uw e-mailadres voordat u inlogt."
   },
   "recipe": {
     "list": {

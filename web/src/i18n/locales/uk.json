@@ -27,7 +27,14 @@
     "resetInvalidLink": "Посилання для скидання відсутнє або недійсне.",
     "newPassword": "Новий пароль (мін. 6 символів)",
     "confirmPassword": "Підтвердіть пароль",
-    "passwordMismatch": "Паролі не збігаються"
+    "passwordMismatch": "Паролі не збігаються",
+    "verifyEmailTitle": "Підтвердіть email",
+    "verifyEmailSent": "Посилання для підтвердження відправлено на {{email}}. Перевірте вхідні.",
+    "verifyEmailNoSmtp": "Email не налаштовано. Використайте посилання нижче для підтвердження.",
+    "verifyEmailSuccess": "Email підтверджено! Тепер можна увійти.",
+    "verifyEmailError": "Недійсне або прострочене посилання для підтвердження.",
+    "verifyEmailInvalidLink": "Посилання для підтвердження відсутнє або недійсне.",
+    "verifyEmailNotVerified": "Підтвердіть адресу email перед входом."
   },
   "recipe": {
     "list": {

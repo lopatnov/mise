@@ -27,7 +27,14 @@
     "resetInvalidLink": "रीसेट लिंक गुम या अमान्य है।",
     "newPassword": "नया पासवर्ड (न्यूनतम 6 अक्षर)",
     "confirmPassword": "पासवर्ड की पुष्टि करें",
-    "passwordMismatch": "पासवर्ड मेल नहीं खाते"
+    "passwordMismatch": "पासवर्ड मेल नहीं खाते",
+    "verifyEmailTitle": "अपना ईमेल सत्यापित करें",
+    "verifyEmailSent": "{{email}} पर एक सत्यापन लिंक भेजा गया है। अपना इनबॉक्स जांचें।",
+    "verifyEmailNoSmtp": "ईमेल कॉन्फ़िगर नहीं है। सत्यापन के लिए नीचे दिए गए लिंक का उपयोग करें।",
+    "verifyEmailSuccess": "ईमेल सत्यापित! अब आप साइन इन कर सकते हैं।",
+    "verifyEmailError": "अमान्य या समयसीमा समाप्त सत्यापन लिंक।",
+    "verifyEmailInvalidLink": "सत्यापन लिंक गायब है या अमान्य है।",
+    "verifyEmailNotVerified": "साइन इन करने से पहले अपना ईमेल पता सत्यापित करें।"
   },
   "recipe": {
     "list": {

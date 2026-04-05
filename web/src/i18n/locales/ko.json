@@ -27,7 +27,14 @@
     "resetInvalidLink": "재설정 링크가 없거나 유효하지 않습니다.",
     "newPassword": "새 비밀번호 (최소 6자)",
     "confirmPassword": "비밀번호 확인",
-    "passwordMismatch": "비밀번호가 일치하지 않습니다"
+    "passwordMismatch": "비밀번호가 일치하지 않습니다",
+    "verifyEmailTitle": "이메일을 인증해주세요",
+    "verifyEmailSent": "{{email}}로 인증 링크가 전송되었습니다. 받은 편지함을 확인해주세요.",
+    "verifyEmailNoSmtp": "이메일이 구성되지 않았습니다. 아래 링크를 사용하여 인증하세요.",
+    "verifyEmailSuccess": "이메일이 인증되었습니다! 이제 로그인할 수 있습니다.",
+    "verifyEmailError": "유효하지 않거나 만료된 인증 링크입니다.",
+    "verifyEmailInvalidLink": "인증 링크가 없거나 유효하지 않습니다.",
+    "verifyEmailNotVerified": "로그인하기 전에 이메일 주소를 인증해주세요."
   },
   "recipe": {
     "list": {

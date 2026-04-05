@@ -27,7 +27,14 @@
     "resetInvalidLink": "Link resetujący jest brakujący lub nieprawidłowy.",
     "newPassword": "Nowe hasło (min. 6 znaków)",
     "confirmPassword": "Potwierdź hasło",
-    "passwordMismatch": "Hasła nie są zgodne"
+    "passwordMismatch": "Hasła nie są zgodne",
+    "verifyEmailTitle": "Zweryfikuj swój adres e-mail",
+    "verifyEmailSent": "Link weryfikacyjny został wysłany na {{email}}. Sprawdź swoją skrzynkę odbiorczą.",
+    "verifyEmailNoSmtp": "E-mail nie jest skonfigurowany. Użyj poniższego linku do weryfikacji.",
+    "verifyEmailSuccess": "E-mail zweryfikowany! Możesz się teraz zalogować.",
+    "verifyEmailError": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+    "verifyEmailInvalidLink": "Link weryfikacyjny jest brakujący lub nieprawidłowy.",
+    "verifyEmailNotVerified": "Zweryfikuj swój adres e-mail przed zalogowaniem."
   },
   "recipe": {
     "list": {

@@ -27,7 +27,14 @@
     "resetInvalidLink": "リセットリンクが見つからないか無効です。",
     "newPassword": "新しいパスワード（最低6文字）",
     "confirmPassword": "パスワードの確認",
-    "passwordMismatch": "パスワードが一致しません"
+    "passwordMismatch": "パスワードが一致しません",
+    "verifyEmailTitle": "メールを確認してください",
+    "verifyEmailSent": "{{email}} に確認リンクを送信しました。受信トレイをご確認ください。",
+    "verifyEmailNoSmtp": "メールが設定されていません。以下のリンクで確認してください。",
+    "verifyEmailSuccess": "メールが確認されました！ログインできます。",
+    "verifyEmailError": "無効または期限切れの確認リンクです。",
+    "verifyEmailInvalidLink": "確認リンクがないか無効です。",
+    "verifyEmailNotVerified": "ログインする前にメールアドレスを確認してください。"
   },
   "recipe": {
     "list": {

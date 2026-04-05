@@ -27,7 +27,14 @@
     "resetInvalidLink": "Tautan reset tidak ada atau tidak valid.",
     "newPassword": "Kata sandi baru (min. 6 karakter)",
     "confirmPassword": "Konfirmasi kata sandi",
-    "passwordMismatch": "Kata sandi tidak cocok"
+    "passwordMismatch": "Kata sandi tidak cocok",
+    "verifyEmailTitle": "Verifikasi email Anda",
+    "verifyEmailSent": "Tautan verifikasi telah dikirim ke {{email}}. Periksa kotak masuk Anda.",
+    "verifyEmailNoSmtp": "Email belum dikonfigurasi. Gunakan tautan di bawah untuk verifikasi.",
+    "verifyEmailSuccess": "Email terverifikasi! Anda sekarang dapat masuk.",
+    "verifyEmailError": "Tautan verifikasi tidak valid atau kedaluwarsa.",
+    "verifyEmailInvalidLink": "Tautan verifikasi hilang atau tidak valid.",
+    "verifyEmailNotVerified": "Verifikasi alamat email Anda sebelum masuk."
   },
   "recipe": {
     "list": {

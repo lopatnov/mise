@@ -27,7 +27,14 @@
     "resetInvalidLink": "Der Link zum Zurücksetzen fehlt oder ist ungültig.",
     "newPassword": "Neues Passwort (min. 6 Zeichen)",
     "confirmPassword": "Passwort bestätigen",
-    "passwordMismatch": "Passwörter stimmen nicht überein"
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "verifyEmailTitle": "E-Mail bestätigen",
+    "verifyEmailSent": "Ein Bestätigungslink wurde an {{email}} gesendet. Überprüfen Sie Ihren Posteingang.",
+    "verifyEmailNoSmtp": "E-Mail ist nicht konfiguriert. Verwenden Sie den untenstehenden Link zur Bestätigung.",
+    "verifyEmailSuccess": "E-Mail bestätigt! Sie können sich jetzt anmelden.",
+    "verifyEmailError": "Ungültiger oder abgelaufener Bestätigungslink.",
+    "verifyEmailInvalidLink": "Bestätigungslink fehlt oder ist ungültig.",
+    "verifyEmailNotVerified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden."
   },
   "recipe": {
     "list": {

@@ -27,7 +27,14 @@
     "resetInvalidLink": "Link-ul de resetare lipsește sau este invalid.",
     "newPassword": "Parolă nouă (min. 6 caractere)",
     "confirmPassword": "Confirmă parola",
-    "passwordMismatch": "Parolele nu se potrivesc"
+    "passwordMismatch": "Parolele nu se potrivesc",
+    "verifyEmailTitle": "Verificați adresa de e-mail",
+    "verifyEmailSent": "Un link de verificare a fost trimis la {{email}}. Verificați căsuța de e-mail.",
+    "verifyEmailNoSmtp": "E-mailul nu este configurat. Utilizați linkul de mai jos pentru verificare.",
+    "verifyEmailSuccess": "E-mail verificat! Vă puteți autentifica acum.",
+    "verifyEmailError": "Link de verificare invalid sau expirat.",
+    "verifyEmailInvalidLink": "Linkul de verificare lipsește sau este invalid.",
+    "verifyEmailNotVerified": "Verificați adresa de e-mail înainte de autentificare."
   },
   "recipe": {
     "list": {

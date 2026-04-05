@@ -27,7 +27,14 @@
     "resetInvalidLink": "Återställningslänken saknas eller är ogiltig.",
     "newPassword": "Nytt lösenord (min. 6 tecken)",
     "confirmPassword": "Bekräfta lösenord",
-    "passwordMismatch": "Lösenorden matchar inte"
+    "passwordMismatch": "Lösenorden matchar inte",
+    "verifyEmailTitle": "Verifiera din e-post",
+    "verifyEmailSent": "En verifieringslänk har skickats till {{email}}. Kontrollera din inkorg.",
+    "verifyEmailNoSmtp": "E-post är inte konfigurerat. Använd länken nedan för verifiering.",
+    "verifyEmailSuccess": "E-post verifierad! Du kan nu logga in.",
+    "verifyEmailError": "Ogiltig eller utgången verifieringslänk.",
+    "verifyEmailInvalidLink": "Verifieringslänken saknas eller är ogiltig.",
+    "verifyEmailNotVerified": "Verifiera din e-postadress innan du loggar in."
   },
   "recipe": {
     "list": {

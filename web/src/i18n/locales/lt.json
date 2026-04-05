@@ -27,7 +27,14 @@
     "resetInvalidLink": "Atstatymo nuoroda trūksta arba yra netinkama.",
     "newPassword": "Naujas slaptažodis (min. 6 simboliai)",
     "confirmPassword": "Patvirtinti slaptažodį",
-    "passwordMismatch": "Slaptažodžiai nesutampa"
+    "passwordMismatch": "Slaptažodžiai nesutampa",
+    "verifyEmailTitle": "Patvirtinkite savo el. paštą",
+    "verifyEmailSent": "Patvirtinimo nuoroda išsiųsta į {{email}}. Patikrinkite savo pašto dėžutę.",
+    "verifyEmailNoSmtp": "El. paštas nėra sukonfigūruotas. Naudokite žemiau esančią nuorodą patvirtinimui.",
+    "verifyEmailSuccess": "El. paštas patvirtintas! Dabar galite prisijungti.",
+    "verifyEmailError": "Netinkama arba pasibaigusio galiojimo patvirtinimo nuoroda.",
+    "verifyEmailInvalidLink": "Patvirtinimo nuoroda trūksta arba yra netinkama.",
+    "verifyEmailNotVerified": "Prieš prisijungdami patvirtinkite savo el. pašto adresą."
   },
   "recipe": {
     "list": {

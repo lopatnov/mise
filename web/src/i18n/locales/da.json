@@ -27,7 +27,14 @@
     "resetInvalidLink": "Nulstillingslink mangler eller er ugyldigt.",
     "newPassword": "Ny adgangskode (min. 6 tegn)",
     "confirmPassword": "Bekræft adgangskode",
-    "passwordMismatch": "Adgangskoderne stemmer ikke overens"
+    "passwordMismatch": "Adgangskoderne stemmer ikke overens",
+    "verifyEmailTitle": "Bekræft din e-mail",
+    "verifyEmailSent": "Et bekræftelseslink er sendt til {{email}}. Tjek din indbakke.",
+    "verifyEmailNoSmtp": "E-mail er ikke konfigureret. Brug linket nedenfor til bekræftelse.",
+    "verifyEmailSuccess": "E-mail bekræftet! Du kan nu logge ind.",
+    "verifyEmailError": "Ugyldigt eller udløbet bekræftelseslink.",
+    "verifyEmailInvalidLink": "Bekræftelseslinket mangler eller er ugyldigt.",
+    "verifyEmailNotVerified": "Bekræft din e-mailadresse, før du logger ind."
   },
   "recipe": {
     "list": {

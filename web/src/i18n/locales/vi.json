@@ -27,7 +27,14 @@
     "resetInvalidLink": "Liên kết đặt lại bị thiếu hoặc không hợp lệ.",
     "newPassword": "Mật khẩu mới (tối thiểu 6 ký tự)",
     "confirmPassword": "Xác nhận mật khẩu",
-    "passwordMismatch": "Mật khẩu không khớp"
+    "passwordMismatch": "Mật khẩu không khớp",
+    "verifyEmailTitle": "Xác minh email của bạn",
+    "verifyEmailSent": "Đã gửi liên kết xác minh đến {{email}}. Vui lòng kiểm tra hộp thư đến.",
+    "verifyEmailNoSmtp": "Email chưa được cấu hình. Sử dụng liên kết bên dưới để xác minh.",
+    "verifyEmailSuccess": "Email đã được xác minh! Bạn có thể đăng nhập ngay bây giờ.",
+    "verifyEmailError": "Liên kết xác minh không hợp lệ hoặc đã hết hạn.",
+    "verifyEmailInvalidLink": "Liên kết xác minh bị thiếu hoặc không hợp lệ.",
+    "verifyEmailNotVerified": "Vui lòng xác minh địa chỉ email của bạn trước khi đăng nhập."
   },
   "recipe": {
     "list": {

@@ -27,7 +27,14 @@
     "resetInvalidLink": "Link za obnovu nedostaje ili je nevažeći.",
     "newPassword": "Nova lozinka (min. 6 znakova)",
     "confirmPassword": "Potvrdi lozinku",
-    "passwordMismatch": "Lozinke se ne podudaraju"
+    "passwordMismatch": "Lozinke se ne podudaraju",
+    "verifyEmailTitle": "Potvrdite svoju e-poštu",
+    "verifyEmailSent": "Poveznica za potvrdu poslana je na {{email}}. Provjerite svoju pristiglu poštu.",
+    "verifyEmailNoSmtp": "E-pošta nije konfigurirana. Koristite donju poveznicu za potvrdu.",
+    "verifyEmailSuccess": "E-pošta potvrđena! Sada se možete prijaviti.",
+    "verifyEmailError": "Nevažeća ili istekla poveznica za potvrdu.",
+    "verifyEmailInvalidLink": "Poveznica za potvrdu nedostaje ili je nevažeća.",
+    "verifyEmailNotVerified": "Potvrdite svoju adresu e-pošte prije prijave."
   },
   "recipe": {
     "list": {

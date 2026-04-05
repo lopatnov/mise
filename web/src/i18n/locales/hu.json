@@ -27,7 +27,14 @@
     "resetInvalidLink": "A visszaállítási link hiányzik vagy érvénytelen.",
     "newPassword": "Új jelszó (min. 6 karakter)",
     "confirmPassword": "Jelszó megerősítése",
-    "passwordMismatch": "A jelszavak nem egyeznek"
+    "passwordMismatch": "A jelszavak nem egyeznek",
+    "verifyEmailTitle": "Erősítse meg e-mail címét",
+    "verifyEmailSent": "Megerősítő linket küldtük a {{email}} címre. Ellenőrizze postafiókját.",
+    "verifyEmailNoSmtp": "Az e-mail nincs konfigurálva. Használja az alábbi linket a megerősítéshez.",
+    "verifyEmailSuccess": "E-mail megerősítve! Most már bejelentkezhet.",
+    "verifyEmailError": "Érvénytelen vagy lejárt megerősítő link.",
+    "verifyEmailInvalidLink": "A megerősítő link hiányzik vagy érvénytelen.",
+    "verifyEmailNotVerified": "Bejelentkezés előtt erősítse meg e-mail címét."
   },
   "recipe": {
     "list": {

@@ -27,7 +27,14 @@
     "resetInvalidLink": "重置链接缺失或无效。",
     "newPassword": "新密码（最少6个字符）",
     "confirmPassword": "确认密码",
-    "passwordMismatch": "两次密码不一致"
+    "passwordMismatch": "两次密码不一致",
+    "verifyEmailTitle": "验证您的邮箱",
+    "verifyEmailSent": "验证链接已发送至 {{email}}。请检查您的收件箱。",
+    "verifyEmailNoSmtp": "邮件未配置。请使用下方链接进行验证。",
+    "verifyEmailSuccess": "邮箱已验证！您现在可以登录。",
+    "verifyEmailError": "无效或已过期的验证链接。",
+    "verifyEmailInvalidLink": "验证链接缺失或无效。",
+    "verifyEmailNotVerified": "登录前请先验证您的邮箱地址。"
   },
   "recipe": {
     "list": {

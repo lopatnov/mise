@@ -1,5 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
-import { Navigate, Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
@@ -14,6 +14,7 @@ import RecipeListPage from './pages/RecipeListPage';
 import RegisterPage from './pages/RegisterPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import SetupPage from './pages/SetupPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 import { queryClient } from './queryClient';
 import { useAuthStore } from './store/authStore';
 
@@ -49,12 +50,41 @@ const router = createBrowserRouter([
       { path: '/register', element: <RegisterPage /> },
       { path: '/forgot-password', element: <ForgotPasswordPage /> },
       { path: '/reset-password', element: <ResetPasswordPage /> },
-      { path: '/admin', element: <AdminRoute><AdminPage /></AdminRoute> },
+      { path: '/verify-email', element: <VerifyEmailPage /> },
+      {
+        path: '/admin',
+        element: (
+          <AdminRoute>
+            <AdminPage />
+          </AdminRoute>
+        ),
+      },
       { path: '/', element: <RecipeListPage /> },
-      { path: '/recipes/new', element: <ProtectedRoute><RecipeFormPage /></ProtectedRoute> },
+      {
+        path: '/recipes/new',
+        element: (
+          <ProtectedRoute>
+            <RecipeFormPage />
+          </ProtectedRoute>
+        ),
+      },
       { path: '/recipes/:id', element: <RecipeDetailPage /> },
-      { path: '/recipes/:id/edit', element: <ProtectedRoute><RecipeFormPage /></ProtectedRoute> },
-      { path: '/profile', element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
+      {
+        path: '/recipes/:id/edit',
+        element: (
+          <ProtectedRoute>
+            <RecipeFormPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
+      },
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },

@@ -47,13 +47,35 @@ export class AuthService {
     const existing = await this.usersService.findByEmail(email);
     if (existing) throw new ConflictException('Email already registered');
     const user = await this.usersService.create(email, password, displayName);
-    return this.signToken(user);
+
+    const verificationToken = uuidv4();
+    const verificationExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await this.usersService.updateById(String(user._id), {
+      emailVerificationToken: verificationToken,
+      emailVerificationTokenExpiresAt: verificationExpiresAt,
+    });
+
+    const appUrl = await this.adminService.getAppUrl();
+    const verifyLink = `${appUrl}/verify-email?token=${verificationToken}`;
+    const html = `<p>Welcome to Mise! Click the link to verify your email address (valid 24 hours):</p><p><a href="${verifyLink}">${verifyLink}</a></p>`;
+
+    const sent = await this.adminService.sendEmail(email, 'Verify your email — Mise', html);
+
+    if (!sent) {
+      return {
+        needsVerification: true as const,
+        email,
+        devLink: verifyLink,
+      };
+    }
+    return { needsVerification: true as const, email };
   }
 
   async login(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (!user) throw new UnauthorizedException('Invalid credentials');
     if (!user.isActive) throw new ForbiddenException('Account is disabled');
+    if (user.emailVerificationToken) throw new ForbiddenException('email-not-verified');
     const valid = await this.usersService.validatePassword(password, user.passwordHash);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
     return this.signToken(user);
@@ -97,6 +119,17 @@ export class AuthService {
       resetTokenExpiresAt: undefined,
     });
     return { message: 'Password updated successfully.' };
+  }
+
+  async verifyEmail(token: string) {
+    const user = await this.usersService.findByEmailVerificationToken(token);
+    if (!user) throw new BadRequestException('Invalid or expired verification token.');
+    await this.usersService.updateById(String(user._id), {
+      isEmailVerified: true,
+      emailVerificationToken: undefined,
+      emailVerificationTokenExpiresAt: undefined,
+    });
+    return this.signToken(user);
   }
 
   private signToken(user: SignTokenUser) {

@@ -27,7 +27,14 @@
     "resetInvalidLink": "Ο σύνδεσμος επαναφοράς λείπει ή είναι μη έγκυρος.",
     "newPassword": "Νέος κωδικός (τουλ. 6 χαρακτήρες)",
     "confirmPassword": "Επιβεβαίωση κωδικού",
-    "passwordMismatch": "Οι κωδικοί δεν ταιριάζουν"
+    "passwordMismatch": "Οι κωδικοί δεν ταιριάζουν",
+    "verifyEmailTitle": "Επαληθεύστε το email σας",
+    "verifyEmailSent": "Ένας σύνδεσμος επαλήθευσης εστάλη στο {{email}}. Ελέγξτε τα εισερχόμενά σας.",
+    "verifyEmailNoSmtp": "Το email δεν έχει ρυθμιστεί. Χρησιμοποιήστε τον παρακάτω σύνδεσμο για επαλήθευση.",
+    "verifyEmailSuccess": "Το email επαληθεύτηκε! Μπορείτε τώρα να συνδεθείτε.",
+    "verifyEmailError": "Μη έγκυρος ή ληγμένος σύνδεσμος επαλήθευσης.",
+    "verifyEmailInvalidLink": "Ο σύνδεσμος επαλήθευσης λείπει ή είναι μη έγκυρος.",
+    "verifyEmailNotVerified": "Επαληθεύστε τη διεύθυνση email σας πριν συνδεθείτε."
   },
   "recipe": {
     "list": {
