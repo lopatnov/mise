@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { lookup } from 'node:dns/promises';
 import { writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import {
@@ -85,6 +86,7 @@ function extractImageUrl(raw: unknown): string | undefined {
 
 /** Download image from URL, save to uploadsDir, return filename or undefined on failure */
 async function downloadImage(url: string, uploadsDir: string): Promise<string | undefined> {
+  if (!(await isSsrfSafe(url))) return undefined;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
     if (!res.ok) return undefined;
@@ -113,6 +115,47 @@ function extractStepData(step: unknown): { text: string; externalImageUrl?: stri
     return { text, externalImageUrl: extractImageUrl(s.image) };
   }
   return { text: '' };
+}
+
+/** Escape special regex characters in a user-provided string */
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** Return true if the resolved IP is not a private/internal address */
+function isPrivateIp(ip: string): boolean {
+  const h = ip.toLowerCase().replace(/^\[|\]$/g, '');
+  if (h === 'localhost' || h === '0.0.0.0') return true;
+  if (h === '127.0.0.1' || /^127\./.test(h)) return true;
+  if (/^10\./.test(h)) return true;
+  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return true;
+  if (/^192\.168\./.test(h)) return true;
+  if (h === '::1' || h === '0:0:0:0:0:0:0:1') return true;
+  if (/^f[cd]/i.test(h)) return true;
+  if (h === '169.254.169.254') return true;
+  return false;
+}
+
+/**
+ * Resolve hostname to IP and verify it is not a private/internal address.
+ * Resolving before checking prevents DNS rebinding attacks where a hostname
+ * passes the pattern check but later resolves to a private IP.
+ */
+async function isSsrfSafe(urlString: string): Promise<boolean> {
+  let parsed: URL;
+  try {
+    parsed = new URL(urlString);
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
+  const hostname = parsed.hostname.replace(/^\[|\]$/g, '');
+  try {
+    const { address } = await lookup(hostname);
+    return !isPrivateIp(address);
+  } catch {
+    return false; // unresolvable hostname → reject
+  }
 }
 
 const CYRILLIC: Record<string, string> = {
@@ -153,12 +196,14 @@ const CYRILLIC: Record<string, string> = {
 function makeSlug(title: string): string {
   return (
     title
+      .slice(0, 200) // bound input length to prevent ReDoS on repeated special chars
       .toLowerCase()
       .split('')
       .map((c) => CYRILLIC[c] ?? c)
       .join('')
       .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '') || 'recipe'
+      .replace(/^-+/, '')
+      .replace(/-+$/, '') || 'recipe'
   );
 }
 
@@ -206,14 +251,15 @@ export class RecipesService implements OnModuleInit {
     }
     // admin + !mine + !saved → no ownership filter (see all)
 
-    if (tag) filter.tags = tag;
+    if (tag) filter.tags = String(tag);
     if (category) filter.categoryId = new Types.ObjectId(category);
 
     if (q) {
+      const safeQ = escapeRegex(String(q));
       const searchOr = [
-        { title: { $regex: q, $options: 'i' } },
-        { description: { $regex: q, $options: 'i' } },
-        { tags: { $regex: q, $options: 'i' } },
+        { title: { $regex: safeQ, $options: 'i' } },
+        { description: { $regex: safeQ, $options: 'i' } },
+        { tags: { $regex: safeQ, $options: 'i' } },
       ];
       if (filter.$or) {
         // visibility and search both use $or — combine with $and
@@ -326,13 +372,15 @@ export class RecipesService implements OnModuleInit {
   async findPublic(query: RecipeQueryDto) {
     const { q, tag, category, page = 1, limit = 20 } = query;
     const filter: Record<string, unknown> = { isPublic: true };
-    if (q)
+    if (q) {
+      const safeQ = escapeRegex(String(q));
       filter.$or = [
-        { title: { $regex: q, $options: 'i' } },
-        { description: { $regex: q, $options: 'i' } },
-        { tags: { $regex: q, $options: 'i' } },
+        { title: { $regex: safeQ, $options: 'i' } },
+        { description: { $regex: safeQ, $options: 'i' } },
+        { tags: { $regex: safeQ, $options: 'i' } },
       ];
-    if (tag) filter.tags = tag;
+    }
+    if (tag) filter.tags = String(tag);
     if (category) filter.categoryId = new Types.ObjectId(category);
 
     const [items, total] = await Promise.all([
@@ -391,9 +439,8 @@ export class RecipesService implements OnModuleInit {
   }
 
   async importFromUrl(url: string) {
-    // Validate: only http/https
-    if (!/^https?:\/\//i.test(url)) {
-      throw new BadRequestException('Only http/https URLs are supported');
+    if (!(await isSsrfSafe(url))) {
+      throw new BadRequestException('Invalid or disallowed URL');
     }
 
     let html: string;

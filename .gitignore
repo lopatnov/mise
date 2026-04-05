@@ -149,3 +149,6 @@ vite.config.ts.timestamp-*
 # Claude Code local settings
 .claude/
 /api/uploads
+
+# Claude AI context files (local only)
+docs/claude/

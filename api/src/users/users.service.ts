@@ -72,7 +72,7 @@ export class UsersService {
   }
 
   async findByResetToken(token: string): Promise<UserDocument | null> {
-    return this.userModel.findOne({ resetToken: token, resetTokenExpiresAt: { $gt: new Date() } }).lean();
+    return this.userModel.findOne({ resetToken: String(token), resetTokenExpiresAt: { $gt: new Date() } }).lean();
   }
 
   async validatePassword(password: string, hash: string): Promise<boolean> {
