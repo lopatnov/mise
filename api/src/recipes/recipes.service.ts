@@ -98,7 +98,8 @@ async function downloadImage(url: string, uploadsDir: string): Promise<string | 
       'image/webp': '.webp',
       'image/gif': '.gif',
     };
-    const ext = extMap[mime.split(';')[0].trim()] ?? (extname(new URL(url).pathname).toLowerCase() || '.jpg');
+    const fallbackExt = extname(safeUrl.pathname).toLowerCase() || '.jpg';
+    const ext = extMap[mime.split(';')[0].trim()] ?? fallbackExt;
     const filename = `imported-${randomUUID()}${ext}`;
     await writeFile(join(uploadsDir, filename), Buffer.from(await res.arrayBuffer()));
     return filename;
