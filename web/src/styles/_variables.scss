@@ -96,6 +96,7 @@
 body {
   margin: 0;
   padding-bottom: 28px;
+  min-height: 100dvh;
   font-family: var(--pico-font-family);
   background: var(--c-bg);
   color: var(--c-text);

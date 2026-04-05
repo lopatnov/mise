@@ -49,10 +49,27 @@ export class UsersService {
     return user.save();
   }
 
+  async findByEmailVerificationToken(token: string): Promise<UserDocument | null> {
+    return this.userModel
+      .findOne({ emailVerificationToken: String(token), emailVerificationTokenExpiresAt: { $gt: new Date() } })
+      .lean();
+  }
+
   async updateById(
     id: string,
     update: Partial<
-      Pick<User, 'isActive' | 'role' | 'displayName' | 'passwordHash' | 'resetToken' | 'resetTokenExpiresAt'>
+      Pick<
+        User,
+        | 'isActive'
+        | 'role'
+        | 'displayName'
+        | 'passwordHash'
+        | 'resetToken'
+        | 'resetTokenExpiresAt'
+        | 'isEmailVerified'
+        | 'emailVerificationToken'
+        | 'emailVerificationTokenExpiresAt'
+      >
     >,
   ): Promise<UserDocument | null> {
     const $set: Record<string, unknown> = {};

@@ -27,7 +27,14 @@
     "resetInvalidLink": "Atjaunošanas saite trūkst vai ir nederīga.",
     "newPassword": "Jauna parole (min. 6 rakstzīmes)",
     "confirmPassword": "Apstiprināt paroli",
-    "passwordMismatch": "Paroles nesakrīt"
+    "passwordMismatch": "Paroles nesakrīt",
+    "verifyEmailTitle": "Apstipriniet savu e-pastu",
+    "verifyEmailSent": "Apstiprinājuma saite ir nosūtīta uz {{email}}. Pārbaudiet savu iesūtni.",
+    "verifyEmailNoSmtp": "E-pasts nav konfigurēts. Izmantojiet zemāk esošo saiti apstiprināšanai.",
+    "verifyEmailSuccess": "E-pasts apstiprināts! Tagad varat pieteikties.",
+    "verifyEmailError": "Nederīga vai beigusies apstiprinājuma saite.",
+    "verifyEmailInvalidLink": "Apstiprinājuma saite trūkst vai ir nederīga.",
+    "verifyEmailNotVerified": "Pirms pieteikšanās apstipriniet savu e-pasta adresi."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Pievienot sastāvdaļu",
       "addStep": "Pievienot soli",
       "importedPhoto": "Importēts fotoattēls",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Nesaglabātās izmaiņas",
+      "unsavedMessage": "Jums ir nesaglabātas izmaiņas. Aiziet tik un tā?",
+      "unsavedLeave": "Aiziet",
+      "unsavedStay": "Palikt"
     },
     "import": {
       "button": "⬇️ Importēt no URL",
@@ -201,5 +212,10 @@
     "snack": "Uzkoda",
     "bakery": "Maizes izstrādājumi",
     "soup": "Zupa"
+  },
+  "error": {
+    "title": "Kaut kas nogāja greizi",
+    "message": "Radās neparedzēta kļūda.",
+    "retry": "Mēģināt vēlreiz"
   }
 }

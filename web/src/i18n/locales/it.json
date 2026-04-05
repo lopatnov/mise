@@ -27,7 +27,14 @@
     "resetInvalidLink": "Il link di reimpostazione è mancante o non valido.",
     "newPassword": "Nuova password (min. 6 caratteri)",
     "confirmPassword": "Conferma password",
-    "passwordMismatch": "Le password non corrispondono"
+    "passwordMismatch": "Le password non corrispondono",
+    "verifyEmailTitle": "Verifica la tua email",
+    "verifyEmailSent": "Un link di verifica è stato inviato a {{email}}. Controlla la tua casella di posta.",
+    "verifyEmailNoSmtp": "L'email non è configurata. Usa il link qui sotto per la verifica.",
+    "verifyEmailSuccess": "Email verificata! Ora puoi accedere.",
+    "verifyEmailError": "Link di verifica non valido o scaduto.",
+    "verifyEmailInvalidLink": "Il link di verifica è mancante o non valido.",
+    "verifyEmailNotVerified": "Verifica il tuo indirizzo email prima di accedere."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Aggiungi ingrediente",
       "addStep": "Aggiungi passo",
       "importedPhoto": "Foto importata",
-      "importedPhotoNote": "📷 La foto verrà scaricata al salvataggio (anteprima bloccata dal sito di origine)"
+      "importedPhotoNote": "📷 La foto verrà scaricata al salvataggio (anteprima bloccata dal sito di origine)",
+      "unsavedTitle": "Modifiche non salvate",
+      "unsavedMessage": "Ci sono modifiche non salvate. Vuoi uscire comunque?",
+      "unsavedLeave": "Esci",
+      "unsavedStay": "Rimani"
     },
     "import": {
       "button": "⬇️ Importa da URL",
@@ -201,5 +212,10 @@
     "snack": "Spuntino",
     "bakery": "Pasticceria",
     "soup": "Zuppa"
+  },
+  "error": {
+    "title": "Qualcosa è andato storto",
+    "message": "Si è verificato un errore imprevisto.",
+    "retry": "Riprova"
   }
 }

@@ -27,7 +27,14 @@
     "resetInvalidLink": "Tilbakestillingslenken mangler eller er ugyldig.",
     "newPassword": "Nytt passord (min. 6 tegn)",
     "confirmPassword": "Bekreft passord",
-    "passwordMismatch": "Passordene stemmer ikke overens"
+    "passwordMismatch": "Passordene stemmer ikke overens",
+    "verifyEmailTitle": "Bekreft e-postadressen din",
+    "verifyEmailSent": "En bekreftelseslenke er sendt til {{email}}. Sjekk innboksen din.",
+    "verifyEmailNoSmtp": "E-post er ikke konfigurert. Bruk lenken nedenfor for bekreftelse.",
+    "verifyEmailSuccess": "E-post bekreftet! Du kan nå logge inn.",
+    "verifyEmailError": "Ugyldig eller utløpt bekreftelseslenke.",
+    "verifyEmailInvalidLink": "Bekreftelseslenken mangler eller er ugyldig.",
+    "verifyEmailNotVerified": "Bekreft e-postadressen din før du logger inn."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Legg til ingrediens",
       "addStep": "Legg til steg",
       "importedPhoto": "Importert bilde",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Ulagrede endringer",
+      "unsavedMessage": "Du har ulagrede endringer. Forlat likevel?",
+      "unsavedLeave": "Forlat",
+      "unsavedStay": "Bli"
     },
     "import": {
       "button": "⬇️ Importer fra URL",
@@ -201,5 +212,10 @@
     "snack": "Snacks",
     "bakery": "Bakeri",
     "soup": "Suppe"
+  },
+  "error": {
+    "title": "Noe gikk galt",
+    "message": "Det oppstod en uventet feil.",
+    "retry": "Prøv igjen"
   }
 }

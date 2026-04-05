@@ -27,7 +27,14 @@
     "resetInvalidLink": "Link resetujący jest brakujący lub nieprawidłowy.",
     "newPassword": "Nowe hasło (min. 6 znaków)",
     "confirmPassword": "Potwierdź hasło",
-    "passwordMismatch": "Hasła nie są zgodne"
+    "passwordMismatch": "Hasła nie są zgodne",
+    "verifyEmailTitle": "Zweryfikuj swój adres e-mail",
+    "verifyEmailSent": "Link weryfikacyjny został wysłany na {{email}}. Sprawdź swoją skrzynkę odbiorczą.",
+    "verifyEmailNoSmtp": "E-mail nie jest skonfigurowany. Użyj poniższego linku do weryfikacji.",
+    "verifyEmailSuccess": "E-mail zweryfikowany! Możesz się teraz zalogować.",
+    "verifyEmailError": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+    "verifyEmailInvalidLink": "Link weryfikacyjny jest brakujący lub nieprawidłowy.",
+    "verifyEmailNotVerified": "Zweryfikuj swój adres e-mail przed zalogowaniem."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Dodaj składnik",
       "addStep": "Dodaj krok",
       "importedPhoto": "Zaimportowane zdjęcie",
-      "importedPhotoNote": "📷 Zdjęcie zostanie pobrane przy zapisie (podgląd zablokowany przez stronę źródłową)"
+      "importedPhotoNote": "📷 Zdjęcie zostanie pobrane przy zapisie (podgląd zablokowany przez stronę źródłową)",
+      "unsavedTitle": "Niezapisane zmiany",
+      "unsavedMessage": "Masz niezapisane zmiany. Opuścić mimo to?",
+      "unsavedLeave": "Opuść",
+      "unsavedStay": "Zostań"
     },
     "import": {
       "button": "⬇️ Importuj z URL",
@@ -201,5 +212,10 @@
     "snack": "Przekąska",
     "bakery": "Pieczywo",
     "soup": "Zupa"
+  },
+  "error": {
+    "title": "Coś poszło nie tak",
+    "message": "Wystąpił nieoczekiwany błąd.",
+    "retry": "Spróbuj ponownie"
   }
 }

@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import type { VerificationResponse } from '../api/auth';
 import { authApi } from '../api/auth';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -18,6 +19,7 @@ export default function RegisterPage() {
   const [inviteToken, setInviteToken] = useState(params.get('invite') ?? '');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [verification, setVerification] = useState<VerificationResponse | null>(null);
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
 
@@ -27,14 +29,39 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       const res = await authApi.register(email, password, displayName || undefined, inviteToken || undefined);
-      setAuth(res.access_token, res.user);
-      navigate('/');
+      if ('needsVerification' in res) {
+        setVerification(res);
+      } else {
+        setAuth(res.access_token, res.user);
+        navigate('/');
+      }
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
       setError(msg ?? t('auth.emailTaken'));
     } finally {
       setLoading(false);
     }
+  }
+
+  if (verification) {
+    return (
+      <div className="page-container--auth page-container--auth--center">
+        <article>
+          <p className="auth-result-icon">📧</p>
+          <p className="auth-result-text">{t('auth.verifyEmailSent', { email: verification.email })}</p>
+          {verification.devLink && (
+            <a href={verification.devLink} className="dev-link">
+              {verification.devLink}
+            </a>
+          )}
+          <p className="auth-links--sm">
+            <Link to="/login" className="link--sm">
+              ← {t('auth.signIn')}
+            </Link>
+          </p>
+        </article>
+      </div>
+    );
   }
 
   return (

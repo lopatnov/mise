@@ -148,6 +148,6 @@ export class AdminService {
   }
 
   getAppUrl(): Promise<string> {
-    return this.getSettings().then((s) => s.appUrl ?? process.env.APP_URL ?? 'http://localhost:4200');
+    return this.getSettings().then((s) => s.appUrl || process.env.APP_URL || 'http://localhost:4200');
   }
 }

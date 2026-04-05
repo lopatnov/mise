@@ -27,7 +27,14 @@
     "resetInvalidLink": "重設連結遺失或無效。",
     "newPassword": "新密碼（至少 6 個字元）",
     "confirmPassword": "確認密碼",
-    "passwordMismatch": "密碼不一致"
+    "passwordMismatch": "密碼不一致",
+    "verifyEmailTitle": "驗證您的電子郵件",
+    "verifyEmailSent": "驗證連結已發送至 {{email}}。請檢查您的收件匣。",
+    "verifyEmailNoSmtp": "電子郵件未設定。請使用下方連結進行驗證。",
+    "verifyEmailSuccess": "電子郵件已驗證！您現在可以登入。",
+    "verifyEmailError": "無效或已過期的驗證連結。",
+    "verifyEmailInvalidLink": "驗證連結遺失或無效。",
+    "verifyEmailNotVerified": "登入前請先驗證您的電子郵件地址。"
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "新增食材",
       "addStep": "新增步驟",
       "importedPhoto": "匯入的照片",
-      "importedPhotoNote": "📷 照片將在儲存時下載（來源網站阻止了預覽）"
+      "importedPhotoNote": "📷 照片將在儲存時下載（來源網站阻止了預覽）",
+      "unsavedTitle": "未儲存的變更",
+      "unsavedMessage": "您有未儲存的變更。確定要離開？",
+      "unsavedLeave": "離開",
+      "unsavedStay": "留下"
     },
     "import": {
       "button": "⬇️ 從URL匯入",
@@ -201,5 +212,10 @@
     "snack": "小吃",
     "bakery": "烘焙",
     "soup": "湯"
+  },
+  "error": {
+    "title": "出了點問題",
+    "message": "發生了意外錯誤。",
+    "retry": "重試"
   }
 }

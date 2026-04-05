@@ -34,8 +34,9 @@ export default function LoginPage() {
       const res = await authApi.login(email, password);
       setAuth(res.access_token, res.user);
       navigate('/');
-    } catch {
-      setError(t('auth.invalidCredentials'));
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setError(msg === 'email-not-verified' ? t('auth.verifyEmailNotVerified') : t('auth.invalidCredentials'));
     } finally {
       setLoading(false);
     }

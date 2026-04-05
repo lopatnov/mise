@@ -27,7 +27,14 @@
     "resetInvalidLink": "Odkaz pro obnovení chybí nebo je neplatný.",
     "newPassword": "Nové heslo (min. 6 znaků)",
     "confirmPassword": "Potvrdit heslo",
-    "passwordMismatch": "Hesla se neshodují"
+    "passwordMismatch": "Hesla se neshodují",
+    "verifyEmailTitle": "Ověřte svůj e-mail",
+    "verifyEmailSent": "Na {{email}} byl odeslán ověřovací odkaz. Zkontrolujte svou doručenou poštu.",
+    "verifyEmailNoSmtp": "E-mail není nakonfigurován. Použijte odkaz níže pro ověření.",
+    "verifyEmailSuccess": "E-mail byl ověřen! Nyní se můžete přihlásit.",
+    "verifyEmailError": "Neplatný nebo vypršelý ověřovací odkaz.",
+    "verifyEmailInvalidLink": "Ověřovací odkaz chybí nebo je neplatný.",
+    "verifyEmailNotVerified": "Před přihlášením prosím ověřte svou e-mailovou adresu."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Přidat ingredienci",
       "addStep": "Přidat krok",
       "importedPhoto": "Importovaná fotka",
-      "importedPhotoNote": "📷 Fotografie bude stažena při uložení (náhled zablokován zdrojovým webem)"
+      "importedPhotoNote": "📷 Fotografie bude stažena při uložení (náhled zablokován zdrojovým webem)",
+      "unsavedTitle": "Neuložené změny",
+      "unsavedMessage": "Máte neuložené změny. Přesto odejít?",
+      "unsavedLeave": "Odejít",
+      "unsavedStay": "Zůstat"
     },
     "import": {
       "button": "⬇️ Importovat z URL",
@@ -201,5 +212,10 @@
     "snack": "Svačina",
     "bakery": "Pečivo",
     "soup": "Polévka"
+  },
+  "error": {
+    "title": "Něco se pokazilo",
+    "message": "Nastala neočekávaná chyba.",
+    "retry": "Zkusit znovu"
   }
 }

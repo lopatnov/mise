@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
@@ -18,6 +18,7 @@ describe('AuthService', () => {
     validatePassword: jest.fn(),
     updateById: jest.fn(),
     findByResetToken: jest.fn(),
+    findByEmailVerificationToken: jest.fn(),
   };
 
   const mockAdminService = {
@@ -51,20 +52,37 @@ describe('AuthService', () => {
   // ── register ─────────────────────────────────────────────────────────────
 
   describe('register', () => {
-    it('creates a user and returns access_token', async () => {
-      const user = {
-        _id: new Types.ObjectId(),
-        email: 'a@b.com',
-        displayName: 'Alice',
-      };
+    it('creates a user, sends verification email, and returns needsVerification', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com', displayName: 'Alice' };
       mockUsersService.findByEmail.mockResolvedValue(null);
       mockUsersService.create.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.sendEmail.mockResolvedValue(true);
 
       const result = await service.register('a@b.com', 'pass123');
 
-      expect(result.access_token).toBe('signed.jwt.token');
-      expect(result.user.email).toBe('a@b.com');
+      expect(result).toMatchObject({ needsVerification: true, email: 'a@b.com' });
       expect(mockUsersService.create).toHaveBeenCalledWith('a@b.com', 'pass123', undefined);
+      expect(mockUsersService.updateById).toHaveBeenCalledWith(
+        String(user._id),
+        expect.objectContaining({
+          emailVerificationToken: expect.any(String),
+          emailVerificationTokenExpiresAt: expect.any(Date),
+        }),
+      );
+    });
+
+    it('returns devLink when SMTP is not configured', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(null);
+      mockUsersService.create.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.sendEmail.mockResolvedValue(false);
+
+      const result = await service.register('a@b.com', 'pass123');
+
+      expect(result).toMatchObject({ needsVerification: true, email: 'a@b.com' });
+      expect((result as { devLink?: string }).devLink).toContain('/verify-email?token=');
     });
 
     it('throws ConflictException when email is already registered', async () => {
@@ -91,6 +109,19 @@ describe('AuthService', () => {
       const result = await service.login('a@b.com', 'pass123');
 
       expect(result.access_token).toBe('signed.jwt.token');
+    });
+
+    it('throws ForbiddenException when email is not verified', async () => {
+      const user = {
+        _id: new Types.ObjectId(),
+        email: 'a@b.com',
+        passwordHash: 'hash',
+        isActive: true,
+        emailVerificationToken: 'some-token',
+      };
+      mockUsersService.findByEmail.mockResolvedValue(user);
+
+      await expect(service.login('a@b.com', 'pass123')).rejects.toThrow(ForbiddenException);
     });
 
     it('throws UnauthorizedException when user does not exist', async () => {
@@ -152,6 +183,34 @@ describe('AuthService', () => {
 
       expect(result.message).toBeDefined();
       expect(result.devLink).toBeUndefined();
+    });
+  });
+
+  // ── verifyEmail ───────────────────────────────────────────────────────────────
+
+  describe('verifyEmail', () => {
+    it('returns access_token and marks email as verified for a valid token', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmailVerificationToken.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+
+      const result = await service.verifyEmail('valid-token');
+
+      expect(result.access_token).toBe('signed.jwt.token');
+      expect(mockUsersService.updateById).toHaveBeenCalledWith(
+        String(user._id),
+        expect.objectContaining({
+          isEmailVerified: true,
+          emailVerificationToken: undefined,
+          emailVerificationTokenExpiresAt: undefined,
+        }),
+      );
+    });
+
+    it('throws BadRequestException when the token is invalid or expired', async () => {
+      mockUsersService.findByEmailVerificationToken.mockResolvedValue(null);
+
+      await expect(service.verifyEmail('bad-token')).rejects.toThrow(BadRequestException);
     });
   });
 

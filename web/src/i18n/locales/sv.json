@@ -27,7 +27,14 @@
     "resetInvalidLink": "Återställningslänken saknas eller är ogiltig.",
     "newPassword": "Nytt lösenord (min. 6 tecken)",
     "confirmPassword": "Bekräfta lösenord",
-    "passwordMismatch": "Lösenorden matchar inte"
+    "passwordMismatch": "Lösenorden matchar inte",
+    "verifyEmailTitle": "Verifiera din e-post",
+    "verifyEmailSent": "En verifieringslänk har skickats till {{email}}. Kontrollera din inkorg.",
+    "verifyEmailNoSmtp": "E-post är inte konfigurerat. Använd länken nedan för verifiering.",
+    "verifyEmailSuccess": "E-post verifierad! Du kan nu logga in.",
+    "verifyEmailError": "Ogiltig eller utgången verifieringslänk.",
+    "verifyEmailInvalidLink": "Verifieringslänken saknas eller är ogiltig.",
+    "verifyEmailNotVerified": "Verifiera din e-postadress innan du loggar in."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Lägg till ingrediens",
       "addStep": "Lägg till steg",
       "importedPhoto": "Importerat foto",
-      "importedPhotoNote": "📷 Foto laddas ner vid sparande (förhandsvisning blockerad av källsidan)"
+      "importedPhotoNote": "📷 Foto laddas ner vid sparande (förhandsvisning blockerad av källsidan)",
+      "unsavedTitle": "Osparade ändringar",
+      "unsavedMessage": "Du har osparade ändringar. Lämna ändå?",
+      "unsavedLeave": "Lämna",
+      "unsavedStay": "Stanna"
     },
     "import": {
       "button": "⬇️ Importera från URL",
@@ -201,5 +212,10 @@
     "snack": "Snacks",
     "bakery": "Bakverk",
     "soup": "Soppa"
+  },
+  "error": {
+    "title": "Något gick fel",
+    "message": "Ett oväntat fel inträffade.",
+    "retry": "Försök igen"
   }
 }

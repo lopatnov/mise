@@ -27,7 +27,14 @@
     "resetInvalidLink": "Reset link is missing or invalid.",
     "newPassword": "New password (min. 6 characters)",
     "confirmPassword": "Confirm password",
-    "passwordMismatch": "Passwords do not match"
+    "passwordMismatch": "Passwords do not match",
+    "verifyEmailTitle": "Verify your email",
+    "verifyEmailSent": "A verification link has been sent to {{email}}. Please check your inbox.",
+    "verifyEmailNoSmtp": "Email not configured. Use the link below to verify your account.",
+    "verifyEmailSuccess": "Email verified! You can now sign in.",
+    "verifyEmailError": "Invalid or expired verification link.",
+    "verifyEmailInvalidLink": "Verification link is missing or invalid.",
+    "verifyEmailNotVerified": "Please verify your email address before signing in."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Add ingredient",
       "addStep": "Add step",
       "importedPhoto": "Imported photo",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Unsaved changes",
+      "unsavedMessage": "You have unsaved changes. Leave anyway?",
+      "unsavedLeave": "Leave",
+      "unsavedStay": "Stay"
     },
     "import": {
       "button": "⬇️ Import from URL",
@@ -201,5 +212,10 @@
     "snack": "Snack",
     "bakery": "Bakery",
     "soup": "Soup"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred.",
+    "retry": "Try again"
   }
 }

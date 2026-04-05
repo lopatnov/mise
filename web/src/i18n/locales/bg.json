@@ -27,7 +27,14 @@
     "resetInvalidLink": "Линкът за нулиране липсва или е невалиден.",
     "newPassword": "Нова парола (мин. 6 символа)",
     "confirmPassword": "Потвърждение на паролата",
-    "passwordMismatch": "Паролите не съвпадат"
+    "passwordMismatch": "Паролите не съвпадат",
+    "verifyEmailTitle": "Потвърдете имейла си",
+    "verifyEmailSent": "Изпратен е линк за потвърждение на {{email}}. Проверете входящата си поща.",
+    "verifyEmailNoSmtp": "Имейлът не е конфигуриран. Използвайте линка по-долу за потвърждение.",
+    "verifyEmailSuccess": "Имейлът е потвърден! Вече можете да влезете.",
+    "verifyEmailError": "Невалиден или изтекъл линк за потвърждение.",
+    "verifyEmailInvalidLink": "Линкът за потвърждение липсва или е невалиден.",
+    "verifyEmailNotVerified": "Моля потвърдете имейл адреса си, преди да влезете."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Добавяне на съставка",
       "addStep": "Добавяне на стъпка",
       "importedPhoto": "Импортирана снимка",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Незапазени промени",
+      "unsavedMessage": "Имате незапазени промени. Да напуснете?",
+      "unsavedLeave": "Напусни",
+      "unsavedStay": "Остани"
     },
     "import": {
       "button": "⬇️ Импортиране от URL",
@@ -201,5 +212,10 @@
     "snack": "Мезе",
     "bakery": "Хлебни изделия",
     "soup": "Супа"
+  },
+  "error": {
+    "title": "Нещо се обърка",
+    "message": "Възникна неочаквана грешка.",
+    "retry": "Опитайте пак"
   }
 }

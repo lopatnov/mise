@@ -27,7 +27,14 @@
     "resetInvalidLink": "Odkaz na obnovenie chýba alebo je neplatný.",
     "newPassword": "Nové heslo (min. 6 znakov)",
     "confirmPassword": "Potvrdiť heslo",
-    "passwordMismatch": "Heslá sa nezhodujú"
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "verifyEmailTitle": "Overte svoju e-mailovú adresu",
+    "verifyEmailSent": "Na {{email}} bol odoslaný overovací odkaz. Skontrolujte svoju doručenú poštu.",
+    "verifyEmailNoSmtp": "E-mail nie je nakonfigurovaný. Použite odkaz nižšie na overenie.",
+    "verifyEmailSuccess": "E-mail overený! Teraz sa môžete prihlásiť.",
+    "verifyEmailError": "Neplatný alebo expirovaný overovací odkaz.",
+    "verifyEmailInvalidLink": "Overovací odkaz chýba alebo je neplatný.",
+    "verifyEmailNotVerified": "Pred prihlásením overte svoju e-mailovú adresu."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Pridať surovinu",
       "addStep": "Pridať krok",
       "importedPhoto": "Importovaná fotka",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Neuložené zmeny",
+      "unsavedMessage": "Máte neuložené zmeny. Napriek tomu odísť?",
+      "unsavedLeave": "Odísť",
+      "unsavedStay": "Zostať"
     },
     "import": {
       "button": "⬇️ Importovať z URL",
@@ -201,5 +212,10 @@
     "snack": "Snack",
     "bakery": "Pečivo",
     "soup": "Polievka"
+  },
+  "error": {
+    "title": "Niečo sa pokazilo",
+    "message": "Nastala neočakávaná chyba.",
+    "retry": "Skúsiť znovu"
   }
 }

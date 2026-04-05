@@ -1,5 +1,10 @@
+.print-only {
+  display: none;
+}
+
 @media print {
-  .no-print {
+  .no-print,
+  .navbar {
     display: none;
   }
 
@@ -15,20 +20,17 @@
     text-decoration: none;
   }
 
-  // Recipe detail: force single column, reset mobile sidebar order
+  // Recipe detail: single column, sidebar hidden (print-only ingredients block used instead)
   .recipe-detail__grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .recipe-detail__main {
-    order: 1;
+  .recipe-detail__sidebar {
+    display: none;
   }
 
-  .recipe-detail__sidebar {
-    order: 2;
-    position: static;
-    max-height: none;
-    overflow: visible;
+  .print-only {
+    display: block;
   }
 }

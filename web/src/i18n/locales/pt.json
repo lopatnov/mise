@@ -27,7 +27,14 @@
     "resetInvalidLink": "O link de redefinição está ausente ou é inválido.",
     "newPassword": "Nova senha (mín. 6 caracteres)",
     "confirmPassword": "Confirmar senha",
-    "passwordMismatch": "As senhas não coincidem"
+    "passwordMismatch": "As senhas não coincidem",
+    "verifyEmailTitle": "Verifique o seu e-mail",
+    "verifyEmailSent": "Um link de verificação foi enviado para {{email}}. Verifique a sua caixa de entrada.",
+    "verifyEmailNoSmtp": "O e-mail não está configurado. Use o link abaixo para verificação.",
+    "verifyEmailSuccess": "E-mail verificado! Já pode iniciar sessão.",
+    "verifyEmailError": "Link de verificação inválido ou expirado.",
+    "verifyEmailInvalidLink": "O link de verificação está ausente ou é inválido.",
+    "verifyEmailNotVerified": "Verifique o seu endereço de e-mail antes de iniciar sessão."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Adicionar ingrediente",
       "addStep": "Adicionar passo",
       "importedPhoto": "Foto importada",
-      "importedPhotoNote": "📷 A foto será baixada ao salvar (pré-visualização bloqueada pelo site de origem)"
+      "importedPhotoNote": "📷 A foto será baixada ao salvar (pré-visualização bloqueada pelo site de origem)",
+      "unsavedTitle": "Alterações não guardadas",
+      "unsavedMessage": "Tem alterações não guardadas. Sair mesmo assim?",
+      "unsavedLeave": "Sair",
+      "unsavedStay": "Ficar"
     },
     "import": {
       "button": "⬇️ Importar de URL",
@@ -201,5 +212,10 @@
     "snack": "Lanche",
     "bakery": "Padaria",
     "soup": "Sopa"
+  },
+  "error": {
+    "title": "Algo correu mal",
+    "message": "Ocorreu um erro inesperado.",
+    "retry": "Tentar novamente"
   }
 }

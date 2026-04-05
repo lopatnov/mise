@@ -27,7 +27,14 @@
     "resetInvalidLink": "Nollauslinkki puuttuu tai on virheellinen.",
     "newPassword": "Uusi salasana (väh. 6 merkkiä)",
     "confirmPassword": "Vahvista salasana",
-    "passwordMismatch": "Salasanat eivät täsmää"
+    "passwordMismatch": "Salasanat eivät täsmää",
+    "verifyEmailTitle": "Vahvista sähköpostiosoitteesi",
+    "verifyEmailSent": "Vahvistuslinkki on lähetetty osoitteeseen {{email}}. Tarkista sähköpostisi.",
+    "verifyEmailNoSmtp": "Sähköpostia ei ole määritetty. Käytä alla olevaa linkkiä vahvistukseen.",
+    "verifyEmailSuccess": "Sähköposti vahvistettu! Voit nyt kirjautua sisään.",
+    "verifyEmailError": "Virheellinen tai vanhentunut vahvistuslinkki.",
+    "verifyEmailInvalidLink": "Vahvistuslinkki puuttuu tai on virheellinen.",
+    "verifyEmailNotVerified": "Vahvista sähköpostiosoitteesi ennen kirjautumista."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Lisää aines",
       "addStep": "Lisää vaihe",
       "importedPhoto": "Tuotu kuva",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Tallentamattomat muutokset",
+      "unsavedMessage": "Sinulla on tallentamattomia muutoksia. Poistu silti?",
+      "unsavedLeave": "Poistu",
+      "unsavedStay": "Jää"
     },
     "import": {
       "button": "⬇️ Tuo URL:sta",
@@ -201,5 +212,10 @@
     "snack": "Välipala",
     "bakery": "Leivonnaiset",
     "soup": "Keitto"
+  },
+  "error": {
+    "title": "Jokin meni pieleen",
+    "message": "Tapahtui odottamaton virhe.",
+    "retry": "Yritä uudelleen"
   }
 }

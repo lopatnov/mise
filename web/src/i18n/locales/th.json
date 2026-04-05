@@ -27,7 +27,14 @@
     "resetInvalidLink": "ลิงก์รีเซ็ตหายไปหรือไม่ถูกต้อง",
     "newPassword": "รหัสผ่านใหม่ (อย่างน้อย 6 ตัวอักษร)",
     "confirmPassword": "ยืนยันรหัสผ่าน",
-    "passwordMismatch": "รหัสผ่านไม่ตรงกัน"
+    "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
+    "verifyEmailTitle": "ยืนยันอีเมลของคุณ",
+    "verifyEmailSent": "ลิงก์ยืนยันถูกส่งไปยัง {{email}} แล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ",
+    "verifyEmailNoSmtp": "ยังไม่ได้ตั้งค่าอีเมล ใช้ลิงก์ด้านล่างเพื่อยืนยัน",
+    "verifyEmailSuccess": "ยืนยันอีเมลสำเร็จ! คุณสามารถลงชื่อเข้าใช้ได้แล้ว",
+    "verifyEmailError": "ลิงก์ยืนยันไม่ถูกต้องหรือหมดอายุ",
+    "verifyEmailInvalidLink": "ลิงก์ยืนยันหายไปหรือไม่ถูกต้อง",
+    "verifyEmailNotVerified": "กรุณายืนยันที่อยู่อีเมลของคุณก่อนลงชื่อเข้าใช้"
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "เพิ่มส่วนผสม",
       "addStep": "เพิ่มขั้นตอน",
       "importedPhoto": "รูปภาพที่นำเข้า",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "การเปลี่ยนแปลงที่ยังไม่ได้บันทึก",
+      "unsavedMessage": "คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ออกไปเลยหรือไม่?",
+      "unsavedLeave": "ออก",
+      "unsavedStay": "อยู่ต่อ"
     },
     "import": {
       "button": "⬇️ นำเข้าจาก URL",
@@ -201,5 +212,10 @@
     "snack": "ของว่าง",
     "bakery": "เบเกอรี่",
     "soup": "ซุป"
+  },
+  "error": {
+    "title": "เกิดข้อผิดพลาด",
+    "message": "เกิดข้อผิดพลาดที่ไม่คาดคิด",
+    "retry": "ลองอีกครั้ง"
   }
 }

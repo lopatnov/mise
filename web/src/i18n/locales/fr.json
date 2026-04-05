@@ -27,7 +27,14 @@
     "resetInvalidLink": "Le lien de réinitialisation est manquant ou invalide.",
     "newPassword": "Nouveau mot de passe (min. 6 caractères)",
     "confirmPassword": "Confirmer le mot de passe",
-    "passwordMismatch": "Les mots de passe ne correspondent pas"
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "verifyEmailTitle": "Vérifiez votre e-mail",
+    "verifyEmailSent": "Un lien de vérification a été envoyé à {{email}}. Vérifiez votre boîte de réception.",
+    "verifyEmailNoSmtp": "L'e-mail n'est pas configuré. Utilisez le lien ci-dessous pour la vérification.",
+    "verifyEmailSuccess": "E-mail vérifié ! Vous pouvez maintenant vous connecter.",
+    "verifyEmailError": "Lien de vérification invalide ou expiré.",
+    "verifyEmailInvalidLink": "Le lien de vérification est manquant ou invalide.",
+    "verifyEmailNotVerified": "Veuillez vérifier votre adresse e-mail avant de vous connecter."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Ajouter un ingrédient",
       "addStep": "Ajouter une étape",
       "importedPhoto": "Photo importée",
-      "importedPhotoNote": "📷 La photo sera téléchargée à l'enregistrement (aperçu bloqué par le site source)"
+      "importedPhotoNote": "📷 La photo sera téléchargée à l'enregistrement (aperçu bloqué par le site source)",
+      "unsavedTitle": "Modifications non enregistrées",
+      "unsavedMessage": "Vous avez des modifications non enregistrées. Quitter quand même ?",
+      "unsavedLeave": "Quitter",
+      "unsavedStay": "Rester"
     },
     "import": {
       "button": "⬇️ Importer depuis une URL",
@@ -201,5 +212,10 @@
     "snack": "Encas",
     "bakery": "Boulangerie",
     "soup": "Soupe"
+  },
+  "error": {
+    "title": "Quelque chose s'est mal passé",
+    "message": "Une erreur inattendue s'est produite.",
+    "retry": "Réessayer"
   }
 }

@@ -100,15 +100,15 @@ describe('Admin setup, invites and password reset (e2e)', () => {
     inviteToken = body.token;
   });
 
-  it('POST /api/auth/register with valid invite → 201', async () => {
+  it('POST /api/auth/register with valid invite → 201 with needsVerification', async () => {
     const res = await request(app.getHttpServer())
       .post('/api/auth/register')
       .send({ email: userEmail, password: userPassword, inviteToken })
       .expect(201);
 
-    const body = res.body as { access_token: string; user: { email: string } };
-    expect(body.access_token).toBeDefined();
-    expect(body.user.email).toBe(userEmail);
+    const body = res.body as { needsVerification: boolean; email: string; devLink?: string };
+    expect(body.needsVerification).toBe(true);
+    expect(body.email).toBe(userEmail);
   });
 
   it('POST /api/auth/register with the same invite again → 400 (invite already used)', () => {

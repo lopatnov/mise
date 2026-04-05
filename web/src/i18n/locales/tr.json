@@ -27,7 +27,14 @@
     "resetInvalidLink": "Sıfırlama bağlantısı eksik veya geçersiz.",
     "newPassword": "Yeni şifre (min. 6 karakter)",
     "confirmPassword": "Şifreyi onayla",
-    "passwordMismatch": "Şifreler eşleşmiyor"
+    "passwordMismatch": "Şifreler eşleşmiyor",
+    "verifyEmailTitle": "E-postanızı doğrulayın",
+    "verifyEmailSent": "{{email}} adresine doğrulama bağlantısı gönderildi. Gelen kutunuzu kontrol edin.",
+    "verifyEmailNoSmtp": "E-posta yapılandırılmamış. Doğrulama için aşağıdaki bağlantıyı kullanın.",
+    "verifyEmailSuccess": "E-posta doğrulandı! Artık giriş yapabilirsiniz.",
+    "verifyEmailError": "Geçersiz veya süresi dolmuş doğrulama bağlantısı.",
+    "verifyEmailInvalidLink": "Doğrulama bağlantısı eksik veya geçersiz.",
+    "verifyEmailNotVerified": "Giriş yapmadan önce e-posta adresinizi doğrulayın."
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "Malzeme ekle",
       "addStep": "Adım ekle",
       "importedPhoto": "İçe aktarılan fotoğraf",
-      "importedPhotoNote": "📷 Fotoğraf kaydedilirken indirilecek (önizleme kaynak site tarafından engellendi)"
+      "importedPhotoNote": "📷 Fotoğraf kaydedilirken indirilecek (önizleme kaynak site tarafından engellendi)",
+      "unsavedTitle": "Kaydedilmemiş değişiklikler",
+      "unsavedMessage": "Kaydedilmemiş değişiklikleriniz var. Yine de çıkmak istiyor musunuz?",
+      "unsavedLeave": "Çık",
+      "unsavedStay": "Kal"
     },
     "import": {
       "button": "⬇️ URL'den içe aktar",
@@ -201,5 +212,10 @@
     "snack": "Atıştırmalık",
     "bakery": "Fırın ürünleri",
     "soup": "Çorba"
+  },
+  "error": {
+    "title": "Bir şeyler yanlış gitti",
+    "message": "Beklenmedik bir hata oluştu.",
+    "retry": "Tekrar dene"
   }
 }

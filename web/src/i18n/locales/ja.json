@@ -27,7 +27,14 @@
     "resetInvalidLink": "リセットリンクが見つからないか無効です。",
     "newPassword": "新しいパスワード（最低6文字）",
     "confirmPassword": "パスワードの確認",
-    "passwordMismatch": "パスワードが一致しません"
+    "passwordMismatch": "パスワードが一致しません",
+    "verifyEmailTitle": "メールを確認してください",
+    "verifyEmailSent": "{{email}} に確認リンクを送信しました。受信トレイをご確認ください。",
+    "verifyEmailNoSmtp": "メールが設定されていません。以下のリンクで確認してください。",
+    "verifyEmailSuccess": "メールが確認されました！ログインできます。",
+    "verifyEmailError": "無効または期限切れの確認リンクです。",
+    "verifyEmailInvalidLink": "確認リンクがないか無効です。",
+    "verifyEmailNotVerified": "ログインする前にメールアドレスを確認してください。"
   },
   "recipe": {
     "list": {
@@ -107,7 +114,11 @@
       "addIngredient": "材料を追加",
       "addStep": "手順を追加",
       "importedPhoto": "インポートした写真",
-      "importedPhotoNote": "📷 写真は保存時にダウンロードされます（ソースサイトによりプレビューがブロックされています）"
+      "importedPhotoNote": "📷 写真は保存時にダウンロードされます（ソースサイトによりプレビューがブロックされています）",
+      "unsavedTitle": "未保存の変更",
+      "unsavedMessage": "未保存の変更があります。このまま離れますか？",
+      "unsavedLeave": "離れる",
+      "unsavedStay": "とどまる"
     },
     "import": {
       "button": "⬇️ URLからインポート",
@@ -201,5 +212,10 @@
     "snack": "スナック",
     "bakery": "パン",
     "soup": "スープ"
+  },
+  "error": {
+    "title": "エラーが発生しました",
+    "message": "予期しないエラーが発生しました。",
+    "retry": "再試行"
   }
 }
