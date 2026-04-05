@@ -2,10 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useBlocker, useNavigate, useParams } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import ConfirmDialog from '../components/ConfirmDialog';
 import ImportUrlDialog from '../components/ImportUrlDialog';
 import { usePageTitle } from '../hooks/usePageTitle';
 
@@ -33,6 +34,19 @@ export default function RecipeFormPage() {
   const [showImport, setShowImport] = useState(false);
   const [importedImageUrl, setImportedImageUrl] = useState('');
   const [photoPreviewFailed, setPhotoPreviewFailed] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const markDirty = () => setIsDirty(true);
+
+  const blocker = useBlocker(isDirty);
+
+  useEffect(() => {
+    if (!isDirty) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [isDirty]);
 
   const { data: categories } = useQuery({ queryKey: ['categories'], queryFn: categoriesApi.list });
   const { data: allTags } = useQuery({ queryKey: ['recipe-tags'], queryFn: recipesApi.getTags });
@@ -77,12 +91,14 @@ export default function RecipeFormPage() {
       setImportedImageUrl(data.externalImageUrl);
       setPhotoPreviewFailed(false);
     }
+    markDirty();
     setShowImport(false);
   }
 
   const saveMut = useMutation({
     mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id ?? '', data) : recipesApi.create(data)),
     onSuccess: (saved) => {
+      setIsDirty(false);
       qc.invalidateQueries({ queryKey: ['recipes'] });
       qc.invalidateQueries({ queryKey: ['recipe', saved._id] });
       navigate(`/recipes/${saved.slug ?? saved._id}`);
@@ -112,21 +128,34 @@ export default function RecipeFormPage() {
     });
   }
 
-  const addIngredient = () =>
+  const addIngredient = () => {
     setIngredients([...ingredients, { _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
-  const removeIngredient = (i: number) => setIngredients(ingredients.filter((_, idx) => idx !== i));
+    markDirty();
+  };
+  const removeIngredient = (i: number) => {
+    setIngredients(ingredients.filter((_, idx) => idx !== i));
+    markDirty();
+  };
   const updateIngredient = (i: number, field: string, value: string | number) => {
     const updated = [...ingredients];
     updated[i] = { ...updated[i], [field]: value };
     setIngredients(updated);
+    markDirty();
   };
 
-  const addStep = () => setSteps([...steps, { _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
-  const removeStep = (i: number) => setSteps(steps.filter((_, idx) => idx !== i));
+  const addStep = () => {
+    setSteps([...steps, { _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
+    markDirty();
+  };
+  const removeStep = (i: number) => {
+    setSteps(steps.filter((_, idx) => idx !== i));
+    markDirty();
+  };
   const updateStep = (i: number, value: string) => {
     const updated = [...steps];
     updated[i] = { ...updated[i], text: value };
     setSteps(updated);
+    markDirty();
   };
 
   function moveIngredient(from: number, to: number) {
@@ -135,6 +164,7 @@ export default function RecipeFormPage() {
     const [item] = next.splice(from, 1);
     next.splice(to, 0, item);
     setIngredients(next);
+    markDirty();
   }
 
   function moveStep(from: number, to: number) {
@@ -143,11 +173,21 @@ export default function RecipeFormPage() {
     const [item] = next.splice(from, 1);
     next.splice(to, 0, item);
     setSteps(next);
+    markDirty();
   }
 
   return (
     <div className="page-container">
       {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
+      {blocker.state === 'blocked' && (
+        <ConfirmDialog
+          message={t('recipe.form.unsavedMessage')}
+          confirmLabel={t('recipe.form.unsavedLeave')}
+          cancelLabel={t('recipe.form.unsavedStay')}
+          onConfirm={() => blocker.proceed()}
+          onCancel={() => blocker.reset()}
+        />
+      )}
 
       <div className="recipe-actions form-back">
         <button type="button" onClick={() => navigate(-1)} className="btn-ghost">
@@ -180,7 +220,7 @@ export default function RecipeFormPage() {
             id="f-title"
             title={t('recipe.form.titleLabel')}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => { setTitle(e.target.value); markDirty(); }}
             required
           />
         </Field>
@@ -190,7 +230,7 @@ export default function RecipeFormPage() {
             id="f-desc"
             title={t('recipe.form.description')}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => { setDescription(e.target.value); markDirty(); }}
             rows={3}
             className="resize-v"
           />
@@ -204,7 +244,7 @@ export default function RecipeFormPage() {
               type="number"
               min={1}
               value={servings}
-              onChange={(e) => setServings(Number(e.target.value))}
+              onChange={(e) => { setServings(Number(e.target.value)); markDirty(); }}
             />
           </Field>
           <Field id="f-prep" label={t('recipe.form.prepTime')}>
@@ -214,7 +254,7 @@ export default function RecipeFormPage() {
               type="number"
               min={0}
               value={prepTime}
-              onChange={(e) => setPrepTime(e.target.value)}
+              onChange={(e) => { setPrepTime(e.target.value); markDirty(); }}
             />
           </Field>
           <Field id="f-cook" label={t('recipe.form.cookTime')}>
@@ -224,7 +264,7 @@ export default function RecipeFormPage() {
               type="number"
               min={0}
               value={cookTime}
-              onChange={(e) => setCookTime(e.target.value)}
+              onChange={(e) => { setCookTime(e.target.value); markDirty(); }}
             />
           </Field>
         </div>
@@ -235,7 +275,7 @@ export default function RecipeFormPage() {
               id="f-cat"
               title={t('recipe.form.category')}
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
+              onChange={(e) => { setCategoryId(e.target.value); markDirty(); }}
             >
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
@@ -253,7 +293,7 @@ export default function RecipeFormPage() {
               min={1}
               max={5}
               value={rating}
-              onChange={(e) => setRating(e.target.value)}
+              onChange={(e) => { setRating(e.target.value); markDirty(); }}
             />
           </Field>
         </div>
@@ -262,7 +302,7 @@ export default function RecipeFormPage() {
           <input
             id="f-tags"
             value={tags}
-            onChange={(e) => setTags(e.target.value)}
+            onChange={(e) => { setTags(e.target.value); markDirty(); }}
             placeholder={t('recipe.form.tagsPlaceholder')}
           />
           {allTags && allTags.length > 0 && (
@@ -280,6 +320,7 @@ export default function RecipeFormPage() {
                     .filter(Boolean);
                   const next = active ? list.filter((x) => x !== tg) : [...list, tg];
                   setTags(next.join(', '));
+                  markDirty();
                 };
                 return active ? (
                   <button
@@ -421,7 +462,7 @@ export default function RecipeFormPage() {
         </fieldset>
 
         <label className="checkbox-label">
-          <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+          <input type="checkbox" checked={isPublic} onChange={(e) => { setIsPublic(e.target.checked); markDirty(); }} />
           {t('recipe.form.isPublic')}
         </label>
 

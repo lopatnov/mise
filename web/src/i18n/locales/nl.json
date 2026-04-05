@@ -107,7 +107,11 @@
       "addIngredient": "Ingrediënt toevoegen",
       "addStep": "Stap toevoegen",
       "importedPhoto": "Geïmporteerde foto",
-      "importedPhotoNote": "📷 Foto wordt gedownload bij opslaan (voorbeeld geblokkeerd door bronsite)"
+      "importedPhotoNote": "📷 Foto wordt gedownload bij opslaan (voorbeeld geblokkeerd door bronsite)",
+      "unsavedTitle": "Niet-opgeslagen wijzigingen",
+      "unsavedMessage": "U heeft niet-opgeslagen wijzigingen. Toch verlaten?",
+      "unsavedLeave": "Verlaten",
+      "unsavedStay": "Blijven"
     },
     "import": {
       "button": "⬇️ Importeren via URL",
@@ -201,5 +205,10 @@
     "snack": "Snack",
     "bakery": "Bakkerij",
     "soup": "Soep"
+  },
+  "error": {
+    "title": "Er is iets misgegaan",
+    "message": "Er is een onverwachte fout opgetreden.",
+    "retry": "Opnieuw proberen"
   }
 }

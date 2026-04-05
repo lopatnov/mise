@@ -107,7 +107,11 @@
       "addIngredient": "Lisää aines",
       "addStep": "Lisää vaihe",
       "importedPhoto": "Tuotu kuva",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Tallentamattomat muutokset",
+      "unsavedMessage": "Sinulla on tallentamattomia muutoksia. Poistu silti?",
+      "unsavedLeave": "Poistu",
+      "unsavedStay": "Jää"
     },
     "import": {
       "button": "⬇️ Tuo URL:sta",
@@ -201,5 +205,10 @@
     "snack": "Välipala",
     "bakery": "Leivonnaiset",
     "soup": "Keitto"
+  },
+  "error": {
+    "title": "Jokin meni pieleen",
+    "message": "Tapahtui odottamaton virhe.",
+    "retry": "Yritä uudelleen"
   }
 }

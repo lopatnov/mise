@@ -107,7 +107,11 @@
       "addIngredient": "添加食材",
       "addStep": "添加步骤",
       "importedPhoto": "导入的照片",
-      "importedPhotoNote": "📷 照片将在保存时下载（来源网站阻止了预览）"
+      "importedPhotoNote": "📷 照片将在保存时下载（来源网站阻止了预览）",
+      "unsavedTitle": "未保存的更改",
+      "unsavedMessage": "您有未保存的更改。确定要离开吗？",
+      "unsavedLeave": "离开",
+      "unsavedStay": "留下"
     },
     "import": {
       "button": "⬇️ 从URL导入",
@@ -201,5 +205,10 @@
     "snack": "小吃",
     "bakery": "烘焙",
     "soup": "汤"
+  },
+  "error": {
+    "title": "出了点问题",
+    "message": "发生了意外错误。",
+    "retry": "重试"
   }
 }

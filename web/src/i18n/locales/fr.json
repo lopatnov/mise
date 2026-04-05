@@ -107,7 +107,11 @@
       "addIngredient": "Ajouter un ingrédient",
       "addStep": "Ajouter une étape",
       "importedPhoto": "Photo importée",
-      "importedPhotoNote": "📷 La photo sera téléchargée à l'enregistrement (aperçu bloqué par le site source)"
+      "importedPhotoNote": "📷 La photo sera téléchargée à l'enregistrement (aperçu bloqué par le site source)",
+      "unsavedTitle": "Modifications non enregistrées",
+      "unsavedMessage": "Vous avez des modifications non enregistrées. Quitter quand même ?",
+      "unsavedLeave": "Quitter",
+      "unsavedStay": "Rester"
     },
     "import": {
       "button": "⬇️ Importer depuis une URL",
@@ -201,5 +205,10 @@
     "snack": "Encas",
     "bakery": "Boulangerie",
     "soup": "Soupe"
+  },
+  "error": {
+    "title": "Quelque chose s'est mal passé",
+    "message": "Une erreur inattendue s'est produite.",
+    "retry": "Réessayer"
   }
 }

@@ -107,7 +107,11 @@
       "addIngredient": "재료 추가",
       "addStep": "단계 추가",
       "importedPhoto": "가져온 사진",
-      "importedPhotoNote": "📷 사진은 저장 시 다운로드됩니다（미리보기가 소스 사이트에 의해 차단됨）"
+      "importedPhotoNote": "📷 사진은 저장 시 다운로드됩니다（미리보기가 소스 사이트에 의해 차단됨）",
+      "unsavedTitle": "저장되지 않은 변경사항",
+      "unsavedMessage": "저장되지 않은 변경사항이 있습니다. 그래도 나가시겠습니까?",
+      "unsavedLeave": "나가기",
+      "unsavedStay": "머물기"
     },
     "import": {
       "button": "⬇️ URL에서 가져오기",
@@ -201,5 +205,10 @@
     "snack": "스낵",
     "bakery": "베이커리",
     "soup": "수프"
+  },
+  "error": {
+    "title": "오류가 발생했습니다",
+    "message": "예기치 않은 오류가 발생했습니다.",
+    "retry": "다시 시도"
   }
 }

@@ -107,7 +107,11 @@
       "addIngredient": "Tambah bahan",
       "addStep": "Tambah langkah",
       "importedPhoto": "Foto yang diimpor",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Perubahan belum disimpan",
+      "unsavedMessage": "Anda memiliki perubahan yang belum disimpan. Keluar saja?",
+      "unsavedLeave": "Keluar",
+      "unsavedStay": "Tetap"
     },
     "import": {
       "button": "⬇️ Impor dari URL",
@@ -201,5 +205,10 @@
     "snack": "Camilan",
     "bakery": "Bakeri",
     "soup": "Sup"
+  },
+  "error": {
+    "title": "Terjadi kesalahan",
+    "message": "Terjadi kesalahan yang tidak terduga.",
+    "retry": "Coba lagi"
   }
 }

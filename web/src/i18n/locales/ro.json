@@ -107,7 +107,11 @@
       "addIngredient": "Adaugă ingredient",
       "addStep": "Adaugă pas",
       "importedPhoto": "Fotografie importată",
-      "importedPhotoNote": "📷 Fotografia va fi descărcată la salvare (previzualizare blocată de site-ul sursă)"
+      "importedPhotoNote": "📷 Fotografia va fi descărcată la salvare (previzualizare blocată de site-ul sursă)",
+      "unsavedTitle": "Modificări nesalvate",
+      "unsavedMessage": "Aveți modificări nesalvate. Ieșiți oricum?",
+      "unsavedLeave": "Ieșire",
+      "unsavedStay": "Rămâi"
     },
     "import": {
       "button": "⬇️ Importă din URL",
@@ -201,5 +205,10 @@
     "snack": "Gustare",
     "bakery": "Produse de patiserie",
     "soup": "Supă"
+  },
+  "error": {
+    "title": "Ceva a mers greșit",
+    "message": "A apărut o eroare neașteptată.",
+    "retry": "Încearcă din nou"
   }
 }

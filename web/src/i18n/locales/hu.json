@@ -107,7 +107,11 @@
       "addIngredient": "Hozzávaló hozzáadása",
       "addStep": "Lépés hozzáadása",
       "importedPhoto": "Importált fotó",
-      "importedPhotoNote": "📷 A fotó mentéskor töltődik le (az előnézetet a forrásolal blokkolja)"
+      "importedPhotoNote": "📷 A fotó mentéskor töltődik le (az előnézetet a forrásolal blokkolja)",
+      "unsavedTitle": "Nem mentett módosítások",
+      "unsavedMessage": "Nem mentett módosításai vannak. Mégis elhagyja?",
+      "unsavedLeave": "Kilépés",
+      "unsavedStay": "Maradás"
     },
     "import": {
       "button": "⬇️ Importálás URL-ből",
@@ -201,5 +205,10 @@
     "snack": "Snack",
     "bakery": "Pékáru",
     "soup": "Leves"
+  },
+  "error": {
+    "title": "Valami hiba történt",
+    "message": "Váratlan hiba lépett fel.",
+    "retry": "Próbálja újra"
   }
 }

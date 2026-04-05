@@ -107,7 +107,11 @@
       "addIngredient": "सामग्री जोड़ें",
       "addStep": "चरण जोड़ें",
       "importedPhoto": "आयातित फ़ोटो",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "असहेजे बदलाव",
+      "unsavedMessage": "आपके पास असहेजे बदलाव हैं। फिर भी छोड़ें?",
+      "unsavedLeave": "छोड़ें",
+      "unsavedStay": "रुकें"
     },
     "import": {
       "button": "⬇️ URL से आयात करें",
@@ -201,5 +205,10 @@
     "snack": "स्नैक",
     "bakery": "बेकरी",
     "soup": "सूप"
+  },
+  "error": {
+    "title": "कुछ गलत हो गया",
+    "message": "एक अप्रत्याशित त्रुटि हुई।",
+    "retry": "पुनः प्रयास करें"
   }
 }

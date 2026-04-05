@@ -107,7 +107,11 @@
       "addIngredient": "Lägg till ingrediens",
       "addStep": "Lägg till steg",
       "importedPhoto": "Importerat foto",
-      "importedPhotoNote": "📷 Foto laddas ner vid sparande (förhandsvisning blockerad av källsidan)"
+      "importedPhotoNote": "📷 Foto laddas ner vid sparande (förhandsvisning blockerad av källsidan)",
+      "unsavedTitle": "Osparade ändringar",
+      "unsavedMessage": "Du har osparade ändringar. Lämna ändå?",
+      "unsavedLeave": "Lämna",
+      "unsavedStay": "Stanna"
     },
     "import": {
       "button": "⬇️ Importera från URL",
@@ -201,5 +205,10 @@
     "snack": "Snacks",
     "bakery": "Bakverk",
     "soup": "Soppa"
+  },
+  "error": {
+    "title": "Något gick fel",
+    "message": "Ett oväntat fel inträffade.",
+    "retry": "Försök igen"
   }
 }

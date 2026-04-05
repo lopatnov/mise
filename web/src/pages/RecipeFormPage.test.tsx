@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
   useParams: vi.fn(() => ({})),
+  useBlocker: vi.fn(() => ({ state: 'unblocked' })),
 }));
 
 vi.mock('react-i18next', () => ({

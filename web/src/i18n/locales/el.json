@@ -107,7 +107,11 @@
       "addIngredient": "Προσθήκη υλικού",
       "addStep": "Προσθήκη βήματος",
       "importedPhoto": "Εισαγόμενη φωτογραφία",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Μη αποθηκευμένες αλλαγές",
+      "unsavedMessage": "Έχετε μη αποθηκευμένες αλλαγές. Να φύγετε;",
+      "unsavedLeave": "Έξοδος",
+      "unsavedStay": "Παραμονή"
     },
     "import": {
       "button": "⬇️ Εισαγωγή από URL",
@@ -201,5 +205,10 @@
     "snack": "Σνακ",
     "bakery": "Αρτοποιία",
     "soup": "Σούπα"
+  },
+  "error": {
+    "title": "Κάτι πήγε στραβά",
+    "message": "Παρουσιάστηκε μη αναμενόμενο σφάλμα.",
+    "retry": "Δοκιμάστε ξανά"
   }
 }

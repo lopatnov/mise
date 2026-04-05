@@ -107,7 +107,11 @@
       "addIngredient": "Aggiungi ingrediente",
       "addStep": "Aggiungi passo",
       "importedPhoto": "Foto importata",
-      "importedPhotoNote": "📷 La foto verrà scaricata al salvataggio (anteprima bloccata dal sito di origine)"
+      "importedPhotoNote": "📷 La foto verrà scaricata al salvataggio (anteprima bloccata dal sito di origine)",
+      "unsavedTitle": "Modifiche non salvate",
+      "unsavedMessage": "Ci sono modifiche non salvate. Vuoi uscire comunque?",
+      "unsavedLeave": "Esci",
+      "unsavedStay": "Rimani"
     },
     "import": {
       "button": "⬇️ Importa da URL",
@@ -201,5 +205,10 @@
     "snack": "Spuntino",
     "bakery": "Pasticceria",
     "soup": "Zuppa"
+  },
+  "error": {
+    "title": "Qualcosa è andato storto",
+    "message": "Si è verificato un errore imprevisto.",
+    "retry": "Riprova"
   }
 }

@@ -107,7 +107,11 @@
       "addIngredient": "Malzeme ekle",
       "addStep": "Adım ekle",
       "importedPhoto": "İçe aktarılan fotoğraf",
-      "importedPhotoNote": "📷 Fotoğraf kaydedilirken indirilecek (önizleme kaynak site tarafından engellendi)"
+      "importedPhotoNote": "📷 Fotoğraf kaydedilirken indirilecek (önizleme kaynak site tarafından engellendi)",
+      "unsavedTitle": "Kaydedilmemiş değişiklikler",
+      "unsavedMessage": "Kaydedilmemiş değişiklikleriniz var. Yine de çıkmak istiyor musunuz?",
+      "unsavedLeave": "Çık",
+      "unsavedStay": "Kal"
     },
     "import": {
       "button": "⬇️ URL'den içe aktar",
@@ -201,5 +205,10 @@
     "snack": "Atıştırmalık",
     "bakery": "Fırın ürünleri",
     "soup": "Çorba"
+  },
+  "error": {
+    "title": "Bir şeyler yanlış gitti",
+    "message": "Beklenmedik bir hata oluştu.",
+    "retry": "Tekrar dene"
   }
 }

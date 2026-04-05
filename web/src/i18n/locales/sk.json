@@ -107,7 +107,11 @@
       "addIngredient": "Pridať surovinu",
       "addStep": "Pridať krok",
       "importedPhoto": "Importovaná fotka",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Neuložené zmeny",
+      "unsavedMessage": "Máte neuložené zmeny. Napriek tomu odísť?",
+      "unsavedLeave": "Odísť",
+      "unsavedStay": "Zostať"
     },
     "import": {
       "button": "⬇️ Importovať z URL",
@@ -201,5 +205,10 @@
     "snack": "Snack",
     "bakery": "Pečivo",
     "soup": "Polievka"
+  },
+  "error": {
+    "title": "Niečo sa pokazilo",
+    "message": "Nastala neočakávaná chyba.",
+    "retry": "Skúsiť znovu"
   }
 }

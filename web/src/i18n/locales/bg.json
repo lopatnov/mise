@@ -107,7 +107,11 @@
       "addIngredient": "Добавяне на съставка",
       "addStep": "Добавяне на стъпка",
       "importedPhoto": "Импортирана снимка",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Незапазени промени",
+      "unsavedMessage": "Имате незапазени промени. Да напуснете?",
+      "unsavedLeave": "Напусни",
+      "unsavedStay": "Остани"
     },
     "import": {
       "button": "⬇️ Импортиране от URL",
@@ -201,5 +205,10 @@
     "snack": "Мезе",
     "bakery": "Хлебни изделия",
     "soup": "Супа"
+  },
+  "error": {
+    "title": "Нещо се обърка",
+    "message": "Възникна неочаквана грешка.",
+    "retry": "Опитайте пак"
   }
 }

@@ -107,7 +107,11 @@
       "addIngredient": "เพิ่มส่วนผสม",
       "addStep": "เพิ่มขั้นตอน",
       "importedPhoto": "รูปภาพที่นำเข้า",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "การเปลี่ยนแปลงที่ยังไม่ได้บันทึก",
+      "unsavedMessage": "คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ออกไปเลยหรือไม่?",
+      "unsavedLeave": "ออก",
+      "unsavedStay": "อยู่ต่อ"
     },
     "import": {
       "button": "⬇️ นำเข้าจาก URL",
@@ -201,5 +205,10 @@
     "snack": "ของว่าง",
     "bakery": "เบเกอรี่",
     "soup": "ซุป"
+  },
+  "error": {
+    "title": "เกิดข้อผิดพลาด",
+    "message": "เกิดข้อผิดพลาดที่ไม่คาดคิด",
+    "retry": "ลองอีกครั้ง"
   }
 }

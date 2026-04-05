@@ -107,7 +107,11 @@
       "addIngredient": "Add ingredient",
       "addStep": "Add step",
       "importedPhoto": "Imported photo",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Unsaved changes",
+      "unsavedMessage": "You have unsaved changes. Leave anyway?",
+      "unsavedLeave": "Leave",
+      "unsavedStay": "Stay"
     },
     "import": {
       "button": "⬇️ Import from URL",
@@ -201,5 +205,10 @@
     "snack": "Snack",
     "bakery": "Bakery",
     "soup": "Soup"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred.",
+    "retry": "Try again"
   }
 }

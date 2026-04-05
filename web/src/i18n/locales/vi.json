@@ -107,7 +107,11 @@
       "addIngredient": "Thêm nguyên liệu",
       "addStep": "Thêm bước",
       "importedPhoto": "Ảnh đã nhập",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Thay đổi chưa lưu",
+      "unsavedMessage": "Bạn có những thay đổi chưa được lưu. Vẫn thoát?",
+      "unsavedLeave": "Thoát",
+      "unsavedStay": "Ở lại"
     },
     "import": {
       "button": "⬇️ Nhập từ URL",
@@ -201,5 +205,10 @@
     "snack": "Đồ ăn vặt",
     "bakery": "Bánh mì",
     "soup": "Súp"
+  },
+  "error": {
+    "title": "Đã xảy ra lỗi",
+    "message": "Đã xảy ra lỗi không mong đợi.",
+    "retry": "Thử lại"
   }
 }

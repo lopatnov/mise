@@ -107,7 +107,11 @@
       "addIngredient": "Adicionar ingrediente",
       "addStep": "Adicionar passo",
       "importedPhoto": "Foto importada",
-      "importedPhotoNote": "📷 A foto será baixada ao salvar (pré-visualização bloqueada pelo site de origem)"
+      "importedPhotoNote": "📷 A foto será baixada ao salvar (pré-visualização bloqueada pelo site de origem)",
+      "unsavedTitle": "Alterações não guardadas",
+      "unsavedMessage": "Tem alterações não guardadas. Sair mesmo assim?",
+      "unsavedLeave": "Sair",
+      "unsavedStay": "Ficar"
     },
     "import": {
       "button": "⬇️ Importar de URL",
@@ -201,5 +205,10 @@
     "snack": "Lanche",
     "bakery": "Padaria",
     "soup": "Sopa"
+  },
+  "error": {
+    "title": "Algo correu mal",
+    "message": "Ocorreu um erro inesperado.",
+    "retry": "Tentar novamente"
   }
 }

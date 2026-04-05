@@ -107,7 +107,11 @@
       "addIngredient": "Pridėti ingredientą",
       "addStep": "Pridėti žingsnį",
       "importedPhoto": "Importuota nuotrauka",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Neišsaugoti pakeitimai",
+      "unsavedMessage": "Turite neišsaugotų pakeitimų. Vis tiek išeiti?",
+      "unsavedLeave": "Išeiti",
+      "unsavedStay": "Likti"
     },
     "import": {
       "button": "⬇️ Importuoti iš URL",
@@ -201,5 +205,10 @@
     "snack": "Užkandis",
     "bakery": "Kepiniai",
     "soup": "Sriuba"
+  },
+  "error": {
+    "title": "Kažkas nutiko",
+    "message": "Įvyko netikėta klaida.",
+    "retry": "Bandyti dar kartą"
   }
 }

@@ -107,7 +107,11 @@
       "addIngredient": "材料を追加",
       "addStep": "手順を追加",
       "importedPhoto": "インポートした写真",
-      "importedPhotoNote": "📷 写真は保存時にダウンロードされます（ソースサイトによりプレビューがブロックされています）"
+      "importedPhotoNote": "📷 写真は保存時にダウンロードされます（ソースサイトによりプレビューがブロックされています）",
+      "unsavedTitle": "未保存の変更",
+      "unsavedMessage": "未保存の変更があります。このまま離れますか？",
+      "unsavedLeave": "離れる",
+      "unsavedStay": "とどまる"
     },
     "import": {
       "button": "⬇️ URLからインポート",
@@ -201,5 +205,10 @@
     "snack": "スナック",
     "bakery": "パン",
     "soup": "スープ"
+  },
+  "error": {
+    "title": "エラーが発生しました",
+    "message": "予期しないエラーが発生しました。",
+    "retry": "再試行"
   }
 }

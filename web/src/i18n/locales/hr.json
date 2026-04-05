@@ -107,7 +107,11 @@
       "addIngredient": "Dodaj sastojak",
       "addStep": "Dodaj korak",
       "importedPhoto": "Uvezena fotografija",
-      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)"
+      "importedPhotoNote": "📷 Photo will be downloaded on save (preview blocked by source site)",
+      "unsavedTitle": "Nespremljene promjene",
+      "unsavedMessage": "Imate nespremljene promjene. Svejedno otići?",
+      "unsavedLeave": "Idi",
+      "unsavedStay": "Ostani"
     },
     "import": {
       "button": "⬇️ Uvezi s URL-a",
@@ -201,5 +205,10 @@
     "snack": "Grickalica",
     "bakery": "Pekarski proizvodi",
     "soup": "Juha"
+  },
+  "error": {
+    "title": "Nešto je pošlo po krivu",
+    "message": "Došlo je do neočekivane greške.",
+    "retry": "Pokušajte ponovo"
   }
 }

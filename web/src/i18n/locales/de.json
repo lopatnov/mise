@@ -107,7 +107,11 @@
       "addIngredient": "Zutat hinzufügen",
       "addStep": "Schritt hinzufügen",
       "importedPhoto": "Importiertes Foto",
-      "importedPhotoNote": "📷 Foto wird beim Speichern heruntergeladen (Vorschau von der Quellseite gesperrt)"
+      "importedPhotoNote": "📷 Foto wird beim Speichern heruntergeladen (Vorschau von der Quellseite gesperrt)",
+      "unsavedTitle": "Ungespeicherte Änderungen",
+      "unsavedMessage": "Sie haben ungespeicherte Änderungen. Trotzdem verlassen?",
+      "unsavedLeave": "Verlassen",
+      "unsavedStay": "Bleiben"
     },
     "import": {
       "button": "⬇️ Aus URL importieren",
@@ -201,5 +205,10 @@
     "snack": "Snack",
     "bakery": "Backwaren",
     "soup": "Suppe"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "message": "Ein unerwarteter Fehler ist aufgetreten.",
+    "retry": "Erneut versuchen"
   }
 }

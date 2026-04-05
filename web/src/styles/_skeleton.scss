@@ -22,3 +22,19 @@
   &__desc2 { height: 12px; width: 55%; }
   &__meta  { height: 20px; width: 40%; border-radius: 10px; margin-top: 4px; }
 }
+
+.skeleton-detail {
+  &__actions { height: 36px; width: 160px; margin-bottom: 24px; }
+  &__title   { height: 32px; width: 65%; margin-bottom: 12px; }
+  &__meta    { height: 20px; width: 45%; margin-bottom: 20px; border-radius: var(--r-pill); }
+  &__photo   { height: 260px; border-radius: var(--r-lg); margin-bottom: 20px; }
+  &__line    { height: 14px; margin-bottom: 10px;
+               &--short { width: 55%; }
+               &--med   { width: 75%; } }
+  &__step    { height: 14px; margin-bottom: 8px;
+               &--short { width: 60%; } }
+  &__h2      { height: 20px; width: 40%; margin-bottom: 14px;
+               &--section { margin-top: 24px; } }
+  &__ing     { height: 14px; margin-bottom: 8px;
+               &--short { width: 50%; } }
+}

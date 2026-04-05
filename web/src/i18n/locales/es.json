@@ -107,7 +107,11 @@
       "addIngredient": "Añadir ingrediente",
       "addStep": "Añadir paso",
       "importedPhoto": "Foto importada",
-      "importedPhotoNote": "📷 La foto se descargará al guardar (vista previa bloqueada por el sitio de origen)"
+      "importedPhotoNote": "📷 La foto se descargará al guardar (vista previa bloqueada por el sitio de origen)",
+      "unsavedTitle": "Cambios sin guardar",
+      "unsavedMessage": "¿Tiene cambios sin guardar. Salir de todos modos?",
+      "unsavedLeave": "Salir",
+      "unsavedStay": "Quedarse"
     },
     "import": {
       "button": "⬇️ Importar desde URL",
@@ -201,5 +205,10 @@
     "snack": "Aperitivo",
     "bakery": "Panadería",
     "soup": "Sopa"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "message": "Ocurrió un error inesperado.",
+    "retry": "Intentar de nuevo"
   }
 }

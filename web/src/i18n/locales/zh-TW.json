@@ -107,7 +107,11 @@
       "addIngredient": "新增食材",
       "addStep": "新增步驟",
       "importedPhoto": "匯入的照片",
-      "importedPhotoNote": "📷 照片將在儲存時下載（來源網站阻止了預覽）"
+      "importedPhotoNote": "📷 照片將在儲存時下載（來源網站阻止了預覽）",
+      "unsavedTitle": "未儲存的變更",
+      "unsavedMessage": "您有未儲存的變更。確定要離開？",
+      "unsavedLeave": "離開",
+      "unsavedStay": "留下"
     },
     "import": {
       "button": "⬇️ 從URL匯入",
@@ -201,5 +205,10 @@
     "snack": "小吃",
     "bakery": "烘焙",
     "soup": "湯"
+  },
+  "error": {
+    "title": "出了點問題",
+    "message": "發生了意外錯誤。",
+    "retry": "重試"
   }
 }
