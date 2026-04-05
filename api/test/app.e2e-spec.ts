@@ -27,12 +27,24 @@ describe('Auth flow (e2e)', () => {
     await app.close();
   });
 
-  it('POST /api/auth/register → 201 with token and user', async () => {
+  it('POST /api/auth/register → 201 with needsVerification and devLink', async () => {
     const res = await request(app.getHttpServer()).post('/api/auth/register').send({ email, password }).expect(201);
 
-    const body = res.body as { access_token: string; user: { email: string } };
-    expect(body.access_token).toBeDefined();
-    expect(body.user.email).toBe(email);
+    const body = res.body as { needsVerification: boolean; email: string; devLink?: string };
+    expect(body.needsVerification).toBe(true);
+    expect(body.email).toBe(email);
+    // SMTP not configured in test env → devLink returned
+    expect(body.devLink).toBeDefined();
+    expect(body.devLink).toContain('/verify-email?token=');
+
+    // Verify the email so subsequent login tests work
+    const verifyToken = new URL(body.devLink as string).searchParams.get('token');
+    const verifyRes = await request(app.getHttpServer())
+      .get('/api/auth/verify-email')
+      .query({ token: verifyToken })
+      .expect(200);
+    token = (verifyRes.body as { access_token: string }).access_token;
+    expect(token).toBeDefined();
   });
 
   it('POST /api/auth/register duplicate email → 409', () => {
