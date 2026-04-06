@@ -38,7 +38,7 @@ function AppLayout() {
       <NavBar />
       <ToastContainer />
       <Footer />
-      <Suspense>
+      <Suspense fallback={null}>
         <Outlet />
       </Suspense>
     </>

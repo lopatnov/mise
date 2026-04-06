@@ -152,7 +152,7 @@ mkdir mise && cd mise
 Create `.env.prod`:
 
 ```env
-APP_URL=http://YOUR_SERVER_IP   # used in email links (password reset, email verification)
+APP_URL=http://YOUR_SERVER_IP   # include port if not 80, e.g. http://YOUR_SERVER_IP:8080
 JWT_SECRET=<long random string> # openssl rand -hex 32
 JWT_EXPIRES_IN=7d
 ```
