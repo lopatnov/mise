@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 FROM node:24-alpine
-RUN apk upgrade --no-cache && npm install -g npm@latest
+RUN apk upgrade --no-cache && npm install -g npm@latest && npm cache clean --force
 WORKDIR /app
 COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm \
