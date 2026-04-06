@@ -1,22 +1,24 @@
 import { QueryClientProvider } from '@tanstack/react-query';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import ToastContainer from './components/Toast';
-import AdminPage from './pages/AdminPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
-import RecipeDetailPage from './pages/RecipeDetailPage';
-import RecipeFormPage from './pages/RecipeFormPage';
-import RecipeListPage from './pages/RecipeListPage';
-import RegisterPage from './pages/RegisterPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
-import SetupPage from './pages/SetupPage';
-import VerifyEmailPage from './pages/VerifyEmailPage';
 import { queryClient } from './queryClient';
 import { useAuthStore } from './store/authStore';
+
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const RecipeDetailPage = lazy(() => import('./pages/RecipeDetailPage'));
+const RecipeFormPage = lazy(() => import('./pages/RecipeFormPage'));
+const RecipeListPage = lazy(() => import('./pages/RecipeListPage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
+const SetupPage = lazy(() => import('./pages/SetupPage'));
+const VerifyEmailPage = lazy(() => import('./pages/VerifyEmailPage'));
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);
@@ -36,7 +38,9 @@ function AppLayout() {
       <NavBar />
       <ToastContainer />
       <Footer />
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </>
   );
 }

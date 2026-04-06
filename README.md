@@ -58,6 +58,7 @@ Scale servings, search by text, filter by tag and category, import from any reci
 - **Dark / light theme** — toggle in the navbar, respects system preference
 - **Print view** — clean print layout via CSS `@media print`
 - **Admin panel** — user management, invite links, SMTP, password reset
+- **Email verification** — new users verify their email before signing in; direct link shown when SMTP is not configured
 - **33 languages** — EN, UK, RU, BG, CS, DA, DE, EL, ES, FI, FR, HI, HR, HU, ID, IT, JA, KO, LT, LV, NL, NO, PL, PT, PT-BR, RO, SK, SV, TH, TR, VI, ZH, ZH-TW
 
 ---
@@ -68,11 +69,11 @@ Scale servings, search by text, filter by tag and category, import from any reci
 
 ### Prerequisites
 
-| Tool           | Version | Download                                       |
-| -------------- | ------- | ---------------------------------------------- |
-| Git            | any     | https://git-scm.com                            |
-| Node.js        | 24+     | https://nodejs.org (LTS)                       |
-| Docker Desktop | any     | https://www.docker.com/products/docker-desktop |
+| Tool           | Version | Download                                                      |
+| -------------- | ------- | ------------------------------------------------------------- |
+| Git            | any     | <https://git-scm.com>                                         |
+| Node.js        | 24+     | <https://nodejs.org> (LTS)                                    |
+| Docker Desktop | any     | <https://www.docker.com/products/docker-desktop>              |
 
 ### Step 1 — Clone
 
@@ -99,8 +100,8 @@ npm install        # first time only
 npm run start:dev  # watch mode — restarts on file changes
 ```
 
-- API: http://localhost:3000/api
-- Swagger: http://localhost:3000/api/docs
+- API: <http://localhost:3000/api>
+- Swagger: <http://localhost:3000/api/docs>
 
 ### Step 4 — Start the frontend
 
@@ -110,7 +111,7 @@ npm install        # first time only
 npm run dev        # Vite HMR — updates instantly on save
 ```
 
-- App: http://localhost:4200
+- App: <http://localhost:4200>
 
 Open the app, go to `/setup` to create the first admin account, then register users.
 
@@ -136,35 +137,126 @@ Open the app, go to `/setup` to create the first admin account, then register us
 - Linux server with Docker and Docker Compose
 - One open port (default **80**, configurable in `docker-compose.prod.yml`)
 
-### Step 1 — Clone
+---
+
+### Option A — Pre-built images (recommended, no build required)
+
+Pull ready-made images from GitHub Container Registry — no Node.js, no source code needed.
+
+#### Step 1 — Create a working directory and configure
+
+```bash
+mkdir mise && cd mise
+```
+
+Create `.env.prod`:
+
+```env
+APP_URL=http://YOUR_SERVER_IP   # include port if not 80, e.g. http://YOUR_SERVER_IP:8080
+JWT_SECRET=<long random string> # openssl rand -hex 32
+JWT_EXPIRES_IN=7d
+```
+
+#### Step 2 — Create `docker-compose.yml`
+
+```yaml
+services:
+  mongodb:
+    image: mongo:8
+    container_name: mise-mongodb
+    volumes:
+      - mise_mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: mise
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: ghcr.io/lopatnov/mise-api:latest
+    container_name: mise-api
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    env_file: .env.prod
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/mise
+      PORT: 3000
+    volumes:
+      - ./data/uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  web:
+    image: ghcr.io/lopatnov/mise-web:latest
+    container_name: mise-web
+    ports:
+      - "80:80"   # change the first 80 to another port if needed
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mise_mongo_data:
+```
+
+#### Step 3 — Start
+
+```bash
+docker compose up -d
+```
+
+Go to `/setup` to create the admin account on first run.
+
+> **SMTP** — configure `smtpHost`, `smtpPort`, `smtpUser`, `smtpPass`, `smtpFrom` in the admin panel
+> to send email verification and password-reset links. Without SMTP, links appear directly in the API
+> response — useful for self-hosted installs without a mail server.
+
+#### Updating to a new release
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+---
+
+### Option B — Build from source
+
+#### Step 1 — Clone
 
 ```bash
 git clone https://github.com/lopatnov/mise.git
 cd mise
 ```
 
-### Step 2 — Configure
+#### Step 2 — Configure
 
 Open `.env.prod` and set:
-- `APP_URL` — your server's URL (used in password-reset emails)
+
+- `APP_URL` — your server's URL (used in email links)
 - `JWT_SECRET` — long random string (`openssl rand -hex 32`)
 
 If port 80 is taken, change `80:80` in `docker-compose.prod.yml` to your port (e.g. `8080:80`).
 
-### Step 3 — Start
+#### Step 3 — Start
 
 ```bash
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-- App: `http://YOUR_SERVER_IP` (or the port you configured)
-- Swagger: `http://YOUR_SERVER_IP/api/docs`
-
-All traffic goes through a single nginx port — the API container is internal only.
-
 Go to `/setup` to create the admin account on first run.
 
-### Updating to a new release
+#### Updating to a new release
 
 ```bash
 git pull
@@ -214,24 +306,6 @@ cp -r ./data/uploads /your/backup/location/
 
 ---
 
-## Making a GitHub Release
-
-```bash
-# Tag the commit you want to release
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-Then create a release on GitHub and attach nothing — users just clone the tag:
-
-```bash
-git clone --branch v1.0.0 https://github.com/lopatnov/mise.git
-```
-
-They then follow the Production deployment steps above.
-
----
-
 ## Analytics & Tracking
 
 Add any analytics script to `web/index.html` inside the `<head>` tag, before `</head>`.
@@ -255,13 +329,14 @@ The script is embedded in the static HTML and fires on every SPA page. Rebuild t
 
 ## API
 
-Swagger UI: http://localhost:3000/api/docs (dev) · http://YOUR_SERVER_IP/api/docs (prod)
+Swagger UI: <http://localhost:3000/api/docs> (dev) · `http://YOUR_SERVER_IP/api/docs` (prod)
 
 All endpoints are prefixed with `/api`:
 
-```
+```text
 POST /api/auth/register          Register (checks allowRegistration + inviteToken)
-POST /api/auth/login             Login → JWT
+GET  /api/auth/verify-email      Verify email address via token from registration email
+POST /api/auth/login             Login → JWT (requires email verification)
 GET  /api/auth/me                Current user
 POST /api/auth/forgot-password   Request password reset link
 POST /api/auth/reset-password    Set new password via token
@@ -305,7 +380,7 @@ GET  /api/categories             List categories
 | Frontend network errors           | Wrong `VITE_API_URL`                         | Check `web/.env`                                                                                                            |
 | 500 on login                      | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
 | Images not loading in Docker      | Old named volume for uploads                 | The volume should be a bind mount — see `docker-compose.prod.yml`                                                           |
-| `npm error ECONNRESET` during `--build` | Transient network drop from npm registry | Re-run `docker compose -f docker-compose.prod.yml up -d --build` — the error is intermittent and usually clears on retry   |
+| `npm error ECONNRESET` during `--build`  | Transient network drop from npm registry | Re-run `docker compose -f docker-compose.prod.yml up -d --build` — the error is intermittent and usually clears on retry   |
 
 ---
 
