@@ -60,5 +60,5 @@ release.yml`, `.github/dependabot.yml`, `docker-compose.yml` (dev — тольк
 ## Definition of Done
 
 - CI зелёный после изменения (реальный прогон, не только синтаксическая проверка YAML).
-- Node/.NET-подобные версии (здесь — Node.js) синхронизированы между Dockerfile и `ci.yml`.
+- Версия Node.js синхронизирована между Dockerfile (`api/`, `web/`) и `ci.yml` (`node-version`).
 - Мажорные апдейты actions/образов — с проверенными breaking changes, не вслепую.
