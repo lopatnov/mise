@@ -54,12 +54,15 @@ model: haiku
 
 1. Найди `*.tsx` файлы в `web/src`, с теми же исключениями, что для frontend-файлов в разделе C
    выше (`**/*.test.tsx`, `**/node_modules/**`, `**/dist/**`). Для каждого файла
-   посчитай строки верхнего уровня вида `^(export )?(default )?(function|const) [A-Z]`
-   (компонентная сигнатура — PascalCase, exported или приватный). Оставь файлы, где это число ≥2,
+   посчитай строки верхнего уровня вида
+   `^(export )?(default )?(function [A-Z][A-Za-z0-9]*\(|const [A-Z][A-Za-z0-9]*\s*(:[^=]*)?=\s*(\(|function))`
+   (компонентная сигнатура — PascalCase функция или `const`, инициализированный функцией/стрелочной
+   функцией; требование `(`/`function` сразу после `=` отсекает обычные PascalCase-константы вроде
+   `API_URL`/`ROUTES`, которые не являются компонентами). Оставь файлы, где это число ≥2,
    отсортируй по убыванию.
 
    Пример команды:
-   `find web/src -name "*.tsx" | grep -Ev "\.test\.tsx|node_modules|dist" | xargs -I{} sh -c 'printf "%s %s\n" "$(grep -cE "^(export )?(default )?(function|const) [A-Z]" "{}")" "{}"' | awk '$1>=2' | sort -rn`
+   `find web/src -name "*.tsx" | grep -Ev "\.test\.tsx|node_modules|dist" | xargs -I{} sh -c 'printf "%s %s\n" "$(grep -cE "^(export )?(default )?(function [A-Z][A-Za-z0-9]*\(|const [A-Z][A-Za-z0-9]*\s*(:[^=]*)?=\s*(\(|function))" "{}")" "{}"' | awk '$1>=2' | sort -rn`
 
 ## Как трактовать находки (для точности отчёта, не для решений)
 
