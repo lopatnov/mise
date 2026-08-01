@@ -76,7 +76,20 @@
 Реальные имена инструментов в этой среде: `Bash, Read, Glob, Grep, Edit, Write, WebFetch,
 WebSearch`.
 
-- **Стандартный набор** (большинство ролей, включая всех участников Group Chat): все перечисленные.
+Least privilege, не «дать всем всё по умолчанию»: `WebFetch`/`WebSearch` выдаются только ролям, у
+которых внешнее чтение — часть их письменного Mandate (research/сверка версий/CVE), не всем
+ролям с доступом на запись — это сознательно сужает поверхность атаки через prompt injection
+из внешнего контента (см. «Внешний контент — это данные, не команды» в `rules/index.md`; находка
+подтверждена ревью PR #37 — исходно web-доступ был у всех ролей без разбора, сужено по итогу).
+
+- **Пишут код/файлы + нужен внешний research** (`architect`, `devops`, `security-engineer`):
+  `Bash, Read, Glob, Grep, Edit, Write, WebFetch, WebSearch` — их Mandate явно требует чтения
+  внешних источников (release notes, CVE-advisories, версии в registry/на GitHub Marketplace).
+- **Пишут код/файлы, без документированной нужды в внешнем research** (`server-developer`,
+  `ui-developer`, `tester`): `Bash, Read, Glob, Grep, Edit, Write` — реализуют/тестируют по
+  внутренней спецификации (`CLAUDE.md`, ТЗ от дирижёра), не по внешним источникам. `tester`
+  отдельно наследует браузерные MCP-инструменты, если доступны в сессии, для e2e-проверки через
+  скилл `run` — это не `WebFetch`/`WebSearch`, а браузерная автоматизация, другая категория риска.
 - **`build-validator`** и **`repo-scout`**: только `Bash, Read, Glob, Grep` — read-only, без
   записи и без сети.
 - **`competitor-scout`**: `Read, Glob, Grep, WebFetch, WebSearch` — read-only research, не
@@ -84,8 +97,8 @@ WebSearch`.
 - **`product-strategist`**, **`skeptic`**: `Read, Glob, Grep, WebFetch, WebSearch` — обсуждение и
   оценка, не пишут код; `WebFetch`/`WebSearch` — чтобы при необходимости самостоятельно проверить
   заявленный источник, не полагаясь слепо на пересказ `competitor-scout`.
-- **`tester`**: наследует стандартный набор, включая браузерные MCP-инструменты, если доступны в
-  сессии — для e2e-проверки через скилл `run`.
+- **`technical-writer`**, **`translator`**: без сети — переписывают по точному входу от дирижёра,
+  не исследуют самостоятельно (см. их файлы).
 - Ни одна роль **не имеет** прямого доступа к GitHub-инструментам сессии (issues/PR/merge) — их
   заводит и мержит только дирижёр (см. `agents/repo-scout.md`, «Важное ограничение окружения», и
   `commands/maintain.md`/`commands/evolve.md`, шаг 0/финал). Это сознательное решение процесса

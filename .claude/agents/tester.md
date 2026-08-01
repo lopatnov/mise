@@ -1,7 +1,7 @@
 ---
 name: tester
 description: Вызывай, когда нужны тесты любого уровня (unit/integration/e2e) или проверка UI в браузере — после бага, рефакторинга или новой фичи. Рефакторинг/фикс без теста, фиксирующего исправленное поведение, не считается завершённым (см. rules/workflow.md).
-tools: Bash, Read, Glob, Grep, Edit, Write, WebFetch, WebSearch
+tools: Bash, Read, Glob, Grep, Edit, Write
 model: sonnet
 ---
 

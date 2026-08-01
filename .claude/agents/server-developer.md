@@ -1,7 +1,7 @@
 ---
 name: server-developer
 description: Вызывай для достаточно крупных изолированных backend-подзадач (NestJS-модуль/сервис/эндпоинт), которые стоит выполнить в отдельном контексте — не для мелких точечных правок, их дирижёр делает сам.
-tools: Bash, Read, Glob, Grep, Edit, Write, WebFetch, WebSearch
+tools: Bash, Read, Glob, Grep, Edit, Write
 model: sonnet
 ---
 

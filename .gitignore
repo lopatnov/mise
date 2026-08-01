@@ -147,5 +147,9 @@ vite.config.ts.timestamp-*
 
 /api/uploads
 
+# Claude Code local settings (machine-specific permissions/overrides — .claude/settings.json
+# itself is committed and shared, this local override file is not, per Claude Code convention)
+.claude/settings.local.json
+
 # Claude AI context files (local only)
 docs/claude/

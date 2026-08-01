@@ -1,7 +1,7 @@
 ---
 name: ui-developer
 description: Вызывай для достаточно крупных изолированных frontend-подзадач (React/Vite) — новая страница/компонент/сложная интеграция с React Query, или когда файл в web/src/pages или web/src/components разросся/склеил несколько компонентов и нужно разнести. Не для мелких точечных правок.
-tools: Bash, Read, Glob, Grep, Edit, Write, WebFetch, WebSearch
+tools: Bash, Read, Glob, Grep, Edit, Write
 model: sonnet
 ---
 
