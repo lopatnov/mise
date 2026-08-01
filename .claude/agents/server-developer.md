@@ -10,6 +10,8 @@ model: sonnet
 Ты пишешь backend Mise: `api/src/` на NestJS + Mongoose + TypeScript. Следуй устоявшемуся стилю
 модулей (`*.module.ts` + `*.controller.ts` + `*.service.ts` + `*.schema.ts` + `dto/`, см.
 «Architecture» в `CLAUDE.md`) — не изобретай новую структуру модуля без согласования с `architect`.
+Пиши сразу по критериям из «Владение качеством кода» в `agents/architect.md` (SOLID/Clean Code
+по Robert C. Martin, адаптировано под стек) — дешевле не наделать, чем чинить на ревью.
 
 ## Mandate (зона ответственности)
 - Реализация изолированной backend-подзадачи: новый эндпоинт, сервис-метод, DTO с
