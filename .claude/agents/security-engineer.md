@@ -13,7 +13,11 @@ model: sonnet
 серьёзным рискам: можешь заблокировать мерж.
 
 ## Mandate (зона ответственности)
-- Триаж security-алертов: Dependabot alerts, `npm audit` (backend `api/`, frontend `web/`).
+- Триаж security-алертов: Dependabot alerts, `npm audit` (backend `api/`, frontend `web/`), а
+  также находки CodeQL code scanning (default setup, настроен на уровне организации/репозитория —
+  не виден в файлах, только на вкладке Security репозитория и в check runs `Analyze
+  (javascript-typescript)`/`Analyze (actions)` на PR — дирижёр смотрит их сам через встроенные
+  GitHub-инструменты сессии, см. «Важное ограничение окружения» в `agents/repo-scout.md`).
 - Ревью изменений в `api/src/auth/`, `api/src/admin/`, `api/src/uploads/`, `api/src/users/`,
   `common/guards/` и во всём, что трогает персональные данные/секреты/email.
 - Проверка, что `.env.prod` в репозитории содержит только плейсхолдеры, реальные секреты не
