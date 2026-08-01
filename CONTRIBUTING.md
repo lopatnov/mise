@@ -18,7 +18,7 @@ You do not have to contribute code to make a difference. Here are some ways you 
 
 - Pick an [open issue][issues] and work on it.
 - Fix bugs in the NestJS API or React frontend.
-- Implement features from the [Phase 9 backlog](./CLAUDE.md).
+- Implement a feature from the backlog — tracked in [GitHub Issues][issues], not in a static file.
 - Improve the Docker setup, CI workflow, or nginx configuration.
 
 ### Writers can:
