@@ -11,11 +11,13 @@ description: Чек-лист обновления зависимостей Mise 
 > package-менеджеры не гарантируют).
 
 ## Когда применять
+
 - Пользователь просит «обнови зависимости до последних», плановый `/maintain`.
 - `npm outdated` показывает разрыв между `Wanted` и `Latest` (особенно MAJOR).
 - Раз в квартал стоит явно сверить Node.js LTS и мажоры NestJS/React, даже если ничего не «красное».
 
 ## Когда НЕ применять
+
 - Точечный security-патч одного пакета (это делает обычный Dependabot-флоу, см.
   `security-engineer`).
 - `npm install <pkg>@latest` без дальнейшей сверки диапазона в `package.json` — этого
@@ -24,6 +26,7 @@ description: Чек-лист обновления зависимостей Mise 
   поэтому этот скилл существует отдельным чек-листом.
 
 ## Почему обычные команды обновления не гарантируют «последнее»
+
 - `npm outdated` — колонки `Current` / `Wanted` / `Latest`. `Wanted` — то, что возьмёт обычный
   `npm update` в пределах текущего `^`/`~`-диапазона в `package.json`; `Latest` — реально самая
   новая опубликованная версия. Расхождение `Wanted` ≠ `Latest` = потенциальный мажорный апдейт,
@@ -56,16 +59,20 @@ description: Чек-лист обновления зависимостей Mise 
 2. Для каждого пакета, где `Latest` выше `Wanted` (особенно MAJOR): `npm view <pkg> versions --json`
    — полный список опубликованных версий, чтобы увидеть pre-release/RC и настоящий последний
    стабильный тег.
-3. Обновлять диапазон в `package.json` вручную на `^<latest>`, затем `npm install` для
-   перегенерации `package-lock.json`.
+3. Для MAJOR-апдейтов — `npm install <pkg>@latest` (для уже объявленной зависимости `npm install
+   <pkg>` без версии переиспользует существующий диапазон в `package.json` и **не** перепрыгнет
+   через несовместимый major сам по себе — именно поэтому нужен явный тег `@latest`; npm сам
+   сохранит новый диапазон в `package.json`, вручную редактировать не обязательно, но сверь
+   результат). Для minor/patch внутри уже объявленного диапазона обычно достаточно `npm update`,
+   без ручной правки `package.json`.
 4. После каждого мажорного апдейта прогонять весь набор проверок: `npm run lint`, `npm run
    check:locales`, `npm run test`, `npm run build` — мажоры чаще всего ломают типы или рантайм-
    поведение незаметно для линтера.
 5. **React major** — сверять отдельно и явно: `npm view react versions --json` /
-   https://react.dev/versions. Апдейт React major (синхронно `react-dom`, `@types/react`,
+   <https://react.dev/versions>. Апдейт React major (синхронно `react-dom`, `@types/react`,
    `@types/react-dom`) — самостоятельная задача через `architect` (новые API, deprecations), не в
    одном PR с рутинными bump'ами остальных пакетов.
-6. **Vite major** — аналогично, сверять с https://vite.dev, конфиг (`vite.config.ts`) может
+6. **Vite major** — аналогично, сверять с <https://vite.dev>, конфиг (`vite.config.ts`) может
    требовать правок при мажорном апдейте.
 7. **Biome** (`@biomejs/biome`, общий для `api`/`web`/корня) — обновлять во всех трёх
    `package.json` синхронно (корневой `package.json` + `api/package.json` + `web/package.json`),
@@ -79,10 +86,10 @@ description: Чек-лист обновления зависимостей Mise 
    `docker-compose.prod.yml`) сверь тег с реально доступными в registry (`docker manifest inspect
    <image>:<tag>` или страница тегов на Docker Hub), не полагайся на то, что тег вида `24-alpine`
    сам «подтянется» — он пиновый, Dependabot по нему молчит, пока паттерн совпадает.
-2. **Node — сверяй LTS-статус, не только номер версии**: https://nodejs.org/en/about/previous-releases
+2. **Node — сверяй LTS-статус, не только номер версии**: <https://nodejs.org/en/about/previous-releases>
    — берём Active LTS, не «Current»/pre-LTS и не затухающую «Maintenance».
 3. **MongoDB** — сверять поддерживаемую мажорную линию (`mongo:8`) с текущим EOL-статусом на
-   https://www.mongodb.com/legal/support-policy/lifecycles; апдейт мажора MongoDB — самостоятельная
+   <https://www.mongodb.com/legal/support-policy/lifecycles>; апдейт мажора MongoDB — самостоятельная
    задача через `architect` (возможные breaking changes в query API/Mongoose-совместимости), не
    рутинный bump тега.
 4. При апдейте Node — меняй **оба места одним PR**: `Dockerfile` (`api/`, `web/`) и `ci.yml`'s
@@ -119,6 +126,7 @@ action, который Dependabot не предложил:
       сам — апдейчены вручную с проверкой breaking changes (`devops`).
 
 ## Связанные роли и правила
+
 - `repo-scout` — read-only снимок устаревших/уязвимых npm-пакетов одним проходом в начале
   `/maintain`, отправная точка для этого чек-листа вместо повторного запуска команд вручную.
   Docker-образы и GitHub Actions `repo-scout` не покрывает — это делает `devops` вручную.
@@ -129,6 +137,7 @@ action, который Dependabot не предложил:
 - `devops` — владелец разделов «Docker-образы» и «GitHub Actions» выше.
 
 ## Definition of Done
+
 Все пакеты сверены с реально последними опубликованными версиями (не только с тем, что подтянул бы
 `npm install` вслепую), мажорные апдейты и апдейт Node.js LTS/React/NestJS обособлены в свои
 задачи с обоснованием, билд/линт/тесты зелёные после каждого шага.

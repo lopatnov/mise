@@ -90,8 +90,17 @@ Least privilege, не «дать всем всё по умолчанию»: `Web
   внутренней спецификации (`CLAUDE.md`, ТЗ от дирижёра), не по внешним источникам. `tester`
   отдельно наследует браузерные MCP-инструменты, если доступны в сессии, для e2e-проверки через
   скилл `run` — это не `WebFetch`/`WebSearch`, а браузерная автоматизация, другая категория риска.
-- **`build-validator`** и **`repo-scout`**: только `Bash, Read, Glob, Grep` — read-only, без
-  записи и без сети.
+- **`build-validator`** и **`repo-scout`**: `Bash, Read, Glob, Grep` — без `Edit`/`Write`/
+  `WebFetch`/`WebSearch` в списке. **Важная оговорка:** `Bash` сам по себе технически способен
+  писать файлы и обращаться в сеть (`echo > file`, `curl`, `rm` и т.п.) — отсутствие `Edit`/`Write`/
+  `WebFetch` в `tools:` не создаёт аппаратный/OS-уровневый барьер само по себе. «Read-only» для этих
+  двух ролей — это (а) явная инструкция в их собственных агентных файлах (`agents/build-validator.md`/
+  `agents/repo-scout.md`, разделы Mandate/Boundaries — какие именно команды разрешены и что агенту
+  запрещено делать), которой роль обязана следовать, и (б) обычный permission-механизм Claude Code
+  (рискованные Bash-команды запрашивают подтверждение пользователя вне read-only allowlist) — не
+  гарантия уровня песочницы. Если нужна именно техническая, а не только промпт-уровневая изоляция —
+  это отдельная задача настройки sandbox/permission-конфигурации Claude Code (`allowedDomains`,
+  `sandbox.filesystem.*`), не то, что решается полем `tools:` в файле роли.
 - **`competitor-scout`**: `Read, Glob, Grep, WebFetch, WebSearch` — read-only research, не
   редактирует код репозитория.
 - **`product-strategist`**, **`skeptic`**: `Read, Glob, Grep, WebFetch, WebSearch` — обсуждение и

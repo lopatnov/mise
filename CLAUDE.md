@@ -87,9 +87,9 @@
 Стандартная декомпозиция NestJS по фиче-модулям — партиал-классов, как в проектах на .NET, здесь
 нет, роль декомпозиции играет сам модуль:
 
-- `admin/`, `auth/`, `categories/`, `recipes/`, `seo/`, `uploads/`, `users/` — каждый: `*.module.ts`
-  + `*.controller.ts` + `*.service.ts` (+ `*.schema.ts` для Mongoose-моделей, `dto/` для
-  request/response DTO с `class-validator`).
+- `admin/`, `auth/`, `categories/`, `recipes/`, `seo/`, `uploads/`, `users/` — каждый:
+  `*.module.ts`, `*.controller.ts`, `*.service.ts` (плюс `*.schema.ts` для Mongoose-моделей,
+  `dto/` для request/response DTO с `class-validator`).
 - `common/` — сквозное: `decorators/`, `guards/` (`jwt-auth.guard.ts`, `rate-limit.guard.ts`),
   `http-exception.filter.ts`.
 
