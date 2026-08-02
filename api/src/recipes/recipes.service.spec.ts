@@ -120,6 +120,67 @@ describe('RecipesService', () => {
 
       expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ tags: 'vegan' }));
     });
+
+    it('combines visibility and search with $and', async () => {
+      mockModel.find.mockReturnValue(mockQuery([]));
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      await service.findAll(userId, false, { q: 'soup' });
+
+      const filter = mockModel.find.mock.calls[0][0] as Record<string, unknown>;
+      expect(filter.$or).toBeUndefined();
+      expect(filter.$and).toHaveLength(2);
+    });
+
+    it('caps an oversized limit', async () => {
+      const query = mockQuery([]);
+      mockModel.find.mockReturnValue(query);
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      const result = await service.findAll(userId, true, { limit: 5000 });
+
+      expect(result.limit).toBe(100);
+      expect(query.limit).toHaveBeenCalledWith(100);
+    });
+
+    it('falls back to the default page size for a non-positive limit', async () => {
+      const query = mockQuery([]);
+      mockModel.find.mockReturnValue(query);
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      const result = await service.findAll(userId, true, { limit: 0, page: 0 });
+
+      expect(result).toEqual(expect.objectContaining({ page: 1, limit: 20 }));
+      expect(query.skip).toHaveBeenCalledWith(0);
+    });
+  });
+
+  // ── findPublic ───────────────────────────────────────────────────────────
+
+  describe('findPublic', () => {
+    it('restricts the query to public recipes', async () => {
+      mockModel.find.mockReturnValue(mockQuery([]));
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      await service.findPublic({});
+
+      expect(mockModel.find).toHaveBeenCalledWith({ isPublic: true });
+    });
+
+    it('applies text search alongside the public filter', async () => {
+      mockModel.find.mockReturnValue(mockQuery([]));
+      mockModel.countDocuments.mockResolvedValue(0);
+
+      await service.findPublic({ q: 'so.up' });
+
+      expect(mockModel.find).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isPublic: true,
+          // regex metacharacters from user input are escaped
+          $or: expect.arrayContaining([{ title: { $regex: 'so\\.up', $options: 'i' } }]),
+        }),
+      );
+    });
   });
 
   // ── findOne ──────────────────────────────────────────────────────────────

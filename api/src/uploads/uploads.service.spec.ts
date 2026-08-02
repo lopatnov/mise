@@ -1,10 +1,22 @@
-import { unlink } from 'node:fs/promises';
+import { unlink, writeFile } from 'node:fs/promises';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { mkdirSync } from 'fs';
+import { fetchPinned, isSsrfSafe, type PinnedResponse } from '../common/safe-http';
 import { UploadsService } from './uploads.service';
 
 jest.mock('node:fs/promises');
 jest.mock('fs');
+jest.mock('../common/safe-http');
+
+const safeUrl = { url: new URL('https://example.com/photo.png'), address: '93.184.216.34', family: 4 as const };
+
+const imageResponse = (contentType: string | undefined, { ok = true, status = 200 } = {}) =>
+  ({
+    ok,
+    status,
+    getHeader: () => contentType,
+    buffer: () => Promise.resolve(Buffer.from('binary')),
+  }) as PinnedResponse;
 
 describe('UploadsService', () => {
   let service: UploadsService;
@@ -12,6 +24,7 @@ describe('UploadsService', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     jest.mocked(mkdirSync).mockReturnValue(undefined);
+    jest.mocked(isSsrfSafe).mockResolvedValue(safeUrl);
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [UploadsService],
@@ -40,6 +53,52 @@ describe('UploadsService', () => {
     it('works with uuid filenames', () => {
       const name = 'imported-550e8400-e29b-41d4-a716-446655440000.webp';
       expect(service.buildPhotoUrl(name)).toBe(`/uploads/${name}`);
+    });
+  });
+
+  // ── savePhotoFromUrl ──────────────────────────────────────────────────────
+
+  describe('savePhotoFromUrl', () => {
+    it('stores the download and returns its photo URL', async () => {
+      jest.mocked(fetchPinned).mockResolvedValue(imageResponse('image/png'));
+
+      const photoUrl = await service.savePhotoFromUrl('https://example.com/photo.png');
+
+      expect(photoUrl).toMatch(/^\/uploads\/imported-[0-9a-f-]{36}\.png$/);
+      expect(writeFile).toHaveBeenCalledWith(expect.stringContaining('imported-'), expect.any(Buffer));
+    });
+
+    it('picks the extension from the content type, not the URL', async () => {
+      jest.mocked(fetchPinned).mockResolvedValue(imageResponse('image/webp; charset=binary'));
+
+      await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toMatch(/\.webp$/);
+    });
+
+    it('falls back to the URL extension for an unknown content type', async () => {
+      jest.mocked(fetchPinned).mockResolvedValue(imageResponse('application/octet-stream'));
+
+      await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toMatch(/\.png$/);
+    });
+
+    it('does not download a URL that failed the SSRF check', async () => {
+      jest.mocked(isSsrfSafe).mockResolvedValue(false);
+
+      await expect(service.savePhotoFromUrl('http://127.0.0.1/photo.png')).resolves.toBeUndefined();
+      expect(fetchPinned).not.toHaveBeenCalled();
+      expect(writeFile).not.toHaveBeenCalled();
+    });
+
+    it('returns undefined on a non-2xx response', async () => {
+      jest.mocked(fetchPinned).mockResolvedValue(imageResponse('image/png', { ok: false, status: 404 }));
+
+      await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toBeUndefined();
+      expect(writeFile).not.toHaveBeenCalled();
+    });
+
+    it('returns undefined when the download fails', async () => {
+      jest.mocked(fetchPinned).mockRejectedValue(new Error('Request timeout'));
+
+      await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toBeUndefined();
     });
   });
 

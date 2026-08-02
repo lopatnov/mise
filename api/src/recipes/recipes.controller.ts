@@ -12,13 +12,12 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import { CurrentUser, type JwtUser } from '../common/decorators/current-user.decorator';
 import { OptionalAuth, Public } from '../common/decorators/public.decorator';
+import { photoUploadOptions } from '../uploads/photo-upload.options';
 import { UploadsService } from '../uploads/uploads.service';
 import { CreateRecipeDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
+import { RecipeImportService } from './recipe-import.service';
 import { RecipesService } from './recipes.service';
 
 @ApiTags('recipes')
@@ -27,6 +26,7 @@ import { RecipesService } from './recipes.service';
 export class RecipesController {
   constructor(
     private service: RecipesService,
+    private importService: RecipeImportService,
     private uploadsService: UploadsService,
   ) {}
 
@@ -53,7 +53,7 @@ export class RecipesController {
   @ApiResponse({ status: 400, description: 'Invalid URL or failed to parse recipe' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   importFromUrl(@Body() dto: ImportUrlDto) {
-    return this.service.importFromUrl(dto.url);
+    return this.importService.importFromUrl(dto.url);
   }
 
   @Public()
@@ -126,15 +126,7 @@ export class RecipesController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Not the recipe owner' })
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads'),
-        filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
-      }),
-      limits: { fileSize: 5 * 1024 * 1024 },
-    }),
-  )
+  @UseInterceptors(FileInterceptor('photo', photoUploadOptions))
   uploadPhoto(@Param('id') id: string, @CurrentUser() user: JwtUser, @UploadedFile() file: Express.Multer.File) {
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
     return this.service.setPhoto(id, user.userId, user.role === 'admin', photoUrl);
@@ -147,15 +139,7 @@ export class RecipesController {
   @ApiResponse({ status: 403, description: 'Not the recipe owner' })
   @ApiResponse({ status: 404, description: 'Recipe or step not found' })
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor('photo', {
-      storage: diskStorage({
-        destination: join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads'),
-        filename: (_, file, cb) => cb(null, `${uuidv4()}${extname(file.originalname)}`),
-      }),
-      limits: { fileSize: 5 * 1024 * 1024 },
-    }),
-  )
+  @UseInterceptors(FileInterceptor('photo', photoUploadOptions))
   uploadStepPhoto(
     @Param('id') id: string,
     @Param('order') order: string,
