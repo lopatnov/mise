@@ -1,4 +1,5 @@
-import { isPrivateIp, isSsrfSafe } from './safe-http';
+import { createServer, type Server } from 'node:http';
+import { fetchPinned, isPrivateIp, isSsrfSafe, type SsrfSafeUrl } from './safe-http';
 
 describe('isPrivateIp', () => {
   it.each([
@@ -30,16 +31,49 @@ describe('isSsrfSafe', () => {
     await expect(isSsrfSafe('not a url')).resolves.toBe(false);
   });
 
-  it.each([
-    'file:///etc/passwd',
-    'ftp://example.com/x',
-    'gopher://example.com',
-  ])('rejects the %s scheme', async (url) => {
-    await expect(isSsrfSafe(url)).resolves.toBe(false);
-  });
+  it.each(['file:///etc/passwd', 'ftp://example.com/x', 'gopher://example.com'])(
+    'rejects the %s scheme',
+    async (url) => {
+      await expect(isSsrfSafe(url)).resolves.toBe(false);
+    },
+  );
 
   // Resolves through the hosts file, so no network is needed
   it('rejects a hostname resolving to a loopback address', async () => {
     await expect(isSsrfSafe('http://localhost/admin')).resolves.toBe(false);
+  });
+});
+
+describe('fetchPinned', () => {
+  let server: Server | undefined;
+
+  afterEach(async () => {
+    await new Promise<void>((resolve) => (server ? server.close(() => resolve()) : resolve()));
+    server = undefined;
+  });
+
+  function listen(handler: (res: import('node:http').ServerResponse) => void): Promise<SsrfSafeUrl> {
+    const created = createServer((_req, res) => handler(res));
+    server = created;
+    return new Promise((resolve) => {
+      created.listen(0, '127.0.0.1', () => {
+        const { port } = created.address() as { port: number };
+        resolve({ url: new URL(`http://127.0.0.1:${port}/`), address: '127.0.0.1', family: 4 });
+      });
+    });
+  }
+
+  it('resolves the full body when under the size cap', async () => {
+    const safe = await listen((res) => res.end('hello'));
+
+    const res = await fetchPinned(safe, { maxBytes: 1024 });
+
+    await expect(res.buffer()).resolves.toEqual(Buffer.from('hello'));
+  });
+
+  it('rejects a response that exceeds maxBytes instead of buffering it in full', async () => {
+    const safe = await listen((res) => res.end('x'.repeat(1024)));
+
+    await expect(fetchPinned(safe, { maxBytes: 10 })).rejects.toThrow();
   });
 });

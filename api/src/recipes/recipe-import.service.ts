@@ -4,6 +4,7 @@ import { extractRecipeFromHtml, type ImportedRecipe } from './recipe-import.pars
 
 const USER_AGENT = 'Mozilla/5.0 (compatible; Mise-Bot/1.0; recipe importer)';
 const FETCH_TIMEOUT_MS = 10_000;
+const MAX_HTML_BYTES = 2 * 1024 * 1024;
 
 /** Imports recipe data from an external page. Returns parsed data — saving it is the caller's job. */
 @Injectable()
@@ -24,6 +25,7 @@ export class RecipeImportService {
       const res = await fetchPinned(safe, {
         headers: { 'User-Agent': USER_AGENT },
         timeoutMs: FETCH_TIMEOUT_MS,
+        maxBytes: MAX_HTML_BYTES,
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = await res.buffer();

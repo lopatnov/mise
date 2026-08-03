@@ -2,8 +2,9 @@ import { randomUUID } from 'node:crypto';
 import { unlink, writeFile } from 'node:fs/promises';
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { mkdirSync } from 'fs';
-import { extname, join } from 'path';
+import { join } from 'path';
 import { fetchPinned, isSsrfSafe } from '../common/safe-http';
+import { MAX_PHOTO_BYTES } from './photo-upload.options';
 
 const DOWNLOAD_TIMEOUT_MS = 10_000;
 const EXT_BY_MIME: Record<string, string> = {
@@ -36,11 +37,12 @@ export class UploadsService implements OnModuleInit {
     const safe = await isSsrfSafe(url);
     if (!safe) return undefined;
     try {
-      const res = await fetchPinned(safe, { timeoutMs: DOWNLOAD_TIMEOUT_MS });
+      const res = await fetchPinned(safe, { timeoutMs: DOWNLOAD_TIMEOUT_MS, maxBytes: MAX_PHOTO_BYTES });
       if (!res.ok) return undefined;
       const mime = (res.getHeader('content-type') ?? '').split(';')[0].trim();
-      const fallbackExt = extname(safe.url.pathname).toLowerCase() || '.jpg';
-      const filename = `imported-${randomUUID()}${EXT_BY_MIME[mime] ?? fallbackExt}`;
+      const ext = EXT_BY_MIME[mime];
+      if (!ext) return undefined;
+      const filename = `imported-${randomUUID()}${ext}`;
       await writeFile(join(this.uploadsDir, filename), await res.buffer());
       return this.buildPhotoUrl(filename);
     } catch {

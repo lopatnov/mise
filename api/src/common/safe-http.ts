@@ -64,7 +64,7 @@ export interface PinnedResponse {
  */
 export function fetchPinned(
   safe: SsrfSafeUrl,
-  options: { headers?: Record<string, string>; timeoutMs?: number } = {},
+  options: { headers?: Record<string, string>; timeoutMs?: number; maxBytes?: number } = {},
 ): Promise<PinnedResponse> {
   const { url, address, family } = safe;
   return new Promise((resolve, reject) => {
@@ -85,7 +85,16 @@ export function fetchPinned(
       },
       (res) => {
         const chunks: Buffer[] = [];
-        res.on('data', (chunk: Buffer) => chunks.push(chunk));
+        let receivedBytes = 0;
+        res.on('data', (chunk: Buffer) => {
+          receivedBytes += chunk.length;
+          if (options.maxBytes && receivedBytes > options.maxBytes) {
+            req.destroy();
+            reject(new Error('Response exceeded maximum allowed size'));
+            return;
+          }
+          chunks.push(chunk);
+        });
         res.on('end', () => {
           const buf = Buffer.concat(chunks);
           resolve({

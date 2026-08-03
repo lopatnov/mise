@@ -39,6 +39,15 @@ describe('RecipeImportService', () => {
     expect(result.ingredients).toEqual([{ amount: 2, unit: '', name: 'eggs' }]);
   });
 
+  it('caps the fetched page size', async () => {
+    const jsonLd = JSON.stringify({ '@type': 'Recipe', name: 'Pancakes', recipeIngredient: ['2 eggs'] });
+    jest.mocked(fetchPinned).mockResolvedValue(respondWith(`<script type="application/ld+json">${jsonLd}</script>`));
+
+    await service.importFromUrl('https://example.com/recipe');
+
+    expect(fetchPinned).toHaveBeenCalledWith(safeUrl, expect.objectContaining({ maxBytes: expect.any(Number) }));
+  });
+
   it('rejects a URL that failed the SSRF check without fetching it', async () => {
     jest.mocked(isSsrfSafe).mockResolvedValue(false);
 

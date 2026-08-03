@@ -74,10 +74,19 @@ describe('UploadsService', () => {
       await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toMatch(/\.webp$/);
     });
 
-    it('falls back to the URL extension for an unknown content type', async () => {
+    it('rejects an unrecognized content type instead of trusting the URL extension', async () => {
       jest.mocked(fetchPinned).mockResolvedValue(imageResponse('application/octet-stream'));
 
-      await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toMatch(/\.png$/);
+      await expect(service.savePhotoFromUrl('https://example.com/photo.html')).resolves.toBeUndefined();
+      expect(writeFile).not.toHaveBeenCalled();
+    });
+
+    it('passes the photo size cap through to fetchPinned', async () => {
+      jest.mocked(fetchPinned).mockResolvedValue(imageResponse('image/png'));
+
+      await service.savePhotoFromUrl('https://example.com/photo.png');
+
+      expect(fetchPinned).toHaveBeenCalledWith(safeUrl, expect.objectContaining({ maxBytes: expect.any(Number) }));
     });
 
     it('does not download a URL that failed the SSRF check', async () => {
