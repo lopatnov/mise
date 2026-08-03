@@ -52,13 +52,12 @@ describe('isSsrfSafe', () => {
     await expect(isSsrfSafe('not a url')).resolves.toBe(false);
   });
 
-  it.each([
-    'file:///etc/passwd',
-    'ftp://example.com/x',
-    'gopher://example.com',
-  ])('rejects the %s scheme', async (url) => {
-    await expect(isSsrfSafe(url)).resolves.toBe(false);
-  });
+  it.each(['file:///etc/passwd', 'ftp://example.com/x', 'gopher://example.com'])(
+    'rejects the %s scheme',
+    async (url) => {
+      await expect(isSsrfSafe(url)).resolves.toBe(false);
+    },
+  );
 
   // Resolves through the hosts file, so no network is needed
   it('rejects a hostname resolving to a loopback address', async () => {
