@@ -2,6 +2,7 @@ import { unlink, writeFile } from 'node:fs/promises';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { mkdirSync } from 'fs';
 import { fetchPinned, isSsrfSafe, type PinnedResponse } from '../common/safe-http';
+import { MAX_PHOTO_BYTES } from './photo-upload.options';
 import { UploadsService } from './uploads.service';
 
 jest.mock('node:fs/promises');
@@ -86,7 +87,7 @@ describe('UploadsService', () => {
 
       await service.savePhotoFromUrl('https://example.com/photo.png');
 
-      expect(fetchPinned).toHaveBeenCalledWith(safeUrl, expect.objectContaining({ maxBytes: expect.any(Number) }));
+      expect(fetchPinned).toHaveBeenCalledWith(safeUrl, expect.objectContaining({ maxBytes: MAX_PHOTO_BYTES }));
     });
 
     it('does not download a URL that failed the SSRF check', async () => {

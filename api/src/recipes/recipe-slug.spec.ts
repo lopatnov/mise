@@ -11,7 +11,7 @@ describe('makeSlug', () => {
   });
 
   it('drops punctuation and collapses separators', () => {
-    expect(makeSlug('Mom&#39;s  best -- pie!!!')).toBe('mom-39-s-best-pie');
+    expect(makeSlug("Mom's  best -- pie!!!")).toBe('mom-s-best-pie');
     expect(makeSlug('  spaced  out  ')).toBe('spaced-out');
   });
 

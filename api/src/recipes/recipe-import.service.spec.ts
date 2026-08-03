@@ -45,7 +45,10 @@ describe('RecipeImportService', () => {
 
     await service.importFromUrl('https://example.com/recipe');
 
-    expect(fetchPinned).toHaveBeenCalledWith(safeUrl, expect.objectContaining({ maxBytes: expect.any(Number) }));
+    expect(fetchPinned).toHaveBeenCalledWith(
+      safeUrl,
+      expect.objectContaining({ maxBytes: 2 * 1024 * 1024, timeoutMs: 10_000 }),
+    );
   });
 
   it('rejects a URL that failed the SSRF check without fetching it', async () => {

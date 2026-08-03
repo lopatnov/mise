@@ -25,24 +25,24 @@ export function parseDuration(raw: string | number): number | undefined {
   if (/^P/i.test(s)) {
     const h = /(\d+)H/i.exec(s);
     const m = /(\d+)M/i.exec(s);
-    const total = parseInt(h?.[1] ?? '0', 10) * 60 + parseInt(m?.[1] ?? '0', 10);
+    const total = Number.parseInt(h?.[1] ?? '0', 10) * 60 + Number.parseInt(m?.[1] ?? '0', 10);
     return total > 0 ? total : undefined;
   }
   // "H:MM" / "HH:MM"
   const hm = /^(\d+):(\d{2})$/.exec(s);
-  if (hm) return parseInt(hm[1], 10) * 60 + parseInt(hm[2], 10) || undefined;
+  if (hm) return Number.parseInt(hm[1], 10) * 60 + Number.parseInt(hm[2], 10) || undefined;
   // Plain number — assume minutes
-  if (/^\d+$/.test(s)) return parseInt(s, 10) || undefined;
+  if (/^\d+$/.test(s)) return Number.parseInt(s, 10) || undefined;
   // "X hour(s) Y min(utes)" in various languages
   const hourMatch = /(\d+)\s*(?:h(?:r|rs|ours?)?|час)/i.exec(s);
   const minMatch = /(\d+)\s*(?:m(?:in(?:utes?)?)?(?!\w)|мин)/i.exec(s);
   if (hourMatch ?? minMatch) {
-    const total = parseInt(hourMatch?.[1] ?? '0', 10) * 60 + parseInt(minMatch?.[1] ?? '0', 10);
+    const total = Number.parseInt(hourMatch?.[1] ?? '0', 10) * 60 + Number.parseInt(minMatch?.[1] ?? '0', 10);
     return total > 0 ? total : undefined;
   }
   // Last resort: first number in string → assume minutes
   const first = /(\d+)/.exec(s);
-  return first ? parseInt(first[1], 10) || undefined : undefined;
+  return first ? Number.parseInt(first[1], 10) || undefined : undefined;
 }
 
 /** Parse first integer from a string (e.g. "4 servings" → 4, "Makes 4 to 6" → 4) */
@@ -50,21 +50,21 @@ export function parseServings(raw: string | number | undefined): number | undefi
   if (typeof raw === 'number') return raw > 0 ? raw : undefined;
   if (!raw) return undefined;
   const m = /(\d+)/.exec(String(raw));
-  return m ? parseInt(m[1], 10) : undefined;
+  return m ? Number.parseInt(m[1], 10) : undefined;
 }
 
 /** Parse ingredient string into name/amount/unit */
 export function parseIngredient(raw: string): { name: string; amount: number; unit: string } {
   const cleaned = raw.replace(/\s+/g, ' ').trim();
-  const normNum = (s: string) => parseFloat(s.replace(',', '.'));
+  const normNum = (s: string) => Number.parseFloat(s.replace(',', '.'));
   // Match patterns like "1 1/2 cups", "2.5 grams", "2,5 гр", "1/3 cup", "3 large"
-  const m = /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)?)\s+(.+)/.exec(
+  const m = /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)??)\s+(.+)/.exec(
     cleaned,
   );
   if (m) {
     const amountStr = m[1].includes('/')
       ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
-          String(parseInt(w, 10) + parseInt(n, 10) / parseInt(d, 10)),
+          String(Number.parseInt(w, 10) + Number.parseInt(n, 10) / Number.parseInt(d, 10)),
         )
       : m[1];
     return { amount: normNum(amountStr) || 1, unit: m[2], name: m[3] };
@@ -146,16 +146,15 @@ function recipeFromJsonLdNode(obj: Record<string, unknown>): ImportedRecipe {
   const ingredients = (Array.isArray(rawIngredients) ? rawIngredients : []).map((r) => parseIngredient(String(r)));
 
   const keywordsRaw = obj.keywords;
-  const tags =
-    typeof keywordsRaw === 'string'
-      ? keywordsRaw
-          .split(/[,;]/)
-          .map((t) => t.trim())
-          .filter(Boolean)
+  const keywordList = Array.isArray(keywordsRaw)
+    ? keywordsRaw.map((k) => String(k))
+    : typeof keywordsRaw === 'string'
+      ? keywordsRaw.split(/[,;]/)
       : [];
+  const tags = keywordList.map((t) => t.trim()).filter(Boolean);
 
   return {
-    title: String(obj.name ?? '').trim() || 'Imported recipe',
+    title: (typeof obj.name === 'string' ? obj.name.trim() : '') || 'Imported recipe',
     description: typeof obj.description === 'string' ? obj.description.slice(0, 2000) : undefined,
     servings: parseServings(obj.recipeYield as string | number | undefined),
     prepTime: obj.prepTime != null ? parseDuration(obj.prepTime as string | number) : undefined,
@@ -167,17 +166,39 @@ function recipeFromJsonLdNode(obj: Record<string, unknown>): ImportedRecipe {
   };
 }
 
-function extractFromMetaTags(html: string): ImportedRecipe | null {
-  const ogTitle = /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
-  const ogDesc =
-    /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1] ??
-    /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
-  const ogImage = /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i.exec(html)?.[1];
-  const pageTitle = /<title[^>]*>([^<]+)<\/title>/i.exec(html)?.[1]?.trim();
+/** Decode the HTML entities that commonly show up in scraped meta tag/title content */
+function decodeHtmlEntities(s: string): string {
+  return s
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number.parseInt(dec, 10)))
+    .replace(
+      /&(?:lt|gt|quot|apos|nbsp);/g,
+      (entity) => ({ '&lt;': '<', '&gt;': '>', '&quot;': '"', '&apos;': "'", '&nbsp;': ' ' })[entity] as string,
+    )
+    .replace(/&amp;/g, '&');
+}
 
-  if (!(ogTitle ?? pageTitle)) return null;
+/** Read a <meta> tag's content regardless of whether property/name comes before or after content */
+function metaContent(html: string, attr: 'property' | 'name', value: string): string | undefined {
+  const key = new RegExp(`${attr}=["']${value}["']`, 'i');
+  for (const tag of html.matchAll(/<meta\s[^>]*>/gi)) {
+    if (!key.test(tag[0])) continue;
+    const content = /content=["']([^"']*)["']/i.exec(tag[0])?.[1];
+    if (content !== undefined) return decodeHtmlEntities(content);
+  }
+  return undefined;
+}
+
+function extractFromMetaTags(html: string): ImportedRecipe | null {
+  const ogTitle = metaContent(html, 'property', 'og:title');
+  const ogDesc = metaContent(html, 'property', 'og:description') ?? metaContent(html, 'name', 'description');
+  const ogImage = metaContent(html, 'property', 'og:image');
+  const pageTitle = /<title[^>]*>([^<]+)<\/title>/i.exec(html)?.[1]?.trim();
+  const pageTitleDecoded = pageTitle ? decodeHtmlEntities(pageTitle) : undefined;
+
+  if (!(ogTitle ?? pageTitleDecoded)) return null;
   return {
-    title: (ogTitle ?? pageTitle ?? 'Imported recipe').trim(),
+    title: (ogTitle ?? pageTitleDecoded ?? 'Imported recipe').trim(),
     description: ogDesc?.trim(),
     externalImageUrl: ogImage ?? undefined,
   };

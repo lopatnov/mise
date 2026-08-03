@@ -29,7 +29,7 @@ export class RecipeImportService {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = await res.buffer();
-      return new TextDecoder(detectCharset(buf, res.getHeader('content-type')), { fatal: false }).decode(buf);
+      return decodeBody(buf, detectCharset(buf, res.getHeader('content-type')));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       throw new BadRequestException(`Failed to fetch URL: ${msg}`);
@@ -43,4 +43,13 @@ function detectCharset(body: Buffer, contentType: string | undefined): string {
   if (fromHeader) return fromHeader;
   const peek = body.subarray(0, 4096).toString('latin1');
   return /<meta[^>]+charset=["']?\s*([\w-]+)/i.exec(peek)?.[1] ?? /charset=([\w-]+)/i.exec(peek)?.[1] ?? 'utf-8';
+}
+
+/** Decode with the declared charset, falling back to utf-8 for labels Node's TextDecoder doesn't support */
+function decodeBody(body: Buffer, charset: string): string {
+  try {
+    return new TextDecoder(charset, { fatal: false }).decode(body);
+  } catch {
+    return new TextDecoder('utf-8', { fatal: false }).decode(body);
+  }
 }

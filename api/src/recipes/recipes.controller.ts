@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -127,7 +128,8 @@ export class RecipesController {
   @ApiResponse({ status: 403, description: 'Not the recipe owner' })
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('photo', photoUploadOptions))
-  uploadPhoto(@Param('id') id: string, @CurrentUser() user: JwtUser, @UploadedFile() file: Express.Multer.File) {
+  uploadPhoto(@Param('id') id: string, @CurrentUser() user: JwtUser, @UploadedFile() file?: Express.Multer.File) {
+    if (!file) throw new BadRequestException('Only image files are allowed');
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
     return this.service.setPhoto(id, user.userId, user.role === 'admin', photoUrl);
   }
@@ -144,8 +146,9 @@ export class RecipesController {
     @Param('id') id: string,
     @Param('order') order: string,
     @CurrentUser() user: JwtUser,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
+    if (!file) throw new BadRequestException('Only image files are allowed');
     const photoUrl = this.uploadsService.buildPhotoUrl(file.filename);
     return this.service.setStepPhoto(id, user.userId, user.role === 'admin', Number(order), photoUrl);
   }

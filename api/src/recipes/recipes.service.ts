@@ -14,6 +14,11 @@ function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/** True for MongoDB's duplicate-key error (E11000) — the race the slug uniqueness check can't fully close */
+function isDuplicateKeyError(err: unknown): boolean {
+  return typeof err === 'object' && err !== null && (err as { code?: number }).code === 11000;
+}
+
 /** Fields a free-text search looks at, as $or conditions */
 function searchConditions(q: string): Record<string, unknown>[] {
   const safeQ = escapeRegex(q);
@@ -125,25 +130,44 @@ export class RecipesService implements OnModuleInit {
       })),
     );
 
-    return this.model.create({
-      ...dto,
-      slug: await this.generateUniqueSlug(dto.title),
-      photoUrl,
-      steps,
-      authorId: new Types.ObjectId(userId),
-      categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
-    });
+    // generateUniqueSlug()'s check-then-insert isn't atomic — the schema's unique index on `slug`
+    // is the real guarantee. Retry with a fresh slug if a concurrent create won the same one.
+    const maxAttempts = 3;
+    let lastError: unknown;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        return await this.model.create({
+          ...dto,
+          slug: await this.generateUniqueSlug(dto.title),
+          photoUrl,
+          steps,
+          authorId: new Types.ObjectId(userId),
+          categoryId: dto.categoryId ? new Types.ObjectId(dto.categoryId) : undefined,
+        });
+      } catch (err) {
+        if (!isDuplicateKeyError(err) || attempt === maxAttempts) throw err;
+        lastError = err;
+      }
+    }
+    throw lastError;
   }
 
   async update(id: string, userId: string, isAdmin: boolean, dto: Partial<CreateRecipeDto>) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
     if (dto.steps) {
-      // Steps are replaced wholesale — keep the photo already uploaded for each position
+      // Steps are replaced wholesale — keep the photo already uploaded for each position, unless
+      // the update supplies a new externalImageUrl for that step, matching create()'s behavior
       const photoByOrder = new Map(recipe.steps.map((s) => [s.order, s.photoUrl as string | undefined]));
-      recipe.set(
-        'steps',
-        dto.steps.map((s) => ({ order: s.order, text: s.text, photoUrl: photoByOrder.get(s.order) })),
+      const steps = await Promise.all(
+        dto.steps.map(async (s) => ({
+          order: s.order,
+          text: s.text,
+          photoUrl: s.externalImageUrl
+            ? await this.uploads.savePhotoFromUrl(s.externalImageUrl)
+            : photoByOrder.get(s.order),
+        })),
       );
+      recipe.set('steps', steps);
       const { steps: _steps, ...rest } = dto;
       Object.assign(recipe, rest);
     } else {
@@ -220,16 +244,17 @@ export class RecipesService implements OnModuleInit {
     return recipe;
   }
 
-  /** Slug from the title, suffixed with -2, -3, … until it is unique */
+  /** Slug from the title, suffixed with -2, -3, … until it is unique (bounded, with a timestamp fallback) */
   private async generateUniqueSlug(title: string, excludeId?: string): Promise<string> {
     const base = makeSlug(title);
     let slug = base;
-    let n = 1;
-    while (true) {
+    const maxAttempts = 50;
+    for (let n = 1; n <= maxAttempts; n++) {
       const filter: Record<string, unknown> = { slug };
       if (excludeId) filter._id = { $ne: new Types.ObjectId(excludeId) };
       if (!(await this.model.exists(filter))) return slug;
-      slug = `${base}-${++n}`;
+      slug = `${base}-${n + 1}`;
     }
+    return `${base}-${Date.now()}`;
   }
 }

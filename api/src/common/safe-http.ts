@@ -5,14 +5,18 @@ import { request as httpsRequest } from 'node:https';
 /** Return true if the address is private/internal and must never be reachable from user input */
 export function isPrivateIp(ip: string): boolean {
   const h = ip.toLowerCase().replace(/^\[|\]$/g, '');
-  if (h === 'localhost' || h === '0.0.0.0') return true;
-  if (h === '127.0.0.1' || /^127\./.test(h)) return true;
-  if (/^10\./.test(h)) return true;
-  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return true;
-  if (/^192\.168\./.test(h)) return true;
+  // Unwrap IPv4-mapped IPv6 (::ffff:127.0.0.1) before the IPv4 checks below
+  const v4 = /^::ffff:(\d+\.\d+\.\d+\.\d+)$/.exec(h)?.[1] ?? h;
+  if (h === 'localhost' || v4 === '0.0.0.0') return true;
+  if (v4.startsWith('127.') || v4.startsWith('0.')) return true;
+  if (v4.startsWith('10.')) return true;
+  if (/^172\.(1[6-9]|2\d|3[01])\./.test(v4)) return true;
+  if (v4.startsWith('192.168.')) return true;
+  if (v4.startsWith('169.254.')) return true;
+  if (/^100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\./.test(v4)) return true;
   if (h === '::1' || h === '0:0:0:0:0:0:0:1') return true;
   if (/^f[cd]/i.test(h)) return true;
-  if (h === '169.254.169.254') return true;
+  if (/^fe[89ab]/i.test(h)) return true;
   return false;
 }
 
@@ -62,16 +66,28 @@ export interface PinnedResponse {
  * address, so no second DNS lookup occurs and DNS rebinding is not possible.
  * TLS remains intact: the original hostname is used for SNI/cert verification.
  */
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+
 export function fetchPinned(
   safe: SsrfSafeUrl,
-  options: { headers?: Record<string, string>; timeoutMs?: number; maxBytes?: number } = {},
+  options: { headers?: Record<string, string>; timeoutMs?: number; maxBytes?: number; maxRedirects?: number } = {},
 ): Promise<PinnedResponse> {
   const { url, address, family } = safe;
+  const maxRedirects = options.maxRedirects ?? 5;
   return new Promise((resolve, reject) => {
     const isHttps = url.protocol === 'https:';
-    const port = url.port ? Number(url.port) : isHttps ? 443 : 80;
-    const pinnedLookup = (_h: string, _o: object, cb: (err: Error | null, addr: string, fam: number) => void) =>
-      cb(null, address, family);
+    const defaultPort = isHttps ? 443 : 80;
+    const port = url.port ? Number(url.port) : defaultPort;
+    // Node calls this with options.all: true for some hostnames (Happy Eyeballs), which expects
+    // an array-of-results callback instead of the single (err, address, family) form.
+    const pinnedLookup = (
+      _h: string,
+      lookupOptions: { all?: boolean },
+      cb: (err: Error | null, addr: string | { address: string; family: number }[], fam?: number) => void,
+    ) => {
+      if (lookupOptions?.all) cb(null, [{ address, family }]);
+      else cb(null, address, family);
+    };
 
     const requester = isHttps ? httpsRequest : httpRequest;
     const req = requester(
@@ -84,6 +100,20 @@ export function fetchPinned(
         lookup: pinnedLookup,
       },
       (res) => {
+        const status = res.statusCode ?? 0;
+        const location = res.headers.location;
+        if (REDIRECT_STATUSES.has(status) && location && maxRedirects > 0) {
+          res.resume(); // discard this response's body, we're following the redirect instead
+          const target = new URL(location, url).toString();
+          isSsrfSafe(target).then((nextSafe) => {
+            if (!nextSafe) {
+              reject(new Error(`Redirect target is not an allowed URL: ${target}`));
+              return;
+            }
+            fetchPinned(nextSafe, { ...options, maxRedirects: maxRedirects - 1 }).then(resolve, reject);
+          }, reject);
+          return;
+        }
         const chunks: Buffer[] = [];
         let receivedBytes = 0;
         res.on('data', (chunk: Buffer) => {
@@ -98,8 +128,8 @@ export function fetchPinned(
         res.on('end', () => {
           const buf = Buffer.concat(chunks);
           resolve({
-            ok: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 300,
-            status: res.statusCode ?? 0,
+            ok: status >= 200 && status < 300,
+            status,
             getHeader: (name) => {
               const h = res.headers[name.toLowerCase()];
               return Array.isArray(h) ? h[0] : h;

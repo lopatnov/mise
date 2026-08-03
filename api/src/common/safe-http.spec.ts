@@ -21,7 +21,28 @@ describe('isPrivateIp', () => {
     expect(isPrivateIp(ip)).toBe(true);
   });
 
-  it.each(['8.8.8.8', '1.1.1.1', '172.32.0.1', '172.15.0.1', '193.168.1.1', '2606:4700::1111'])('allows %s', (ip) => {
+  it.each([
+    'fe80::1',
+    '169.254.1.1',
+    '::ffff:127.0.0.1',
+    '::ffff:10.0.0.1',
+    '100.64.0.1',
+    '100.127.255.255',
+    '0.1.2.3',
+  ])('rejects %s', (ip) => {
+    expect(isPrivateIp(ip)).toBe(true);
+  });
+
+  it.each([
+    '8.8.8.8',
+    '1.1.1.1',
+    '172.32.0.1',
+    '172.15.0.1',
+    '193.168.1.1',
+    '2606:4700::1111',
+    '100.63.255.255',
+    '100.128.0.1',
+  ])('allows %s', (ip) => {
     expect(isPrivateIp(ip)).toBe(false);
   });
 });
@@ -46,16 +67,18 @@ describe('isSsrfSafe', () => {
 });
 
 describe('fetchPinned', () => {
-  let server: Server | undefined;
+  let servers: Server[] = [];
 
   afterEach(async () => {
-    await new Promise<void>((resolve) => (server ? server.close(() => resolve()) : resolve()));
-    server = undefined;
+    await Promise.all(servers.map((s) => new Promise<void>((resolve) => s.close(() => resolve()))));
+    servers = [];
   });
 
-  function listen(handler: (res: import('node:http').ServerResponse) => void): Promise<SsrfSafeUrl> {
-    const created = createServer((_req, res) => handler(res));
-    server = created;
+  function listen(
+    handler: (req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => void,
+  ): Promise<SsrfSafeUrl> {
+    const created = createServer(handler);
+    servers.push(created);
     return new Promise((resolve) => {
       created.listen(0, '127.0.0.1', () => {
         const { port } = created.address() as { port: number };
@@ -65,7 +88,7 @@ describe('fetchPinned', () => {
   }
 
   it('resolves the full body when under the size cap', async () => {
-    const safe = await listen((res) => res.end('hello'));
+    const safe = await listen((_req, res) => res.end('hello'));
 
     const res = await fetchPinned(safe, { maxBytes: 1024 });
 
@@ -73,8 +96,49 @@ describe('fetchPinned', () => {
   });
 
   it('rejects a response that exceeds maxBytes instead of buffering it in full', async () => {
-    const safe = await listen((res) => res.end('x'.repeat(1024)));
+    const safe = await listen((_req, res) => res.end('x'.repeat(1024)));
 
     await expect(fetchPinned(safe, { maxBytes: 10 })).rejects.toThrow();
+  });
+
+  it('connects to the pinned address, ignoring wherever the URL hostname would actually resolve', async () => {
+    let receivedHost: string | undefined;
+    const safe = await listen((req, res) => {
+      receivedHost = req.headers.host;
+      res.end('ok');
+    });
+    const pinnedToLocalServer: SsrfSafeUrl = {
+      url: new URL(`http://example.com:${safe.url.port}/`),
+      address: '127.0.0.1',
+      family: 4,
+    };
+
+    await fetchPinned(pinnedToLocalServer);
+
+    expect(receivedHost).toBe(`example.com:${safe.url.port}`);
+  });
+
+  // A redirect to any address this test suite can stand up is necessarily loopback, which the SSRF
+  // guard must (and does, see below) reject as a redirect target just like a top-level request —
+  // so the successful-follow path isn't unit-testable without a live public endpoint. Covered instead
+  // by the two behaviors below: rejection is real end-to-end, and non-following is independent of it.
+  it('rejects a redirect whose target fails the SSRF guard', async () => {
+    const entry = await listen((_req, res) => {
+      res.writeHead(302, { location: 'http://169.254.169.254/latest/meta-data' });
+      res.end();
+    });
+
+    await expect(fetchPinned(entry)).rejects.toThrow(/not an allowed URL/);
+  });
+
+  it('does not attempt to follow a redirect once maxRedirects is exhausted', async () => {
+    const entry = await listen((_req, res) => {
+      res.writeHead(301, { location: 'http://127.0.0.1:9/' });
+      res.end();
+    });
+
+    const res = await fetchPinned(entry, { maxRedirects: 0 });
+
+    expect(res.status).toBe(301);
   });
 });

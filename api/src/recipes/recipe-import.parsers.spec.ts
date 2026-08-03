@@ -84,6 +84,14 @@ describe('recipe import parsers', () => {
     it('collapses repeated whitespace', () => {
       expect(parseIngredient('  3   large   eggs ')).toEqual({ amount: 3, unit: 'large', name: 'eggs' });
     });
+
+    it('keeps a multi-word ingredient name out of the unit', () => {
+      expect(parseIngredient('2 cups all purpose flour')).toEqual({
+        amount: 2,
+        unit: 'cups',
+        name: 'all purpose flour',
+      });
+    });
   });
 
   // ── extractImageUrl ───────────────────────────────────────────────────────
@@ -196,6 +204,16 @@ describe('recipe import parsers', () => {
       expect(extractRecipeFromHtml(jsonLd({ '@type': 'Recipe' }))?.title).toBe('Imported recipe');
     });
 
+    it('falls back to "Imported recipe" instead of stringifying a non-string name', () => {
+      const html = jsonLd({ '@type': 'Recipe', name: { '@type': 'Text', value: 'Soup' } });
+      expect(extractRecipeFromHtml(html)?.title).toBe('Imported recipe');
+    });
+
+    it('accepts keywords as an array of strings, not just a comma-separated string', () => {
+      const html = jsonLd({ '@type': 'Recipe', name: 'Soup', keywords: ['soup', ' dinner ', ''] });
+      expect(extractRecipeFromHtml(html)?.tags).toEqual(['soup', 'dinner']);
+    });
+
     it('falls back to Open Graph tags when there is no JSON-LD recipe', () => {
       const html = `<html><head>
         <meta property="og:title" content="Pancakes" />
@@ -213,6 +231,29 @@ describe('recipe import parsers', () => {
     it('falls back to the page title when Open Graph is absent', () => {
       const html = '<html><head><title>  Grandma cake  </title></head></html>';
       expect(extractRecipeFromHtml(html)?.title).toBe('Grandma cake');
+    });
+
+    it('matches meta tags regardless of whether content comes before or after property/name', () => {
+      const html = `<html><head>
+        <meta content="Pancakes" property="og:title" />
+        <meta content="Fluffy" name="description" />
+      </head></html>`;
+
+      expect(extractRecipeFromHtml(html)).toEqual({
+        title: 'Pancakes',
+        description: 'Fluffy',
+        externalImageUrl: undefined,
+      });
+    });
+
+    it('decodes HTML entities in Open Graph content and the page title', () => {
+      const html = `<html><head>
+        <meta property="og:title" content="Mom&#39;s Pie &amp; Ice Cream" />
+      </head></html>`;
+      expect(extractRecipeFromHtml(html)?.title).toBe("Mom's Pie & Ice Cream");
+
+      const titleOnly = '<html><head><title>Fish &amp; Chips</title></head></html>';
+      expect(extractRecipeFromHtml(titleOnly)?.title).toBe('Fish & Chips');
     });
 
     it('returns null when the page has no recipe data at all', () => {
