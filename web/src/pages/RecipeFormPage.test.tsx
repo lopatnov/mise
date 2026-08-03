@@ -30,6 +30,7 @@ vi.mock('../api/recipes', () => ({
 }));
 
 vi.mock('../components/ImportUrlDialog', () => ({ default: () => null }));
+vi.mock('../components/ImportTextDialog', () => ({ default: () => null }));
 
 // Lazy import after mocks are set up
 const { default: RecipeFormPage } = await import('./RecipeFormPage');
@@ -57,6 +58,11 @@ describe('RecipeFormPage — create mode', () => {
   it('shows the import URL button', () => {
     renderPage();
     expect(screen.getByRole('button', { name: 'recipe.import.button' })).toBeInTheDocument();
+  });
+
+  it('shows the import from text button', () => {
+    renderPage();
+    expect(screen.getByRole('button', { name: 'recipe.import.textButton' })).toBeInTheDocument();
   });
 
   it('has a Create button', () => {
@@ -111,6 +117,11 @@ describe('RecipeFormPage — edit mode', () => {
   it('does not show the import URL button', () => {
     renderPage();
     expect(screen.queryByRole('button', { name: 'recipe.import.button' })).not.toBeInTheDocument();
+  });
+
+  it('does not show the import from text button', () => {
+    renderPage();
+    expect(screen.queryByRole('button', { name: 'recipe.import.textButton' })).not.toBeInTheDocument();
   });
 
   it('shows a Save button instead of Create', () => {

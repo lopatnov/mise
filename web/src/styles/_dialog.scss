@@ -48,6 +48,10 @@
   box-shadow: var(--shadow-md);
 }
 
+.confirm-dialog--wide {
+  max-width: 560px;
+}
+
 .confirm-dialog__message {
   margin: 0 0 20px;
   font-size: 15px;

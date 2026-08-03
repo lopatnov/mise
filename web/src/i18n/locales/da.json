@@ -127,7 +127,15 @@
       "import": "Importer",
       "importing": "Importerer…",
       "cancel": "Annuller",
-      "error": "Kunne ikke importere opskrift fra denne URL"
+      "error": "Kunne ikke importere opskrift fra denne URL",
+      "textButton": "📋 Importer fra tekst",
+      "textTitle": "Importér opskrift fra tekst",
+      "textHint": "Indsæt ingredienser og trin som almindelig tekst, ét per linje. Vi forsøger at analysere hver linje automatisk.",
+      "ingredientsLabel": "Ingredienser",
+      "ingredientsPlaceholder": "2 kopper mel\n1 teskefuld salt\n3 æg",
+      "stepsLabel": "Trin",
+      "stepsPlaceholder": "Forvarm ovnen til 175°C\nBland tørre ingredienser\nBag i 25 minutter",
+      "textError": "Kunne ikke analysere indsatsen af tekst"
     }
   },
   "profile": {

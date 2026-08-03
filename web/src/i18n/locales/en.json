@@ -127,7 +127,15 @@
       "import": "Import",
       "importing": "Importing…",
       "cancel": "Cancel",
-      "error": "Failed to import recipe from this URL"
+      "error": "Failed to import recipe from this URL",
+      "textButton": "📋 Import from text",
+      "textTitle": "Import recipe from text",
+      "textHint": "Paste ingredients and steps as plain text, one per line. We'll try to parse each line automatically.",
+      "ingredientsLabel": "Ingredients",
+      "ingredientsPlaceholder": "2 cups flour\n1 tsp salt\n3 eggs",
+      "stepsLabel": "Steps",
+      "stepsPlaceholder": "Preheat oven to 350°F\nMix dry ingredients\nBake for 25 minutes",
+      "textError": "Failed to parse the pasted text"
     }
   },
   "profile": {

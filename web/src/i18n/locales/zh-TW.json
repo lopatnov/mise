@@ -127,7 +127,15 @@
       "import": "匯入",
       "importing": "匯入中…",
       "cancel": "取消",
-      "error": "無法從此URL匯入食譜"
+      "error": "無法從此URL匯入食譜",
+      "textButton": "📋 從文字匯入",
+      "textTitle": "從文字匯入食譜",
+      "textHint": "將食材和步驟作為純文字貼上，每行一個。我們會嘗試自動解析每一行。",
+      "ingredientsLabel": "食材",
+      "ingredientsPlaceholder": "2杯麵粉\n1茶匙鹽\n3個雞蛋",
+      "stepsLabel": "步驟",
+      "stepsPlaceholder": "將烤箱預熱至175°C\n混合乾食材\n烤25分鐘",
+      "textError": "無法解析貼上的文字"
     }
   },
   "profile": {

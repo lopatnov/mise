@@ -70,4 +70,6 @@ export const recipesApi = {
   addFavorite: (id: string) => api.post<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
   removeFavorite: (id: string) => api.delete<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
   importFromUrl: (url: string) => api.post<Partial<Recipe>>('/recipes/import-url', { url }).then((r) => r.data),
+  importFromText: (ingredientsText: string, stepsText: string) =>
+    api.post<Partial<Recipe>>('/recipes/import-text', { ingredientsText, stepsText }).then((r) => r.data),
 };

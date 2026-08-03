@@ -127,7 +127,15 @@
       "import": "Importeren",
       "importing": "Importeren…",
       "cancel": "Annuleren",
-      "error": "Kan het recept niet importeren van deze URL"
+      "error": "Kan het recept niet importeren van deze URL",
+      "textButton": "📋 Importeren vanuit tekst",
+      "textTitle": "Recept importeren vanuit tekst",
+      "textHint": "Plak ingrediënten en stappen als platte tekst, één per regel. We proberen elke regel automatisch te analyseren.",
+      "ingredientsLabel": "Ingrediënten",
+      "ingredientsPlaceholder": "2 kopjes bloem\n1 theelepel zout\n3 eieren",
+      "stepsLabel": "Stappen",
+      "stepsPlaceholder": "Oven voorverwarmen tot 175°C\nDroge ingrediënten mengen\nGaarbakken gedurende 25 minuten",
+      "textError": "Kan geplakte tekst niet analyseren"
     }
   },
   "profile": {

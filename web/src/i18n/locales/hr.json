@@ -127,7 +127,15 @@
       "import": "Uvezi",
       "importing": "Uvoženje…",
       "cancel": "Odustani",
-      "error": "Nije moguće uvesti recept s ovog URL-a"
+      "error": "Nije moguće uvesti recept s ovog URL-a",
+      "textButton": "📋 Uvezi iz teksta",
+      "textTitle": "Uvezi recept iz teksta",
+      "textHint": "Zalijepite sastojke i korake kao obični tekst, jedan po liniji. Pokušat ćemo automatski analizirati svaki redak.",
+      "ingredientsLabel": "Sastojci",
+      "ingredientsPlaceholder": "2 čaše brašna\n1 čajna žličica soli\n3 jaja",
+      "stepsLabel": "Koraci",
+      "stepsPlaceholder": "Zagrijte pećnicu na 175°C\nPromješajte suhe sastojke\nPecite 25 minuta",
+      "textError": "Nije moguće analizirati zalijepljeni tekst"
     }
   },
   "profile": {

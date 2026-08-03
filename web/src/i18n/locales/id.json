@@ -127,7 +127,15 @@
       "import": "Impor",
       "importing": "Mengimpor…",
       "cancel": "Batal",
-      "error": "Gagal mengimpor resep dari URL ini"
+      "error": "Gagal mengimpor resep dari URL ini",
+      "textButton": "📋 Impor dari teks",
+      "textTitle": "Impor resep dari teks",
+      "textHint": "Tempel bahan dan langkah-langkah sebagai teks biasa, satu per baris. Kami akan mencoba mengurai setiap baris secara otomatis.",
+      "ingredientsLabel": "Bahan",
+      "ingredientsPlaceholder": "2 cangkir tepung\n1 sendok teh garam\n3 telur",
+      "stepsLabel": "Langkah-langkah",
+      "stepsPlaceholder": "Panaskan oven hingga 175°C\nCampurkan bahan kering\nPanggang selama 25 menit",
+      "textError": "Gagal mengurai teks yang ditempel"
     }
   },
   "profile": {

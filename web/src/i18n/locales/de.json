@@ -127,7 +127,15 @@
       "import": "Importieren",
       "importing": "Importiere…",
       "cancel": "Abbrechen",
-      "error": "Rezept von dieser URL konnte nicht importiert werden"
+      "error": "Rezept von dieser URL konnte nicht importiert werden",
+      "textButton": "📋 Aus Text importieren",
+      "textTitle": "Rezept aus Text importieren",
+      "textHint": "Fügen Sie Zutaten und Schritte als Klartext ein, einen pro Zeile. Wir versuchen, jede Zeile automatisch zu analysieren.",
+      "ingredientsLabel": "Zutaten",
+      "ingredientsPlaceholder": "2 Tassen Mehl\n1 TL Salz\n3 Eier",
+      "stepsLabel": "Schritte",
+      "stepsPlaceholder": "Ofen auf 175°C vorheizen\nTrockene Zutaten mischen\n25 Minuten backen",
+      "textError": "Eingefügter Text konnte nicht analysiert werden"
     }
   },
   "profile": {

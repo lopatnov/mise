@@ -127,7 +127,15 @@
       "import": "インポート",
       "importing": "インポート中…",
       "cancel": "キャンセル",
-      "error": "このURLからレシピをインポートできませんでした"
+      "error": "このURLからレシピをインポートできませんでした",
+      "textButton": "📋 テキストからインポート",
+      "textTitle": "テキストからレシピをインポート",
+      "textHint": "材料と手順をプレーンテキストとして貼り付けます。各行を1行ずつ自動的に解析しようとします。",
+      "ingredientsLabel": "材料",
+      "ingredientsPlaceholder": "小麦粉2カップ\n塩小さじ1\n卵3個",
+      "stepsLabel": "手順",
+      "stepsPlaceholder": "オーブンを175°Cに予熱します\nドライ材料を混ぜます\n25分間焼きます",
+      "textError": "貼り付けたテキストを解析できませんでした"
     }
   },
   "profile": {

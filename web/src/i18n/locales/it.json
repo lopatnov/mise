@@ -127,7 +127,15 @@
       "import": "Importa",
       "importing": "Importazione…",
       "cancel": "Annulla",
-      "error": "Impossibile importare la ricetta da questo URL"
+      "error": "Impossibile importare la ricetta da questo URL",
+      "textButton": "📋 Importa da testo",
+      "textTitle": "Importa ricetta da testo",
+      "textHint": "Incolla ingredienti e passaggi come testo semplice, uno per riga. Proveremo ad analizzare automaticamente ogni riga.",
+      "ingredientsLabel": "Ingredienti",
+      "ingredientsPlaceholder": "2 tazze di farina\n1 cucchiaino di sale\n3 uova",
+      "stepsLabel": "Passaggi",
+      "stepsPlaceholder": "Preriscalda forno a 175°C\nMischia ingredienti secchi\nCuoci per 25 minuti",
+      "textError": "Impossibile analizzare il testo incollato"
     }
   },
   "profile": {

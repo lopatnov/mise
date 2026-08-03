@@ -75,6 +75,23 @@ export function parseIngredient(raw: string): { name: string; amount: number; un
   return { amount: 1, unit: '', name: cleaned };
 }
 
+/** Turn user-pasted plain text into structured ingredients/steps — one item per non-empty line */
+export function parseTextImport(ingredientsText: string, stepsText: string): ImportedRecipe {
+  return {
+    title: '',
+    ingredients: splitLines(ingredientsText).map(parseIngredient),
+    steps: splitLines(stepsText).map((text, i) => ({ order: i + 1, text })),
+  };
+}
+
+/** Split pasted text into non-empty lines, stripping common list markers ("-", "*", "•", "1.", "1)") */
+function splitLines(text: string): string[] {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim())
+    .filter(Boolean);
+}
+
 /** Extract image URL from JSON-LD image field (string, array, or ImageObject) */
 export function extractImageUrl(raw: unknown): string | undefined {
   if (typeof raw === 'string' && /^https?:\/\//i.test(raw)) return raw;

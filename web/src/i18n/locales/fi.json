@@ -127,7 +127,15 @@
       "import": "Tuo",
       "importing": "Tuodaan…",
       "cancel": "Peruuta",
-      "error": "Reseptin tuominen tästä URL:sta epäonnistui"
+      "error": "Reseptin tuominen tästä URL:sta epäonnistui",
+      "textButton": "📋 Tuo tekstistä",
+      "textTitle": "Tuo resepti tekstistä",
+      "textHint": "Liitä ainesosat ja ohjeet pelkkänä tekstinä, yksi per rivi. Yritämme analysoida jokaisen rivin automaattisesti.",
+      "ingredientsLabel": "Ainesosat",
+      "ingredientsPlaceholder": "2 kuppia jauhoja\n1 teelusikka suolaa\n3 munaa",
+      "stepsLabel": "Ohjeet",
+      "stepsPlaceholder": "Lämmitä uuni 175°C:een\nSekoita kuivat ainesosat\nPaista 25 minuuttia",
+      "textError": "Tekstiä ei voitu jäsentää"
     }
   },
   "profile": {

@@ -127,7 +127,15 @@
       "import": "Importálás",
       "importing": "Importálás…",
       "cancel": "Mégse",
-      "error": "Nem sikerült importálni a receptet erről az URL-ről"
+      "error": "Nem sikerült importálni a receptet erről az URL-ről",
+      "textButton": "📋 Importálás szövegből",
+      "textTitle": "Recept importálása szövegből",
+      "textHint": "Illesszen be hozzávalókat és lépéseket sima szövegként, soronként egyet. Megpróbáljuk automatikusan elemezni az egyes sorokat.",
+      "ingredientsLabel": "Hozzávalók",
+      "ingredientsPlaceholder": "2 csésze liszt\n1 teáskanál só\n3 tojás",
+      "stepsLabel": "Lépések",
+      "stepsPlaceholder": "Melegítse elő a sütőt 175°C-ra\nKevelje össze a száraz összetevőket\nSüsse 25 percig",
+      "textError": "Nem sikerült az illesz tett szöveget elemezni"
     }
   },
   "profile": {

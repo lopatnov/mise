@@ -5,6 +5,7 @@ import {
   parseDuration,
   parseIngredient,
   parseServings,
+  parseTextImport,
 } from './recipe-import.parsers';
 
 describe('recipe import parsers', () => {
@@ -258,6 +259,40 @@ describe('recipe import parsers', () => {
 
     it('returns null when the page has no recipe data at all', () => {
       expect(extractRecipeFromHtml('<html><body>nothing here</body></html>')).toBeNull();
+    });
+  });
+
+  // ── parseTextImport ──────────────────────────────────────────────────────
+
+  describe('parseTextImport', () => {
+    it('parses one ingredient/step per non-empty line', () => {
+      const result = parseTextImport('2 cups flour\n1 tsp salt\n\n3 eggs', 'Preheat oven\nMix everything\nBake');
+      expect(result.ingredients).toEqual([
+        { amount: 2, unit: 'cups', name: 'flour' },
+        { amount: 1, unit: 'tsp', name: 'salt' },
+        { amount: 3, unit: '', name: 'eggs' },
+      ]);
+      expect(result.steps).toEqual([
+        { order: 1, text: 'Preheat oven' },
+        { order: 2, text: 'Mix everything' },
+        { order: 3, text: 'Bake' },
+      ]);
+    });
+
+    it('strips common list markers (-, *, •, numbering)', () => {
+      const result = parseTextImport('- 2 eggs\n* 1 cup milk\n• 3 apples', '1. Whisk eggs\n2) Add milk');
+      expect(result.ingredients.map((i) => i.name)).toEqual(['eggs', 'milk', 'apples']);
+      expect(result.steps.map((s) => s.text)).toEqual(['Whisk eggs', 'Add milk']);
+    });
+
+    it('does not set a title — the user already has one in the form', () => {
+      expect(parseTextImport('2 eggs', 'Whisk').title).toBe('');
+    });
+
+    it('handles one field being empty', () => {
+      const result = parseTextImport('2 eggs', '');
+      expect(result.ingredients).toHaveLength(1);
+      expect(result.steps).toHaveLength(0);
     });
   });
 });
