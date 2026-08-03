@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-- Fixed a high-severity (CVSS 8.1) unauthenticated remote code execution vulnerability in `react-router-dom`'s vendored `turbo-stream` deserialization, along with 7 other advisories, by upgrading 7.14.0 → 7.18.2 (GHSA-49rj-9fvp-4h2h and related).
+- Upgraded `react-router-dom` 7.14.0 → 7.18.2, closing 8 known advisories including a high-severity (CVSS 8.1) unauthenticated remote code execution issue in `react-router`'s vendored `turbo-stream` deserialization (GHSA-49rj-9fvp-4h2h) — that specific advisory only affects apps running React Router's Framework Mode, which Mise's frontend doesn't use (it's a plain client-side SPA on Data Mode/`createBrowserRouter`), but the upgrade is applied regardless as routine hygiene.
 - Fixed a high-severity arbitrary file read / SSRF vulnerability in the email-sending dependency (nodemailer), only patched in version 9.x (GHSA-p6gq-j5cr-w38f).
 - Fixed a high-severity denial-of-service vulnerability in a transitive dependency of the API docs generator (js-yaml via @nestjs/swagger, GHSA-pm4m-ph32-ghv5).
 - Recipe photo uploads now enforce the same image-type restriction (JPEG/PNG/WebP/GIF) already used elsewhere in the app; previously any file type could be uploaded and served back from the app's own origin.
