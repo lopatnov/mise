@@ -180,11 +180,8 @@ export default function RecipeDetailPage() {
 
   const effectiveServings = targetServings ?? recipe.servings;
   const scale = effectiveServings / recipe.servings;
-
-  function fmtAmount(amount: number) {
-    const v = amount * scale;
-    return Number.isInteger(v) ? String(v) : v.toFixed(1);
-  }
+  // Copy before sorting: recipe comes straight from the query cache and must not be mutated
+  const orderedSteps = [...recipe.steps].sort((a, b) => a.order - b.order);
 
   return (
     <div className="page-container recipe-detail__page">
@@ -348,80 +345,69 @@ export default function RecipeDetailPage() {
           {recipe.description && <p className="recipe-detail__description">{recipe.description}</p>}
 
           {/* Ingredients — print only (screen version is in the sidebar) */}
-          {recipe.ingredients.length > 0 && (
-            <section className="recipe-section print-only">
-              <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
-              <ul className="recipe-section__list">
-                {recipe.ingredients.map((ing) => (
-                  <li key={ing.name} className="recipe-section__item">
-                    <strong>
-                      {fmtAmount(ing.amount)} {ing.unit}
-                    </strong>{' '}
-                    {ing.name}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          <IngredientList
+            ingredients={recipe.ingredients}
+            scale={scale}
+            title={t('recipe.detail.ingredients')}
+            className="recipe-section print-only"
+          />
 
           {/* Steps */}
-          {recipe.steps.length > 0 && (
+          {orderedSteps.length > 0 && (
             <section className="recipe-section">
               <h2 className="recipe-section__title">{t('recipe.detail.steps')}</h2>
               <ol className="recipe-section__list">
-                {recipe.steps
-                  .sort((a, b) => a.order - b.order)
-                  .map((step) => (
-                    <li key={step.order} className="recipe-step__item">
-                      <div className="recipe-step__row">
-                        <span className="recipe-step__text">{step.text}</span>
-                        {canEdit && !step.photoUrl && (
+                {orderedSteps.map((step) => (
+                  <li key={step.order} className="recipe-step__item">
+                    <div className="recipe-step__row">
+                      <span className="recipe-step__text">{step.text}</span>
+                      {canEdit && !step.photoUrl && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            pendingStepOrder.current = step.order;
+                            stepFileRef.current?.click();
+                          }}
+                          title={t('recipe.detail.addPhoto')}
+                          className="step-photo-add-btn"
+                        >
+                          📷
+                        </button>
+                      )}
+                    </div>
+                    {step.photoUrl && (
+                      <div className="photo-container recipe-step__photo-container">
+                        <button
+                          type="button"
+                          className="photo-btn"
+                          onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
+                          aria-label={t('recipe.detail.addPhoto')}
+                        >
+                          <img
+                            src={`${API_URL}${step.photoUrl}`}
+                            alt=""
+                            className="recipe-step__photo"
+                            loading="lazy"
+                          />
+                        </button>
+                        {canEdit && (
                           <button
                             type="button"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               pendingStepOrder.current = step.order;
                               stepFileRef.current?.click();
                             }}
-                            title={t('recipe.detail.addPhoto')}
-                            className="step-photo-add-btn"
+                            title={t('recipe.detail.changePhoto')}
+                            className="photo-replace-btn"
                           >
                             📷
                           </button>
                         )}
                       </div>
-                      {step.photoUrl && (
-                        <div className="photo-container recipe-step__photo-container">
-                          <button
-                            type="button"
-                            className="photo-btn"
-                            onClick={() => setLightboxSrc(`${API_URL}${step.photoUrl ?? ''}`)}
-                            aria-label={t('recipe.detail.addPhoto')}
-                          >
-                            <img
-                              src={`${API_URL}${step.photoUrl}`}
-                              alt=""
-                              className="recipe-step__photo"
-                              loading="lazy"
-                            />
-                          </button>
-                          {canEdit && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                pendingStepOrder.current = step.order;
-                                stepFileRef.current?.click();
-                              }}
-                              title={t('recipe.detail.changePhoto')}
-                              className="photo-replace-btn"
-                            >
-                              📷
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </li>
-                  ))}
+                    )}
+                  </li>
+                ))}
               </ol>
             </section>
           )}
@@ -450,23 +436,51 @@ export default function RecipeDetailPage() {
             )}
           </div>
 
-          {recipe.ingredients.length > 0 && (
-            <section className="recipe-section">
-              <h2 className="recipe-section__title">{t('recipe.detail.ingredients')}</h2>
-              <ul className="recipe-section__list">
-                {recipe.ingredients.map((ing) => (
-                  <li key={ing.name} className="recipe-section__item">
-                    <strong>
-                      {fmtAmount(ing.amount)} {ing.unit}
-                    </strong>{' '}
-                    {ing.name}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          <IngredientList
+            ingredients={recipe.ingredients}
+            scale={scale}
+            title={t('recipe.detail.ingredients')}
+            className="recipe-section"
+          />
         </aside>
       </div>
     </div>
+  );
+}
+
+/** Ingredient amounts scaled to the chosen number of servings — rendered once for screen, once for print */
+function IngredientList({
+  ingredients,
+  scale,
+  title,
+  className,
+}: {
+  ingredients: Recipe['ingredients'];
+  scale: number;
+  title: string;
+  className: string;
+}) {
+  if (ingredients.length === 0) return null;
+
+  const format = (amount: number) => {
+    const scaled = amount * scale;
+    return Number.isInteger(scaled) ? String(scaled) : scaled.toFixed(1);
+  };
+
+  return (
+    <section className={className}>
+      <h2 className="recipe-section__title">{title}</h2>
+      <ul className="recipe-section__list">
+        {ingredients.map((ing, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: ingredients have no id and this list never reorders
+          <li key={i} className="recipe-section__item">
+            <strong>
+              {format(ing.amount)} {ing.unit}
+            </strong>{' '}
+            {ing.name}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
