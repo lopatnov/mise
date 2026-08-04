@@ -94,6 +94,18 @@ export class ImportUrlDto {
   @IsString() url: string;
 }
 
+export class AddCookNoteDto {
+  @IsString()
+  @MaxLength(1000)
+  text: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Max(5)
+  rating?: number;
+}
+
 export class RecipeQueryDto {
   @IsOptional() @IsString() q?: string;
   @IsOptional() @IsString() tag?: string;

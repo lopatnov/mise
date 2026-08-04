@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
@@ -18,12 +19,13 @@ vi.mock('../hooks/usePageTitle', () => ({ usePageTitle: vi.fn() }));
 vi.mock('../hooks/useMetaTags', () => ({ useMetaTags: vi.fn() }));
 vi.mock('../hooks/useStructuredData', () => ({ useStructuredData: vi.fn() }));
 
-vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: null }) }));
+let mockUser: { id: string; role?: string } | null = null;
+vi.mock('../store/authStore', () => ({ useAuthStore: () => ({ user: mockUser }) }));
 vi.mock('../store/toastStore', () => ({ useToast: () => ({ success: vi.fn(), error: vi.fn() }) }));
 
 vi.mock('../api/categories', () => ({ categoriesApi: { list: vi.fn().mockResolvedValue([]) } }));
 
-const recipesApi = { get: vi.fn() };
+const recipesApi = { get: vi.fn(), addCookNote: vi.fn(), removeCookNote: vi.fn() };
 vi.mock('../api/recipes', () => ({ recipesApi }));
 
 // Lazy import after mocks are set up
@@ -54,6 +56,7 @@ function renderPage() {
 describe('RecipeDetailPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUser = null;
   });
 
   it('renders steps ordered by step order', async () => {
@@ -116,5 +119,60 @@ describe('RecipeDetailPage', () => {
 
     const rows = await screen.findAllByText(/salt/);
     expect(rows).toHaveLength(4); // two ingredients × (sidebar + print)
+  });
+
+  it('hides the cook log from a non-owner', async () => {
+    mockUser = { id: 'someone-else' };
+    recipesApi.get.mockResolvedValue(makeRecipe({ authorId: 'r1-author' }));
+
+    renderPage();
+    await screen.findByText('Borsch');
+
+    expect(screen.queryByText('recipe.cookLog.title')).not.toBeInTheDocument();
+  });
+
+  it('shows the cook log for the recipe owner', async () => {
+    mockUser = { id: 'author-1' };
+    recipesApi.get.mockResolvedValue(
+      makeRecipe({
+        authorId: 'author-1',
+        cookNotes: [{ _id: 'n1', text: 'Add more garlic', rating: 4, createdAt: '2024-01-01T00:00:00.000Z' }],
+      }),
+    );
+
+    renderPage();
+
+    expect(await screen.findByText('recipe.cookLog.title')).toBeInTheDocument();
+    expect(screen.getByText('Add more garlic')).toBeInTheDocument();
+  });
+
+  it('adds a cook note', async () => {
+    mockUser = { id: 'author-1' };
+    recipesApi.get.mockResolvedValue(makeRecipe({ authorId: 'author-1', cookNotes: [] }));
+    recipesApi.addCookNote.mockResolvedValue([]);
+
+    renderPage();
+    const textarea = await screen.findByPlaceholderText('recipe.cookLog.placeholder');
+    await userEvent.type(textarea, 'Great with extra lemon');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.cookLog.add' }));
+
+    expect(recipesApi.addCookNote).toHaveBeenCalledWith('r1', 'Great with extra lemon', undefined);
+  });
+
+  it('removes a cook note', async () => {
+    mockUser = { id: 'author-1' };
+    recipesApi.get.mockResolvedValue(
+      makeRecipe({
+        authorId: 'author-1',
+        cookNotes: [{ _id: 'n1', text: 'Add more garlic', createdAt: '2024-01-01T00:00:00.000Z' }],
+      }),
+    );
+    recipesApi.removeCookNote.mockResolvedValue([]);
+
+    renderPage();
+    await screen.findByText('Add more garlic');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.cookLog.remove' }));
+
+    expect(recipesApi.removeCookNote).toHaveBeenCalledWith('r1', 'n1');
   });
 });

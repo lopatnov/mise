@@ -6,6 +6,7 @@ import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 import ConfirmDialog from '../components/ConfirmDialog';
+import CookLog from '../components/CookLog';
 import Lightbox from '../components/Lightbox';
 import { useMetaTags } from '../hooks/useMetaTags';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -411,6 +412,8 @@ export default function RecipeDetailPage() {
               </ol>
             </section>
           )}
+
+          {canEdit && <CookLog recipeId={recipe._id} notes={recipe.cookNotes ?? []} />}
         </div>
 
         {/* RIGHT: ingredients sidebar */}

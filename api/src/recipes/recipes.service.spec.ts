@@ -1,4 +1,4 @@
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, type TestingModule } from '@nestjs/testing';
 import { Types } from 'mongoose';
@@ -76,6 +76,7 @@ describe('RecipesService', () => {
       expect(result).toEqual({ items, total: 1, page: 1, limit: 20 });
       expect(mockModel.find).toHaveBeenCalledWith(
         expect.objectContaining({ $or: [{ authorId: new Types.ObjectId(userId) }, { isPublic: true }] }),
+        { cookNotes: 0 },
       );
     });
 
@@ -86,7 +87,7 @@ describe('RecipesService', () => {
       await service.findAll(userId, true, {});
 
       // admin with no mine flag → empty filter (no authorId restriction)
-      expect(mockModel.find).toHaveBeenCalledWith({});
+      expect(mockModel.find).toHaveBeenCalledWith({}, { cookNotes: 0 });
     });
 
     it('applies mine filter', async () => {
@@ -95,7 +96,9 @@ describe('RecipesService', () => {
 
       await service.findAll(userId, false, { mine: true });
 
-      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }));
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ authorId: new Types.ObjectId(userId) }), {
+        cookNotes: 0,
+      });
     });
 
     it('applies text search filter when q is provided', async () => {
@@ -109,6 +112,7 @@ describe('RecipesService', () => {
         expect.objectContaining({
           $or: expect.arrayContaining([{ title: { $regex: 'soup', $options: 'i' } }]),
         }),
+        { cookNotes: 0 },
       );
     });
 
@@ -118,7 +122,7 @@ describe('RecipesService', () => {
 
       await service.findAll(userId, false, { tag: 'vegan' });
 
-      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ tags: 'vegan' }));
+      expect(mockModel.find).toHaveBeenCalledWith(expect.objectContaining({ tags: 'vegan' }), { cookNotes: 0 });
     });
 
     it('combines visibility and search with $and', async () => {
@@ -164,7 +168,7 @@ describe('RecipesService', () => {
 
       await service.findPublic({});
 
-      expect(mockModel.find).toHaveBeenCalledWith({ isPublic: true });
+      expect(mockModel.find).toHaveBeenCalledWith({ isPublic: true }, { cookNotes: 0 });
     });
 
     it('applies text search alongside the public filter', async () => {
@@ -179,6 +183,7 @@ describe('RecipesService', () => {
           // regex metacharacters from user input are escaped
           $or: expect.arrayContaining([{ title: { $regex: 'so\\.up', $options: 'i' } }]),
         }),
+        { cookNotes: 0 },
       );
     });
   });
@@ -212,6 +217,47 @@ describe('RecipesService', () => {
       mockModel.findById.mockReturnValue(mockQuery(recipe));
 
       await expect(service.findOne(recipeId, userId)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('keeps cookNotes for the owner', async () => {
+      const recipe = {
+        authorId: { toString: () => userId },
+        isPublic: true,
+        cookNotes: [{ text: 'Great with extra garlic' }],
+      };
+      mockModel.findById.mockReturnValue(mockQuery(recipe));
+
+      const result = await service.findOne(recipeId, userId);
+
+      expect(result.cookNotes).toHaveLength(1);
+    });
+
+    it('strips cookNotes for a non-owner viewing a public recipe', async () => {
+      const otherId = new Types.ObjectId().toString();
+      const recipe = {
+        authorId: { toString: () => otherId },
+        isPublic: true,
+        cookNotes: [{ text: 'Secret note' }],
+      };
+      mockModel.findById.mockReturnValue(mockQuery(recipe));
+
+      const result = await service.findOne(recipeId, userId);
+
+      expect(result.cookNotes).toEqual([]);
+    });
+
+    it('keeps cookNotes for an admin', async () => {
+      const otherId = new Types.ObjectId().toString();
+      const recipe = {
+        authorId: { toString: () => otherId },
+        isPublic: true,
+        cookNotes: [{ text: 'Note' }],
+      };
+      mockModel.findById.mockReturnValue(mockQuery(recipe));
+
+      const result = await service.findOne(recipeId, userId, true);
+
+      expect(result.cookNotes).toHaveLength(1);
     });
   });
 
@@ -367,6 +413,85 @@ describe('RecipesService', () => {
       await expect(service.setStepPhoto(recipeId, userId, false, 99, '/uploads/x.jpg')).rejects.toThrow(
         NotFoundException,
       );
+    });
+  });
+
+  // ── addCookNote ──────────────────────────────────────────────────────────
+
+  describe('addCookNote', () => {
+    it('appends a note and saves', async () => {
+      const doc = {
+        authorId: { toString: () => userId },
+        cookNotes: [] as { _id: Types.ObjectId; text: string; rating?: number; createdAt: Date }[],
+        markModified: jest.fn(),
+        save: jest.fn().mockResolvedValue({}),
+      };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      const result = await service.addCookNote(recipeId, userId, false, { text: 'Add more salt', rating: 4 });
+
+      expect(doc.cookNotes).toHaveLength(1);
+      expect(doc.cookNotes[0]).toEqual(expect.objectContaining({ text: 'Add more salt', rating: 4 }));
+      expect(doc.markModified).toHaveBeenCalledWith('cookNotes');
+      expect(doc.save).toHaveBeenCalled();
+      expect(result).toBe(doc.cookNotes);
+    });
+
+    it('throws ForbiddenException when recipe belongs to another user', async () => {
+      const other = new Types.ObjectId().toString();
+      const doc = { authorId: { toString: () => other }, cookNotes: [], markModified: jest.fn(), save: jest.fn() };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await expect(service.addCookNote(recipeId, userId, false, { text: 'x' })).rejects.toThrow(ForbiddenException);
+    });
+
+    it('throws BadRequestException when the cook log is full', async () => {
+      const doc = {
+        authorId: { toString: () => userId },
+        cookNotes: Array.from({ length: 200 }, () => ({ text: 'x' })),
+        markModified: jest.fn(),
+        save: jest.fn(),
+      };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await expect(service.addCookNote(recipeId, userId, false, { text: 'one more' })).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  // ── removeCookNote ───────────────────────────────────────────────────────
+
+  describe('removeCookNote', () => {
+    it('removes the matching note and saves', async () => {
+      const keepId = new Types.ObjectId();
+      const removeId = new Types.ObjectId();
+      const doc = {
+        authorId: { toString: () => userId },
+        cookNotes: [
+          { _id: keepId, text: 'Keep me' },
+          { _id: removeId, text: 'Remove me' },
+        ],
+        markModified: jest.fn(),
+        save: jest.fn().mockResolvedValue({}),
+      };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      const result = await service.removeCookNote(recipeId, userId, false, removeId.toString());
+
+      expect(doc.cookNotes).toHaveLength(1);
+      expect(doc.cookNotes[0]._id).toBe(keepId);
+      expect(doc.markModified).toHaveBeenCalledWith('cookNotes');
+      expect(doc.save).toHaveBeenCalled();
+      expect(result).toBe(doc.cookNotes);
+    });
+
+    it('throws ForbiddenException when recipe belongs to another user', async () => {
+      const other = new Types.ObjectId().toString();
+      const doc = { authorId: { toString: () => other }, cookNotes: [], markModified: jest.fn(), save: jest.fn() };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await expect(service.removeCookNote(recipeId, userId, false, 'abc')).rejects.toThrow(ForbiddenException);
     });
   });
 });

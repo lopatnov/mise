@@ -55,6 +55,13 @@ export class Recipe {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], default: [] })
   savedBy: Types.ObjectId[];
+
+  /** Private per-attempt cooking notes — visible only to the recipe's author/admin, never on public views */
+  @Prop({
+    type: [{ text: String, rating: Number, createdAt: { type: Date, default: Date.now } }],
+    default: [],
+  })
+  cookNotes: { _id: Types.ObjectId; text: string; rating?: number; createdAt: Date }[];
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);

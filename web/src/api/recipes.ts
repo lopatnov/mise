@@ -11,6 +11,12 @@ export interface Step {
   photoUrl?: string;
   externalImageUrl?: string;
 }
+export interface CookNote {
+  _id: string;
+  text: string;
+  rating?: number;
+  createdAt: string;
+}
 export interface Recipe {
   _id: string;
   slug?: string;
@@ -30,6 +36,7 @@ export interface Recipe {
   savedBy?: string[];
   createdAt: string;
   externalImageUrl?: string;
+  cookNotes?: CookNote[];
 }
 
 export interface RecipesPage {
@@ -70,4 +77,8 @@ export const recipesApi = {
   addFavorite: (id: string) => api.post<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
   removeFavorite: (id: string) => api.delete<{ saved: boolean }>(`/recipes/${id}/favorite`).then((r) => r.data),
   importFromUrl: (url: string) => api.post<Partial<Recipe>>('/recipes/import-url', { url }).then((r) => r.data),
+  addCookNote: (id: string, text: string, rating?: number) =>
+    api.post<CookNote[]>(`/recipes/${id}/cook-notes`, { text, rating }).then((r) => r.data),
+  removeCookNote: (id: string, noteId: string) =>
+    api.delete<CookNote[]>(`/recipes/${id}/cook-notes/${noteId}`).then((r) => r.data),
 };

@@ -157,3 +157,72 @@
     order: -1;
   }
 }
+
+// ── Private cook log ─────────────────────────────────────────────────────
+
+.cook-log__hint {
+  color: var(--c-text-muted);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.cook-log__list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cook-log__item {
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--r-lg);
+  padding: 10px 12px;
+}
+
+.cook-log__item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cook-log__date {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.cook-log__rating {
+  font-size: 12px;
+}
+
+.cook-log__remove {
+  margin-left: auto;
+}
+
+.cook-log__text {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+}
+
+.cook-log__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cook-log__form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  select {
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  button {
+    margin-bottom: 0;
+  }
+}
