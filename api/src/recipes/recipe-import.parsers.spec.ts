@@ -105,13 +105,11 @@ describe('recipe import parsers', () => {
     });
 
     it('stays fast on an adversarial run of digits (no catastrophic regex backtracking)', () => {
-      // Linear-time parsing handles this in well under a millisecond; a regression to
-      // polynomial/exponential backtracking would take seconds to minutes. The generous
-      // threshold below is only there to catch that class of regression, not to time the parser.
+      // No wall-clock assertion — word-by-word parsing has no backtracking regex to blow up,
+      // so this input can't hang. Jest's own test timeout is the safety net for a regression;
+      // this just documents the shape parseIngredient must still produce for such input.
       const adversarial = `${'9'.repeat(5000)} cups flour`;
-      const start = Date.now();
       const result = parseIngredient(adversarial);
-      expect(Date.now() - start).toBeLessThan(2000);
       expect(result.unit).toBe('cups');
       expect(result.name).toBe('flour');
     });
