@@ -98,11 +98,22 @@ describe('recipe import parsers', () => {
       expect(parseIngredient('1/3 cup sugar')).toEqual({ amount: 1 / 3, unit: 'cup', name: 'sugar' });
     });
 
+    it('never returns a non-finite amount for a zero denominator', () => {
+      expect(Number.isFinite(parseIngredient('1/0 cup sugar').amount)).toBe(true);
+      expect(Number.isFinite(parseIngredient('0/0 cup sugar').amount)).toBe(true);
+      expect(Number.isFinite(parseIngredient('1 1/0 cup sugar').amount)).toBe(true);
+    });
+
     it('stays fast on an adversarial run of digits (no catastrophic regex backtracking)', () => {
+      // Linear-time parsing handles this in well under a millisecond; a regression to
+      // polynomial/exponential backtracking would take seconds to minutes. The generous
+      // threshold below is only there to catch that class of regression, not to time the parser.
       const adversarial = `${'9'.repeat(5000)} cups flour`;
       const start = Date.now();
-      parseIngredient(adversarial);
-      expect(Date.now() - start).toBeLessThan(100);
+      const result = parseIngredient(adversarial);
+      expect(Date.now() - start).toBeLessThan(2000);
+      expect(result.unit).toBe('cups');
+      expect(result.name).toBe('flour');
     });
   });
 
@@ -304,6 +315,14 @@ describe('recipe import parsers', () => {
       const result = parseTextImport('2 eggs', '');
       expect(result.ingredients).toHaveLength(1);
       expect(result.steps).toHaveLength(0);
+    });
+
+    it('does not mistake a decimal quantity for a numbered-list marker', () => {
+      const result = parseTextImport('1.5 cups flour\n2.5 tsp sugar', '');
+      expect(result.ingredients).toEqual([
+        { amount: 1.5, unit: 'cups', name: 'flour' },
+        { amount: 2.5, unit: 'tsp', name: 'sugar' },
+      ]);
     });
   });
 });

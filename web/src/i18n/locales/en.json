@@ -128,6 +128,7 @@
       "importing": "Importing…",
       "cancel": "Cancel",
       "error": "Failed to import recipe from this URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Import from text",
       "textTitle": "Import recipe from text",
       "textHint": "Paste ingredients and steps as plain text, one per line. We'll try to parse each line automatically.",

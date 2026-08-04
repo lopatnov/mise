@@ -128,13 +128,14 @@
       "importing": "Importuojama…",
       "cancel": "Atšaukti",
       "error": "Nepavyko importuoti recepto iš šio URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Importuoti iš teksto",
       "textTitle": "Importuoti receptą iš teksto",
       "textHint": "Įklijuokite ingredientus ir žingsnius kaip paprastą tekstą, po vieną kiekvienoje eilutėje. Bandysime automatiškai analizuoti kiekvieną eilutę.",
       "ingredientsLabel": "Ingredientai",
       "ingredientsPlaceholder": "2 puodeliai miltų\n1 šaukštelis druskos\n3 kiaušiniai",
       "stepsLabel": "Žingsniai",
-      "stepsPlaceholder": "Ikaitinkite orkaitę iki 175°C\nSumaišykite sauso miltus\nKepdinkite 25 minutes",
+      "stepsPlaceholder": "Įkaitinkite orkaitę iki 175°C\nSumaišykite sausus ingredientus\nKepkite 25 minutes",
       "textError": "Nepavyko išanalizuoti įklijuoto teksto"
     }
   },

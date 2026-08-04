@@ -39,8 +39,15 @@ export default function ImportDialogShell({
         tabIndex={-1}
         aria-label={cancelLabel}
       />
-      <div role="dialog" aria-modal="true" className={wide ? 'confirm-dialog confirm-dialog--wide' : 'confirm-dialog'}>
-        <h2 className="import-dialog__title">{title}</h2>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="import-dialog-title"
+        className={wide ? 'confirm-dialog confirm-dialog--wide' : 'confirm-dialog'}
+      >
+        <h2 id="import-dialog-title" className="import-dialog__title">
+          {title}
+        </h2>
         <p className="import-dialog__hint">{hint}</p>
         <form onSubmit={onSubmit} className="import-dialog__form">
           {children}

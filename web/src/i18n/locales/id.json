@@ -128,6 +128,7 @@
       "importing": "Mengimpor…",
       "cancel": "Batal",
       "error": "Gagal mengimpor resep dari URL ini",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Impor dari teks",
       "textTitle": "Impor resep dari teks",
       "textHint": "Tempel bahan dan langkah-langkah sebagai teks biasa, satu per baris. Kami akan mencoba mengurai setiap baris secara otomatis.",

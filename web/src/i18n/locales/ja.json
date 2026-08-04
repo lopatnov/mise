@@ -128,6 +128,7 @@
       "importing": "インポート中…",
       "cancel": "キャンセル",
       "error": "このURLからレシピをインポートできませんでした",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 テキストからインポート",
       "textTitle": "テキストからレシピをインポート",
       "textHint": "材料と手順をプレーンテキストとして貼り付けます。各行を1行ずつ自動的に解析しようとします。",

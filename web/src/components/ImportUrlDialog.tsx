@@ -36,7 +36,7 @@ export default function ImportUrlDialog({ onImport, onClose }: ImportUrlDialogPr
         id="import-url"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
-        placeholder="https://example.com/recipe/..."
+        placeholder={t('recipe.import.urlPlaceholder')}
         required
       />
     </ImportDialogShell>

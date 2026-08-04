@@ -18,8 +18,14 @@ export function useImportSubmit(
       const data = await runImport();
       onImport(data);
     } catch (err: unknown) {
-      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
-      setError(msg ?? fallbackErrorMessage);
+      // class-validator's default ValidationPipe returns `message` as string[], not a string
+      const message = (err as { response?: { data?: { message?: unknown } } })?.response?.data?.message;
+      const msg = Array.isArray(message)
+        ? message.filter((item): item is string => typeof item === 'string').join(', ')
+        : typeof message === 'string'
+          ? message
+          : undefined;
+      setError(msg || fallbackErrorMessage);
     } finally {
       setLoading(false);
     }

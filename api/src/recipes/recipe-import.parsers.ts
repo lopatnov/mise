@@ -54,7 +54,8 @@ export function parseServings(raw: string | number | undefined): number | undefi
 }
 
 const NUMBER_RE = /^\d+(?:[.,/]\d+)?$/;
-const FRACTION_RE = /^\d+\/\d+$/;
+// Denominator must not be zero (or start with a leading zero) — "1/0" is not a fraction
+const FRACTION_RE = /^\d+\/[1-9]\d*$/;
 
 function fractionValue(word: string): number {
   const [n, d] = word.split('/');
@@ -64,7 +65,7 @@ function fractionValue(word: string): number {
 /**
  * Parse ingredient string into name/amount/unit — word by word, not a single backtracking
  * regex, so a long adversarial line (e.g. from pasted-text import) can't cause polynomial-time
- * matching. Handles patterns like "1 1/2 cups flour", "2.5 grams salt", "2,5 гр муки", "1/3 cup sugar".
+ * matching. Handles patterns like "1 1/2 cups flour", "2.5 grams salt", "1/3 cup sugar".
  */
 export function parseIngredient(raw: string): { name: string; amount: number; unit: string } {
   const cleaned = raw.replace(/\s+/g, ' ').trim();
@@ -84,6 +85,9 @@ export function parseIngredient(raw: string): { name: string; amount: number; un
     rest = rest.slice(1);
   }
 
+  // Guard against a stray non-finite result (e.g. malformed fraction input) reaching callers
+  if (!Number.isFinite(amount)) amount = 1;
+
   if (rest.length === 0) return { amount, unit: '', name: '' };
   if (rest.length === 1) return { amount, unit: '', name: rest[0] };
   return { amount, unit: rest[0], name: rest.slice(1).join(' ') };
@@ -100,9 +104,10 @@ export function parseTextImport(ingredientsText: string, stepsText: string): Imp
 
 /** Split pasted text into non-empty lines, stripping common list markers ("-", "*", "•", "1.", "1)") */
 function splitLines(text: string): string[] {
+  // Require whitespace after the marker so a decimal quantity like "1.5 cups flour" is left intact
   return text
     .split(/\r?\n/)
-    .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim())
+    .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s+/, '').trim())
     .filter(Boolean);
 }
 

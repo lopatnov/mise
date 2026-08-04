@@ -128,6 +128,7 @@
       "importing": "Importiere…",
       "cancel": "Abbrechen",
       "error": "Rezept von dieser URL konnte nicht importiert werden",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Aus Text importieren",
       "textTitle": "Rezept aus Text importieren",
       "textHint": "Fügen Sie Zutaten und Schritte als Klartext ein, einen pro Zeile. Wir versuchen, jede Zeile automatisch zu analysieren.",

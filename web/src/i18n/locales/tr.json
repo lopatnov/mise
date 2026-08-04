@@ -128,6 +128,7 @@
       "importing": "İçe aktarılıyor…",
       "cancel": "İptal",
       "error": "Bu URL'den tarif içe aktarılamadı",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Metinden içe aktar",
       "textTitle": "Tarifi metinden içe aktar",
       "textHint": "Malzemeleri ve adımları düz metin olarak yapıştırın, her satırda bir tane. Her satırı otomatik olarak analiz etmeye çalışacağız.",

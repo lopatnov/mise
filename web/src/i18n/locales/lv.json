@@ -128,13 +128,14 @@
       "importing": "Importē…",
       "cancel": "Atcelt",
       "error": "Neizdevās importēt recepti no šī URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Importēt no teksta",
       "textTitle": "Importēt recepti no teksta",
       "textHint": "Ielīmējiet sastāvdaļas un soļus kā vienkāršu tekstu, vienu uz rindas. Mēs mēģināsim automātiski analizēt katru rindu.",
       "ingredientsLabel": "Sastāvdaļas",
       "ingredientsPlaceholder": "2 glāzes milti\n1 tējkarote sāls\n3 olas",
       "stepsLabel": "Soļi",
-      "stepsPlaceholder": "Iesildiet krāsni līdz 175°C\nJauciet saizo sastāvdaļas\nCepiet 25 minūtes",
+      "stepsPlaceholder": "Iesildiet krāsni līdz 175°C\nSajauciet sausās sastāvdaļas\nCepiet 25 minūtes",
       "textError": "Neizdevās analizēt ielīmēto tekstu"
     }
   },

@@ -128,6 +128,7 @@
       "importing": "导入中…",
       "cancel": "取消",
       "error": "无法从此URL导入菜谱",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 从文本导入",
       "textTitle": "从文本导入食谱",
       "textHint": "将食材和步骤作为纯文本粘贴，每行一个。我们将尝试自动解析每一行。",

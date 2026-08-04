@@ -128,6 +128,7 @@
       "importing": "Importovanie…",
       "cancel": "Zrušiť",
       "error": "Importovanie receptu z tejto URL zlyhalo",
+      "urlPlaceholder": "https://example.com/recipe/...",
       "textButton": "📋 Importovať z textu",
       "textTitle": "Importovať recept z textu",
       "textHint": "Vložte ingrediencie a kroky ako čistý text, jeden na riadok. Pokúsime sa automaticky analyzovať každý riadok.",

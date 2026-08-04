@@ -98,6 +98,7 @@ export default function RecipeFormPage() {
     }
     markDirty();
     setShowImport(false);
+    setShowTextImport(false);
   }
 
   const saveMut = useMutation({
