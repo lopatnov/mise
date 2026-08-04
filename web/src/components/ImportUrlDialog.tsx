@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
+import { useImportSubmit } from '../hooks/useImportSubmit';
 import ImportDialogShell from './ImportDialogShell';
 
 interface ImportUrlDialogProps {
@@ -12,23 +13,11 @@ interface ImportUrlDialogProps {
 export default function ImportUrlDialog({ onImport, onClose }: ImportUrlDialogProps) {
   const { t } = useTranslation();
   const [url, setUrl] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      const data = await recipesApi.importFromUrl(url.trim());
-      onImport(data);
-    } catch (err: unknown) {
-      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
-      setError(msg ?? t('recipe.import.error'));
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { loading, error, handleSubmit } = useImportSubmit(
+    () => recipesApi.importFromUrl(url.trim()),
+    onImport,
+    t('recipe.import.error'),
+  );
 
   return (
     <ImportDialogShell
