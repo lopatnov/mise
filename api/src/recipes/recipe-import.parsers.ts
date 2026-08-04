@@ -53,26 +53,40 @@ export function parseServings(raw: string | number | undefined): number | undefi
   return m ? Number.parseInt(m[1], 10) : undefined;
 }
 
-/** Parse ingredient string into name/amount/unit */
+const NUMBER_RE = /^\d+(?:[.,/]\d+)?$/;
+const FRACTION_RE = /^\d+\/\d+$/;
+
+function fractionValue(word: string): number {
+  const [n, d] = word.split('/');
+  return Number.parseInt(n, 10) / Number.parseInt(d, 10);
+}
+
+/**
+ * Parse ingredient string into name/amount/unit — word by word, not a single backtracking
+ * regex, so a long adversarial line (e.g. from pasted-text import) can't cause polynomial-time
+ * matching. Handles patterns like "1 1/2 cups flour", "2.5 grams salt", "2,5 гр муки", "1/3 cup sugar".
+ */
 export function parseIngredient(raw: string): { name: string; amount: number; unit: string } {
   const cleaned = raw.replace(/\s+/g, ' ').trim();
+  const words = cleaned.split(' ').filter(Boolean);
   const normNum = (s: string) => Number.parseFloat(s.replace(',', '.'));
-  // Match patterns like "1 1/2 cups", "2.5 grams", "2,5 гр", "1/3 cup", "3 large"
-  const m = /^(\d+(?:[.,/]\d+)?(?:\s+\d+\/\d+)?)\s+([a-zA-Z\u0400-\u04ff]+(?:\s+[a-zA-Z\u0400-\u04ff]+)??)\s+(.+)/.exec(
-    cleaned,
-  );
-  if (m) {
-    const amountStr = m[1].includes('/')
-      ? m[1].replace(/(\d+)\s+(\d+)\/(\d+)/, (_, w, n, d) =>
-          String(Number.parseInt(w, 10) + Number.parseInt(n, 10) / Number.parseInt(d, 10)),
-        )
-      : m[1];
-    return { amount: normNum(amountStr) || 1, unit: m[2], name: m[3] };
+
+  if (words.length === 0 || !NUMBER_RE.test(words[0])) {
+    return { amount: 1, unit: '', name: cleaned };
   }
-  // Just a number + name (e.g. "2 eggs", "2,5 стакана")
-  const m2 = /^(\d+(?:[.,]\d+)?)\s+(.+)/.exec(cleaned);
-  if (m2) return { amount: normNum(m2[1]), unit: '', name: m2[2] };
-  return { amount: 1, unit: '', name: cleaned };
+
+  let amount = FRACTION_RE.test(words[0]) ? fractionValue(words[0]) : normNum(words[0]);
+  let rest = words.slice(1);
+
+  // Mixed number, e.g. "1 1/2 cups" — a whole number followed by a fraction word
+  if (rest[0] && FRACTION_RE.test(rest[0])) {
+    amount += fractionValue(rest[0]);
+    rest = rest.slice(1);
+  }
+
+  if (rest.length === 0) return { amount, unit: '', name: '' };
+  if (rest.length === 1) return { amount, unit: '', name: rest[0] };
+  return { amount, unit: rest[0], name: rest.slice(1).join(' ') };
 }
 
 /** Turn user-pasted plain text into structured ingredients/steps — one item per non-empty line */

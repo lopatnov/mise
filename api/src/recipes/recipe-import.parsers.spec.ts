@@ -93,6 +93,17 @@ describe('recipe import parsers', () => {
         name: 'all purpose flour',
       });
     });
+
+    it('understands a bare fraction amount', () => {
+      expect(parseIngredient('1/3 cup sugar')).toEqual({ amount: 1 / 3, unit: 'cup', name: 'sugar' });
+    });
+
+    it('stays fast on an adversarial run of digits (no catastrophic regex backtracking)', () => {
+      const adversarial = `${'9'.repeat(5000)} cups flour`;
+      const start = Date.now();
+      parseIngredient(adversarial);
+      expect(Date.now() - start).toBeLessThan(100);
+    });
   });
 
   // ── extractImageUrl ───────────────────────────────────────────────────────
