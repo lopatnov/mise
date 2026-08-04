@@ -128,6 +128,17 @@
       "importing": "가져오는 중…",
       "cancel": "취소",
       "error": "이 URL에서 레시피를 가져올 수 없습니다"
+    },
+    "cookLog": {
+      "title": "요리 기록",
+      "hint": "당신만 볼 수 있는 개인 노트 — 효과가 있었던 것과 다음에 바꾸고 싶은 것을 추적하세요.",
+      "placeholder": "어땠어? 다음에 뭘 바꾸고 싶어?",
+      "rating": "평가",
+      "noRating": "평가 없음",
+      "add": "메모 추가",
+      "remove": "메모 삭제",
+      "addError": "메모를 추가할 수 없습니다",
+      "removeError": "메모를 삭제할 수 없습니다"
     }
   },
   "profile": {

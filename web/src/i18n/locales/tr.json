@@ -128,6 +128,17 @@
       "importing": "İçe aktarılıyor…",
       "cancel": "İptal",
       "error": "Bu URL'den tarif içe aktarılamadı"
+    },
+    "cookLog": {
+      "title": "Yemek Günlüğü",
+      "hint": "Sadece siz görebileceğiniz özel notlar — neyin işe yaradığını ve bir sonraki seferde ne değiştirebileceğinizi izleyin.",
+      "placeholder": "Nasıl gitti? Bir sonraki seferde ne değiştirebilirsiniz?",
+      "rating": "Derecelendirme",
+      "noRating": "Derecelendirme yok",
+      "add": "Not ekle",
+      "remove": "Notu sil",
+      "addError": "Not eklenemedi",
+      "removeError": "Not silinemedi"
     }
   },
   "profile": {

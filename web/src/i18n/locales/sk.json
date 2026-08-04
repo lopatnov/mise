@@ -128,6 +128,17 @@
       "importing": "Importovanie…",
       "cancel": "Zrušiť",
       "error": "Importovanie receptu z tejto URL zlyhalo"
+    },
+    "cookLog": {
+      "title": "Denník varenia",
+      "hint": "Privátne poznámky, ktoré vidíte len vy — sledujte, čo funguje a čo by ste nabudúce zmenili.",
+      "placeholder": "Ako to dopadlo? Čo by ste nabudúce zmenili?",
+      "rating": "Hodnotenie",
+      "noRating": "Bez hodnotenia",
+      "add": "Pridať poznámku",
+      "remove": "Odstrániť poznámku",
+      "addError": "Nepodarilo sa pridať poznámku",
+      "removeError": "Nepodarilo sa odstrániť poznámku"
     }
   },
   "profile": {

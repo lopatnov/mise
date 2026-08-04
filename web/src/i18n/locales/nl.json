@@ -128,6 +128,17 @@
       "importing": "Importeren…",
       "cancel": "Annuleren",
       "error": "Kan het recept niet importeren van deze URL"
+    },
+    "cookLog": {
+      "title": "Kookdagboek",
+      "hint": "Privénotities die alleen jij kunt zien — volg wat werkte en wat je volgende keer zou veranderen.",
+      "placeholder": "Hoe is het gegaan? Wat zou je volgende keer veranderen?",
+      "rating": "Beoordeling",
+      "noRating": "Geen beoordeling",
+      "add": "Notitie toevoegen",
+      "remove": "Notitie verwijderen",
+      "addError": "Kan notitie niet toevoegen",
+      "removeError": "Kan notitie niet verwijderen"
     }
   },
   "profile": {

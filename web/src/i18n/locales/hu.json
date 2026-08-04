@@ -128,6 +128,17 @@
       "importing": "Importálás…",
       "cancel": "Mégse",
       "error": "Nem sikerült importálni a receptet erről az URL-ről"
+    },
+    "cookLog": {
+      "title": "Főzési napló",
+      "hint": "Privát jegyzetek, amelyeket csak te láthatsz — követd nyomon, mi működött, és mit változtatnál legközelebb.",
+      "placeholder": "Hogy ment? Mit változtatnál legközelebb?",
+      "rating": "Értékelés",
+      "noRating": "Nincs értékelés",
+      "add": "Jegyzet hozzáadása",
+      "remove": "Jegyzet eltávolítása",
+      "addError": "Nem sikerült hozzáadni a jegyzetet",
+      "removeError": "Nem sikerült eltávolítani a jegyzetet"
     }
   },
   "profile": {

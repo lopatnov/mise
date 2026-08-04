@@ -128,6 +128,17 @@
       "importing": "Importing…",
       "cancel": "Cancel",
       "error": "Failed to import recipe from this URL"
+    },
+    "cookLog": {
+      "title": "Cook log",
+      "hint": "Private notes only you can see — track what worked and what you'd change next time.",
+      "placeholder": "How did it go? What would you change next time?",
+      "rating": "Rating",
+      "noRating": "No rating",
+      "add": "Add note",
+      "remove": "Remove note",
+      "addError": "Failed to add note",
+      "removeError": "Failed to remove note"
     }
   },
   "profile": {

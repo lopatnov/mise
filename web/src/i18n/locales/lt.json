@@ -128,6 +128,17 @@
       "importing": "Importuojama…",
       "cancel": "Atšaukti",
       "error": "Nepavyko importuoti recepto iš šio URL"
+    },
+    "cookLog": {
+      "title": "Virimo dienoraštis",
+      "hint": "Privatūs užrašai, kuriuos mato tik jūs — sekite, kas veikė ir ką kito rašytumėte kitą kartą.",
+      "placeholder": "Kaip sekėsi? Ką kito rašytumėte kitą kartą?",
+      "rating": "Vertinimas",
+      "noRating": "Nėra vertinimo",
+      "add": "Pridėti užrašą",
+      "remove": "Pašalinti užrašą",
+      "addError": "Nepavyko pridėti užraš",
+      "removeError": "Nepavyko pašalinti užraš"
     }
   },
   "profile": {

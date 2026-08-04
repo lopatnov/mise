@@ -128,6 +128,17 @@
       "importing": "Importiere…",
       "cancel": "Abbrechen",
       "error": "Rezept von dieser URL konnte nicht importiert werden"
+    },
+    "cookLog": {
+      "title": "Kochprotokoll",
+      "hint": "Private Notizen, die nur Sie sehen können — halten Sie fest, was funktioniert hat und was Sie nächstes Mal ändern würden.",
+      "placeholder": "Wie ist es gelaufen? Was würden Sie nächstes Mal ändern?",
+      "rating": "Bewertung",
+      "noRating": "Keine Bewertung",
+      "add": "Notiz hinzufügen",
+      "remove": "Notiz entfernen",
+      "addError": "Notiz konnte nicht hinzugefügt werden",
+      "removeError": "Notiz konnte nicht entfernt werden"
     }
   },
   "profile": {

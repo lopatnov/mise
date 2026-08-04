@@ -128,6 +128,17 @@
       "importing": "Importerer…",
       "cancel": "Annuller",
       "error": "Kunne ikke importere opskrift fra denne URL"
+    },
+    "cookLog": {
+      "title": "Kogebogsjournal",
+      "hint": "Private noter som kun du kan se — hold styr på hvad der virkede og hvad du ville ændre næste gang.",
+      "placeholder": "Hvordan gik det? Hvad ville du ændre næste gang?",
+      "rating": "Bedømmelse",
+      "noRating": "Ingen bedømmelse",
+      "add": "Tilføj note",
+      "remove": "Fjern note",
+      "addError": "Kunne ikke tilføje note",
+      "removeError": "Kunne ikke fjerne note"
     }
   },
   "profile": {

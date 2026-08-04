@@ -128,6 +128,17 @@
       "importing": "Đang nhập…",
       "cancel": "Hủy",
       "error": "Nhập công thức từ URL này thất bại"
+    },
+    "cookLog": {
+      "title": "Nhật ký nấu nướng",
+      "hint": "Ghi chú riêng tư chỉ bạn có thể nhìn thấy — theo dõi những gì hoạt động và những gì bạn sẽ thay đổi lần sau.",
+      "placeholder": "Nó ra sao? Bạn sẽ thay đổi cái gì lần sau?",
+      "rating": "Đánh giá",
+      "noRating": "Không có đánh giá",
+      "add": "Thêm ghi chú",
+      "remove": "Xóa ghi chú",
+      "addError": "Không thể thêm ghi chú",
+      "removeError": "Không thể xóa ghi chú"
     }
   },
   "profile": {

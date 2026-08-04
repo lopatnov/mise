@@ -128,6 +128,17 @@
       "importing": "Importation…",
       "cancel": "Annuler",
       "error": "Impossible d'importer la recette depuis cette URL"
+    },
+    "cookLog": {
+      "title": "Journal de cuisson",
+      "hint": "Notes privées que seul vous pouvez voir — suivez ce qui a fonctionné et ce que vous changeriez la prochaine fois.",
+      "placeholder": "Comment cela s'est-il passé ? Que changeriez-vous la prochaine fois ?",
+      "rating": "Note",
+      "noRating": "Pas de note",
+      "add": "Ajouter une note",
+      "remove": "Supprimer la note",
+      "addError": "Impossible d'ajouter la note",
+      "removeError": "Impossible de supprimer la note"
     }
   },
   "profile": {

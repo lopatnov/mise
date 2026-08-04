@@ -128,6 +128,17 @@
       "importing": "Importando…",
       "cancel": "Cancelar",
       "error": "No se pudo importar la receta desde esta URL"
+    },
+    "cookLog": {
+      "title": "Registro de cocina",
+      "hint": "Notas privadas solo para ti — registra qué funcionó y qué cambiarías la próxima vez.",
+      "placeholder": "¿Cómo salió? ¿Qué cambiarías la próxima vez?",
+      "rating": "Calificación",
+      "noRating": "Sin calificación",
+      "add": "Añadir nota",
+      "remove": "Eliminar nota",
+      "addError": "No se pudo añadir la nota",
+      "removeError": "No se pudo eliminar la nota"
     }
   },
   "profile": {

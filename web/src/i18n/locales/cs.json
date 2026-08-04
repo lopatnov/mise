@@ -128,6 +128,17 @@
       "importing": "Importuji…",
       "cancel": "Zrušit",
       "error": "Recept z tohoto URL se nepodařilo importovat"
+    },
+    "cookLog": {
+      "title": "Deník vaření",
+      "hint": "Soukromé poznámky, které vidíte jen vy — sledujte, co fungovalo a co byste příště změnili.",
+      "placeholder": "Jak to dopadlo? Co byste příště změnili?",
+      "rating": "Hodnocení",
+      "noRating": "Bez hodnocení",
+      "add": "Přidat poznámku",
+      "remove": "Odebrat poznámku",
+      "addError": "Nepodařilo se přidat poznámku",
+      "removeError": "Nepodařilo se odebrat poznámku"
     }
   },
   "profile": {

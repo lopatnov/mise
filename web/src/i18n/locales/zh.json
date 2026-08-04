@@ -128,6 +128,17 @@
       "importing": "导入中…",
       "cancel": "取消",
       "error": "无法从此URL导入菜谱"
+    },
+    "cookLog": {
+      "title": "烹饪日志",
+      "hint": "仅您可以看到的私人笔记 — 追踪哪些可行，以及下次想改变的内容。",
+      "placeholder": "效果如何？您下次想改变什么？",
+      "rating": "评分",
+      "noRating": "无评分",
+      "add": "添加笔记",
+      "remove": "删除笔记",
+      "addError": "无法添加笔记",
+      "removeError": "无法删除笔记"
     }
   },
   "profile": {

@@ -128,6 +128,17 @@
       "importing": "Importerer…",
       "cancel": "Avbryt",
       "error": "Kunne ikke importere oppskrift fra denne URL"
+    },
+    "cookLog": {
+      "title": "Matlaging-dagbok",
+      "hint": "Private notater bare du kan se — spor hva som fungerte og hva du ville endre neste gang.",
+      "placeholder": "Hvordan gikk det? Hva ville du endret neste gang?",
+      "rating": "Vurdering",
+      "noRating": "Ingen vurdering",
+      "add": "Legg til notat",
+      "remove": "Fjern notat",
+      "addError": "Kunne ikke legge til notat",
+      "removeError": "Kunne ikke fjerne notat"
     }
   },
   "profile": {

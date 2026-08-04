@@ -128,6 +128,17 @@
       "importing": "Importerar…",
       "cancel": "Avbryt",
       "error": "Det gick inte att importera receptet från denna URL"
+    },
+    "cookLog": {
+      "title": "Matlagningsjournal",
+      "hint": "Privata anteckningar som bara du kan se — håll reda på vad som fungerade och vad du skulle ändra nästa gång.",
+      "placeholder": "Hur gick det? Vad skulle du ändra nästa gång?",
+      "rating": "Betyg",
+      "noRating": "Inget betyg",
+      "add": "Lägg till anteckning",
+      "remove": "Ta bort anteckning",
+      "addError": "Kunde inte lägga till anteckning",
+      "removeError": "Kunde inte ta bort anteckning"
     }
   },
   "profile": {
