@@ -7,6 +7,7 @@ import { categoriesApi } from '../api/categories';
 import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 import ConfirmDialog from '../components/ConfirmDialog';
+import ImportTextDialog from '../components/ImportTextDialog';
 import ImportUrlDialog from '../components/ImportUrlDialog';
 import { usePageTitle } from '../hooks/usePageTitle';
 
@@ -32,6 +33,7 @@ export default function RecipeFormPage() {
   const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
   const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
   const [showImport, setShowImport] = useState(false);
+  const [showTextImport, setShowTextImport] = useState(false);
   const [importedImageUrl, setImportedImageUrl] = useState('');
   const [photoPreviewFailed, setPhotoPreviewFailed] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -96,6 +98,7 @@ export default function RecipeFormPage() {
     }
     markDirty();
     setShowImport(false);
+    setShowTextImport(false);
   }
 
   const saveMut = useMutation({
@@ -182,6 +185,7 @@ export default function RecipeFormPage() {
   return (
     <div className="page-container">
       {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
+      {showTextImport && <ImportTextDialog onImport={applyImport} onClose={() => setShowTextImport(false)} />}
       {blocker.state === 'blocked' && (
         <ConfirmDialog
           message={t('recipe.form.unsavedMessage')}
@@ -200,6 +204,9 @@ export default function RecipeFormPage() {
           <>
             <button type="button" onClick={() => setShowImport(true)} className="outline ms-auto">
               {t('recipe.import.button')}
+            </button>
+            <button type="button" onClick={() => setShowTextImport(true)} className="outline">
+              {t('recipe.import.textButton')}
             </button>
             {importedImageUrl &&
               (photoPreviewFailed ? (

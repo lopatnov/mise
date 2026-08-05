@@ -127,7 +127,16 @@
       "import": "Importer",
       "importing": "Importation…",
       "cancel": "Annuler",
-      "error": "Impossible d'importer la recette depuis cette URL"
+      "error": "Impossible d'importer la recette depuis cette URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importer depuis le texte",
+      "textTitle": "Importer une recette depuis le texte",
+      "textHint": "Collez les ingrédients et les étapes en tant que texte brut, un par ligne. Nous essayerons d'analyser chaque ligne automatiquement.",
+      "ingredientsLabel": "Ingrédients",
+      "ingredientsPlaceholder": "2 tasses de farine\n1 cuillère à café de sel\n3 œufs",
+      "stepsLabel": "Étapes",
+      "stepsPlaceholder": "Préchauffer le four à 175°C\nMélanger les ingrédients secs\nCuire 25 minutes",
+      "textError": "Impossible d'analyser le texte collé"
     }
   },
   "profile": {

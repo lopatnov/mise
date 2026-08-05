@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { fetchPinned, isSsrfSafe } from '../common/safe-http';
-import { extractRecipeFromHtml, type ImportedRecipe } from './recipe-import.parsers';
+import { extractRecipeFromHtml, type ImportedRecipe, parseTextImport } from './recipe-import.parsers';
 
 const USER_AGENT = 'Mozilla/5.0 (compatible; Mise-Bot/1.0; recipe importer)';
 const FETCH_TIMEOUT_MS = 10_000;
@@ -13,6 +13,14 @@ export class RecipeImportService {
     const html = await this.fetchHtml(url);
     const recipe = extractRecipeFromHtml(html);
     if (!recipe) throw new BadRequestException('No recipe data found on this page');
+    return recipe;
+  }
+
+  importFromText(ingredientsText: string, stepsText: string): ImportedRecipe {
+    const recipe = parseTextImport(ingredientsText, stepsText);
+    if (!recipe.ingredients?.length && !recipe.steps?.length) {
+      throw new BadRequestException('No ingredients or steps found in the pasted text');
+    }
     return recipe;
   }
 

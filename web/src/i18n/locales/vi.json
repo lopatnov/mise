@@ -127,7 +127,16 @@
       "import": "Nhập",
       "importing": "Đang nhập…",
       "cancel": "Hủy",
-      "error": "Nhập công thức từ URL này thất bại"
+      "error": "Nhập công thức từ URL này thất bại",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Nhập từ văn bản",
+      "textTitle": "Nhập công thức từ văn bản",
+      "textHint": "Dán nguyên liệu và bước làm dưới dạng văn bản thuần túy, mỗi dòng một cái. Chúng tôi sẽ cố gắng phân tích cú pháp từng dòng tự động.",
+      "ingredientsLabel": "Nguyên liệu",
+      "ingredientsPlaceholder": "2 cốc bột\n1 thìa muối\n3 quả trứng",
+      "stepsLabel": "Các bước",
+      "stepsPlaceholder": "Làm nóng lò nướng đến 175°C\nTrộn các nguyên liệu khô\nNướng 25 phút",
+      "textError": "Không thể phân tích cú pháp văn bản được dán"
     }
   },
   "profile": {

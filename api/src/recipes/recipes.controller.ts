@@ -17,7 +17,7 @@ import { CurrentUser, type JwtUser } from '../common/decorators/current-user.dec
 import { OptionalAuth, Public } from '../common/decorators/public.decorator';
 import { photoUploadOptions } from '../uploads/photo-upload.options';
 import { UploadsService } from '../uploads/uploads.service';
-import { CreateRecipeDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
+import { CreateRecipeDto, ImportTextDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
 import { RecipeImportService } from './recipe-import.service';
 import { RecipesService } from './recipes.service';
 
@@ -55,6 +55,15 @@ export class RecipesController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   importFromUrl(@Body() dto: ImportUrlDto) {
     return this.importService.importFromUrl(dto.url);
+  }
+
+  @Post('import-text')
+  @ApiOperation({ summary: 'Parse a recipe from pasted ingredients/steps text' })
+  @ApiResponse({ status: 201, description: 'Parsed recipe data (not saved — returned for editing)' })
+  @ApiResponse({ status: 400, description: 'No ingredients or steps found in the pasted text' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  importFromText(@Body() dto: ImportTextDto) {
+    return this.importService.importFromText(dto.ingredientsText, dto.stepsText);
   }
 
   @Public()

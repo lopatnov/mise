@@ -127,7 +127,16 @@
       "import": "Importă",
       "importing": "Se importă…",
       "cancel": "Anulează",
-      "error": "Nu s-a putut importa rețeta din această URL"
+      "error": "Nu s-a putut importa rețeta de la acest URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importă din text",
+      "textTitle": "Importă rețeta din text",
+      "textHint": "Lipiți ingredientele și pașii ca text simplu, câte unul pe linie. Vom încerca să analizăm automat fiecare linie.",
+      "ingredientsLabel": "Ingrediente",
+      "ingredientsPlaceholder": "2 cești de făină\n1 linguriță de sare\n3 ouă",
+      "stepsLabel": "Pași",
+      "stepsPlaceholder": "Preîncălziți cuptorul la 175°C\nAmestecați ingredientele uscate\nCoaceți timp de 25 de minute",
+      "textError": "Nu s-a putut analiza textul lipit"
     }
   },
   "profile": {

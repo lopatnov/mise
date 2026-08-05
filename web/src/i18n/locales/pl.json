@@ -127,7 +127,16 @@
       "import": "Importuj",
       "importing": "Importowanie…",
       "cancel": "Anuluj",
-      "error": "Nie udało się zaimportować przepisu z tego URL"
+      "error": "Nie udało się zaimportować przepisu z tego URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importuj z tekstu",
+      "textTitle": "Importuj przepis z tekstu",
+      "textHint": "Wklej składniki i kroki jako zwykły tekst, jeden na linię. Spróbujemy automatycznie przeanalizować każdą linię.",
+      "ingredientsLabel": "Składniki",
+      "ingredientsPlaceholder": "2 filiżanki mąki\n1 łyżeczka soli\n3 jajka",
+      "stepsLabel": "Kroki",
+      "stepsPlaceholder": "Wstępnie rozgrzej piekarnik do 175°C\nZmieszaj składniki na sucho\nPiecz przez 25 minut",
+      "textError": "Nie można przeanalizować wklejonego tekstu"
     }
   },
   "profile": {

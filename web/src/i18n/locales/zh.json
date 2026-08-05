@@ -127,7 +127,16 @@
       "import": "导入",
       "importing": "导入中…",
       "cancel": "取消",
-      "error": "无法从此URL导入菜谱"
+      "error": "无法从此URL导入菜谱",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 从文本导入",
+      "textTitle": "从文本导入食谱",
+      "textHint": "将食材和步骤作为纯文本粘贴，每行一个。我们将尝试自动解析每一行。",
+      "ingredientsLabel": "食材",
+      "ingredientsPlaceholder": "2杯面粉\n1茶匙盐\n3个鸡蛋",
+      "stepsLabel": "步骤",
+      "stepsPlaceholder": "将烤箱预热至175°C\n混合干食材\n烤25分钟",
+      "textError": "无法解析粘贴的文本"
     }
   },
   "profile": {

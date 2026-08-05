@@ -127,7 +127,16 @@
       "import": "가져오기",
       "importing": "가져오는 중…",
       "cancel": "취소",
-      "error": "이 URL에서 레시피를 가져올 수 없습니다"
+      "error": "이 URL에서 레시피를 가져올 수 없습니다",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 텍스트에서 가져오기",
+      "textTitle": "텍스트에서 레시피 가져오기",
+      "textHint": "재료와 단계를 일반 텍스트로 붙여넣습니다. 각 줄을 자동으로 분석하려고 시도합니다.",
+      "ingredientsLabel": "재료",
+      "ingredientsPlaceholder": "밀가루 2컵\n소금 1작은술\n계란 3개",
+      "stepsLabel": "단계",
+      "stepsPlaceholder": "오븐을 175°C로 예열합니다\n건조 재료를 섞습니다\n25분간 굽습니다",
+      "textError": "붙여넣은 텍스트를 분석할 수 없습니다"
     }
   },
   "profile": {

@@ -93,4 +93,27 @@ describe('RecipeImportService', () => {
 
     expect(result.title).toBe('Борщ');
   });
+
+  describe('importFromText', () => {
+    it('parses ingredients and steps from pasted text', () => {
+      const result = service.importFromText('2 eggs\n1 cup milk', 'Whisk eggs\nAdd milk');
+
+      expect(result.ingredients).toEqual([
+        { amount: 2, unit: '', name: 'eggs' },
+        { amount: 1, unit: 'cup', name: 'milk' },
+      ]);
+      expect(result.steps).toEqual([
+        { order: 1, text: 'Whisk eggs' },
+        { order: 2, text: 'Add milk' },
+      ]);
+    });
+
+    it('throws when both fields are empty', () => {
+      expect(() => service.importFromText('', '')).toThrow(BadRequestException);
+    });
+
+    it('throws when both fields are only whitespace/blank lines', () => {
+      expect(() => service.importFromText('  \n  ', '\n\n')).toThrow(BadRequestException);
+    });
+  });
 });
