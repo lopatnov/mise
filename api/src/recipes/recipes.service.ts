@@ -227,7 +227,7 @@ export class RecipesService implements OnModuleInit {
     }
     recipe.cookNotes.push({
       _id: new Types.ObjectId(),
-      text: dto.text,
+      text: dto.text.trim(),
       rating: dto.rating,
       createdAt: new Date(),
     });
@@ -238,9 +238,12 @@ export class RecipesService implements OnModuleInit {
 
   async removeCookNote(id: string, userId: string, isAdmin: boolean, noteId: string) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
+    const before = recipe.cookNotes.length;
     recipe.cookNotes = recipe.cookNotes.filter((n) => n._id.toString() !== noteId);
-    recipe.markModified('cookNotes');
-    await recipe.save();
+    if (recipe.cookNotes.length !== before) {
+      recipe.markModified('cookNotes');
+      await recipe.save();
+    }
     return recipe.cookNotes;
   }
 

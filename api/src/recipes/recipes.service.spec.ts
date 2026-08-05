@@ -437,6 +437,20 @@ describe('RecipesService', () => {
       expect(result).toBe(doc.cookNotes);
     });
 
+    it('trims surrounding whitespace before storing the note', async () => {
+      const doc = {
+        authorId: { toString: () => userId },
+        cookNotes: [] as { _id: Types.ObjectId; text: string; rating?: number; createdAt: Date }[],
+        markModified: jest.fn(),
+        save: jest.fn().mockResolvedValue({}),
+      };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await service.addCookNote(recipeId, userId, false, { text: '  Add more salt  ' });
+
+      expect(doc.cookNotes[0].text).toBe('Add more salt');
+    });
+
     it('throws ForbiddenException when recipe belongs to another user', async () => {
       const other = new Types.ObjectId().toString();
       const doc = { authorId: { toString: () => other }, cookNotes: [], markModified: jest.fn(), save: jest.fn() };
@@ -484,6 +498,22 @@ describe('RecipesService', () => {
       expect(doc.markModified).toHaveBeenCalledWith('cookNotes');
       expect(doc.save).toHaveBeenCalled();
       expect(result).toBe(doc.cookNotes);
+    });
+
+    it('does not save when the note id does not match anything', async () => {
+      const doc = {
+        authorId: { toString: () => userId },
+        cookNotes: [{ _id: new Types.ObjectId(), text: 'Keep me' }],
+        markModified: jest.fn(),
+        save: jest.fn(),
+      };
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await service.removeCookNote(recipeId, userId, false, new Types.ObjectId().toString());
+
+      expect(doc.cookNotes).toHaveLength(1);
+      expect(doc.markModified).not.toHaveBeenCalled();
+      expect(doc.save).not.toHaveBeenCalled();
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {

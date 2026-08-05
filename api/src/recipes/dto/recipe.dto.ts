@@ -4,10 +4,12 @@ import {
   ArrayMaxSize,
   IsArray,
   IsBoolean,
+  IsInt,
   IsMongoId,
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
   Max,
   MaxLength,
   Min,
@@ -97,10 +99,11 @@ export class ImportUrlDto {
 export class AddCookNoteDto {
   @IsString()
   @MaxLength(1000)
+  @Matches(/\S/, { message: 'text must not be blank' })
   text: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   @Max(5)
   rating?: number;
