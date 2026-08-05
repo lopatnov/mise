@@ -127,7 +127,16 @@
       "import": "Importar",
       "importing": "Importando…",
       "cancel": "Cancelar",
-      "error": "No se pudo importar la receta desde esta URL"
+      "error": "No se pudo importar la receta desde esta URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importar desde texto",
+      "textTitle": "Importar receta desde texto",
+      "textHint": "Pegue los ingredientes y pasos como texto sin formato, uno por línea. Intentaremos analizar automáticamente cada línea.",
+      "ingredientsLabel": "Ingredientes",
+      "ingredientsPlaceholder": "2 tazas de harina\n1 cucharadita de sal\n3 huevos",
+      "stepsLabel": "Pasos",
+      "stepsPlaceholder": "Precalentar horno a 175°C\nMezclar ingredientes secos\nHornear 25 minutos",
+      "textError": "No se pudo analizar el texto pegado"
     },
     "cookLog": {
       "title": "Registro de cocina",

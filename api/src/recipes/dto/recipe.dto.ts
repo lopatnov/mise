@@ -96,6 +96,16 @@ export class ImportUrlDto {
   @IsString() url: string;
 }
 
+export class ImportTextDto {
+  @IsString()
+  @MaxLength(5000)
+  ingredientsText: string;
+
+  @IsString()
+  @MaxLength(20000)
+  stepsText: string;
+}
+
 export class AddCookNoteDto {
   @IsString()
   @MaxLength(1000)

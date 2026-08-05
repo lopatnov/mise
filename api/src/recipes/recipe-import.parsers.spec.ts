@@ -5,6 +5,7 @@ import {
   parseDuration,
   parseIngredient,
   parseServings,
+  parseTextImport,
 } from './recipe-import.parsers';
 
 describe('recipe import parsers', () => {
@@ -91,6 +92,26 @@ describe('recipe import parsers', () => {
         unit: 'cups',
         name: 'all purpose flour',
       });
+    });
+
+    it('understands a bare fraction amount', () => {
+      expect(parseIngredient('1/3 cup sugar')).toEqual({ amount: 1 / 3, unit: 'cup', name: 'sugar' });
+    });
+
+    it('never returns a non-finite amount for a zero denominator', () => {
+      expect(Number.isFinite(parseIngredient('1/0 cup sugar').amount)).toBe(true);
+      expect(Number.isFinite(parseIngredient('0/0 cup sugar').amount)).toBe(true);
+      expect(Number.isFinite(parseIngredient('1 1/0 cup sugar').amount)).toBe(true);
+    });
+
+    it('stays fast on an adversarial run of digits (no catastrophic regex backtracking)', () => {
+      // No wall-clock assertion — word-by-word parsing has no backtracking regex to blow up,
+      // so this input can't hang. Jest's own test timeout is the safety net for a regression;
+      // this just documents the shape parseIngredient must still produce for such input.
+      const adversarial = `${'9'.repeat(5000)} cups flour`;
+      const result = parseIngredient(adversarial);
+      expect(result.unit).toBe('cups');
+      expect(result.name).toBe('flour');
     });
   });
 
@@ -258,6 +279,48 @@ describe('recipe import parsers', () => {
 
     it('returns null when the page has no recipe data at all', () => {
       expect(extractRecipeFromHtml('<html><body>nothing here</body></html>')).toBeNull();
+    });
+  });
+
+  // ── parseTextImport ──────────────────────────────────────────────────────
+
+  describe('parseTextImport', () => {
+    it('parses one ingredient/step per non-empty line', () => {
+      const result = parseTextImport('2 cups flour\n1 tsp salt\n\n3 eggs', 'Preheat oven\nMix everything\nBake');
+      expect(result.ingredients).toEqual([
+        { amount: 2, unit: 'cups', name: 'flour' },
+        { amount: 1, unit: 'tsp', name: 'salt' },
+        { amount: 3, unit: '', name: 'eggs' },
+      ]);
+      expect(result.steps).toEqual([
+        { order: 1, text: 'Preheat oven' },
+        { order: 2, text: 'Mix everything' },
+        { order: 3, text: 'Bake' },
+      ]);
+    });
+
+    it('strips common list markers (-, *, •, numbering)', () => {
+      const result = parseTextImport('- 2 eggs\n* 1 cup milk\n• 3 apples', '1. Whisk eggs\n2) Add milk');
+      expect(result.ingredients.map((i) => i.name)).toEqual(['eggs', 'milk', 'apples']);
+      expect(result.steps.map((s) => s.text)).toEqual(['Whisk eggs', 'Add milk']);
+    });
+
+    it('does not set a title — the user already has one in the form', () => {
+      expect(parseTextImport('2 eggs', 'Whisk').title).toBe('');
+    });
+
+    it('handles one field being empty', () => {
+      const result = parseTextImport('2 eggs', '');
+      expect(result.ingredients).toHaveLength(1);
+      expect(result.steps).toHaveLength(0);
+    });
+
+    it('does not mistake a decimal quantity for a numbered-list marker', () => {
+      const result = parseTextImport('1.5 cups flour\n2.5 tsp sugar', '');
+      expect(result.ingredients).toEqual([
+        { amount: 1.5, unit: 'cups', name: 'flour' },
+        { amount: 2.5, unit: 'tsp', name: 'sugar' },
+      ]);
     });
   });
 });

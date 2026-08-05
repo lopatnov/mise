@@ -127,7 +127,16 @@
       "import": "Importar",
       "importing": "Importando…",
       "cancel": "Cancelar",
-      "error": "Não foi possível importar a receita desta URL"
+      "error": "Não foi possível importar a receita desta URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importar do texto",
+      "textTitle": "Importar receita do texto",
+      "textHint": "Cole ingredientes e passos como texto simples, um por linha. Tentaremos analisar cada linha automaticamente.",
+      "ingredientsLabel": "Ingredientes",
+      "ingredientsPlaceholder": "2 xícaras de farinha\n1 colher de chá de sal\n3 ovos",
+      "stepsLabel": "Passos",
+      "stepsPlaceholder": "Pré-aqueça o forno a 175°C\nMisture ingredientes secos\nAsse por 25 minutos",
+      "textError": "Falha ao analisar o texto colado"
     },
     "cookLog": {
       "title": "Diário de cozinha",

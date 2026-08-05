@@ -127,7 +127,16 @@
       "import": "Importera",
       "importing": "Importerar…",
       "cancel": "Avbryt",
-      "error": "Det gick inte att importera receptet från denna URL"
+      "error": "Det gick inte att importera receptet från denna URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importera från text",
+      "textTitle": "Importera recept från text",
+      "textHint": "Klistra in ingredienser och steg som vanlig text, en per rad. Vi försöker analysera varje rad automatiskt.",
+      "ingredientsLabel": "Ingredienser",
+      "ingredientsPlaceholder": "2 koppar mjöl\n1 tesked salt\n3 ägg",
+      "stepsLabel": "Steg",
+      "stepsPlaceholder": "Förvärm ugnen till 175°C\nBlanda torra ingredienser\nBaka i 25 minuter",
+      "textError": "Det gick inte att analysera den inklistrade texten"
     },
     "cookLog": {
       "title": "Matlagningsjournal",

@@ -127,7 +127,16 @@
       "import": "Importer",
       "importing": "Importerer…",
       "cancel": "Avbryt",
-      "error": "Kunne ikke importere oppskrift fra denne URL"
+      "error": "Kunne ikke importere oppskrift fra denne URL",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importer fra tekst",
+      "textTitle": "Importer oppskrift fra tekst",
+      "textHint": "Lim inn ingredienser og trinn som vanlig tekst, én per linje. Vi prøver å analysere hver linje automatisk.",
+      "ingredientsLabel": "Ingredienser",
+      "ingredientsPlaceholder": "2 kopper mel\n1 teskje salt\n3 egg",
+      "stepsLabel": "Trinn",
+      "stepsPlaceholder": "Forvarm ovnen til 175°C\nBland tørre ingredienser\nBak i 25 minutter",
+      "textError": "Kunne ikke analysere innlimingen av tekst"
     },
     "cookLog": {
       "title": "Matlaging-dagbok",

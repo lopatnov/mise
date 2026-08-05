@@ -127,7 +127,16 @@
       "import": "Importovať",
       "importing": "Importovanie…",
       "cancel": "Zrušiť",
-      "error": "Importovanie receptu z tejto URL zlyhalo"
+      "error": "Importovanie receptu z tejto URL zlyhalo",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importovať z textu",
+      "textTitle": "Importovať recept z textu",
+      "textHint": "Vložte ingrediencie a kroky ako čistý text, jeden na riadok. Pokúsime sa automaticky analyzovať každý riadok.",
+      "ingredientsLabel": "Ingrediencie",
+      "ingredientsPlaceholder": "2 šálky múky\n1 čajová lyžička soli\n3 vajcia",
+      "stepsLabel": "Kroky",
+      "stepsPlaceholder": "Predohrejte rúru na 175°C\nZmiešajte suché ingrediencie\nPečte 25 minút",
+      "textError": "Nepodarilo sa analyzovať vložený text"
     },
     "cookLog": {
       "title": "Denník varenia",

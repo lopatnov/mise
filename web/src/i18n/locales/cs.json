@@ -127,7 +127,16 @@
       "import": "Importovat",
       "importing": "Importuji…",
       "cancel": "Zrušit",
-      "error": "Recept z tohoto URL se nepodařilo importovat"
+      "error": "Recept z tohoto URL se nepodařilo importovat",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Importovat z textu",
+      "textTitle": "Importovat recept z textu",
+      "textHint": "Vložte ingredience a kroky jako prostý text, jeden na řádek. Pokusíme se automaticky analyzovat každý řádek.",
+      "ingredientsLabel": "Ingredience",
+      "ingredientsPlaceholder": "2 hrnky mouky\n1 lžička soli\n3 vejce",
+      "stepsLabel": "Kroky",
+      "stepsPlaceholder": "Předehřejte troubu na 175°C\nSmíchejte suché ingredience\nPečte 25 minut",
+      "textError": "Nepodařilo se analyzovat vložený text"
     },
     "cookLog": {
       "title": "Deník vaření",

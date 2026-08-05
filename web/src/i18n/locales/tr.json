@@ -127,7 +127,16 @@
       "import": "İçe aktar",
       "importing": "İçe aktarılıyor…",
       "cancel": "İptal",
-      "error": "Bu URL'den tarif içe aktarılamadı"
+      "error": "Bu URL'den tarif içe aktarılamadı",
+      "urlPlaceholder": "https://example.com/recipe/...",
+      "textButton": "📋 Metinden içe aktar",
+      "textTitle": "Tarifi metinden içe aktar",
+      "textHint": "Malzemeleri ve adımları düz metin olarak yapıştırın, her satırda bir tane. Her satırı otomatik olarak analiz etmeye çalışacağız.",
+      "ingredientsLabel": "Malzemeler",
+      "ingredientsPlaceholder": "2 bardak un\n1 çay kaşığı tuz\n3 yumurta",
+      "stepsLabel": "Adımlar",
+      "stepsPlaceholder": "Fırını 175°C'ye ön ısıtın\nKuru malzemeleri karıştırın\n25 dakika pişirin",
+      "textError": "Yapıştırılan metin analiz edilemedi"
     },
     "cookLog": {
       "title": "Yemek Günlüğü",
