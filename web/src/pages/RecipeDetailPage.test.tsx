@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -156,7 +156,9 @@ describe('RecipeDetailPage', () => {
     await userEvent.type(textarea, 'Great with extra lemon');
     await userEvent.click(screen.getByRole('button', { name: 'recipe.cookLog.add' }));
 
-    expect(recipesApi.addCookNote).toHaveBeenCalledWith('r1', 'Great with extra lemon', undefined);
+    await waitFor(() => {
+      expect(recipesApi.addCookNote).toHaveBeenCalledWith('r1', 'Great with extra lemon', undefined);
+    });
   });
 
   it('removes a cook note', async () => {
@@ -173,6 +175,8 @@ describe('RecipeDetailPage', () => {
     await screen.findByText('Add more garlic');
     await userEvent.click(screen.getByRole('button', { name: 'recipe.cookLog.remove' }));
 
-    expect(recipesApi.removeCookNote).toHaveBeenCalledWith('r1', 'n1');
+    await waitFor(() => {
+      expect(recipesApi.removeCookNote).toHaveBeenCalledWith('r1', 'n1');
+    });
   });
 });

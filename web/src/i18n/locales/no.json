@@ -139,7 +139,7 @@
       "textError": "Kunne ikke analysere innlimingen av tekst"
     },
     "cookLog": {
-      "title": "Matlaging-dagbok",
+      "title": "Matlagingsdagbok",
       "hint": "Private notater bare du kan se — spor hva som fungerte og hva du ville endre neste gang.",
       "placeholder": "Hvordan gikk det? Hva ville du endret neste gang?",
       "rating": "Vurdering",

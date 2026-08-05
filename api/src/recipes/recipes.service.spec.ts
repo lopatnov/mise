@@ -37,6 +37,7 @@ describe('RecipesService', () => {
     find: jest.fn(),
     findById: jest.fn(),
     findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
     countDocuments: jest.fn(),
     create: jest.fn(),
     distinct: jest.fn(),
@@ -419,54 +420,46 @@ describe('RecipesService', () => {
   // ── addCookNote ──────────────────────────────────────────────────────────
 
   describe('addCookNote', () => {
-    it('appends a note and saves', async () => {
-      const doc = {
-        authorId: { toString: () => userId },
-        cookNotes: [] as { _id: Types.ObjectId; text: string; rating?: number; createdAt: Date }[],
-        markModified: jest.fn(),
-        save: jest.fn().mockResolvedValue({}),
-      };
+    it('appends a note atomically and returns the updated list', async () => {
+      const doc = { _id: new Types.ObjectId(recipeId), authorId: { toString: () => userId }, cookNotes: [] };
       mockModel.findById.mockReturnValue(mockQuery(doc));
+      const updatedNotes = [{ _id: new Types.ObjectId(), text: 'Add more salt', rating: 4, createdAt: new Date() }];
+      mockModel.findOneAndUpdate.mockResolvedValue({ cookNotes: updatedNotes });
 
       const result = await service.addCookNote(recipeId, userId, false, { text: 'Add more salt', rating: 4 });
 
-      expect(doc.cookNotes).toHaveLength(1);
-      expect(doc.cookNotes[0]).toEqual(expect.objectContaining({ text: 'Add more salt', rating: 4 }));
-      expect(doc.markModified).toHaveBeenCalledWith('cookNotes');
-      expect(doc.save).toHaveBeenCalled();
-      expect(result).toBe(doc.cookNotes);
+      expect(mockModel.findOneAndUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({ _id: doc._id }),
+        { $push: { cookNotes: expect.objectContaining({ text: 'Add more salt', rating: 4 }) } },
+        { new: true },
+      );
+      expect(result).toBe(updatedNotes);
     });
 
     it('trims surrounding whitespace before storing the note', async () => {
-      const doc = {
-        authorId: { toString: () => userId },
-        cookNotes: [] as { _id: Types.ObjectId; text: string; rating?: number; createdAt: Date }[],
-        markModified: jest.fn(),
-        save: jest.fn().mockResolvedValue({}),
-      };
+      const doc = { _id: new Types.ObjectId(recipeId), authorId: { toString: () => userId }, cookNotes: [] };
       mockModel.findById.mockReturnValue(mockQuery(doc));
+      mockModel.findOneAndUpdate.mockResolvedValue({ cookNotes: [] });
 
       await service.addCookNote(recipeId, userId, false, { text: '  Add more salt  ' });
 
-      expect(doc.cookNotes[0].text).toBe('Add more salt');
+      const [, update] = mockModel.findOneAndUpdate.mock.calls[0];
+      expect(update.$push.cookNotes.text).toBe('Add more salt');
     });
 
     it('throws ForbiddenException when recipe belongs to another user', async () => {
       const other = new Types.ObjectId().toString();
-      const doc = { authorId: { toString: () => other }, cookNotes: [], markModified: jest.fn(), save: jest.fn() };
+      const doc = { authorId: { toString: () => other }, cookNotes: [] };
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
       await expect(service.addCookNote(recipeId, userId, false, { text: 'x' })).rejects.toThrow(ForbiddenException);
     });
 
     it('throws BadRequestException when the cook log is full', async () => {
-      const doc = {
-        authorId: { toString: () => userId },
-        cookNotes: Array.from({ length: 200 }, () => ({ text: 'x' })),
-        markModified: jest.fn(),
-        save: jest.fn(),
-      };
+      const doc = { _id: new Types.ObjectId(recipeId), authorId: { toString: () => userId }, cookNotes: [] };
       mockModel.findById.mockReturnValue(mockQuery(doc));
+      // The atomic $expr size guard rejects the update — findOneAndUpdate matches nothing
+      mockModel.findOneAndUpdate.mockResolvedValue(null);
 
       await expect(service.addCookNote(recipeId, userId, false, { text: 'one more' })).rejects.toThrow(
         BadRequestException,

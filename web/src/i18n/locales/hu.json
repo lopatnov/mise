@@ -140,7 +140,7 @@
     },
     "cookLog": {
       "title": "Főzési napló",
-      "hint": "Privát jegyzetek, amelyeket csak te láthatsz — követd nyomon, mi működött, és mit változtatnál legközelebb.",
+      "hint": "Privát jegyzetek, amelyeket csak te láthatsz — kövesd nyomon, mi működött, és mit változtatnál legközelebb.",
       "placeholder": "Hogy ment? Mit változtatnál legközelebb?",
       "rating": "Értékelés",
       "noRating": "Nincs értékelés",

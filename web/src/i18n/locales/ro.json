@@ -146,8 +146,8 @@
       "noRating": "Fără evaluare",
       "add": "Adaugă notă",
       "remove": "Șterge notă",
-      "addError": "Nu s-a putut adăuga notă",
-      "removeError": "Nu s-a putut șterge notă"
+      "addError": "Nu s-a putut adăuga o notă",
+      "removeError": "Nu s-a putut șterge nota"
     }
   },
   "profile": {

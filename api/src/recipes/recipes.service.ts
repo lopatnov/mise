@@ -222,18 +222,18 @@ export class RecipesService implements OnModuleInit {
 
   async addCookNote(id: string, userId: string, isAdmin: boolean, dto: AddCookNoteDto) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
-    if (recipe.cookNotes.length >= MAX_COOK_NOTES) {
+    const note = { _id: new Types.ObjectId(), text: dto.text.trim(), rating: dto.rating, createdAt: new Date() };
+    // Atomic: the array-size check and the push happen in one query, so two concurrent
+    // requests can't both pass an in-memory length check and push past MAX_COOK_NOTES.
+    const updated = await this.model.findOneAndUpdate(
+      { _id: recipe._id, $expr: { $lt: [{ $size: '$cookNotes' }, MAX_COOK_NOTES] } },
+      { $push: { cookNotes: note } },
+      { new: true },
+    );
+    if (!updated) {
       throw new BadRequestException('Cook log is full — remove an old entry first');
     }
-    recipe.cookNotes.push({
-      _id: new Types.ObjectId(),
-      text: dto.text.trim(),
-      rating: dto.rating,
-      createdAt: new Date(),
-    });
-    recipe.markModified('cookNotes');
-    await recipe.save();
-    return recipe.cookNotes;
+    return updated.cookNotes;
   }
 
   async removeCookNote(id: string, userId: string, isAdmin: boolean, noteId: string) {
