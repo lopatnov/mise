@@ -226,5 +226,8 @@
     "title": "Nešto je pošlo po krivu",
     "message": "Došlo je do neočekivane greške.",
     "retry": "Pokušajte ponovo"
+  },
+  "a11y": {
+    "skipToContent": "Preskoči na glavni sadržaj"
   }
 }

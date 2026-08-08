@@ -226,5 +226,8 @@
     "title": "Něco se pokazilo",
     "message": "Nastala neočekávaná chyba.",
     "retry": "Zkusit znovu"
+  },
+  "a11y": {
+    "skipToContent": "Přejít na hlavní obsah"
   }
 }

@@ -199,6 +199,11 @@ JSX-блоков/ответственностей — сигнал для `ui-de
 - `cd api && npm run test:e2e` — e2e-тесты (Jest, `api/test/*.e2e-spec.ts`, требует MongoDB —
   см. CI `services.mongodb`).
 - `cd web && npm run test` — frontend-тесты (Vitest + Testing Library).
+- `cd web && npm run test:a11y` — автоматическая проверка доступности (WCAG 2.1 A/AA, axe-core
+  через `pa11y-ci`, конфиг `web/.pa11yci.json`) против собранного `vite build`, поднятого через
+  `vite preview`; сканирует только неавторизованные страницы (`/login`, `/register`,
+  `/forgot-password`, публичный список рецептов `/`) — первый проход, не полное покрытие
+  приложения (авторизованные страницы требуют поднятого API + MongoDB, за рамками v1).
 
 ### Dependencies
 
@@ -216,7 +221,15 @@ JSX-блоков/ответственностей — сигнал для `ui-de
 
 - **api** — `npm ci` → `lint` → `test` (unit) → `test:e2e` → `build`. Поднимает `mongo:8` как
   service-контейнер.
-- **web** — `npm ci` → `lint` → `check:locales` → `build`.
+- **web** — `npm ci` → `lint` → `check:locales` → `build` → `test:a11y` (WCAG 2.1 A/AA
+  accessibility-скан неавторизованных страниц через `pa11y-ci`/axe-core против собранного
+  билда — см. Testing выше; падает CI при найденных нарушениях). Известные `color-contrast`
+  нарушения (`--c-primary`/`--c-text-xlight` недостаточно контрастны как цвет мелкого
+  текста/ссылок на светлом фоне — nav-логотип, футер, `lang-select`, поиск/фильтры на списке
+  рецептов, вспомогательные ссылки на auth-страницах, трекается в issue #75) временно
+  исключены точечно через `hideElements` в `web/.pa11yci.json` (конкретные CSS-селекторы, а
+  не глобальный `ignore` всего правила `color-contrast`) — новые нарушения контраста в других
+  местах приложения по-прежнему ловятся.
 
 > ⚠️ **Известное расхождение:** CI для `web` **не запускает** `npm run test` (Vitest), хотя
 > команда существует и тесты в репозитории есть (напр. `RecipeFormPage.test.tsx`,

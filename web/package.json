@@ -9,9 +9,12 @@
     "lint": "biome ci src/",
     "format": "biome check --write src/",
     "preview": "vite preview",
+    "preview:test": "vite preview --port 4173 --strictPort",
     "check:locales": "node scripts/check-locales.mjs",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "a11y:scan": "pa11y-ci --config .pa11yci.json",
+    "test:a11y": "start-server-and-test preview:test http://localhost:4173 a11y:scan"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
@@ -35,7 +38,9 @@
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
     "jsdom": "^29.0.1",
+    "pa11y-ci": "^4.1.1",
     "sass": "^1.102.0",
+    "start-server-and-test": "^3.0.12",
     "typescript": "~6.0.3",
     "vite": "^8.2.0",
     "vitest": "^4.1.10"

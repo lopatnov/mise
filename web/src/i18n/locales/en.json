@@ -226,5 +226,8 @@
     "title": "Something went wrong",
     "message": "An unexpected error occurred.",
     "retry": "Try again"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content"
   }
 }

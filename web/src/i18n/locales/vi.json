@@ -226,5 +226,8 @@
     "title": "Đã xảy ra lỗi",
     "message": "Đã xảy ra lỗi không mong đợi.",
     "retry": "Thử lại"
+  },
+  "a11y": {
+    "skipToContent": "Bỏ qua đến nội dung chính"
   }
 }

@@ -226,5 +226,8 @@
     "title": "Jokin meni pieleen",
     "message": "Tapahtui odottamaton virhe.",
     "retry": "Yritä uudelleen"
+  },
+  "a11y": {
+    "skipToContent": "Siirry pääsisältöön"
   }
 }
