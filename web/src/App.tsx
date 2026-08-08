@@ -1,5 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { lazy, Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
@@ -33,14 +34,20 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AppLayout() {
+  const { t } = useTranslation();
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        {t('a11y.skipToContent')}
+      </a>
       <NavBar />
       <ToastContainer />
       <Footer />
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <main id="main-content">
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+      </main>
     </>
   );
 }

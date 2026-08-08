@@ -226,5 +226,8 @@
     "title": "Algo correu mal",
     "message": "Ocorreu um erro inesperado.",
     "retry": "Tentar novamente"
+  },
+  "a11y": {
+    "skipToContent": "Ir para o conteúdo principal"
   }
 }

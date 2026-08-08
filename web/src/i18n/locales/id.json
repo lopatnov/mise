@@ -226,5 +226,8 @@
     "title": "Terjadi kesalahan",
     "message": "Terjadi kesalahan yang tidak terduga.",
     "retry": "Coba lagi"
+  },
+  "a11y": {
+    "skipToContent": "Lewati ke konten utama"
   }
 }

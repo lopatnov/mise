@@ -226,5 +226,8 @@
     "title": "Ceva a mers greșit",
     "message": "A apărut o eroare neașteptată.",
     "retry": "Încearcă din nou"
+  },
+  "a11y": {
+    "skipToContent": "Salt la conținutul principal"
   }
 }
