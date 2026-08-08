@@ -53,7 +53,7 @@ jobs:
         run: npm run build
 
   web:
-    name: Web — lint, build
+    name: Web — lint, build, a11y
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -78,3 +78,12 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Scans the built app (served via `vite preview`) with axe-core through pa11y-ci.
+      # Scoped to WCAG2A/WCAG2AA tags (see web/.pa11yci.json) to avoid noisy "best practice"
+      # findings, and to unauthenticated pages only (login/register/forgot-password/public
+      # recipe list) — the API needs MongoDB to boot, so authenticated pages are out of scope
+      # for this first pass. Fails the build on violations; see web/.pa11yci.json to add an
+      # `ignore` list if a rule proves to be a false positive.
+      - name: Accessibility (WCAG 2.1 A/AA) — unauthenticated pages
+        run: npm run test:a11y
