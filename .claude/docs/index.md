@@ -31,11 +31,14 @@
 │   ├── product-strategist.md — sonnet; /evolve — модератор Group Chat + продуктовый синтез
 │   └── skeptic.md             — sonnet; /evolve — намеренный оппонент находкам
 ├── commands/
-│   ├── build.md       — /build: проверка сборки/линта/тестов через build-validator
+│   ├── build.md        — /build: проверка сборки/линта/тестов через build-validator
 │   ├── maintain.md    — /maintain: цикл «обновление» (deps, security, refactor+tester,
 │   │                                build-validator, tech-radar, changelog, PR) — раз в 2 недели
-│   └── evolve.md       — /evolve: цикл «развитие» (research + Group Chat → idea-radar issues) —
-│                          раз в 2 недели, сдвиг на неделю от /maintain
+│   ├── evolve.md       — /evolve: цикл «развитие» (research + Group Chat → idea-radar issues) —
+│   │                      раз в 2 недели, сдвиг на неделю от /maintain
+│   └── add-feature.md  — /add-feature: скаффолд вертикального среза фичи по описанию на простом
+│                          языке (backend/frontend/локали/тесты/билд, через уже существующие роли);
+│                          не коммитит и не открывает PR — инструмент активной разработки, не цикл
 ├── skills/
 │   ├── _TEMPLATE/               — канонический шаблон скилла (копировать при создании нового)
 │   ├── testing/                 — плейбук тестирования (пирамида тестов для api/web, роль tester)
