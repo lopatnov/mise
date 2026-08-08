@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cmd=$(jq -r '.tool_input.command // empty'); if printf '%s' \"$cmd\" | grep -Eq '\\bgit\\s+commit\\b'; then branch=$(git branch --show-current 2>/dev/null); if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"dev\" ]; then jq -n '{hookSpecificOutput:{hookEventName:\"PreToolUse\",permissionDecision:\"deny\",permissionDecisionReason:\"Direct commits to main/dev are blocked by project convention (conventions.md) - commit on a feature/fix/chore/docs branch and open a PR.\"}}'; fi; fi",
+            "command": "cmd=$(jq -r '.tool_input.command // empty'); if printf '%s' \"$cmd\" | grep -Eq '\\bgit\\b' && printf '%s' \"$cmd\" | grep -Eq '\\bcommit\\b'; then dir=$(printf '%s' \"$cmd\" | grep -oE -- '-C[= ]+[^ ]+' | head -1 | sed -E 's/^-C[= ]*//'); if [ -z \"$dir\" ]; then gd=$(printf '%s' \"$cmd\" | grep -oE -- '--git-dir=[^ ]+' | head -1 | sed -E 's/^--git-dir=//'); [ -n \"$gd\" ] && dir=$(dirname \"$gd\"); fi; if [ -n \"$dir\" ]; then branch=$(git -C \"$dir\" branch --show-current 2>/dev/null); else branch=$(git branch --show-current 2>/dev/null); fi; if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"dev\" ]; then jq -n '{hookSpecificOutput:{hookEventName:\"PreToolUse\",permissionDecision:\"deny\",permissionDecisionReason:\"Direct commits to main/dev are blocked by project convention (conventions.md) - commit on a feature/fix/chore/docs branch and open a PR.\"}}'; fi; fi",
             "timeout": 5,
             "statusMessage": "Checking branch protection..."
           }
