@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty'); root=$(git rev-parse --show-toplevel 2>/dev/null); case \"$f\" in \"$root\"/api/src/*.ts) (cd \"$root/api\" && \"$root/node_modules/.bin/biome\" check --write \"$f\") ;; \"$root\"/web/src/*.ts|\"$root\"/web/src/*.tsx) (cd \"$root/web\" && \"$root/node_modules/.bin/biome\" check --write \"$f\") ;; esac 2>/dev/null || true",
+            "timeout": 20,
+            "statusMessage": "Formatting with Biome..."
+          },
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // .tool_response.filePath // empty'); root=$(git rev-parse --show-toplevel 2>/dev/null); case \"$f\" in \"$root\"/web/src/i18n/locales/en.json) jq -n '{systemMessage:\"en.json changed \\u2014 remember to sync the other 32 locales (npm run check:locales in web/, or call the translator agent) before this is considered done.\"}' ;; esac 2>/dev/null || true",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd=$(jq -r '.tool_input.command // empty'); if printf '%s' \"$cmd\" | grep -Eq '\\bgit\\b' && printf '%s' \"$cmd\" | grep -Eq '\\bcommit\\b'; then dir=$(printf '%s' \"$cmd\" | grep -oE -- '-C[= ]+[^ ]+' | head -1 | sed -E 's/^-C[= ]*//'); if [ -z \"$dir\" ]; then gd=$(printf '%s' \"$cmd\" | grep -oE -- '--git-dir=[^ ]+' | head -1 | sed -E 's/^--git-dir=//'); [ -n \"$gd\" ] && dir=$(dirname \"$gd\"); fi; if [ -n \"$dir\" ]; then branch=$(git -C \"$dir\" branch --show-current 2>/dev/null); else branch=$(git branch --show-current 2>/dev/null); fi; if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"dev\" ]; then jq -n '{hookSpecificOutput:{hookEventName:\"PreToolUse\",permissionDecision:\"deny\",permissionDecisionReason:\"Direct commits to main/dev are blocked by project convention (conventions.md) - commit on a feature/fix/chore/docs branch and open a PR.\"}}'; fi; fi",
+            "timeout": 5,
+            "statusMessage": "Checking branch protection..."
+          }
+        ]
+      }
+    ]
+  }
+}
