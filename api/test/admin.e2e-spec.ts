@@ -87,6 +87,17 @@ describe('Admin setup, invites and password reset (e2e)', () => {
       .expect(403);
   });
 
+  // Settings are a single global document shared by every e2e spec file against the same
+  // MongoDB instance — restore it so app.e2e-spec.ts's registration tests aren't affected
+  // by whichever order Jest happens to run the two files in.
+  it('PATCH /api/admin/settings → re-enable public registration', () => {
+    return request(app.getHttpServer())
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ allowRegistration: true })
+      .expect(200);
+  });
+
   it('POST /api/admin/invites → 201 with invite token', async () => {
     const res = await request(app.getHttpServer())
       .post('/api/admin/invites')
