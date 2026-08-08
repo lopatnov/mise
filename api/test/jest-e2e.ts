@@ -9,6 +9,9 @@ const config: Config = {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   transformIgnorePatterns: ['/node_modules/(?!uuid)'],
+  // All spec files share one live MongoDB instance and some mutate global state (e.g.
+  // AdminSettings) — run them one at a time so cross-file ordering can't race.
+  maxWorkers: 1,
 };
 
 export default config;
