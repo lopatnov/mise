@@ -42,12 +42,12 @@ function AppLayout() {
       </a>
       <NavBar />
       <ToastContainer />
-      <Footer />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <Suspense fallback={null}>
           <Outlet />
         </Suspense>
       </main>
+      <Footer />
     </>
   );
 }

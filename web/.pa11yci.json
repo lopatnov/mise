@@ -7,7 +7,7 @@
     "chromeLaunchConfig": {
       "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
     },
-    "ignore": ["color-contrast"]
+    "hideElements": ".site-footer, .lang-select, .navbar__logo, .filter-bar input, .filter-bar select, .auth-links a, .link--sm, .link--xlight"
   },
   "urls": [
     "http://localhost:4173/login",
