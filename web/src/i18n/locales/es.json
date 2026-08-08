@@ -237,5 +237,8 @@
     "title": "Algo salió mal",
     "message": "Ocurrió un error inesperado.",
     "retry": "Intentar de nuevo"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido principal"
   }
 }

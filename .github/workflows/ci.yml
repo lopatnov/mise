@@ -53,7 +53,7 @@ jobs:
         run: npm run build
 
   web:
-    name: Web — lint, build
+    name: Web — lint, build, a11y
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -78,3 +78,18 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Scans the built app (served via `vite preview`) with axe-core through pa11y-ci.
+      # "standard": "WCAG2AA" in web/.pa11yci.json requests WCAG2A/WCAG2AA tags, but pa11y's
+      # axe runner unconditionally adds axe's "best-practice" tag too regardless of standard
+      # (see node_modules/pa11y/lib/runners/axe.js, createAxeRunOnlyTags) — in practice this
+      # hasn't produced noisy best-practice-only findings on the scanned pages, but it's not a
+      # pure WCAG-tags-only run. Scoped to unauthenticated pages only (login/register/
+      # forgot-password/public recipe list) — the API needs MongoDB to boot, so authenticated
+      # pages are out of scope for this first pass. Fails the build on violations; see
+      # web/.pa11yci.json's `hideElements` list for the specific elements with known
+      # color-contrast findings deferred to a follow-up (tracked in issue #75) — scoped to
+      # those exact selectors, not a blanket ignore of the color-contrast rule, so new
+      # contrast regressions elsewhere still fail the build.
+      - name: Accessibility (WCAG 2.1 A/AA) — unauthenticated pages
+        run: npm run test:a11y

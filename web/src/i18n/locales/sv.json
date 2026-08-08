@@ -237,5 +237,8 @@
     "title": "Något gick fel",
     "message": "Ett oväntat fel inträffade.",
     "retry": "Försök igen"
+  },
+  "a11y": {
+    "skipToContent": "Hoppa till huvudinnehållet"
   }
 }

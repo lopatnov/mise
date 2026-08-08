@@ -237,5 +237,8 @@
     "title": "Kaut kas nogāja greizi",
     "message": "Radās neparedzēta kļūda.",
     "retry": "Mēģināt vēlreiz"
+  },
+  "a11y": {
+    "skipToContent": "Pāriet uz galveno saturu"
   }
 }

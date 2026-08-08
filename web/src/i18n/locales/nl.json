@@ -237,5 +237,8 @@
     "title": "Er is iets misgegaan",
     "message": "Er is een onverwachte fout opgetreden.",
     "retry": "Opnieuw proberen"
+  },
+  "a11y": {
+    "skipToContent": "Ga naar hoofdinhoud"
   }
 }

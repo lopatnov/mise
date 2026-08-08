@@ -237,5 +237,8 @@
     "title": "Noe gikk galt",
     "message": "Det oppstod en uventet feil.",
     "retry": "Prøv igjen"
+  },
+  "a11y": {
+    "skipToContent": "Gå til hovedinnhold"
   }
 }

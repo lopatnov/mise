@@ -237,5 +237,8 @@
     "title": "Bir şeyler yanlış gitti",
     "message": "Beklenmedik bir hata oluştu.",
     "retry": "Tekrar dene"
+  },
+  "a11y": {
+    "skipToContent": "Ana içeriğe atla"
   }
 }

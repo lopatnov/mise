@@ -237,5 +237,8 @@
     "title": "出了點問題",
     "message": "發生了意外錯誤。",
     "retry": "重試"
+  },
+  "a11y": {
+    "skipToContent": "跳轉到主要內容"
   }
 }

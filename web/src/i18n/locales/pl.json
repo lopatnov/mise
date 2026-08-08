@@ -237,5 +237,8 @@
     "title": "Coś poszło nie tak",
     "message": "Wystąpił nieoczekiwany błąd.",
     "retry": "Spróbuj ponownie"
+  },
+  "a11y": {
+    "skipToContent": "Przejdź do głównej treści"
   }
 }

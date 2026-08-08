@@ -40,6 +40,25 @@
   border: 0;
 }
 
+// Off-screen until keyboard-focused, so it doesn't show for mouse users but lets
+// keyboard/screen-reader users jump past the repeated nav/header (WCAG 2.4.1 Bypass Blocks).
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  z-index: 100;
+  padding: 8px 16px;
+  background: var(--c-white);
+  color: var(--c-text);
+  border: 2px solid var(--c-primary);
+  border-radius: var(--r-sm);
+  text-decoration: none;
+
+  &:focus {
+    top: 8px;
+  }
+}
+
 // ── Form feedback ─────────────────────────────────────────────────────────
 
 .form-error {

@@ -237,5 +237,8 @@
     "title": "Kažkas nutiko",
     "message": "Įvyko netikėta klaida.",
     "retry": "Bandyti dar kartą"
+  },
+  "a11y": {
+    "skipToContent": "Peršokti į pagrindinį turinį"
   }
 }

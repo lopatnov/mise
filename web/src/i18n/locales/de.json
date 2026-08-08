@@ -237,5 +237,8 @@
     "title": "Etwas ist schiefgelaufen",
     "message": "Ein unerwarteter Fehler ist aufgetreten.",
     "retry": "Erneut versuchen"
+  },
+  "a11y": {
+    "skipToContent": "Zum Hauptinhalt springen"
   }
 }

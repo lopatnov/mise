@@ -237,5 +237,8 @@
     "title": "Valami hiba történt",
     "message": "Váratlan hiba lépett fel.",
     "retry": "Próbálja újra"
+  },
+  "a11y": {
+    "skipToContent": "Ugrás a fő tartalomra"
   }
 }
