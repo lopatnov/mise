@@ -137,6 +137,17 @@
       "stepsLabel": "Soļi",
       "stepsPlaceholder": "Iesildiet krāsni līdz 175°C\nSajauciet sausās sastāvdaļas\nCepiet 25 minūtes",
       "textError": "Neizdevās analizēt ielīmēto tekstu"
+    },
+    "cookLog": {
+      "title": "Gatavošanas žurnāls",
+      "hint": "Privātas piezīmes, kuras redz tikai jūs — sekojiet, kas darbojās un ko jūs mainītu nākamreiz.",
+      "placeholder": "Kā gāja? Ko jūs mainītu nākamreiz?",
+      "rating": "Vērtējums",
+      "noRating": "Nav vērtējuma",
+      "add": "Pievienot piezīmi",
+      "remove": "Noņemt piezīmi",
+      "addError": "Neizdevās pievienot piezīmi",
+      "removeError": "Neizdevās noņemt piezīmi"
     }
   },
   "profile": {

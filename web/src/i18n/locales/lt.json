@@ -137,6 +137,17 @@
       "stepsLabel": "Žingsniai",
       "stepsPlaceholder": "Įkaitinkite orkaitę iki 175°C\nSumaišykite sausus ingredientus\nKepkite 25 minutes",
       "textError": "Nepavyko išanalizuoti įklijuoto teksto"
+    },
+    "cookLog": {
+      "title": "Virimo dienoraštis",
+      "hint": "Privatūs užrašai, kuriuos mato tik jūs — sekite, kas veikė ir ką kito rašytumėte kitą kartą.",
+      "placeholder": "Kaip sekėsi? Ką kito rašytumėte kitą kartą?",
+      "rating": "Vertinimas",
+      "noRating": "Nėra vertinimo",
+      "add": "Pridėti užrašą",
+      "remove": "Pašalinti užrašą",
+      "addError": "Nepavyko pridėti užrašą",
+      "removeError": "Nepavyko pašalinti užrašą"
     }
   },
   "profile": {

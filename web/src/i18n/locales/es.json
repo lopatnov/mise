@@ -137,6 +137,17 @@
       "stepsLabel": "Pasos",
       "stepsPlaceholder": "Precalentar horno a 175°C\nMezclar ingredientes secos\nHornear 25 minutos",
       "textError": "No se pudo analizar el texto pegado"
+    },
+    "cookLog": {
+      "title": "Registro de cocina",
+      "hint": "Notas privadas solo para ti — registra qué funcionó y qué cambiarías la próxima vez.",
+      "placeholder": "¿Cómo salió? ¿Qué cambiarías la próxima vez?",
+      "rating": "Calificación",
+      "noRating": "Sin calificación",
+      "add": "Añadir nota",
+      "remove": "Eliminar nota",
+      "addError": "No se pudo añadir la nota",
+      "removeError": "No se pudo eliminar la nota"
     }
   },
   "profile": {

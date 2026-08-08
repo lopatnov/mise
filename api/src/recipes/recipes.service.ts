@@ -1,13 +1,20 @@
-import { ForbiddenException, Injectable, NotFoundException, type OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
-import type { CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
 import { makeSlug } from './recipe-slug';
 
 const DEFAULT_PAGE_SIZE = 20;
 const MAX_PAGE_SIZE = 100;
+const MAX_COOK_NOTES = 200;
 
 /** Escape special regex characters in a user-provided string */
 function escapeRegex(s: string): string {
@@ -98,6 +105,8 @@ export class RecipesService implements OnModuleInit {
     if (!recipe) throw new NotFoundException('Recipe not found');
     const isOwner = !!userId && recipe.authorId.toString() === userId;
     if (!recipe.isPublic && !isOwner && !isAdmin) throw new ForbiddenException();
+    // cookNotes are private — strip them for anyone but the owner/admin, even on an otherwise-visible recipe
+    if (!isOwner && !isAdmin) recipe.cookNotes = [];
     return recipe;
   }
 
@@ -211,13 +220,41 @@ export class RecipesService implements OnModuleInit {
     return { saved: false };
   }
 
+  async addCookNote(id: string, userId: string, isAdmin: boolean, dto: AddCookNoteDto) {
+    const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
+    const note = { _id: new Types.ObjectId(), text: dto.text.trim(), rating: dto.rating, createdAt: new Date() };
+    // Atomic: the array-size check and the push happen in one query, so two concurrent
+    // requests can't both pass an in-memory length check and push past MAX_COOK_NOTES.
+    const updated = await this.model.findOneAndUpdate(
+      { _id: recipe._id, $expr: { $lt: [{ $size: '$cookNotes' }, MAX_COOK_NOTES] } },
+      { $push: { cookNotes: note } },
+      { new: true },
+    );
+    if (!updated) {
+      throw new BadRequestException('Cook log is full — remove an old entry first');
+    }
+    return updated.cookNotes;
+  }
+
+  async removeCookNote(id: string, userId: string, isAdmin: boolean, noteId: string) {
+    const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
+    const before = recipe.cookNotes.length;
+    recipe.cookNotes = recipe.cookNotes.filter((n) => n._id.toString() !== noteId);
+    if (recipe.cookNotes.length !== before) {
+      recipe.markModified('cookNotes');
+      await recipe.save();
+    }
+    return recipe.cookNotes;
+  }
+
   // ── Internals ────────────────────────────────────────────────────────────
 
   private async paginate(filter: Record<string, unknown>, query: RecipeQueryDto) {
     const { page, limit } = normalizePaging(query.page, query.limit);
     const [items, total] = await Promise.all([
+      // cookNotes are private and never shown in list views (own or others') — exclude unconditionally
       this.model
-        .find(filter)
+        .find(filter, { cookNotes: 0 })
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit)

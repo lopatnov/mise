@@ -137,6 +137,17 @@
       "stepsLabel": "Schritte",
       "stepsPlaceholder": "Ofen auf 175°C vorheizen\nTrockene Zutaten mischen\n25 Minuten backen",
       "textError": "Eingefügter Text konnte nicht analysiert werden"
+    },
+    "cookLog": {
+      "title": "Kochprotokoll",
+      "hint": "Private Notizen, die nur Sie sehen können — halten Sie fest, was funktioniert hat und was Sie nächstes Mal ändern würden.",
+      "placeholder": "Wie ist es gelaufen? Was würden Sie nächstes Mal ändern?",
+      "rating": "Bewertung",
+      "noRating": "Keine Bewertung",
+      "add": "Notiz hinzufügen",
+      "remove": "Notiz entfernen",
+      "addError": "Notiz konnte nicht hinzugefügt werden",
+      "removeError": "Notiz konnte nicht entfernt werden"
     }
   },
   "profile": {

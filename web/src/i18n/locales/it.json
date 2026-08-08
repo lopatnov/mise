@@ -137,6 +137,17 @@
       "stepsLabel": "Passaggi",
       "stepsPlaceholder": "Preriscalda il forno a 175°C\nMescola gli ingredienti secchi\nCuoci per 25 minuti",
       "textError": "Impossibile analizzare il testo incollato"
+    },
+    "cookLog": {
+      "title": "Diario di cucina",
+      "hint": "Note private solo per te — traccia cosa ha funzionato e cosa cambieresti la prossima volta.",
+      "placeholder": "Come è andata? Cosa cambieresti la prossima volta?",
+      "rating": "Valutazione",
+      "noRating": "Nessuna valutazione",
+      "add": "Aggiungi nota",
+      "remove": "Rimuovi nota",
+      "addError": "Impossibile aggiungere la nota",
+      "removeError": "Impossibile rimuovere la nota"
     }
   },
   "profile": {

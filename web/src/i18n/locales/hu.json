@@ -137,6 +137,17 @@
       "stepsLabel": "Lépések",
       "stepsPlaceholder": "Melegítse elő a sütőt 175°C-ra\nKeverje össze a száraz összetevőket\nSüsse 25 percig",
       "textError": "Nem sikerült a beillesztett szöveget elemezni"
+    },
+    "cookLog": {
+      "title": "Főzési napló",
+      "hint": "Privát jegyzetek, amelyeket csak te láthatsz — kövesd nyomon, mi működött, és mit változtatnál legközelebb.",
+      "placeholder": "Hogy ment? Mit változtatnál legközelebb?",
+      "rating": "Értékelés",
+      "noRating": "Nincs értékelés",
+      "add": "Jegyzet hozzáadása",
+      "remove": "Jegyzet eltávolítása",
+      "addError": "Nem sikerült hozzáadni a jegyzetet",
+      "removeError": "Nem sikerült eltávolítani a jegyzetet"
     }
   },
   "profile": {

@@ -137,6 +137,17 @@
       "stepsLabel": "Adımlar",
       "stepsPlaceholder": "Fırını 175°C'ye ön ısıtın\nKuru malzemeleri karıştırın\n25 dakika pişirin",
       "textError": "Yapıştırılan metin analiz edilemedi"
+    },
+    "cookLog": {
+      "title": "Yemek Günlüğü",
+      "hint": "Sadece siz görebileceğiniz özel notlar — neyin işe yaradığını ve bir sonraki seferde ne değiştirebileceğinizi izleyin.",
+      "placeholder": "Nasıl gitti? Bir sonraki seferde ne değiştirebilirsiniz?",
+      "rating": "Derecelendirme",
+      "noRating": "Derecelendirme yok",
+      "add": "Not ekle",
+      "remove": "Notu sil",
+      "addError": "Not eklenemedi",
+      "removeError": "Not silinemedi"
     }
   },
   "profile": {

@@ -137,6 +137,17 @@
       "stepsLabel": "Kroky",
       "stepsPlaceholder": "Predohrejte rúru na 175°C\nZmiešajte suché ingrediencie\nPečte 25 minút",
       "textError": "Nepodarilo sa analyzovať vložený text"
+    },
+    "cookLog": {
+      "title": "Denník varenia",
+      "hint": "Privátne poznámky, ktoré vidíte len vy — sledujte, čo funguje a čo by ste nabudúce zmenili.",
+      "placeholder": "Ako to dopadlo? Čo by ste nabudúce zmenili?",
+      "rating": "Hodnotenie",
+      "noRating": "Bez hodnotenia",
+      "add": "Pridať poznámku",
+      "remove": "Odstrániť poznámku",
+      "addError": "Nepodarilo sa pridať poznámku",
+      "removeError": "Nepodarilo sa odstrániť poznámku"
     }
   },
   "profile": {

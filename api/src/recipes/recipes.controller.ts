@@ -17,7 +17,7 @@ import { CurrentUser, type JwtUser } from '../common/decorators/current-user.dec
 import { OptionalAuth, Public } from '../common/decorators/public.decorator';
 import { photoUploadOptions } from '../uploads/photo-upload.options';
 import { UploadsService } from '../uploads/uploads.service';
-import { CreateRecipeDto, ImportTextDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
+import { AddCookNoteDto, CreateRecipeDto, ImportTextDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
 import { RecipeImportService } from './recipe-import.service';
 import { RecipesService } from './recipes.service';
 
@@ -128,6 +128,26 @@ export class RecipesController {
   @ApiResponse({ status: 404, description: 'Recipe not found' })
   removeFavorite(@Param('id') id: string, @CurrentUser() user: JwtUser) {
     return this.service.removeFavorite(id, user.userId);
+  }
+
+  @Post(':id/cook-notes')
+  @ApiOperation({ summary: 'Add a private cook-log entry (visible only to the recipe owner)' })
+  @ApiResponse({ status: 201, description: 'Updated cook notes list' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Not the recipe owner' })
+  @ApiResponse({ status: 404, description: 'Recipe not found' })
+  addCookNote(@Param('id') id: string, @CurrentUser() user: JwtUser, @Body() dto: AddCookNoteDto) {
+    return this.service.addCookNote(id, user.userId, user.role === 'admin', dto);
+  }
+
+  @Delete(':id/cook-notes/:noteId')
+  @ApiOperation({ summary: 'Remove a cook-log entry' })
+  @ApiResponse({ status: 200, description: 'Updated cook notes list' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Not the recipe owner' })
+  @ApiResponse({ status: 404, description: 'Recipe not found' })
+  removeCookNote(@Param('id') id: string, @Param('noteId') noteId: string, @CurrentUser() user: JwtUser) {
+    return this.service.removeCookNote(id, user.userId, user.role === 'admin', noteId);
   }
 
   @Post(':id/photo')

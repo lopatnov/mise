@@ -137,6 +137,17 @@
       "stepsLabel": "Langkah-langkah",
       "stepsPlaceholder": "Panaskan oven hingga 175°C\nCampurkan bahan kering\nPanggang selama 25 menit",
       "textError": "Gagal mengurai teks yang ditempel"
+    },
+    "cookLog": {
+      "title": "Log Memasak",
+      "hint": "Catatan pribadi yang hanya bisa Anda lihat — lacak apa yang berhasil dan apa yang ingin Anda ubah lain kali.",
+      "placeholder": "Bagaimana hasilnya? Apa yang ingin Anda ubah lain kali?",
+      "rating": "Penilaian",
+      "noRating": "Tidak ada penilaian",
+      "add": "Tambah catatan",
+      "remove": "Hapus catatan",
+      "addError": "Gagal menambah catatan",
+      "removeError": "Gagal menghapus catatan"
     }
   },
   "profile": {

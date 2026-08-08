@@ -137,6 +137,17 @@
       "stepsLabel": "Ohjeet",
       "stepsPlaceholder": "Lämmitä uuni 175°C:een\nSekoita kuivat ainesosat\nPaista 25 minuuttia",
       "textError": "Tekstiä ei voitu jäsentää"
+    },
+    "cookLog": {
+      "title": "Ruoanlaittopäiväkirja",
+      "hint": "Yksityisiä muistiinpanoja, jotka vain sinä näet — seuraa, mikä toimi ja mitä muuttaisit seuraavalla kerralla.",
+      "placeholder": "Miten meni? Mitä muuttaisit seuraavalla kerralla?",
+      "rating": "Arviointi",
+      "noRating": "Ei arviointia",
+      "add": "Lisää muistiinpano",
+      "remove": "Poista muistiinpano",
+      "addError": "Muistiinpanon lisääminen epäonnistui",
+      "removeError": "Muistiinpanon poistaminen epäonnistui"
     }
   },
   "profile": {

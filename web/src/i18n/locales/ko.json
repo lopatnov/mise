@@ -137,6 +137,17 @@
       "stepsLabel": "단계",
       "stepsPlaceholder": "오븐을 175°C로 예열합니다\n건조 재료를 섞습니다\n25분간 굽습니다",
       "textError": "붙여넣은 텍스트를 분석할 수 없습니다"
+    },
+    "cookLog": {
+      "title": "요리 기록",
+      "hint": "당신만 볼 수 있는 개인 노트 — 효과가 있었던 것과 다음에 바꾸고 싶은 것을 추적하세요.",
+      "placeholder": "어땠어? 다음에 뭘 바꾸고 싶어?",
+      "rating": "평가",
+      "noRating": "평가 없음",
+      "add": "메모 추가",
+      "remove": "메모 삭제",
+      "addError": "메모를 추가할 수 없습니다",
+      "removeError": "메모를 삭제할 수 없습니다"
     }
   },
   "profile": {

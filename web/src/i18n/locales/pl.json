@@ -137,6 +137,17 @@
       "stepsLabel": "Kroki",
       "stepsPlaceholder": "Wstępnie rozgrzej piekarnik do 175°C\nZmieszaj składniki na sucho\nPiecz przez 25 minut",
       "textError": "Nie można przeanalizować wklejonego tekstu"
+    },
+    "cookLog": {
+      "title": "Dziennik gotowania",
+      "hint": "Prywatne notatki widoczne tylko dla ciebie — śledź, co zadziałało i co zmieniłbyś następnym razem.",
+      "placeholder": "Jak poszło? Co zmieniłbyś następnym razem?",
+      "rating": "Ocena",
+      "noRating": "Brak oceny",
+      "add": "Dodaj notatkę",
+      "remove": "Usuń notatkę",
+      "addError": "Nie udało się dodać notatki",
+      "removeError": "Nie udało się usunąć notatki"
     }
   },
   "profile": {

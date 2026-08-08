@@ -137,6 +137,17 @@
       "stepsLabel": "Koraci",
       "stepsPlaceholder": "Zagrijte pećnicu na 175°C\nPromiješajte suhe sastojke\nPecite 25 minuta",
       "textError": "Nije moguće analizirati zalijepljeni tekst"
+    },
+    "cookLog": {
+      "title": "Dnevnik kuhanja",
+      "hint": "Privatne bilješke koje samo ti možeš vidjeti — prati što je funkcioniralo i što bih sljedeći put promijenio.",
+      "placeholder": "Kako je prošlo? Što bih sljedeći put promijenio?",
+      "rating": "Ocjena",
+      "noRating": "Nema ocjene",
+      "add": "Dodaj bilješku",
+      "remove": "Obriši bilješku",
+      "addError": "Neuspješno dodavanje bilješke",
+      "removeError": "Neuspješno brisanje bilješke"
     }
   },
   "profile": {

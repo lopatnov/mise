@@ -137,6 +137,17 @@
       "stepsLabel": "Steg",
       "stepsPlaceholder": "Förvärm ugnen till 175°C\nBlanda torra ingredienser\nBaka i 25 minuter",
       "textError": "Det gick inte att analysera den inklistrade texten"
+    },
+    "cookLog": {
+      "title": "Matlagningsjournal",
+      "hint": "Privata anteckningar som bara du kan se — håll reda på vad som fungerade och vad du skulle ändra nästa gång.",
+      "placeholder": "Hur gick det? Vad skulle du ändra nästa gång?",
+      "rating": "Betyg",
+      "noRating": "Inget betyg",
+      "add": "Lägg till anteckning",
+      "remove": "Ta bort anteckning",
+      "addError": "Kunde inte lägga till anteckning",
+      "removeError": "Kunde inte ta bort anteckning"
     }
   },
   "profile": {

@@ -137,6 +137,17 @@
       "stepsLabel": "Passos",
       "stepsPlaceholder": "Pré-aqueça o forno a 175°C\nMisture ingredientes secos\nAsse por 25 minutos",
       "textError": "Falha ao analisar o texto colado"
+    },
+    "cookLog": {
+      "title": "Diário de cozinha",
+      "hint": "Notas privadas apenas para você — acompanhe o que deu certo e o que você mudaria na próxima vez.",
+      "placeholder": "Como foi? O que você mudaria na próxima vez?",
+      "rating": "Avaliação",
+      "noRating": "Sem avaliação",
+      "add": "Adicionar nota",
+      "remove": "Remover nota",
+      "addError": "Falha ao adicionar nota",
+      "removeError": "Falha ao remover nota"
     }
   },
   "profile": {

@@ -137,6 +137,17 @@
       "stepsLabel": "步驟",
       "stepsPlaceholder": "將烤箱預熱至175°C\n混合乾食材\n烤25分鐘",
       "textError": "無法解析貼上的文字"
+    },
+    "cookLog": {
+      "title": "烹飪日誌",
+      "hint": "只有您可以看到的私密筆記 — 追蹤哪些有效，下次想改變的內容。",
+      "placeholder": "效果如何？您下次想改變什麼？",
+      "rating": "評分",
+      "noRating": "無評分",
+      "add": "新增筆記",
+      "remove": "刪除筆記",
+      "addError": "無法新增筆記",
+      "removeError": "無法刪除筆記"
     }
   },
   "profile": {

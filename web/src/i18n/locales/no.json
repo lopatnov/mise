@@ -137,6 +137,17 @@
       "stepsLabel": "Trinn",
       "stepsPlaceholder": "Forvarm ovnen til 175°C\nBland tørre ingredienser\nBak i 25 minutter",
       "textError": "Kunne ikke analysere innlimingen av tekst"
+    },
+    "cookLog": {
+      "title": "Matlagingsdagbok",
+      "hint": "Private notater bare du kan se — spor hva som fungerte og hva du ville endre neste gang.",
+      "placeholder": "Hvordan gikk det? Hva ville du endret neste gang?",
+      "rating": "Vurdering",
+      "noRating": "Ingen vurdering",
+      "add": "Legg til notat",
+      "remove": "Fjern notat",
+      "addError": "Kunne ikke legge til notat",
+      "removeError": "Kunne ikke fjerne notat"
     }
   },
   "profile": {

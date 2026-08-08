@@ -137,6 +137,17 @@
       "stepsLabel": "Pași",
       "stepsPlaceholder": "Preîncălziți cuptorul la 175°C\nAmestecați ingredientele uscate\nCoaceți timp de 25 de minute",
       "textError": "Nu s-a putut analiza textul lipit"
+    },
+    "cookLog": {
+      "title": "Jurnal de gătit",
+      "hint": "Note private pe care doar tu le poți vedea — ține evidența a ceea ce a funcționat și ce ai schimba data viitoare.",
+      "placeholder": "Cum a fost? Ce ai schimba data viitoare?",
+      "rating": "Evaluare",
+      "noRating": "Fără evaluare",
+      "add": "Adaugă notă",
+      "remove": "Șterge notă",
+      "addError": "Nu s-a putut adăuga o notă",
+      "removeError": "Nu s-a putut șterge nota"
     }
   },
   "profile": {
