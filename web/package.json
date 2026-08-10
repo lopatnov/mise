@@ -37,7 +37,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
-    "jsdom": "^29.0.1",
+    "jsdom": "^30.0.1",
     "pa11y-ci": "^4.1.1",
     "sass": "^1.102.0",
     "start-server-and-test": "^3.0.12",
