@@ -21,3 +21,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recipe list/search pagination no longer accepts an unbounded page size (e.g. `?limit=0` previously returned the entire recipe collection in one response).
 - Fixed a bug where viewing a recipe's steps could silently reorder them in a way that persisted incorrectly in some cases (cache mutation during render).
 - Fixed duplicate ingredients with the same name not rendering correctly in the recipe detail view.
+- Editing a recipe's steps (reordering or deleting one) no longer misattributes previously-uploaded step photos to the wrong step, or leaves orphaned photo files behind for removed steps.
