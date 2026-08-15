@@ -79,7 +79,14 @@ export default function RecipeFormPage() {
       if (existing.ingredients.length)
         setIngredients(existing.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
       if (existing.steps.length)
-        setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
+        setSteps(
+          existing.steps.map((s) => ({
+            _id: crypto.randomUUID(),
+            text: s.text,
+            externalImageUrl: '',
+            sourceOrder: s.order,
+          })),
+        );
     }
   }, [existing]);
 
@@ -132,7 +139,13 @@ export default function RecipeFormPage() {
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
       steps: steps
         .filter((s) => s.text)
-        .map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
+        .map((s, i) => ({
+          order: i + 1,
+          text: s.text,
+          externalImageUrl: s.externalImageUrl || undefined,
+          // Lets the server keep an already-uploaded photo with this step after a reorder/removal
+          sourceOrder: s.sourceOrder,
+        })),
       externalImageUrl: importedImageUrl || undefined,
     });
   }

@@ -8,7 +8,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
-import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto, StepDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
 import { makeSlug } from './recipe-slug';
 
@@ -164,25 +164,47 @@ export class RecipesService implements OnModuleInit {
   async update(id: string, userId: string, isAdmin: boolean, dto: Partial<CreateRecipeDto>) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
     if (dto.steps) {
-      // Steps are replaced wholesale — keep the photo already uploaded for each position, unless
-      // the update supplies a new externalImageUrl for that step, matching create()'s behavior
+      // Steps are replaced wholesale — keep the photo already uploaded for each step, matched by the
+      // order that step had before this edit (sourceOrder), so reordering or removing steps doesn't
+      // hand a photo to a different step. A new externalImageUrl still wins, matching create().
       const photoByOrder = new Map(recipe.steps.map((s) => [s.order, s.photoUrl as string | undefined]));
+      // Clients older than sourceOrder send none at all — they still get the previous positional
+      // match. When the payload does carry it, a step without one was just added by this edit and
+      // must start photoless instead of inheriting the photo of whatever step held that position.
+      const identifiesSteps = dto.steps.some((s) => s.sourceOrder !== undefined);
+      const keptPhotoOf = (s: StepDto): string | undefined => {
+        const previousOrder = identifiesSteps ? s.sourceOrder : s.order;
+        return previousOrder === undefined ? undefined : photoByOrder.get(previousOrder);
+      };
       const steps = await Promise.all(
         dto.steps.map(async (s) => ({
           order: s.order,
           text: s.text,
-          photoUrl: s.externalImageUrl
-            ? await this.uploads.savePhotoFromUrl(s.externalImageUrl)
-            : photoByOrder.get(s.order),
+          photoUrl: s.externalImageUrl ? await this.uploads.savePhotoFromUrl(s.externalImageUrl) : keptPhotoOf(s),
         })),
       );
       recipe.set('steps', steps);
       const { steps: _steps, ...rest } = dto;
       Object.assign(recipe, rest);
-    } else {
-      Object.assign(recipe, dto);
+      const saved = await recipe.save();
+      // Only after the save succeeds: photos of steps this update dropped (or replaced) are no
+      // longer referenced by the document, so their files would otherwise stay behind forever
+      await this.deleteUnreferencedPhotos(photoByOrder.values(), steps);
+      return saved;
     }
+    Object.assign(recipe, dto);
     return recipe.save();
+  }
+
+  /** Delete previously stored photo files that no step of the saved recipe points at any more */
+  private async deleteUnreferencedPhotos(
+    previousPhotoUrls: Iterable<string | undefined>,
+    steps: { photoUrl?: string }[],
+  ) {
+    const stillUsed = new Set(steps.map((s) => s.photoUrl).filter(Boolean));
+    for (const photoUrl of previousPhotoUrls) {
+      if (photoUrl && !stillUsed.has(photoUrl)) await this.uploads.deletePhoto(photoUrl);
+    }
   }
 
   async remove(id: string, userId: string, isAdmin: boolean) {

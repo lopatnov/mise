@@ -45,12 +45,20 @@ describe('RecipesService', () => {
     updateOne: jest.fn(),
   };
 
+  // Declared here (not just inside beforeEach) so individual tests can assert on its calls.
+  let mockUploadsService: {
+    buildPhotoUrl: jest.Mock;
+    deletePhoto: jest.Mock;
+    savePhotoFromUrl: jest.Mock;
+  };
+
   beforeEach(async () => {
     jest.clearAllMocks();
 
-    const mockUploadsService = {
+    mockUploadsService = {
       buildPhotoUrl: jest.fn((filename: string) => `/uploads/${filename}`),
       deletePhoto: jest.fn().mockResolvedValue(undefined),
+      savePhotoFromUrl: jest.fn().mockResolvedValue('/uploads/fresh-external.jpg'),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -316,6 +324,127 @@ describe('RecipesService', () => {
       await service.update(recipeId, userId, true, { title: 'New' });
 
       expect(doc.save).toHaveBeenCalled();
+    });
+
+    // ── steps photo matching ────────────────────────────────────────────────
+
+    /** Build a mock recipe document whose `steps` array is the state *before* the update. */
+    function docWithSteps(steps: { order: number; text: string; photoUrl?: string }[]) {
+      return {
+        authorId: { toString: () => userId },
+        steps,
+        set: jest.fn(),
+        save: jest.fn().mockResolvedValue({}),
+      };
+    }
+
+    it('keeps each photo with its own step when steps are reordered (matched by sourceOrder, not array position)', async () => {
+      const doc = docWithSteps([
+        { order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' },
+        { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
+        { order: 3, text: 'C' },
+      ]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      // Reordered to C, A, B — each carries the order it had before this edit.
+      await service.update(recipeId, userId, false, {
+        steps: [
+          { order: 1, text: 'C', sourceOrder: 3 },
+          { order: 2, text: 'A', sourceOrder: 1 },
+          { order: 3, text: 'B', sourceOrder: 2 },
+        ],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      // Without the fix, positional matching would have handed photo1 to C (now at position 1)
+      // and photo2 to A (now at position 2) — the exact bug this test guards against.
+      expect(savedSteps.find((s) => s.text === 'C')?.photoUrl).toBeUndefined();
+      expect(savedSteps.find((s) => s.text === 'A')?.photoUrl).toBe('/uploads/photo1.jpg');
+      expect(savedSteps.find((s) => s.text === 'B')?.photoUrl).toBe('/uploads/photo2.jpg');
+      // Nothing was dropped by this edit, so no cleanup should happen.
+      expect(mockUploadsService.deletePhoto).not.toHaveBeenCalled();
+    });
+
+    it('cleans up the photo of a deleted middle step and keeps the photos of the surviving steps', async () => {
+      const doc = docWithSteps([
+        { order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' },
+        { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
+        { order: 3, text: 'C', photoUrl: '/uploads/photo3.jpg' },
+      ]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      // B is removed; A and C carry the order they had before the edit.
+      await service.update(recipeId, userId, false, {
+        steps: [
+          { order: 1, text: 'A', sourceOrder: 1 },
+          { order: 2, text: 'C', sourceOrder: 3 },
+        ],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps.find((s) => s.text === 'A')?.photoUrl).toBe('/uploads/photo1.jpg');
+      expect(savedSteps.find((s) => s.text === 'C')?.photoUrl).toBe('/uploads/photo3.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo2.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not hand a newly inserted step the photo that used to sit at its array position', async () => {
+      const doc = docWithSteps([
+        { order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' },
+        { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
+      ]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      // A brand-new step is inserted between A and B — it has no sourceOrder because it never
+      // existed before this edit, so positional matching would otherwise steal B's old photo.
+      await service.update(recipeId, userId, false, {
+        steps: [
+          { order: 1, text: 'A', sourceOrder: 1 },
+          { order: 2, text: 'NEW' },
+          { order: 3, text: 'B', sourceOrder: 2 },
+        ],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps.find((s) => s.text === 'NEW')?.photoUrl).toBeUndefined();
+      expect(savedSteps.find((s) => s.text === 'A')?.photoUrl).toBe('/uploads/photo1.jpg');
+      expect(savedSteps.find((s) => s.text === 'B')?.photoUrl).toBe('/uploads/photo2.jpg');
+    });
+
+    it('falls back to positional matching for legacy clients that never send sourceOrder', async () => {
+      const doc = docWithSteps([
+        { order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' },
+        { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
+      ]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      // No step in the payload carries sourceOrder at all — an older client, pre-dating this field.
+      await service.update(recipeId, userId, false, {
+        steps: [
+          { order: 1, text: 'A edited' },
+          { order: 2, text: 'B edited' },
+        ],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps.find((s) => s.order === 1)?.photoUrl).toBe('/uploads/photo1.jpg');
+      expect(savedSteps.find((s) => s.order === 2)?.photoUrl).toBe('/uploads/photo2.jpg');
+      expect(mockUploadsService.deletePhoto).not.toHaveBeenCalled();
+    });
+
+    it('prefers a freshly-fetched externalImageUrl photo over the one sourceOrder would otherwise keep', async () => {
+      const doc = docWithSteps([{ order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' }]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await service.update(recipeId, userId, false, {
+        steps: [{ order: 1, text: 'A', sourceOrder: 1, externalImageUrl: 'https://example.com/new.jpg' }],
+      } as Parameters<typeof service.update>[3]);
+
+      expect(mockUploadsService.savePhotoFromUrl).toHaveBeenCalledWith('https://example.com/new.jpg');
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps[0].photoUrl).toBe('/uploads/fresh-external.jpg');
+      // The step's old photo is no longer referenced once it's been replaced — it must be cleaned up.
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1.jpg');
     });
   });
 

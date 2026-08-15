@@ -5,6 +5,8 @@ export interface StepRow {
   _id: string;
   text: string;
   externalImageUrl: string;
+  /** Order of this step in the saved recipe, kept through reorder/removal so its photo stays with it */
+  sourceOrder?: number;
 }
 
 export function newStepRow(): StepRow {

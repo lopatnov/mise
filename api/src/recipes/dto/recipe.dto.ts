@@ -27,6 +27,16 @@ export class StepDto {
   @IsOptional()
   @IsString()
   externalImageUrl?: string;
+
+  /**
+   * The order this step had before the edit, so an update can keep an already-uploaded photo with
+   * its own step when steps are reordered or removed. Ignored on create; never a photo URL, so a
+   * client can't point a step at an arbitrary file.
+   */
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  sourceOrder?: number;
 }
 
 export class CreateRecipeDto {
