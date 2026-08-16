@@ -185,7 +185,8 @@
       "deleted": "使用者已刪除",
       "deleteError": "刪除使用者失敗",
       "confirmDelete": "刪除此使用者？",
-      "name": "姓名"
+      "name": "姓名",
+      "loadError": "載入使用者失敗"
     },
     "invites": {
       "create": "建立邀請連結",
@@ -195,12 +196,15 @@
       "linkReady": "邀請連結已就緒：",
       "copy": "複製",
       "copied": "已複製！",
+      "copyError": "複製連結失敗",
       "active": "個有效邀請",
       "expires": "到期",
       "empty": "沒有有效邀請",
+      "revoke": "撤銷邀請",
       "revoked": "邀請已撤銷",
       "revokeError": "撤銷邀請失敗",
-      "createError": "建立邀請失敗"
+      "createError": "建立邀請失敗",
+      "loadError": "載入邀請失敗"
     },
     "settings": {
       "general": "一般",
@@ -217,7 +221,8 @@
       "appUrl": "應用程式 URL（用於電子郵件連結）",
       "saveBtn": "儲存設定",
       "saved": "設定已儲存",
-      "saveError": "儲存設定失敗"
+      "saveError": "儲存設定失敗",
+      "loadError": "載入設定失敗"
     }
   },
   "lang": {

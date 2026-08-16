@@ -204,7 +204,7 @@
       "revoked": "Pozvánka zrušená",
       "revokeError": "Zrušenie pozvánky zlyhalo",
       "createError": "Vytvorenie pozvánky zlyhalo",
-      "loadError": "Načítanie pozván ok zlyhalo"
+      "loadError": "Načítanie pozván zlyhalo"
     },
     "settings": {
       "general": "Všeobecné",
