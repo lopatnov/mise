@@ -185,7 +185,8 @@
       "deleted": "Kullanıcı silindi",
       "deleteError": "Kullanıcı silinemedi",
       "confirmDelete": "Bu kullanıcıyı sil?",
-      "name": "Ad"
+      "name": "Ad",
+      "loadError": "Kullanıcılar yüklenemedi"
     },
     "invites": {
       "create": "Davet bağlantısı oluştur",
@@ -195,12 +196,15 @@
       "linkReady": "Davet bağlantısı hazır:",
       "copy": "Kopyala",
       "copied": "Kopyalandı!",
+      "copyError": "Bağlantı kopyalanamadı",
       "active": "aktif davet",
       "expires": "Sona eriyor",
       "empty": "Aktif davet yok",
+      "revoke": "Daveti iptal et",
       "revoked": "Davet iptal edildi",
       "revokeError": "Davet iptal edilemedi",
-      "createError": "Davet oluşturulamadı"
+      "createError": "Davet oluşturulamadı",
+      "loadError": "Davetler yüklenemedi"
     },
     "settings": {
       "general": "Genel",
@@ -217,7 +221,8 @@
       "appUrl": "Uygulama URL'si (e-posta bağlantıları için)",
       "saveBtn": "Ayarları kaydet",
       "saved": "Ayarlar kaydedildi",
-      "saveError": "Ayarlar kaydedilemedi"
+      "saveError": "Ayarlar kaydedilemedi",
+      "loadError": "Ayarlar yüklenemedi"
     }
   },
   "lang": {

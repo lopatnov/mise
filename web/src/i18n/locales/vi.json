@@ -185,7 +185,8 @@
       "deleted": "Người dùng đã bị xóa",
       "deleteError": "Xóa người dùng thất bại",
       "confirmDelete": "Xóa người dùng này?",
-      "name": "Tên"
+      "name": "Tên",
+      "loadError": "Tải người dùng thất bại"
     },
     "invites": {
       "create": "Tạo liên kết mời",
@@ -195,12 +196,15 @@
       "linkReady": "Liên kết mời đã sẵn sàng:",
       "copy": "Sao chép",
       "copied": "Đã sao chép!",
+      "copyError": "Sao chép liên kết thất bại",
       "active": "lời mời đang hoạt động",
       "expires": "Hết hạn",
       "empty": "Không có lời mời đang hoạt động",
+      "revoke": "Thu hồi lời mời",
       "revoked": "Lời mời đã bị thu hồi",
       "revokeError": "Thu hồi lời mời thất bại",
-      "createError": "Tạo lời mời thất bại"
+      "createError": "Tạo lời mời thất bại",
+      "loadError": "Tải lời mời thất bại"
     },
     "settings": {
       "general": "Chung",
@@ -217,7 +221,8 @@
       "appUrl": "URL ứng dụng (cho liên kết email)",
       "saveBtn": "Lưu cài đặt",
       "saved": "Cài đặt đã được lưu",
-      "saveError": "Lưu cài đặt thất bại"
+      "saveError": "Lưu cài đặt thất bại",
+      "loadError": "Tải cài đặt thất bại"
     }
   },
   "lang": {
