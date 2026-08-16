@@ -181,7 +181,9 @@ describe('Recipes update (e2e)', () => {
     const body = res.body as RecipeResponse;
     expect(body.title).toBe('Updated Recipe Title');
     expect(body.description).toBe('Updated description');
-    expect(body.ingredients).toEqual([{ name: 'Flour', amount: 250, unit: 'g' }]);
+    // toMatchObject, not toEqual: Mongoose auto-generates an _id on each array subdocument that
+    // isn't predictable/relevant here, only the fields the update actually set.
+    expect(body.ingredients).toMatchObject([{ name: 'Flour', amount: 250, unit: 'g' }]);
     expect(body.steps).toHaveLength(1);
     expect(body.steps[0]).toMatchObject({ order: 1, text: 'Mix the flour thoroughly' });
 
@@ -191,6 +193,6 @@ describe('Recipes update (e2e)', () => {
       .expect(200);
     const persisted = refetch.body as RecipeResponse;
     expect(persisted.title).toBe('Updated Recipe Title');
-    expect(persisted.ingredients).toEqual([{ name: 'Flour', amount: 250, unit: 'g' }]);
+    expect(persisted.ingredients).toMatchObject([{ name: 'Flour', amount: 250, unit: 'g' }]);
   });
 });
