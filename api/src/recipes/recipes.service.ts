@@ -167,15 +167,18 @@ export class RecipesService implements OnModuleInit {
       // Steps are replaced wholesale — keep the photo already uploaded for each step, matched by the
       // order that step had before this edit (sourceOrder), so reordering or removing steps doesn't
       // hand a photo to a different step. A new externalImageUrl still wins, matching create().
+      // Captured before recipe.set('steps', ...) below overwrites recipe.steps with the new array —
+      // this list (not photoByOrder, which dedupes by order) is what cleanup diffs against, so a
+      // malformed payload with two old steps sharing an order can't drop one of their photos from it.
+      const previousPhotoUrls = recipe.steps.map((s) => s.photoUrl as string | undefined);
       const photoByOrder = new Map(recipe.steps.map((s) => [s.order, s.photoUrl as string | undefined]));
-      // Clients older than sourceOrder send none at all — they still get the previous positional
-      // match. When the payload does carry it, a step without one was just added by this edit and
-      // must start photoless instead of inheriting the photo of whatever step held that position.
-      const identifiesSteps = dto.steps.some((s) => s.sourceOrder !== undefined);
-      const keptPhotoOf = (s: StepDto): string | undefined => {
-        const previousOrder = identifiesSteps ? s.sourceOrder : s.order;
-        return previousOrder === undefined ? undefined : photoByOrder.get(previousOrder);
-      };
+      // A step without sourceOrder was just added by this edit and starts photoless — it must never
+      // inherit whatever photo happened to sit at that array position. No positional fallback: web
+      // and api ship together (nginx serves web/dist alongside the api), so the only "old client" is
+      // a browser tab left open across a deploy, and losing (not misattributing) a step photo on its
+      // next save is a visible, recoverable degradation, not silent data corruption.
+      const keptPhotoOf = (s: StepDto): string | undefined =>
+        s.sourceOrder === undefined ? undefined : photoByOrder.get(s.sourceOrder);
       const steps = await Promise.all(
         dto.steps.map(async (s) => ({
           order: s.order,
@@ -188,8 +191,8 @@ export class RecipesService implements OnModuleInit {
       Object.assign(recipe, rest);
       const saved = await recipe.save();
       // Only after the save succeeds: photos of steps this update dropped (or replaced) are no
-      // longer referenced by the document, so their files would otherwise stay behind forever
-      await this.deleteUnreferencedPhotos(photoByOrder.values(), steps);
+      // longer referenced by the document, so their files would otherwise stay behind forever.
+      await this.deleteUnreferencedPhotos(previousPhotoUrls, steps);
       return saved;
     }
     Object.assign(recipe, dto);

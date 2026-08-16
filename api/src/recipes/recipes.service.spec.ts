@@ -411,14 +411,17 @@ describe('RecipesService', () => {
       expect(savedSteps.find((s) => s.text === 'B')?.photoUrl).toBe('/uploads/photo2.jpg');
     });
 
-    it('falls back to positional matching for legacy clients that never send sourceOrder', async () => {
+    it('does not fall back to positional matching when no step carries sourceOrder — every step starts photoless and old photos are cleaned up', async () => {
       const doc = docWithSteps([
         { order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' },
         { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
       ]);
       mockModel.findById.mockReturnValue(mockQuery(doc));
 
-      // No step in the payload carries sourceOrder at all — an older client, pre-dating this field.
+      // No step in the payload carries sourceOrder at all — e.g. all steps were deleted and replaced
+      // with fresh ones in the same edit. There is deliberately no positional fallback for this case:
+      // web and api ship together, so treating "no sourceOrder anywhere" as trustworthy legacy-client
+      // input would silently hand each new step whatever photo used to sit at its array position.
       await service.update(recipeId, userId, false, {
         steps: [
           { order: 1, text: 'A edited' },
@@ -427,9 +430,10 @@ describe('RecipesService', () => {
       } as Parameters<typeof service.update>[3]);
 
       const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
-      expect(savedSteps.find((s) => s.order === 1)?.photoUrl).toBe('/uploads/photo1.jpg');
-      expect(savedSteps.find((s) => s.order === 2)?.photoUrl).toBe('/uploads/photo2.jpg');
-      expect(mockUploadsService.deletePhoto).not.toHaveBeenCalled();
+      expect(savedSteps.find((s) => s.order === 1)?.photoUrl).toBeUndefined();
+      expect(savedSteps.find((s) => s.order === 2)?.photoUrl).toBeUndefined();
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo2.jpg');
     });
 
     it('prefers a freshly-fetched externalImageUrl photo over the one sourceOrder would otherwise keep', async () => {
@@ -445,6 +449,27 @@ describe('RecipesService', () => {
       expect(savedSteps[0].photoUrl).toBe('/uploads/fresh-external.jpg');
       // The step's old photo is no longer referenced once it's been replaced — it must be cleaned up.
       expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1.jpg');
+    });
+
+    it('cleans up both photos of two malformed old steps sharing the same order, not just one', async () => {
+      // Two stored steps sharing an order is malformed (StepDto doesn't enforce uniqueness) — cleanup
+      // must not rely on the order-keyed Map, which would collapse them and drop one photo silently.
+      const doc = docWithSteps([
+        { order: 1, text: 'A', photoUrl: '/uploads/photo1a.jpg' },
+        { order: 1, text: 'A duplicate', photoUrl: '/uploads/photo1b.jpg' },
+        { order: 2, text: 'B', photoUrl: '/uploads/photo2.jpg' },
+      ]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+
+      await service.update(recipeId, userId, false, {
+        steps: [{ order: 1, text: 'B', sourceOrder: 2 }],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps[0].photoUrl).toBe('/uploads/photo2.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1a.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1b.jpg');
+      expect(mockUploadsService.deletePhoto).toHaveBeenCalledTimes(2);
     });
   });
 
