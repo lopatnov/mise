@@ -185,7 +185,8 @@
       "deleted": "Utilizator șters",
       "deleteError": "Ștergerea utilizatorului a eșuat",
       "confirmDelete": "Șterge acest utilizator?",
-      "name": "Nume"
+      "name": "Nume",
+      "loadError": "Încărcarea utilizatorilor a eșuat"
     },
     "invites": {
       "create": "Crează link de invitație",
@@ -195,12 +196,15 @@
       "linkReady": "Link de invitație gata:",
       "copy": "Copiază",
       "copied": "Copiat!",
+      "copyError": "Copierea linkului a eșuat",
       "active": "invitații active",
       "expires": "Expiră",
       "empty": "Nu există invitații active",
+      "revoke": "Revocă invitația",
       "revoked": "Invitație revocată",
       "revokeError": "Revocarea invitației a eșuat",
-      "createError": "Crearea invitației a eșuat"
+      "createError": "Crearea invitației a eșuat",
+      "loadError": "Încărcarea invitațiilor a eșuat"
     },
     "settings": {
       "general": "General",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplicație (pentru link-uri în e-mailuri)",
       "saveBtn": "Salvează setările",
       "saved": "Setări salvate",
-      "saveError": "Salvarea setărilor a eșuat"
+      "saveError": "Salvarea setărilor a eșuat",
+      "loadError": "Încărcarea setărilor a eșuat"
     }
   },
   "lang": {

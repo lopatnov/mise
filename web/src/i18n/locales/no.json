@@ -200,9 +200,11 @@
       "active": "aktive invitasjoner",
       "expires": "Utløper",
       "empty": "Ingen aktive invitasjoner",
+      "revoke": "Tilbakekall invitasjon",
       "revoked": "Invitasjon tilbakekalt",
       "revokeError": "Kunne ikke tilbakekalle invitasjon",
-      "createError": "Kunne ikke opprette invitasjon"
+      "createError": "Kunne ikke opprette invitasjon",
+      "loadError": "Kunne ikke laste inn invitasjoner"
     },
     "settings": {
       "general": "Generelt",
@@ -219,7 +221,8 @@
       "appUrl": "App-URL (for e-postlenker)",
       "saveBtn": "Lagre innstillinger",
       "saved": "Innstillinger lagret",
-      "saveError": "Kunne ikke lagre innstillinger"
+      "saveError": "Kunne ikke lagre innstillinger",
+      "loadError": "Kunne ikke laste inn innstillinger"
     }
   },
   "lang": {

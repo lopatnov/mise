@@ -185,7 +185,8 @@
       "deleted": "Användare borttagen",
       "deleteError": "Det gick inte att ta bort användaren",
       "confirmDelete": "Ta bort den här användaren?",
-      "name": "Namn"
+      "name": "Namn",
+      "loadError": "Det gick inte att läsa in användare"
     },
     "invites": {
       "create": "Skapa inbjudningslänk",
@@ -195,12 +196,15 @@
       "linkReady": "Inbjudningslänk redo:",
       "copy": "Kopiera",
       "copied": "Kopierad!",
+      "copyError": "Det gick inte att kopiera länk",
       "active": "aktiva inbjudningar",
       "expires": "Löper ut",
       "empty": "Inga aktiva inbjudningar",
+      "revoke": "Återkalla inbjudan",
       "revoked": "Inbjudan återkallad",
       "revokeError": "Det gick inte att återkalla inbjudan",
-      "createError": "Det gick inte att skapa inbjudan"
+      "createError": "Det gick inte att skapa inbjudan",
+      "loadError": "Det gick inte att läsa in inbjudningar"
     },
     "settings": {
       "general": "Allmänt",
@@ -217,7 +221,8 @@
       "appUrl": "App-URL (för e-postlänkar)",
       "saveBtn": "Spara inställningar",
       "saved": "Inställningar sparade",
-      "saveError": "Det gick inte att spara inställningarna"
+      "saveError": "Det gick inte att spara inställningarna",
+      "loadError": "Det gick inte att läsa in inställningar"
     }
   },
   "lang": {

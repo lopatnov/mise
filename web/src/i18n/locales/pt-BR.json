@@ -185,7 +185,8 @@
       "deleted": "Usuário excluído",
       "deleteError": "Falha ao excluir usuário",
       "confirmDelete": "Excluir este usuário?",
-      "name": "Nome"
+      "name": "Nome",
+      "loadError": "Falha ao carregar usuários"
     },
     "invites": {
       "create": "Criar link de convite",
@@ -195,12 +196,15 @@
       "linkReady": "Link de convite pronto:",
       "copy": "Copiar",
       "copied": "Copiado!",
+      "copyError": "Falha ao copiar link",
       "active": "convites ativos",
       "expires": "Expira",
       "empty": "Nenhum convite ativo",
+      "revoke": "Revogar convite",
       "revoked": "Convite revogado",
       "revokeError": "Falha ao revogar convite",
-      "createError": "Falha ao criar convite"
+      "createError": "Falha ao criar convite",
+      "loadError": "Falha ao carregar convites"
     },
     "settings": {
       "general": "Geral",
@@ -217,7 +221,8 @@
       "appUrl": "URL do app (para links de e-mail)",
       "saveBtn": "Salvar configurações",
       "saved": "Configurações salvas",
-      "saveError": "Falha ao salvar configurações"
+      "saveError": "Falha ao salvar configurações",
+      "loadError": "Falha ao carregar configurações"
     }
   },
   "lang": {
