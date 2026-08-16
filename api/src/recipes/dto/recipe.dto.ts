@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
@@ -13,6 +13,7 @@ import {
   Max,
   MaxLength,
   Min,
+  ValidateNested,
 } from 'class-validator';
 
 export class IngredientDto {
@@ -53,12 +54,14 @@ export class CreateRecipeDto {
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
   @Type(() => IngredientDto)
   ingredients?: IngredientDto[];
 
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
   @Type(() => StepDto)
   steps?: StepDto[];
 
@@ -101,6 +104,17 @@ export class CreateRecipeDto {
   @IsString()
   externalImageUrl?: string;
 }
+
+/**
+ * PATCH body for updating a recipe. Deliberately a real class (not the TS-only `Partial<CreateRecipeDto>`
+ * this used to be) — a mapped-type alias like `Partial<X>` erases to `Object` in TypeScript's emitted
+ * reflection metadata, which makes Nest's global ValidationPipe skip validation entirely (its
+ * `toValidate()` check excludes `Object`), so the controller received the raw, unvalidated,
+ * un-whitelisted request body. `PartialType` generates an actual class carrying `CreateRecipeDto`'s own
+ * validators (each wrapped in `@IsOptional()`), so `whitelist: true` and every field constraint —
+ * including `StepDto.sourceOrder` — are actually enforced on update, the same as on create.
+ */
+export class UpdateRecipeDto extends PartialType(CreateRecipeDto) {}
 
 export class ImportUrlDto {
   @IsString() url: string;

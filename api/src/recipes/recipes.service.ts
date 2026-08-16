@@ -8,7 +8,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
-import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto, StepDto } from './dto/recipe.dto';
+import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto, StepDto, UpdateRecipeDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
 import { makeSlug } from './recipe-slug';
 
@@ -161,7 +161,7 @@ export class RecipesService implements OnModuleInit {
     throw lastError;
   }
 
-  async update(id: string, userId: string, isAdmin: boolean, dto: Partial<CreateRecipeDto>) {
+  async update(id: string, userId: string, isAdmin: boolean, dto: UpdateRecipeDto) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
     if (dto.steps) {
       // Steps are replaced wholesale — keep the photo already uploaded for each step, matched by the
