@@ -185,7 +185,8 @@
       "deleted": "Bruker slettet",
       "deleteError": "Kunne ikke slette bruker",
       "confirmDelete": "Slett denne brukeren?",
-      "name": "Navn"
+      "name": "Navn",
+      "loadError": "Kunne ikke laste inn brukere"
     },
     "invites": {
       "create": "Opprett invitasjonslenke",
@@ -195,6 +196,7 @@
       "linkReady": "Invitasjonslenke klar:",
       "copy": "Kopier",
       "copied": "Kopiert!",
+      "copyError": "Kunne ikke kopiere lenke",
       "active": "aktive invitasjoner",
       "expires": "Utløper",
       "empty": "Ingen aktive invitasjoner",

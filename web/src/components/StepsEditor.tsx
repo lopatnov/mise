@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDragReorder } from '../hooks/useDragReorder';
 
 export interface StepRow {
   _id: string;
@@ -16,37 +16,18 @@ export function newStepRow(): StepRow {
 /** Editable, drag-reorderable list of recipe steps. The list itself is owned by the form. */
 export default function StepsEditor({ steps, onChange }: { steps: StepRow[]; onChange: (next: StepRow[]) => void }) {
   const { t } = useTranslation();
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const { dragIndex, dragHandlers } = useDragReorder(steps, onChange);
 
   const add = () => onChange([...steps, newStepRow()]);
   const remove = (i: number) => onChange(steps.filter((_, idx) => idx !== i));
   const update = (i: number, text: string) => onChange(steps.map((s, idx) => (idx === i ? { ...s, text } : s)));
-
-  function move(from: number, to: number) {
-    if (from === to) return;
-    const next = [...steps];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    onChange(next);
-  }
 
   return (
     <fieldset>
       <legend className="field__label">{t('recipe.form.steps')}</legend>
       <ol className="drag-list">
         {steps.map((step, i) => (
-          <li
-            key={step._id}
-            className={`step-row${dragIndex === i ? ' is-dragging' : ''}`}
-            draggable
-            onDragStart={() => setDragIndex(i)}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => {
-              if (dragIndex !== null) move(dragIndex, i);
-              setDragIndex(null);
-            }}
-            onDragEnd={() => setDragIndex(null)}
-          >
+          <li key={step._id} className={`step-row${dragIndex === i ? ' is-dragging' : ''}`} {...dragHandlers(i)}>
             <span className="drag-handle drag-handle--top" aria-hidden="true">
               ⠿
             </span>

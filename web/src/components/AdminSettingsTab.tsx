@@ -12,7 +12,11 @@ export default function AdminSettingsTab() {
   const [form, setForm] = useState<Partial<AppSettings>>({});
   const [loaded, setLoaded] = useState(false);
 
-  const { data: settingsData } = useQuery({
+  const {
+    data: settingsData,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['admin', 'settings'],
     queryFn: adminApi.getSettings,
   });
@@ -33,7 +37,11 @@ export default function AdminSettingsTab() {
     onError: () => toast.error(t('admin.settings.saveError')),
   });
 
-  const set = (key: keyof AppSettings, val: string | boolean | number) => setForm((f) => ({ ...f, [key]: val }));
+  const set = (key: keyof AppSettings, val: string | boolean | number | undefined) =>
+    setForm((f) => ({ ...f, [key]: val }));
+
+  if (isLoading) return <p>{t('recipe.list.loading')}</p>;
+  if (isError) return <p className="admin-error">{t('admin.settings.loadError')}</p>;
 
   return (
     <div className="admin-section--narrow">
@@ -88,7 +96,7 @@ export default function AdminSettingsTab() {
                 id="s-smtpPort"
                 type="number"
                 value={form.smtpPort ?? ''}
-                onChange={(e) => set('smtpPort', Number(e.target.value))}
+                onChange={(e) => set('smtpPort', e.target.value === '' ? undefined : Number(e.target.value))}
                 placeholder="587"
               />
             </div>

@@ -185,7 +185,8 @@
       "deleted": "Korisnik izbrisan",
       "deleteError": "Nije moguće izbrisati korisnika",
       "confirmDelete": "Izbrisati ovog korisnika?",
-      "name": "Ime"
+      "name": "Ime",
+      "loadError": "Nije moguće učitati korisnike"
     },
     "invites": {
       "create": "Stvori pozivni link",
@@ -195,12 +196,15 @@
       "linkReady": "Pozivni link spreman:",
       "copy": "Kopiraj",
       "copied": "Kopirano!",
+      "copyError": "Nije moguće kopirati link",
       "active": "aktivne pozivnice",
       "expires": "Istječe",
       "empty": "Nema aktivnih pozivnica",
+      "revoke": "Opozovi pozivnicu",
       "revoked": "Pozivnica opozvana",
       "revokeError": "Nije moguće opozvati pozivnicu",
-      "createError": "Nije moguće stvoriti pozivnicu"
+      "createError": "Nije moguće stvoriti pozivnicu",
+      "loadError": "Nije moguće učitati pozivnice"
     },
     "settings": {
       "general": "Općenito",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplikacije (za e-mail linkove)",
       "saveBtn": "Spremi postavke",
       "saved": "Postavke spremljene",
-      "saveError": "Nije moguće spremiti postavke"
+      "saveError": "Nije moguće spremiti postavke",
+      "loadError": "Nije moguće učitati postavke"
     }
   },
   "lang": {

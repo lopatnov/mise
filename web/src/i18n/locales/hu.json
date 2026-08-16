@@ -185,7 +185,8 @@
       "deleted": "Felhasználó törölve",
       "deleteError": "A felhasználó törlése sikertelen",
       "confirmDelete": "Törli ezt a felhasználót?",
-      "name": "Név"
+      "name": "Név",
+      "loadError": "A felhasználók betöltése sikertelen"
     },
     "invites": {
       "create": "Meghívó link létrehozása",
@@ -195,12 +196,15 @@
       "linkReady": "Meghívó link készen áll:",
       "copy": "Másolás",
       "copied": "Másolva!",
+      "copyError": "A link másolása sikertelen",
       "active": "aktív meghívók",
       "expires": "Lejárat",
       "empty": "Nincs aktív meghívó",
+      "revoke": "Meghívó visszavonása",
       "revoked": "Meghívó visszavonva",
       "revokeError": "A meghívó visszavonása sikertelen",
-      "createError": "A meghívó létrehozása sikertelen"
+      "createError": "A meghívó létrehozása sikertelen",
+      "loadError": "A meghívók betöltése sikertelen"
     },
     "settings": {
       "general": "Általános",
@@ -217,7 +221,8 @@
       "appUrl": "Alkalmazás URL (e-mail linkekhez)",
       "saveBtn": "Beállítások mentése",
       "saved": "Beállítások mentve",
-      "saveError": "A beállítások mentése sikertelen"
+      "saveError": "A beállítások mentése sikertelen",
+      "loadError": "A beállítások betöltése sikertelen"
     }
   },
   "lang": {

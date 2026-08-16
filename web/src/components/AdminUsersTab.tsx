@@ -11,7 +11,11 @@ export default function AdminUsersTab() {
   const toast = useToast();
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
-  const { data: users, isLoading } = useQuery({
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['admin', 'users'],
     queryFn: adminApi.listUsers,
   });
@@ -39,6 +43,7 @@ export default function AdminUsersTab() {
   });
 
   if (isLoading) return <p>{t('recipe.list.loading')}</p>;
+  if (isError) return <p className="admin-error">{t('admin.users.loadError')}</p>;
 
   return (
     <div>
@@ -85,6 +90,7 @@ export default function AdminUsersTab() {
                   onClick={() => setConfirmDeleteId(u._id)}
                   className="btn-danger"
                   title={t('recipe.detail.delete')}
+                  aria-label={t('recipe.detail.delete')}
                 >
                   🗑
                 </button>

@@ -185,7 +185,8 @@
       "deleted": "Gebruiker verwijderd",
       "deleteError": "Gebruiker verwijderen mislukt",
       "confirmDelete": "Deze gebruiker verwijderen?",
-      "name": "Naam"
+      "name": "Naam",
+      "loadError": "Gebruikers laden mislukt"
     },
     "invites": {
       "create": "Uitnodigingslink aanmaken",
@@ -195,12 +196,15 @@
       "linkReady": "Uitnodigingslink klaar:",
       "copy": "Kopiëren",
       "copied": "Gekopieerd!",
+      "copyError": "Link kopiëren mislukt",
       "active": "actieve uitnodigingen",
       "expires": "Verloopt",
       "empty": "Geen actieve uitnodigingen",
+      "revoke": "Uitnodiging intrekken",
       "revoked": "Uitnodiging ingetrokken",
       "revokeError": "Uitnodiging intrekken mislukt",
-      "createError": "Uitnodiging aanmaken mislukt"
+      "createError": "Uitnodiging aanmaken mislukt",
+      "loadError": "Uitnodigingen laden mislukt"
     },
     "settings": {
       "general": "Algemeen",
@@ -217,7 +221,8 @@
       "appUrl": "App-URL (voor links in e-mails)",
       "saveBtn": "Instellingen opslaan",
       "saved": "Instellingen opgeslagen",
-      "saveError": "Instellingen opslaan mislukt"
+      "saveError": "Instellingen opslaan mislukt",
+      "loadError": "Instellingen laden mislukt"
     }
   },
   "lang": {

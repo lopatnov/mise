@@ -16,13 +16,20 @@ export default function AdminInvitesTab() {
   const [days, setDays] = useState('7');
   const [newInvite, setNewInvite] = useState<{ token: string } | null>(null);
 
-  const { data: invites, isLoading } = useQuery({
+  const {
+    data: invites,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['admin', 'invites'],
     queryFn: adminApi.listInvites,
   });
 
+  const parsedDays = Number(days);
+  const isDaysValid = days.trim() !== '' && Number.isInteger(parsedDays) && parsedDays >= 1 && parsedDays <= 30;
+
   const createMut = useMutation({
-    mutationFn: () => adminApi.createInvite({ email: email || undefined, expiresInDays: Number(days) }),
+    mutationFn: () => adminApi.createInvite({ email: email || undefined, expiresInDays: parsedDays }),
     onSuccess: (inv) => {
       qc.invalidateQueries({ queryKey: ['admin', 'invites'] });
       setNewInvite(inv);
@@ -71,7 +78,7 @@ export default function AdminInvitesTab() {
               className="input--narrow"
             />
           </div>
-          <button type="button" onClick={() => createMut.mutate()} disabled={createMut.isPending}>
+          <button type="button" onClick={() => createMut.mutate()} disabled={createMut.isPending || !isDaysValid}>
             {t('admin.invites.generateBtn')}
           </button>
         </div>
@@ -83,8 +90,10 @@ export default function AdminInvitesTab() {
             <button
               type="button"
               onClick={() => {
-                void navigator.clipboard.writeText(inviteLink(newInvite.token));
-                toast.success(t('admin.invites.copied'));
+                navigator.clipboard.writeText(inviteLink(newInvite.token)).then(
+                  () => toast.success(t('admin.invites.copied')),
+                  () => toast.error(t('admin.invites.copyError')),
+                );
               }}
               className="outline btn-sm invite-copy-btn"
             >
@@ -96,6 +105,8 @@ export default function AdminInvitesTab() {
 
       {isLoading ? (
         <p>{t('recipe.list.loading')}</p>
+      ) : isError ? (
+        <p className="admin-error">{t('admin.invites.loadError')}</p>
       ) : (
         <div>
           <p className="admin-stat">
@@ -110,7 +121,13 @@ export default function AdminInvitesTab() {
                   {t('admin.invites.expires')}: {new Date(inv.expiresAt).toLocaleDateString()}
                 </span>
               </div>
-              <button type="button" onClick={() => deleteMut.mutate(inv._id)} className="btn-danger">
+              <button
+                type="button"
+                onClick={() => deleteMut.mutate(inv._id)}
+                className="btn-danger"
+                title={t('admin.invites.revoke')}
+                aria-label={t('admin.invites.revoke')}
+              >
                 🗑
               </button>
             </div>

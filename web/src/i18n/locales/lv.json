@@ -185,7 +185,8 @@
       "deleted": "Lietotājs dzēsts",
       "deleteError": "Neizdevās dzēst lietotāju",
       "confirmDelete": "Dzēst šo lietotāju?",
-      "name": "Vārds"
+      "name": "Vārds",
+      "loadError": "Neizdevās ielādēt lietotājus"
     },
     "invites": {
       "create": "Izveidot uzaicinājuma saiti",
@@ -195,12 +196,15 @@
       "linkReady": "Uzaicinājuma saite gatava:",
       "copy": "Kopēt",
       "copied": "Nokopēts!",
+      "copyError": "Neizdevās kopēt saiti",
       "active": "aktīvi uzaicinājumi",
       "expires": "Beidzas",
       "empty": "Nav aktīvu uzaicinājumu",
+      "revoke": "Atsaukt uzaicinājumu",
       "revoked": "Uzaicinājums atsaukts",
       "revokeError": "Neizdevās atsaukt uzaicinājumu",
-      "createError": "Neizdevās izveidot uzaicinājumu"
+      "createError": "Neizdevās izveidot uzaicinājumu",
+      "loadError": "Neizdevās ielādēt uzaicinājumus"
     },
     "settings": {
       "general": "Vispārīgi",
@@ -217,7 +221,8 @@
       "appUrl": "Lietotnes URL (e-pasta saitēm)",
       "saveBtn": "Saglabāt iestatījumus",
       "saved": "Iestatījumi saglabāti",
-      "saveError": "Neizdevās saglabāt iestatījumus"
+      "saveError": "Neizdevās saglabāt iestatījumus",
+      "loadError": "Neizdevās ielādēt iestatījumus"
     }
   },
   "lang": {

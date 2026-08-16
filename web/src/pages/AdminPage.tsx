@@ -29,6 +29,7 @@ export default function AdminPage() {
             type="button"
             key={tabId}
             onClick={() => setTab(tabId)}
+            aria-current={tab === tabId}
             className={`tab-btn${tab === tabId ? ' tab-btn--active' : ''}`}
           >
             {t(`admin.tab.${tabId}`)}

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDragReorder } from '../hooks/useDragReorder';
 
 export interface IngredientRow {
   _id: string;
@@ -21,38 +21,19 @@ export default function IngredientsEditor({
   onChange: (next: IngredientRow[]) => void;
 }) {
   const { t } = useTranslation();
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const { dragIndex, dragHandlers } = useDragReorder(ingredients, onChange);
 
   const add = () => onChange([...ingredients, newIngredientRow()]);
   const remove = (i: number) => onChange(ingredients.filter((_, idx) => idx !== i));
   const update = (i: number, patch: Partial<IngredientRow>) =>
     onChange(ingredients.map((ing, idx) => (idx === i ? { ...ing, ...patch } : ing)));
 
-  function move(from: number, to: number) {
-    if (from === to) return;
-    const next = [...ingredients];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    onChange(next);
-  }
-
   return (
     <fieldset>
       <legend className="field__label">{t('recipe.form.ingredients')}</legend>
       <ol className="drag-list">
         {ingredients.map((ing, i) => (
-          <li
-            key={ing._id}
-            className={`ingredient-row${dragIndex === i ? ' is-dragging' : ''}`}
-            draggable
-            onDragStart={() => setDragIndex(i)}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => {
-              if (dragIndex !== null) move(dragIndex, i);
-              setDragIndex(null);
-            }}
-            onDragEnd={() => setDragIndex(null)}
-          >
+          <li key={ing._id} className={`ingredient-row${dragIndex === i ? ' is-dragging' : ''}`} {...dragHandlers(i)}>
             <span className="drag-handle" aria-hidden="true">
               ⠿
             </span>

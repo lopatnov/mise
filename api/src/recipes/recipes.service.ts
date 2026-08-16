@@ -180,11 +180,15 @@ export class RecipesService implements OnModuleInit {
       const keptPhotoOf = (s: StepDto): string | undefined =>
         s.sourceOrder === undefined ? undefined : photoByOrder.get(s.sourceOrder);
       const steps = await Promise.all(
-        dto.steps.map(async (s) => ({
-          order: s.order,
-          text: s.text,
-          photoUrl: s.externalImageUrl ? await this.uploads.savePhotoFromUrl(s.externalImageUrl) : keptPhotoOf(s),
-        })),
+        dto.steps.map(async (s) => {
+          // savePhotoFromUrl resolves undefined on an SSRF block, a non-ok response, an unsupported
+          // MIME type, or a fetch error — that must fall back to the kept photo, not be treated as
+          // "no photo", or a failed re-fetch of a still-working externalImageUrl would drop it.
+          const fetchedPhotoUrl = s.externalImageUrl
+            ? await this.uploads.savePhotoFromUrl(s.externalImageUrl)
+            : undefined;
+          return { order: s.order, text: s.text, photoUrl: fetchedPhotoUrl ?? keptPhotoOf(s) };
+        }),
       );
       recipe.set('steps', steps);
       const { steps: _steps, ...rest } = dto;

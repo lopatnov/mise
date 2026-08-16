@@ -451,6 +451,21 @@ describe('RecipesService', () => {
       expect(mockUploadsService.deletePhoto).toHaveBeenCalledWith('/uploads/photo1.jpg');
     });
 
+    it('keeps the existing photo when a re-fetch of externalImageUrl fails, instead of dropping it', async () => {
+      const doc = docWithSteps([{ order: 1, text: 'A', photoUrl: '/uploads/photo1.jpg' }]);
+      mockModel.findById.mockReturnValue(mockQuery(doc));
+      // SSRF block, non-ok response, unsupported MIME type, or a thrown error all resolve undefined.
+      mockUploadsService.savePhotoFromUrl.mockResolvedValueOnce(undefined);
+
+      await service.update(recipeId, userId, false, {
+        steps: [{ order: 1, text: 'A', sourceOrder: 1, externalImageUrl: 'https://example.com/broken.jpg' }],
+      } as Parameters<typeof service.update>[3]);
+
+      const savedSteps = doc.set.mock.calls[0][1] as { order: number; text: string; photoUrl?: string }[];
+      expect(savedSteps[0].photoUrl).toBe('/uploads/photo1.jpg');
+      expect(mockUploadsService.deletePhoto).not.toHaveBeenCalled();
+    });
+
     it('cleans up both photos of two malformed old steps sharing the same order, not just one', async () => {
       // Two stored steps sharing an order is malformed (StepDto doesn't enforce uniqueness) — cleanup
       // must not rely on the order-keyed Map, which would collapse them and drop one photo silently.

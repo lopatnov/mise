@@ -73,6 +73,40 @@ describe('AdminService', () => {
     });
   });
 
+  // ── getSettingsForClient / updateSettings — smtpPass must never reach the browser ─────────────
+
+  describe('getSettingsForClient', () => {
+    it('omits smtpPass from the settings sent to the admin UI', async () => {
+      const settings = { allowRegistration: true, smtpHost: 'smtp.example.com', smtpPass: 'secret' };
+      mockSettingsModel.findOne.mockReturnValue({ lean: () => Promise.resolve(settings) });
+
+      const result = await service.getSettingsForClient();
+
+      expect(result).toEqual({ allowRegistration: true, smtpHost: 'smtp.example.com' });
+      expect(result).not.toHaveProperty('smtpPass');
+    });
+  });
+
+  describe('updateSettings', () => {
+    it('omits smtpPass from the updated settings it returns, even when a new one was just saved', async () => {
+      const existing = {
+        smtpHost: 'old.example.com',
+        smtpPass: 'old-secret',
+        save: jest.fn().mockResolvedValue(undefined),
+        toObject() {
+          return { smtpHost: this.smtpHost, smtpPass: this.smtpPass };
+        },
+      };
+      mockSettingsModel.findOne.mockResolvedValue(existing);
+
+      const result = await service.updateSettings({ smtpHost: 'new.example.com', smtpPass: 'new-secret' });
+
+      expect(existing.smtpPass).toBe('new-secret'); // the new password was saved...
+      expect(result).not.toHaveProperty('smtpPass'); // ...but never returned to the caller
+      expect(result).toEqual({ smtpHost: 'new.example.com' });
+    });
+  });
+
   // ── createInvite ─────────────────────────────────────────────────────────────
 
   describe('createInvite', () => {
