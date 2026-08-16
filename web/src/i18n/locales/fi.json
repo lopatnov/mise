@@ -185,7 +185,8 @@
       "deleted": "Käyttäjä poistettu",
       "deleteError": "Käyttäjän poistaminen epäonnistui",
       "confirmDelete": "Poista tämä käyttäjä?",
-      "name": "Nimi"
+      "name": "Nimi",
+      "loadError": "Käyttäjien lataaminen epäonnistui"
     },
     "invites": {
       "create": "Luo kutsulink​ki",
@@ -195,12 +196,15 @@
       "linkReady": "Kutsulink​ki valmis:",
       "copy": "Kopioi",
       "copied": "Kopioitu!",
+      "copyError": "Linkin kopiointi epäonnistui",
       "active": "aktiivista kutsua",
       "expires": "Vanhenee",
       "empty": "Ei aktiivisia kutsuja",
+      "revoke": "Peruuta kutsu",
       "revoked": "Kutsu peruutettu",
       "revokeError": "Kutsun peruuttaminen epäonnistui",
-      "createError": "Kutsun luominen epäonnistui"
+      "createError": "Kutsun luominen epäonnistui",
+      "loadError": "Kutsujen lataaminen epäonnistui"
     },
     "settings": {
       "general": "Yleiset",
@@ -217,7 +221,8 @@
       "appUrl": "Sovelluksen URL (sähköpostilinkkejä varten)",
       "saveBtn": "Tallenna asetukset",
       "saved": "Asetukset tallennettu",
-      "saveError": "Asetusten tallennus epäonnistui"
+      "saveError": "Asetusten tallennus epäonnistui",
+      "loadError": "Asetusten lataaminen epäonnistui"
     }
   },
   "lang": {

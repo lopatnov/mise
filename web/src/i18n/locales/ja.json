@@ -185,7 +185,8 @@
       "deleted": "ユーザーを削除しました",
       "deleteError": "ユーザーの削除に失敗しました",
       "confirmDelete": "このユーザーを削除しますか？",
-      "name": "名前"
+      "name": "名前",
+      "loadError": "ユーザーの読み込みに失敗しました"
     },
     "invites": {
       "create": "招待リンクを作成",
@@ -195,12 +196,15 @@
       "linkReady": "招待リンクの準備ができました：",
       "copy": "コピー",
       "copied": "コピーしました！",
+      "copyError": "リンクのコピーに失敗しました",
       "active": "有効な招待",
       "expires": "有効期限",
       "empty": "有効な招待はありません",
+      "revoke": "招待を取り消す",
       "revoked": "招待を取り消しました",
       "revokeError": "招待の取り消しに失敗しました",
-      "createError": "招待の作成に失敗しました"
+      "createError": "招待の作成に失敗しました",
+      "loadError": "招待の読み込みに失敗しました"
     },
     "settings": {
       "general": "一般",
@@ -217,7 +221,8 @@
       "appUrl": "アプリURL（メールリンク用）",
       "saveBtn": "設定を保存",
       "saved": "設定を保存しました",
-      "saveError": "設定の保存に失敗しました"
+      "saveError": "設定の保存に失敗しました",
+      "loadError": "設定の読み込みに失敗しました"
     }
   },
   "lang": {

@@ -185,7 +185,8 @@
       "deleted": "Utilisateur supprimé",
       "deleteError": "Échec de la suppression de l'utilisateur",
       "confirmDelete": "Supprimer cet utilisateur ?",
-      "name": "Nom"
+      "name": "Nom",
+      "loadError": "Échec du chargement des utilisateurs"
     },
     "invites": {
       "create": "Créer un lien d'invitation",
@@ -195,12 +196,15 @@
       "linkReady": "Lien d'invitation prêt :",
       "copy": "Copier",
       "copied": "Copié !",
+      "copyError": "Échec de la copie du lien",
       "active": "invitations actives",
       "expires": "Expire le",
       "empty": "Aucune invitation active",
+      "revoke": "Révoquer l'invitation",
       "revoked": "Invitation révoquée",
       "revokeError": "Échec de la révocation de l'invitation",
-      "createError": "Échec de la création de l'invitation"
+      "createError": "Échec de la création de l'invitation",
+      "loadError": "Échec du chargement des invitations"
     },
     "settings": {
       "general": "Général",
@@ -217,7 +221,8 @@
       "appUrl": "URL de l'application (pour les liens dans les e-mails)",
       "saveBtn": "Enregistrer les paramètres",
       "saved": "Paramètres enregistrés",
-      "saveError": "Échec de l'enregistrement des paramètres"
+      "saveError": "Échec de l'enregistrement des paramètres",
+      "loadError": "Échec du chargement des paramètres"
     }
   },
   "lang": {

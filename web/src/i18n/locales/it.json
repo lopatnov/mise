@@ -185,7 +185,8 @@
       "deleted": "Utente eliminato",
       "deleteError": "Impossibile eliminare l'utente",
       "confirmDelete": "Eliminare questo utente?",
-      "name": "Nome"
+      "name": "Nome",
+      "loadError": "Impossibile caricare gli utenti"
     },
     "invites": {
       "create": "Crea link di invito",
@@ -195,12 +196,15 @@
       "linkReady": "Link di invito pronto:",
       "copy": "Copia",
       "copied": "Copiato!",
+      "copyError": "Impossibile copiare il link",
       "active": "inviti attivi",
       "expires": "Scade",
       "empty": "Nessun invito attivo",
+      "revoke": "Revoca invito",
       "revoked": "Invito revocato",
       "revokeError": "Impossibile revocare l'invito",
-      "createError": "Impossibile creare l'invito"
+      "createError": "Impossibile creare l'invito",
+      "loadError": "Impossibile caricare gli inviti"
     },
     "settings": {
       "general": "Generale",
@@ -217,7 +221,8 @@
       "appUrl": "URL dell'app (per i link nelle e-mail)",
       "saveBtn": "Salva impostazioni",
       "saved": "Impostazioni salvate",
-      "saveError": "Impossibile salvare le impostazioni"
+      "saveError": "Impossibile salvare le impostazioni",
+      "loadError": "Impossibile caricare le impostazioni"
     }
   },
   "lang": {

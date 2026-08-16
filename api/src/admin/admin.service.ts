@@ -47,15 +47,25 @@ export class AdminService {
     return settings;
   }
 
+  /** Settings for the admin UI — the stored SMTP password never round-trips to the browser */
+  async getSettingsForClient() {
+    return this.redactSmtpPass(await this.getSettings());
+  }
+
   async updateSettings(dto: UpdateSettingsDto) {
     const settings = await this.settingsModel.findOne();
     if (!settings) {
       const created = await this.settingsModel.create(dto);
-      return created.toObject();
+      return this.redactSmtpPass(created.toObject());
     }
     Object.assign(settings, dto);
     await settings.save();
-    return settings.toObject();
+    return this.redactSmtpPass(settings.toObject());
+  }
+
+  private redactSmtpPass<T extends { smtpPass?: string }>(settings: T): Omit<T, 'smtpPass'> {
+    const { smtpPass: _smtpPass, ...rest } = settings;
+    return rest;
   }
 
   // ── Invites ────────────────────────────────────────────────

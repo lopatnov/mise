@@ -42,12 +42,12 @@ export class AdminController {
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Get('settings')
-  @ApiOperation({ summary: 'Get full app settings including SMTP config (admin only)' })
-  @ApiResponse({ status: 200, description: 'Full settings document' })
+  @ApiOperation({ summary: 'Get app settings (admin only) — smtpPass is redacted, never sent to the client' })
+  @ApiResponse({ status: 200, description: 'Settings document, without smtpPass' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Admin role required' })
   getSettings() {
-    return this.adminService.getSettings();
+    return this.adminService.getSettingsForClient();
   }
 
   @ApiBearerAuth()

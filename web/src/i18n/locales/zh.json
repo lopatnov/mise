@@ -185,7 +185,8 @@
       "deleted": "用户已删除",
       "deleteError": "删除用户失败",
       "confirmDelete": "删除此用户？",
-      "name": "姓名"
+      "name": "姓名",
+      "loadError": "加载用户失败"
     },
     "invites": {
       "create": "创建邀请链接",
@@ -195,12 +196,15 @@
       "linkReady": "邀请链接已生成：",
       "copy": "复制",
       "copied": "已复制！",
+      "copyError": "复制链接失败",
       "active": "有效邀请",
       "expires": "到期",
       "empty": "没有有效邀请",
+      "revoke": "撤销邀请",
       "revoked": "邀请已撤销",
       "revokeError": "撤销邀请失败",
-      "createError": "创建邀请失败"
+      "createError": "创建邀请失败",
+      "loadError": "加载邀请失败"
     },
     "settings": {
       "general": "常规",
@@ -217,7 +221,8 @@
       "appUrl": "应用 URL（用于邮件链接）",
       "saveBtn": "保存设置",
       "saved": "设置已保存",
-      "saveError": "保存设置失败"
+      "saveError": "保存设置失败",
+      "loadError": "加载设置失败"
     }
   },
   "lang": {

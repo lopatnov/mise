@@ -185,7 +185,8 @@
       "deleted": "Používateľ odstránený",
       "deleteError": "Odstránenie používateľa zlyhalo",
       "confirmDelete": "Odstrániť tohto používateľa?",
-      "name": "Meno"
+      "name": "Meno",
+      "loadError": "Načítanie používateľov zlyhalo"
     },
     "invites": {
       "create": "Vytvoriť pozývací odkaz",
@@ -195,12 +196,15 @@
       "linkReady": "Pozývací odkaz pripravený:",
       "copy": "Kopírovať",
       "copied": "Skopírované!",
+      "copyError": "Kopírovanie odkazu zlyhalo",
       "active": "aktívne pozvánky",
       "expires": "Platnosť do",
       "empty": "Žiadne aktívne pozvánky",
+      "revoke": "Zrušiť pozvánku",
       "revoked": "Pozvánka zrušená",
       "revokeError": "Zrušenie pozvánky zlyhalo",
-      "createError": "Vytvorenie pozvánky zlyhalo"
+      "createError": "Vytvorenie pozvánky zlyhalo",
+      "loadError": "Načítanie pozván zlyhalo"
     },
     "settings": {
       "general": "Všeobecné",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplikácie (pre e-mailové odkazy)",
       "saveBtn": "Uložiť nastavenia",
       "saved": "Nastavenia uložené",
-      "saveError": "Uloženie nastavení zlyhalo"
+      "saveError": "Uloženie nastavení zlyhalo",
+      "loadError": "Načítanie nastavení zlyhalo"
     }
   },
   "lang": {

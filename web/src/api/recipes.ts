@@ -10,6 +10,8 @@ export interface Step {
   text: string;
   photoUrl?: string;
   externalImageUrl?: string;
+  /** Request-only: the order this step had before the edit, so the server keeps its uploaded photo */
+  sourceOrder?: number;
 }
 export interface CookNote {
   _id: string;

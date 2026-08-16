@@ -185,7 +185,8 @@
       "deleted": "사용자가 삭제되었습니다",
       "deleteError": "사용자 삭제 실패",
       "confirmDelete": "이 사용자를 삭제하시겠습니까?",
-      "name": "이름"
+      "name": "이름",
+      "loadError": "사용자 로드 실패"
     },
     "invites": {
       "create": "초대 링크 만들기",
@@ -195,12 +196,15 @@
       "linkReady": "초대 링크가 준비되었습니다:",
       "copy": "복사",
       "copied": "복사되었습니다!",
+      "copyError": "링크 복사 실패",
       "active": "활성 초대",
       "expires": "만료",
       "empty": "활성 초대가 없습니다",
+      "revoke": "초대 취소",
       "revoked": "초대가 취소되었습니다",
       "revokeError": "초대 취소 실패",
-      "createError": "초대 생성 실패"
+      "createError": "초대 생성 실패",
+      "loadError": "초대 로드 실패"
     },
     "settings": {
       "general": "일반",
@@ -217,7 +221,8 @@
       "appUrl": "앱 URL (이메일 링크용)",
       "saveBtn": "설정 저장",
       "saved": "설정이 저장되었습니다",
-      "saveError": "설정 저장 실패"
+      "saveError": "설정 저장 실패",
+      "loadError": "설정 로드 실패"
     }
   },
   "lang": {

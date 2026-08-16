@@ -185,7 +185,8 @@
       "deleted": "Użytkownik usunięty",
       "deleteError": "Nie udało się usunąć użytkownika",
       "confirmDelete": "Usunąć tego użytkownika?",
-      "name": "Nazwa"
+      "name": "Nazwa",
+      "loadError": "Nie udało się załadować użytkowników"
     },
     "invites": {
       "create": "Utwórz link zaproszenia",
@@ -195,12 +196,15 @@
       "linkReady": "Link zaproszenia gotowy:",
       "copy": "Kopiuj",
       "copied": "Skopiowano!",
+      "copyError": "Nie udało się skopiować linku",
       "active": "aktywne zaproszenia",
       "expires": "Wygasa",
       "empty": "Brak aktywnych zaproszeń",
+      "revoke": "Cofnij zaproszenie",
       "revoked": "Zaproszenie cofnięte",
       "revokeError": "Nie udało się cofnąć zaproszenia",
-      "createError": "Nie udało się utworzyć zaproszenia"
+      "createError": "Nie udało się utworzyć zaproszenia",
+      "loadError": "Nie udało się załadować zaproszenia"
     },
     "settings": {
       "general": "Ogólne",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplikacji (dla linków w e-mailach)",
       "saveBtn": "Zapisz ustawienia",
       "saved": "Ustawienia zapisane",
-      "saveError": "Nie udało się zapisać ustawień"
+      "saveError": "Nie udało się zapisać ustawień",
+      "loadError": "Nie udało się załadować ustawienia"
     }
   },
   "lang": {

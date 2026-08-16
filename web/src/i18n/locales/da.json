@@ -185,7 +185,8 @@
       "deleted": "Bruger slettet",
       "deleteError": "Kunne ikke slette bruger",
       "confirmDelete": "Slet denne bruger?",
-      "name": "Navn"
+      "name": "Navn",
+      "loadError": "Kunne ikke indlæse brugere"
     },
     "invites": {
       "create": "Opret invitationslink",
@@ -195,12 +196,15 @@
       "linkReady": "Invitationslink klar:",
       "copy": "Kopiér",
       "copied": "Kopieret!",
+      "copyError": "Kunne ikke kopiere link",
       "active": "aktive invitationer",
       "expires": "Udløber",
       "empty": "Ingen aktive invitationer",
+      "revoke": "Tilbagekald invitation",
       "revoked": "Invitation tilbagekaldt",
       "revokeError": "Kunne ikke tilbagekalde invitation",
-      "createError": "Kunne ikke oprette invitation"
+      "createError": "Kunne ikke oprette invitation",
+      "loadError": "Kunne ikke indlæse invitationer"
     },
     "settings": {
       "general": "Generelt",
@@ -217,7 +221,8 @@
       "appUrl": "App-URL (til e-maillinks)",
       "saveBtn": "Gem indstillinger",
       "saved": "Indstillinger gemt",
-      "saveError": "Kunne ikke gemme indstillinger"
+      "saveError": "Kunne ikke gemme indstillinger",
+      "loadError": "Kunne ikke indlæse indstillinger"
     }
   },
   "lang": {

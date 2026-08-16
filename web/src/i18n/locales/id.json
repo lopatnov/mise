@@ -185,7 +185,8 @@
       "deleted": "Pengguna dihapus",
       "deleteError": "Gagal menghapus pengguna",
       "confirmDelete": "Hapus pengguna ini?",
-      "name": "Nama"
+      "name": "Nama",
+      "loadError": "Gagal memuat pengguna"
     },
     "invites": {
       "create": "Buat tautan undangan",
@@ -195,12 +196,15 @@
       "linkReady": "Tautan undangan siap:",
       "copy": "Salin",
       "copied": "Disalin!",
+      "copyError": "Gagal menyalin tautan",
       "active": "undangan aktif",
       "expires": "Kedaluwarsa",
       "empty": "Tidak ada undangan aktif",
+      "revoke": "Cabut undangan",
       "revoked": "Undangan dicabut",
       "revokeError": "Gagal mencabut undangan",
-      "createError": "Gagal membuat undangan"
+      "createError": "Gagal membuat undangan",
+      "loadError": "Gagal memuat undangan"
     },
     "settings": {
       "general": "Umum",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplikasi (untuk tautan email)",
       "saveBtn": "Simpan pengaturan",
       "saved": "Pengaturan disimpan",
-      "saveError": "Gagal menyimpan pengaturan"
+      "saveError": "Gagal menyimpan pengaturan",
+      "loadError": "Gagal memuat pengaturan"
     }
   },
   "lang": {

@@ -8,7 +8,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { type Model, Types } from 'mongoose';
 import { UploadsService } from '../uploads/uploads.service';
-import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto } from './dto/recipe.dto';
+import type { AddCookNoteDto, CreateRecipeDto, RecipeQueryDto, StepDto, UpdateRecipeDto } from './dto/recipe.dto';
 import { Recipe, type RecipeDocument } from './recipe.schema';
 import { makeSlug } from './recipe-slug';
 
@@ -161,28 +161,57 @@ export class RecipesService implements OnModuleInit {
     throw lastError;
   }
 
-  async update(id: string, userId: string, isAdmin: boolean, dto: Partial<CreateRecipeDto>) {
+  async update(id: string, userId: string, isAdmin: boolean, dto: UpdateRecipeDto) {
     const recipe = await this.findOwnedOrFail(id, userId, isAdmin);
     if (dto.steps) {
-      // Steps are replaced wholesale — keep the photo already uploaded for each position, unless
-      // the update supplies a new externalImageUrl for that step, matching create()'s behavior
+      // Steps are replaced wholesale — keep the photo already uploaded for each step, matched by the
+      // order that step had before this edit (sourceOrder), so reordering or removing steps doesn't
+      // hand a photo to a different step. A new externalImageUrl still wins, matching create().
+      // Captured before recipe.set('steps', ...) below overwrites recipe.steps with the new array —
+      // this list (not photoByOrder, which dedupes by order) is what cleanup diffs against, so a
+      // malformed payload with two old steps sharing an order can't drop one of their photos from it.
+      const previousPhotoUrls = recipe.steps.map((s) => s.photoUrl as string | undefined);
       const photoByOrder = new Map(recipe.steps.map((s) => [s.order, s.photoUrl as string | undefined]));
+      // A step without sourceOrder was just added by this edit and starts photoless — it must never
+      // inherit whatever photo happened to sit at that array position. No positional fallback: web
+      // and api ship together (nginx serves web/dist alongside the api), so the only "old client" is
+      // a browser tab left open across a deploy, and losing (not misattributing) a step photo on its
+      // next save is a visible, recoverable degradation, not silent data corruption.
+      const keptPhotoOf = (s: StepDto): string | undefined =>
+        s.sourceOrder === undefined ? undefined : photoByOrder.get(s.sourceOrder);
       const steps = await Promise.all(
-        dto.steps.map(async (s) => ({
-          order: s.order,
-          text: s.text,
-          photoUrl: s.externalImageUrl
+        dto.steps.map(async (s) => {
+          // savePhotoFromUrl resolves undefined on an SSRF block, a non-ok response, an unsupported
+          // MIME type, or a fetch error — that must fall back to the kept photo, not be treated as
+          // "no photo", or a failed re-fetch of a still-working externalImageUrl would drop it.
+          const fetchedPhotoUrl = s.externalImageUrl
             ? await this.uploads.savePhotoFromUrl(s.externalImageUrl)
-            : photoByOrder.get(s.order),
-        })),
+            : undefined;
+          return { order: s.order, text: s.text, photoUrl: fetchedPhotoUrl ?? keptPhotoOf(s) };
+        }),
       );
       recipe.set('steps', steps);
       const { steps: _steps, ...rest } = dto;
       Object.assign(recipe, rest);
-    } else {
-      Object.assign(recipe, dto);
+      const saved = await recipe.save();
+      // Only after the save succeeds: photos of steps this update dropped (or replaced) are no
+      // longer referenced by the document, so their files would otherwise stay behind forever.
+      await this.deleteUnreferencedPhotos(previousPhotoUrls, steps);
+      return saved;
     }
+    Object.assign(recipe, dto);
     return recipe.save();
+  }
+
+  /** Delete previously stored photo files that no step of the saved recipe points at any more */
+  private async deleteUnreferencedPhotos(
+    previousPhotoUrls: Iterable<string | undefined>,
+    steps: { photoUrl?: string }[],
+  ) {
+    const stillUsed = new Set(steps.map((s) => s.photoUrl).filter(Boolean));
+    for (const photoUrl of previousPhotoUrls) {
+      if (photoUrl && !stillUsed.has(photoUrl)) await this.uploads.deletePhoto(photoUrl);
+    }
   }
 
   async remove(id: string, userId: string, isAdmin: boolean) {

@@ -185,7 +185,8 @@
       "deleted": "Vartotojas ištrintas",
       "deleteError": "Nepavyko ištrinti vartotojo",
       "confirmDelete": "Ištrinti šį vartotoją?",
-      "name": "Vardas"
+      "name": "Vardas",
+      "loadError": "Nepavyko nuo krautti vartotojus"
     },
     "invites": {
       "create": "Sukurti pakvietimo nuorodą",
@@ -195,12 +196,15 @@
       "linkReady": "Pakvietimo nuoroda paruošta:",
       "copy": "Kopijuoti",
       "copied": "Nukopijuota!",
+      "copyError": "Nepavyko nukopijuoti nuorodos",
       "active": "aktyvūs pakvietimai",
       "expires": "Galioja iki",
       "empty": "Nėra aktyvių pakvietimų",
+      "revoke": "Atšaukti pakvietimą",
       "revoked": "Pakvietimas atšauktas",
       "revokeError": "Nepavyko atšaukti pakvietimo",
-      "createError": "Nepavyko sukurti pakvietimo"
+      "createError": "Nepavyko sukurti pakvietimo",
+      "loadError": "Nepavyko nuo krautti pakvietimus"
     },
     "settings": {
       "general": "Bendrieji",
@@ -217,7 +221,8 @@
       "appUrl": "Programos URL (el. pašto nuorodoms)",
       "saveBtn": "Išsaugoti nustatymus",
       "saved": "Nustatymai išsaugoti",
-      "saveError": "Nepavyko išsaugoti nustatymų"
+      "saveError": "Nepavyko išsaugoti nustatymų",
+      "loadError": "Nepavyko nuo krautti nustatymus"
     }
   },
   "lang": {

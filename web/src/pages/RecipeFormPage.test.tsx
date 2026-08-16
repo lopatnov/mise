@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Recipe } from '../api/recipes';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
@@ -153,5 +154,49 @@ describe('RecipeFormPage — edit mode', () => {
   it('shows a Save button instead of Create', () => {
     renderPage();
     expect(screen.getByRole('button', { name: 'recipe.form.save' })).toBeInTheDocument();
+  });
+
+  it("keeps each step's original order as sourceOrder in the update payload after reordering, decoupled from its new position", async () => {
+    const { recipesApi } = await import('../api/recipes');
+    vi.mocked(recipesApi.get).mockResolvedValueOnce({
+      _id: 'abc123',
+      title: 'Soup',
+      ingredients: [],
+      steps: [
+        { order: 1, text: 'Step one' },
+        { order: 2, text: 'Step two' },
+      ],
+      tags: [],
+      servings: 2,
+      createdAt: new Date().toISOString(),
+    } as unknown as Recipe);
+
+    renderPage();
+
+    // Wait for the existing recipe's steps to be seeded into the form.
+    await screen.findByDisplayValue('Step one');
+
+    // Drag the second step row above the first, swapping their positions.
+    const rows = document.querySelectorAll('.step-row');
+    fireEvent.dragStart(rows[1]);
+    fireEvent.dragOver(rows[0]);
+    fireEvent.drop(rows[0]);
+    fireEvent.dragEnd(rows[1]);
+
+    // The visible order is now reversed — confirms the drag actually reordered the rows.
+    const reorderedTextareas = screen.getAllByLabelText(/recipe\.form\.step/) as HTMLTextAreaElement[];
+    expect(reorderedTextareas[0]).toHaveValue('Step two');
+    expect(reorderedTextareas[1]).toHaveValue('Step one');
+
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
+
+    await waitFor(() => expect(recipesApi.update).toHaveBeenCalled());
+    const [, payload] = vi.mocked(recipesApi.update).mock.calls[0];
+    // Each step must carry the order it had *before* the edit (sourceOrder), not just its new
+    // array position — without this, the server would hand each step the other's uploaded photo.
+    expect(payload.steps).toEqual([
+      { order: 1, text: 'Step two', externalImageUrl: undefined, sourceOrder: 2 },
+      { order: 2, text: 'Step one', externalImageUrl: undefined, sourceOrder: 1 },
+    ]);
   });
 });

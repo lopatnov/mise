@@ -9,6 +9,11 @@ import { recipesApi } from '../api/recipes';
 import ConfirmDialog from '../components/ConfirmDialog';
 import ImportTextDialog from '../components/ImportTextDialog';
 import ImportUrlDialog from '../components/ImportUrlDialog';
+import type { IngredientRow } from '../components/IngredientsEditor';
+import IngredientsEditor, { newIngredientRow } from '../components/IngredientsEditor';
+import type { StepRow } from '../components/StepsEditor';
+import StepsEditor, { newStepRow } from '../components/StepsEditor';
+import TagChips from '../components/TagChips';
 import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function RecipeFormPage() {
@@ -28,10 +33,8 @@ export default function RecipeFormPage() {
   const [tags, setTags] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [isPublic, setIsPublic] = useState(false);
-  const [ingredients, setIngredients] = useState([{ _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
-  const [steps, setSteps] = useState([{ _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
-  const [dragIngIdx, setDragIngIdx] = useState<number | null>(null);
-  const [dragStepIdx, setDragStepIdx] = useState<number | null>(null);
+  const [ingredients, setIngredients] = useState<IngredientRow[]>([newIngredientRow()]);
+  const [steps, setSteps] = useState<StepRow[]>([newStepRow()]);
   const [showImport, setShowImport] = useState(false);
   const [showTextImport, setShowTextImport] = useState(false);
   const [importedImageUrl, setImportedImageUrl] = useState('');
@@ -76,7 +79,14 @@ export default function RecipeFormPage() {
       if (existing.ingredients.length)
         setIngredients(existing.ingredients.map((ing) => ({ _id: crypto.randomUUID(), ...ing })));
       if (existing.steps.length)
-        setSteps(existing.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: '' })));
+        setSteps(
+          existing.steps.map((s) => ({
+            _id: crypto.randomUUID(),
+            text: s.text,
+            externalImageUrl: '',
+            sourceOrder: s.order,
+          })),
+        );
     }
   }, [existing]);
 
@@ -129,55 +139,23 @@ export default function RecipeFormPage() {
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
       steps: steps
         .filter((s) => s.text)
-        .map((s, i) => ({ order: i + 1, text: s.text, externalImageUrl: s.externalImageUrl || undefined })),
+        .map((s, i) => ({
+          order: i + 1,
+          text: s.text,
+          externalImageUrl: s.externalImageUrl || undefined,
+          // Lets the server keep an already-uploaded photo with this step after a reorder/removal
+          sourceOrder: s.sourceOrder,
+        })),
       externalImageUrl: importedImageUrl || undefined,
     });
   }
 
-  const addIngredient = () => {
-    setIngredients([...ingredients, { _id: crypto.randomUUID(), name: '', amount: 1, unit: '' }]);
-    markDirty();
-  };
-  const removeIngredient = (i: number) => {
-    setIngredients(ingredients.filter((_, idx) => idx !== i));
-    markDirty();
-  };
-  const updateIngredient = (i: number, field: string, value: string | number) => {
-    const updated = [...ingredients];
-    updated[i] = { ...updated[i], [field]: value };
-    setIngredients(updated);
-    markDirty();
-  };
-
-  const addStep = () => {
-    setSteps([...steps, { _id: crypto.randomUUID(), text: '', externalImageUrl: '' }]);
-    markDirty();
-  };
-  const removeStep = (i: number) => {
-    setSteps(steps.filter((_, idx) => idx !== i));
-    markDirty();
-  };
-  const updateStep = (i: number, value: string) => {
-    const updated = [...steps];
-    updated[i] = { ...updated[i], text: value };
-    setSteps(updated);
-    markDirty();
-  };
-
-  function moveIngredient(from: number, to: number) {
-    if (from === to) return;
-    const next = [...ingredients];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
+  function changeIngredients(next: IngredientRow[]) {
     setIngredients(next);
     markDirty();
   }
 
-  function moveStep(from: number, to: number) {
-    if (from === to) return;
-    const next = [...steps];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
+  function changeSteps(next: StepRow[]) {
     setSteps(next);
     markDirty();
   }
@@ -340,160 +318,20 @@ export default function RecipeFormPage() {
             placeholder={t('recipe.form.tagsPlaceholder')}
           />
           {allTags && allTags.length > 0 && (
-            <div className="tag-chips">
-              {allTags.map((tg) => {
-                const current = tags
-                  .split(',')
-                  .map((x) => x.trim())
-                  .filter(Boolean);
-                const active = current.includes(tg);
-                const handleTagClick = () => {
-                  const list = tags
-                    .split(',')
-                    .map((x) => x.trim())
-                    .filter(Boolean);
-                  const next = active ? list.filter((x) => x !== tg) : [...list, tg];
-                  setTags(next.join(', '));
-                  markDirty();
-                };
-                return active ? (
-                  <button
-                    key={tg}
-                    type="button"
-                    onClick={handleTagClick}
-                    className="tag tag--btn tag--large tag--active"
-                    aria-pressed="true"
-                  >
-                    {tg}
-                  </button>
-                ) : (
-                  <button
-                    key={tg}
-                    type="button"
-                    onClick={handleTagClick}
-                    className="tag tag--btn tag--large"
-                    aria-pressed="false"
-                  >
-                    {tg}
-                  </button>
-                );
-              })}
-            </div>
+            <TagChips
+              allTags={allTags}
+              value={tags}
+              onChange={(next) => {
+                setTags(next);
+                markDirty();
+              }}
+            />
           )}
         </Field>
 
-        <fieldset>
-          <legend className="field__label">{t('recipe.form.ingredients')}</legend>
-          <ol className="drag-list">
-            {ingredients.map((ing, i) => (
-              <li
-                key={ing._id}
-                className={`ingredient-row${dragIngIdx === i ? ' is-dragging' : ''}`}
-                draggable
-                onDragStart={() => setDragIngIdx(i)}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => {
-                  if (dragIngIdx !== null) moveIngredient(dragIngIdx, i);
-                  setDragIngIdx(null);
-                }}
-                onDragEnd={() => setDragIngIdx(null)}
-              >
-                <span className="drag-handle" aria-hidden="true">
-                  ⠿
-                </span>
-                <input
-                  aria-label={t('recipe.form.ingredientName')}
-                  placeholder={t('recipe.form.ingredientName')}
-                  value={ing.name}
-                  onChange={(e) => updateIngredient(i, 'name', e.target.value)}
-                  className="ingredient-name"
-                />
-                <input
-                  type="number"
-                  aria-label={t('recipe.form.ingredientQty')}
-                  placeholder={t('recipe.form.ingredientQty')}
-                  value={ing.amount}
-                  onChange={(e) => updateIngredient(i, 'amount', Number(e.target.value))}
-                />
-                <input
-                  aria-label={t('recipe.form.ingredientUnit')}
-                  placeholder={t('recipe.form.ingredientUnit')}
-                  value={ing.unit}
-                  onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
-                />
-                <button
-                  type="button"
-                  onClick={() => removeIngredient(i)}
-                  className="btn-remove"
-                  aria-label={t('recipe.form.removeIngredient', { n: i + 1 })}
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ol>
-          <button
-            type="button"
-            onClick={addIngredient}
-            className="secondary outline btn-sm btn-list-add"
-            aria-label={t('recipe.form.addIngredient')}
-          >
-            {t('recipe.form.add')}
-          </button>
-        </fieldset>
+        <IngredientsEditor ingredients={ingredients} onChange={changeIngredients} />
 
-        <fieldset>
-          <legend className="field__label">{t('recipe.form.steps')}</legend>
-          <ol className="drag-list">
-            {steps.map((step, i) => (
-              <li
-                key={step._id}
-                className={`step-row${dragStepIdx === i ? ' is-dragging' : ''}`}
-                draggable
-                onDragStart={() => setDragStepIdx(i)}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => {
-                  if (dragStepIdx !== null) moveStep(dragStepIdx, i);
-                  setDragStepIdx(null);
-                }}
-                onDragEnd={() => setDragStepIdx(null)}
-              >
-                <span className="drag-handle drag-handle--top" aria-hidden="true">
-                  ⠿
-                </span>
-                <div className="step-content">
-                  <span className="step-number" aria-hidden="true">
-                    {i + 1}.
-                  </span>
-                  <textarea
-                    aria-label={t('recipe.form.step', { n: i + 1 })}
-                    value={step.text}
-                    onChange={(e) => updateStep(i, e.target.value)}
-                    rows={2}
-                    placeholder={t('recipe.form.step', { n: i + 1 })}
-                    className="resize-v flex-1"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeStep(i)}
-                  className="btn-remove"
-                  aria-label={t('recipe.form.removeStep', { n: i + 1 })}
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ol>
-          <button
-            type="button"
-            onClick={addStep}
-            className="secondary outline btn-sm btn-list-add"
-            aria-label={t('recipe.form.addStep')}
-          >
-            {t('recipe.form.add')}
-          </button>
-        </fieldset>
+        <StepsEditor steps={steps} onChange={changeSteps} />
 
         <label className="checkbox-label">
           <input

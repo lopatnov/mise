@@ -111,6 +111,8 @@ export default function RecipeDetailPage() {
     onError: () => toast.error(t('recipe.detail.duplicateError')),
   });
 
+  const isFavorited = isLoggedIn && (recipe?.savedBy ?? []).includes(user?.id ?? '');
+
   const favoriteMut = useMutation({
     mutationFn: () => (isFavorited ? recipesApi.removeFavorite(id ?? '') : recipesApi.addFavorite(id ?? '')),
     onSuccess: () => {
@@ -138,44 +140,12 @@ export default function RecipeDetailPage() {
     onError: () => toast.error(t('recipe.detail.photoError')),
   });
 
-  if (isLoading)
-    return (
-      <div
-        className="page-container recipe-detail__page"
-        aria-busy="true"
-        role="status"
-        aria-label={t('recipe.detail.loading')}
-      >
-        <div className="skeleton skeleton-detail__actions" />
-        <div className="skeleton skeleton-detail__title" />
-        <div className="skeleton skeleton-detail__meta" />
-        <div className="recipe-detail__grid">
-          <div className="recipe-detail__main">
-            <div className="skeleton skeleton-detail__photo" />
-            <div className="skeleton skeleton-detail__line" />
-            <div className="skeleton skeleton-detail__line skeleton-detail__line--med" />
-            <div className="skeleton skeleton-detail__line skeleton-detail__line--short" />
-            <div className="skeleton skeleton-detail__h2 skeleton-detail__h2--section" />
-            <div className="skeleton skeleton-detail__step" />
-            <div className="skeleton skeleton-detail__step" />
-            <div className="skeleton skeleton-detail__step skeleton-detail__step--short" />
-          </div>
-          <aside className="recipe-detail__sidebar">
-            <div className="skeleton skeleton-detail__h2" />
-            <div className="skeleton skeleton-detail__ing" />
-            <div className="skeleton skeleton-detail__ing" />
-            <div className="skeleton skeleton-detail__ing skeleton-detail__ing--short" />
-            <div className="skeleton skeleton-detail__ing" />
-          </aside>
-        </div>
-      </div>
-    );
+  if (isLoading) return <DetailSkeleton label={t('recipe.detail.loading')} />;
   if (!recipe) return <p className="recipe-detail__loading">{t('recipe.detail.notFound')}</p>;
 
   const isOwner = !!user && recipe.authorId?.toString() === user.id;
   const isAdmin = user?.role === 'admin';
   const canEdit = isOwner || isAdmin;
-  const isFavorited = isLoggedIn && (recipe.savedBy ?? []).includes(user?.id ?? '');
 
   const recipeCategory = categories?.find((c) => c._id.toString() === recipe.categoryId?.toString());
 
@@ -445,6 +415,36 @@ export default function RecipeDetailPage() {
             title={t('recipe.detail.ingredients')}
             className="recipe-section"
           />
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+/** Placeholder layout shown while the recipe is loading — mirrors the real two-column layout */
+function DetailSkeleton({ label }: { label: string }) {
+  return (
+    <div className="page-container recipe-detail__page" aria-busy="true" role="status" aria-label={label}>
+      <div className="skeleton skeleton-detail__actions" />
+      <div className="skeleton skeleton-detail__title" />
+      <div className="skeleton skeleton-detail__meta" />
+      <div className="recipe-detail__grid">
+        <div className="recipe-detail__main">
+          <div className="skeleton skeleton-detail__photo" />
+          <div className="skeleton skeleton-detail__line" />
+          <div className="skeleton skeleton-detail__line skeleton-detail__line--med" />
+          <div className="skeleton skeleton-detail__line skeleton-detail__line--short" />
+          <div className="skeleton skeleton-detail__h2 skeleton-detail__h2--section" />
+          <div className="skeleton skeleton-detail__step" />
+          <div className="skeleton skeleton-detail__step" />
+          <div className="skeleton skeleton-detail__step skeleton-detail__step--short" />
+        </div>
+        <aside className="recipe-detail__sidebar">
+          <div className="skeleton skeleton-detail__h2" />
+          <div className="skeleton skeleton-detail__ing" />
+          <div className="skeleton skeleton-detail__ing" />
+          <div className="skeleton skeleton-detail__ing skeleton-detail__ing--short" />
+          <div className="skeleton skeleton-detail__ing" />
         </aside>
       </div>
     </div>

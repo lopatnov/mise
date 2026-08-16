@@ -185,7 +185,8 @@
       "deleted": "User deleted",
       "deleteError": "Failed to delete user",
       "confirmDelete": "Delete this user?",
-      "name": "Name"
+      "name": "Name",
+      "loadError": "Failed to load users"
     },
     "invites": {
       "create": "Create invite link",
@@ -195,12 +196,15 @@
       "linkReady": "Invite link ready:",
       "copy": "Copy",
       "copied": "Copied!",
+      "copyError": "Failed to copy link",
       "active": "active invites",
       "expires": "Expires",
       "empty": "No active invites",
+      "revoke": "Revoke invite",
       "revoked": "Invite revoked",
       "revokeError": "Failed to revoke invite",
-      "createError": "Failed to create invite"
+      "createError": "Failed to create invite",
+      "loadError": "Failed to load invites"
     },
     "settings": {
       "general": "General",
@@ -217,7 +221,8 @@
       "appUrl": "App URL (for email links)",
       "saveBtn": "Save settings",
       "saved": "Settings saved",
-      "saveError": "Failed to save settings"
+      "saveError": "Failed to save settings",
+      "loadError": "Failed to load settings"
     }
   },
   "lang": {

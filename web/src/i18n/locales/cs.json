@@ -185,7 +185,8 @@
       "deleted": "Uživatel smazán",
       "deleteError": "Smazání uživatele se nezdařilo",
       "confirmDelete": "Smazat tohoto uživatele?",
-      "name": "Jméno"
+      "name": "Jméno",
+      "loadError": "Načtení uživatelů se nezdařilo"
     },
     "invites": {
       "create": "Vytvořit pozvánkový odkaz",
@@ -195,12 +196,15 @@
       "linkReady": "Pozvánkový odkaz je připraven:",
       "copy": "Kopírovat",
       "copied": "Zkopírováno!",
+      "copyError": "Kopírování odkazu se nezdařilo",
       "active": "aktivní pozvánky",
       "expires": "Vyprší",
       "empty": "Žádné aktivní pozvánky",
+      "revoke": "Zrušit pozvánku",
       "revoked": "Pozvánka zrušena",
       "revokeError": "Zrušení pozvánky se nezdařilo",
-      "createError": "Vytvoření pozvánky se nezdařilo"
+      "createError": "Vytvoření pozvánky se nezdařilo",
+      "loadError": "Načtení pozvánek se nezdařilo"
     },
     "settings": {
       "general": "Obecné",
@@ -217,7 +221,8 @@
       "appUrl": "URL aplikace (pro odkazy v e-mailech)",
       "saveBtn": "Uložit nastavení",
       "saved": "Nastavení uloženo",
-      "saveError": "Uložení nastavení se nezdařilo"
+      "saveError": "Uložení nastavení se nezdařilo",
+      "loadError": "Načtení nastavení se nezdařilo"
     }
   },
   "lang": {

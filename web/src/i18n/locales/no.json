@@ -185,7 +185,8 @@
       "deleted": "Bruker slettet",
       "deleteError": "Kunne ikke slette bruker",
       "confirmDelete": "Slett denne brukeren?",
-      "name": "Navn"
+      "name": "Navn",
+      "loadError": "Kunne ikke laste inn brukere"
     },
     "invites": {
       "create": "Opprett invitasjonslenke",
@@ -195,12 +196,15 @@
       "linkReady": "Invitasjonslenke klar:",
       "copy": "Kopier",
       "copied": "Kopiert!",
+      "copyError": "Kunne ikke kopiere lenke",
       "active": "aktive invitasjoner",
       "expires": "Utløper",
       "empty": "Ingen aktive invitasjoner",
+      "revoke": "Tilbakekall invitasjon",
       "revoked": "Invitasjon tilbakekalt",
       "revokeError": "Kunne ikke tilbakekalle invitasjon",
-      "createError": "Kunne ikke opprette invitasjon"
+      "createError": "Kunne ikke opprette invitasjon",
+      "loadError": "Kunne ikke laste inn invitasjoner"
     },
     "settings": {
       "general": "Generelt",
@@ -217,7 +221,8 @@
       "appUrl": "App-URL (for e-postlenker)",
       "saveBtn": "Lagre innstillinger",
       "saved": "Innstillinger lagret",
-      "saveError": "Kunne ikke lagre innstillinger"
+      "saveError": "Kunne ikke lagre innstillinger",
+      "loadError": "Kunne ikke laste inn innstillinger"
     }
   },
   "lang": {

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsEmail, IsIn, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, Min, MinLength } from 'class-validator';
 
 export class SetupDto {
   @ApiProperty() @IsEmail() email: string;
@@ -20,7 +20,7 @@ export class UpdateSettingsDto {
 
 export class CreateInviteDto {
   @ApiPropertyOptional() @IsOptional() @IsEmail() email?: string;
-  @ApiPropertyOptional() @IsOptional() @IsNumber() expiresInDays?: number;
+  @ApiPropertyOptional() @IsOptional() @IsInt() @Min(1) @Max(30) expiresInDays?: number;
 }
 
 export class UpdateUserDto {

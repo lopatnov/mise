@@ -17,7 +17,14 @@ import { CurrentUser, type JwtUser } from '../common/decorators/current-user.dec
 import { OptionalAuth, Public } from '../common/decorators/public.decorator';
 import { photoUploadOptions } from '../uploads/photo-upload.options';
 import { UploadsService } from '../uploads/uploads.service';
-import { AddCookNoteDto, CreateRecipeDto, ImportTextDto, ImportUrlDto, RecipeQueryDto } from './dto/recipe.dto';
+import {
+  AddCookNoteDto,
+  CreateRecipeDto,
+  ImportTextDto,
+  ImportUrlDto,
+  RecipeQueryDto,
+  UpdateRecipeDto,
+} from './dto/recipe.dto';
 import { RecipeImportService } from './recipe-import.service';
 import { RecipesService } from './recipes.service';
 
@@ -98,7 +105,7 @@ export class RecipesController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Not the recipe owner' })
   @ApiResponse({ status: 404, description: 'Recipe not found' })
-  update(@Param('id') id: string, @CurrentUser() user: JwtUser, @Body() dto: Partial<CreateRecipeDto>) {
+  update(@Param('id') id: string, @CurrentUser() user: JwtUser, @Body() dto: UpdateRecipeDto) {
     return this.service.update(id, user.userId, user.role === 'admin', dto);
   }
 

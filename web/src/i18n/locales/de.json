@@ -185,7 +185,8 @@
       "deleted": "Benutzer gelöscht",
       "deleteError": "Benutzer konnte nicht gelöscht werden",
       "confirmDelete": "Diesen Benutzer löschen?",
-      "name": "Name"
+      "name": "Name",
+      "loadError": "Benutzer konnten nicht geladen werden"
     },
     "invites": {
       "create": "Einladungslink erstellen",
@@ -195,12 +196,15 @@
       "linkReady": "Einladungslink bereit:",
       "copy": "Kopieren",
       "copied": "Kopiert!",
+      "copyError": "Link konnte nicht kopiert werden",
       "active": "aktive Einladungen",
       "expires": "Läuft ab",
       "empty": "Keine aktiven Einladungen",
+      "revoke": "Einladung widerrufen",
       "revoked": "Einladung widerrufen",
       "revokeError": "Einladung konnte nicht widerrufen werden",
-      "createError": "Einladung konnte nicht erstellt werden"
+      "createError": "Einladung konnte nicht erstellt werden",
+      "loadError": "Einladungen konnten nicht geladen werden"
     },
     "settings": {
       "general": "Allgemein",
@@ -217,7 +221,8 @@
       "appUrl": "App-URL (für E-Mail-Links)",
       "saveBtn": "Einstellungen speichern",
       "saved": "Einstellungen gespeichert",
-      "saveError": "Einstellungen konnten nicht gespeichert werden"
+      "saveError": "Einstellungen konnten nicht gespeichert werden",
+      "loadError": "Einstellungen konnten nicht geladen werden"
     }
   },
   "lang": {
