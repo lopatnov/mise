@@ -1,4 +1,5 @@
 import type { Config } from 'jest';
+import { swcJestOptions } from '../jest.swc-transform.mts';
 
 const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
@@ -6,22 +7,7 @@ const config: Config = {
   testEnvironment: 'node',
   testRegex: '.e2e-spec.ts$',
   transform: {
-    // Keep in sync with ../jest.config.ts — see the comment there on why these options
-    // are required.
-    '^.+\\.(t|j)s$': [
-      '@swc/jest',
-      {
-        jsc: {
-          target: 'es2023',
-          parser: { syntax: 'typescript', decorators: true },
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: true,
-            useDefineForClassFields: false,
-          },
-        },
-      },
-    ],
+    '^.+\\.(t|j)s$': ['@swc/jest', swcJestOptions],
   },
   transformIgnorePatterns: ['/node_modules/(?!uuid)'],
   // All spec files share one live MongoDB instance and some mutate global state (e.g.
