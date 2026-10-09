@@ -9,7 +9,7 @@ import { createE2eApp, registerAndVerify } from './helpers/e2e-app';
 // photo download and MongoDB.
 jest.mock('../src/common/safe-http', () => ({
   ...jest.requireActual('../src/common/safe-http'),
-  isSsrfSafe: jest.fn(async (url: string) => ({ url: new URL(url), address: '127.0.0.1', family: 4 })),
+  isSsrfSafe: jest.fn((url: string) => Promise.resolve({ url: new URL(url), address: '127.0.0.1', family: 4 })),
 }));
 
 interface ImportedResponse {
@@ -117,9 +117,11 @@ describe('Recipe import → create → import again (e2e)', () => {
   });
 
   afterAll(async () => {
-    for (const id of createdIds) {
-      await request(app.getHttpServer()).delete(`/api/recipes/${id}`).set('Authorization', `Bearer ${token}`);
-    }
+    await Promise.all(
+      createdIds.map((id) =>
+        request(app.getHttpServer()).delete(`/api/recipes/${id}`).set('Authorization', `Bearer ${token}`),
+      ),
+    );
     await app.close();
     await new Promise((resolve) => fixtureSite.close(resolve));
   });
