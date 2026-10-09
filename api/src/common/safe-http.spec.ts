@@ -1,4 +1,5 @@
 import { createServer, type Server } from 'node:http';
+import https, { type Agent as HttpsAgent, type RequestOptions } from 'node:https';
 import { fetchPinned, isPrivateIp, isSsrfSafe, type SsrfSafeUrl } from './safe-http';
 
 describe('isPrivateIp', () => {
@@ -139,5 +140,21 @@ describe('fetchPinned', () => {
     const res = await fetchPinned(entry, { maxRedirects: 0 });
 
     expect(res.status).toBe(301);
+  });
+
+  it('uses its own HTTPS agent with TLS session caching off, so repeat fetches do not resume the first one', async () => {
+    const spy = jest.spyOn(https, 'request');
+    try {
+      const unreachable: SsrfSafeUrl = { url: new URL('https://localhost:1/'), address: '127.0.0.1', family: 4 };
+      await expect(fetchPinned(unreachable, { timeoutMs: 2000 })).rejects.toThrow();
+
+      const { agent } = spy.mock.calls[0][0] as RequestOptions;
+      expect(agent).toBeInstanceOf(https.Agent);
+      expect(agent).not.toBe(https.globalAgent);
+      expect((agent as HttpsAgent).options.maxCachedSessions).toBe(0);
+      expect((agent as HttpsAgent).options.keepAlive).toBe(false);
+    } finally {
+      spy.mockRestore();
+    }
   });
 });

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { FormEvent } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBlocker, useNavigate, useParams } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
@@ -42,7 +42,10 @@ export default function RecipeFormPage() {
   const [isDirty, setIsDirty] = useState(false);
   const markDirty = () => setIsDirty(true);
 
-  const blocker = useBlocker(isDirty);
+  // setIsDirty(false) only lands on the next render, but navigate() runs in the same tick and the
+  // blocker would still see a dirty form, so a saved form would prompt "unsaved changes" on its own redirect.
+  const savedRef = useRef(false);
+  const blocker = useBlocker(() => isDirty && !savedRef.current);
 
   useEffect(() => {
     if (!isDirty) return;
@@ -102,10 +105,9 @@ export default function RecipeFormPage() {
       setSteps(
         data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
       );
-    if (data.externalImageUrl) {
-      setImportedImageUrl(data.externalImageUrl);
-      setPhotoPreviewFailed(false);
-    }
+    // Always replace it: a later import without a photo must not keep the previous import's photo.
+    setImportedImageUrl(data.externalImageUrl ?? '');
+    setPhotoPreviewFailed(false);
     markDirty();
     setShowImport(false);
     setShowTextImport(false);
@@ -114,6 +116,7 @@ export default function RecipeFormPage() {
   const saveMut = useMutation({
     mutationFn: (data: Partial<Recipe>) => (isEdit ? recipesApi.update(id ?? '', data) : recipesApi.create(data)),
     onSuccess: (saved) => {
+      savedRef.current = true;
       setIsDirty(false);
       qc.invalidateQueries({ queryKey: ['recipes'] });
       qc.invalidateQueries({ queryKey: ['recipe', saved._id] });

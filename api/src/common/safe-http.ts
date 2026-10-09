@@ -1,6 +1,6 @@
 import { lookup as dnsLookup } from 'node:dns/promises';
-import { request as httpRequest } from 'node:http';
-import { request as httpsRequest } from 'node:https';
+import { Agent as HttpAgent, request as httpRequest } from 'node:http';
+import { Agent as HttpsAgent, request as httpsRequest } from 'node:https';
 
 /** Return true if the address is private/internal and must never be reachable from user input */
 export function isPrivateIp(ip: string): boolean {
@@ -68,6 +68,12 @@ export interface PinnedResponse {
  */
 const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 
+// Own agents instead of Node's shared ones: those cache TLS sessions for the life of the process, so every
+// fetch after the first resumes the previous session. allrecipes.com answered 403 to every import after the
+// first until the API was restarted. A fresh connection and full handshake each time keeps repeat fetches identical.
+const httpAgent = new HttpAgent({ keepAlive: false });
+const httpsAgent = new HttpsAgent({ keepAlive: false, maxCachedSessions: 0 });
+
 export function fetchPinned(
   safe: SsrfSafeUrl,
   options: { headers?: Record<string, string>; timeoutMs?: number; maxBytes?: number; maxRedirects?: number } = {},
@@ -98,6 +104,7 @@ export function fetchPinned(
         method: 'GET',
         headers: options.headers,
         lookup: pinnedLookup,
+        agent: isHttps ? httpsAgent : httpAgent,
       },
       (res) => {
         const status = res.statusCode ?? 0;
