@@ -34,7 +34,9 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ObserveModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        serviceId: config.get<string>('OBSERVE_SERVICE_ID'),
+        appKey: config.getOrThrow<string>('OBSERVE_APP_KEY'),
+        appSecret: config.getOrThrow<string>('OBSERVE_APP_SECRET'),
+        serviceId: config.getOrThrow<string>('OBSERVE_SERVICE_ID'),
       }),
     }),
     AuthModule,
