@@ -76,6 +76,13 @@ describe('Recipe import → create → import again (e2e)', () => {
     return res.body as ImportedResponse;
   }
 
+  /** Import the same URL `times` times, each one only after the previous finished (never in parallel). */
+  async function importSequentially(path: string, times: number): Promise<ImportedResponse[]> {
+    if (times === 0) return [];
+    const first = await importUrl(path);
+    return [first, ...(await importSequentially(path, times - 1))];
+  }
+
   /** Save an imported recipe the way the web form does: its fields plus the imported photo URL. */
   async function createFrom(imported: ImportedResponse): Promise<RecipeResponse> {
     const res = await request(app.getHttpServer())
@@ -153,11 +160,9 @@ describe('Recipe import → create → import again (e2e)', () => {
   it('keeps importing the same URL over and over without restarting anything', async () => {
     const before = hits.get('/recipe-a') ?? 0;
 
-    for (let i = 0; i < 5; i++) {
-      const imported = await importUrl('/recipe-a');
-      expect(imported.title).toBe(titleA);
-    }
+    const imports = await importSequentially('/recipe-a', 5);
 
+    expect(imports.map((imported) => imported.title)).toEqual(Array(5).fill(titleA));
     expect((hits.get('/recipe-a') ?? 0) - before).toBe(5);
   });
 
