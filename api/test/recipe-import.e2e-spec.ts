@@ -162,7 +162,7 @@ describe('Recipe import → create → import again (e2e)', () => {
 
     const imports = await importSequentially('/recipe-a', 5);
 
-    expect(imports.map((imported) => imported.title)).toEqual(Array(5).fill(titleA));
+    expect(imports.map((imported) => imported.title)).toEqual(Array.from({ length: 5 }, () => titleA));
     expect((hits.get('/recipe-a') ?? 0) - before).toBe(5);
   });
 
