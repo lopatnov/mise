@@ -16,6 +16,7 @@ import { UploadsModule } from './uploads/uploads.module';
 import { UsersModule } from './users/users.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
+const isObserveEnabled = !!(process.env.OBSERVE_APP_KEY && process.env.OBSERVE_APP_SECRET);
 
 @Module({
   controllers: [AppController],
@@ -31,14 +32,18 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       rootPath: join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads'),
       serveRoot: '/uploads',
     }),
-    ObserveModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        appKey: config.getOrThrow<string>('OBSERVE_APP_KEY'),
-        appSecret: config.getOrThrow<string>('OBSERVE_APP_SECRET'),
-        serviceId: config.getOrThrow<string>('OBSERVE_SERVICE_ID'),
-      }),
-    }),
+    ...(isObserveEnabled
+      ? [
+          ObserveModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+              appKey: config.get<string>('OBSERVE_APP_KEY') ?? '',
+              appSecret: config.get<string>('OBSERVE_APP_SECRET') ?? '',
+              serviceId: config.getOrThrow<string>('OBSERVE_SERVICE_ID'),
+            }),
+          }),
+        ]
+      : []),
     AuthModule,
     UsersModule,
     RecipesModule,
