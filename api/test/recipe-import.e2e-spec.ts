@@ -1,9 +1,8 @@
 import { createServer, type Server } from 'node:http';
-import { type INestApplication, ValidationPipe } from '@nestjs/common';
-import { Test, type TestingModule } from '@nestjs/testing';
+import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import type { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
+import { createE2eApp, registerAndVerify } from './helpers/e2e-app';
 
 // The SSRF guard rightly refuses loopback addresses, and the fixture "recipe site" below lives on one.
 // Allow exactly that and keep everything else real: controllers, importer, pinned HTTP fetch, parsers,
@@ -113,22 +112,8 @@ describe('Recipe import → create → import again (e2e)', () => {
     await new Promise<void>((resolve) => fixtureSite.listen(0, '127.0.0.1', resolve));
     baseUrl = `http://127.0.0.1:${(fixtureSite.address() as { port: number }).port}`;
 
-    const moduleFixture: TestingModule = await Test.createTestingModule({ imports: [AppModule] }).compile();
-    app = moduleFixture.createNestApplication();
-    app.setGlobalPrefix('api');
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-    await app.init();
-
-    const registerRes = await request(app.getHttpServer())
-      .post('/api/auth/register')
-      .send({ email, password: 'secret123' })
-      .expect(201);
-    const verifyToken = new URL((registerRes.body as { devLink: string }).devLink).searchParams.get('token');
-    const verifyRes = await request(app.getHttpServer())
-      .get('/api/auth/verify-email')
-      .query({ token: verifyToken })
-      .expect(200);
-    token = (verifyRes.body as { access_token: string }).access_token;
+    app = await createE2eApp();
+    token = await registerAndVerify(app, email);
   });
 
   afterAll(async () => {

@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, Link, RouterProvider } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -154,5 +154,17 @@ describe('recipe import → save → import again', () => {
 
     await waitFor(() => expect(recipesApi.create).toHaveBeenCalled());
     expect(vi.mocked(recipesApi.create).mock.calls[0][0].externalImageUrl).toBeUndefined();
+  });
+
+  it('still asks before leaving when the form has edits that were never saved', async () => {
+    const router = renderApp();
+
+    await userEvent.type(titleField(), 'Half-typed');
+    await act(async () => {
+      await router.navigate('/recipes/elsewhere');
+    });
+
+    expect(await screen.findByText(/recipe\.form\.unsavedMessage/)).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/recipes/new');
   });
 });
