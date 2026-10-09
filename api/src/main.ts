@@ -5,6 +5,11 @@ import { AppModule, ObserveInstrument } from './app.module';
 import { CategoriesService } from './categories/categories.service';
 import { HttpExceptionFilter } from './common/http-exception.filter';
 
+/**
+ * Configures the NestJS application with observability, CORS, API routing,
+ * exception handling, validation, and Swagger documentation, then seeds default
+ * categories and starts listening on the configured port (3000 by default).
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
