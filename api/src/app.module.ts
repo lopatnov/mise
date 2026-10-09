@@ -31,6 +31,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       rootPath: join(process.cwd(), process.env.UPLOAD_DIR ?? 'uploads'),
       serveRoot: '/uploads',
     }),
+    ObserveModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        serviceId: config.get<string>('OBSERVE_SERVICE_ID'),
+      }),
+    }),
     AuthModule,
     UsersModule,
     RecipesModule,
