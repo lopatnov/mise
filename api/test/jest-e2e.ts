@@ -9,7 +9,8 @@ const config: Config = {
   transform: {
     '^.+\\.(t|j)s$': ['@swc/jest', swcJestOptions],
   },
-  transformIgnorePatterns: ['/node_modules/(?!uuid)'],
+  // NestJS 12 ships ESM-only; Jest's CommonJS runtime can't load it, so swc transpiles it like uuid.
+  transformIgnorePatterns: ['/node_modules/(?!(uuid|@nestjs)/)'],
   // All spec files share one live MongoDB instance and some mutate global state (e.g.
   // AdminSettings) — run them one at a time so cross-file ordering can't race.
   maxWorkers: 1,

@@ -8,7 +8,8 @@ const config: Config = {
   transform: {
     '^.+\\.(t|j)s$': ['@swc/jest', swcJestOptions],
   },
-  transformIgnorePatterns: ['/node_modules/(?!uuid)'],
+  // NestJS 12 ships ESM-only; Jest's CommonJS runtime can't load it, so swc transpiles it like uuid.
+  transformIgnorePatterns: ['/node_modules/(?!(uuid|@nestjs)/)'],
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
