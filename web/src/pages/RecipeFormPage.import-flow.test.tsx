@@ -1,14 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, Link, RouterProvider } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
-
-vi.mock('../hooks/usePageTitle', () => ({ usePageTitle: vi.fn() }));
+import { createQueryWrapper } from '../test-utils';
 
 vi.mock('../api/categories', () => ({
   categoriesApi: { list: vi.fn().mockResolvedValue([]) },
@@ -52,12 +46,7 @@ function renderApp() {
     ],
     { initialEntries: ['/recipes/new'] },
   );
-  const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  render(
-    <QueryClientProvider client={qc}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>,
-  );
+  render(<RouterProvider router={router} />, { wrapper: createQueryWrapper() });
   return router;
 }
 

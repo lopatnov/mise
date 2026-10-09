@@ -1,9 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
+import { createQueryWrapper } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
@@ -11,11 +11,6 @@ vi.mock('react-router-dom', () => ({
   Link: ({ children }: { children: ReactNode }) => <a href="/">{children}</a>,
 }));
 
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
-
-vi.mock('../hooks/usePageTitle', () => ({ usePageTitle: vi.fn() }));
 vi.mock('../hooks/useMetaTags', () => ({ useMetaTags: vi.fn() }));
 vi.mock('../hooks/useStructuredData', () => ({ useStructuredData: vi.fn() }));
 
@@ -45,12 +40,7 @@ function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
 }
 
 function renderPage() {
-  const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(<RecipeDetailPage />, {
-    wrapper: ({ children }: { children: ReactNode }) => (
-      <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-    ),
-  });
+  return render(<RecipeDetailPage />, { wrapper: createQueryWrapper() });
 }
 
 describe('RecipeDetailPage', () => {
