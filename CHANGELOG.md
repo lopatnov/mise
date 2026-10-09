@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional telemetry via the `@nestjs/observe` SDK, **off by default**: it is registered only when both `OBSERVE_APP_KEY` and `OBSERVE_APP_SECRET` are set, and `OBSERVE_SERVICE_ID` is then required (`api/.env` ships it as `api` with blank credentials). Without credentials the API runs exactly as before.
+
+### Changed
+
+- Upgraded the API to NestJS 12 (`@nestjs/*` 11 → 12, including the CLI, schematics and testing packages). NestJS 12 packages are ESM-only, so the Jest transform now also converts `@nestjs/*` to CommonJS, the same way it already does for `uuid`. Unit tests (223), e2e tests, lint and build all pass. `mongoose` stays held at `~9.9.5` (see #129).
+
 ### Security
 
 - Upgraded `react-router-dom` 7.14.0 → 7.18.2, closing 8 known advisories including a high-severity (CVSS 8.1) unauthenticated remote code execution issue in `react-router`'s vendored `turbo-stream` deserialization (GHSA-49rj-9fvp-4h2h) — that specific advisory only affects apps running React Router's Framework Mode, which Mise's frontend doesn't use (it's a plain client-side SPA on Data Mode/`createBrowserRouter`), but the upgrade is applied regardless as routine hygiene.
