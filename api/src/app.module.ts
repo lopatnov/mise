@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { createObserveModule } from '@nestjs/observe';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AdminModule } from './admin/admin.module';
@@ -13,6 +14,8 @@ import { RecipesModule } from './recipes/recipes.module';
 import { SeoModule } from './seo/seo.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { UsersModule } from './users/users.module';
+
+export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   controllers: [AppController],
