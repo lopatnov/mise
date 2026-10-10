@@ -36,7 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Saving a recipe no longer shows an "Unsaved changes. Leave anyway?" prompt on the redirect to the saved recipe. The form cleared its unsaved flag and navigated in the same tick, so the router's leave-guard still saw a dirty form. The existing tests stubbed the guard, which hid it; a new test runs against the real router.
-- Importing a second recipe into the same form no longer saves it with the first import's photo when the second page has no photo; the imported photo is now replaced on every import.
+- Importing a second recipe from a URL into the same form no longer saves it with the first import's photo when the second page has no photo; the imported photo is now replaced on every URL import (an "Import from text" never touches it).
+- The "unsaved changes" guard stays active for edits made after a save that leaves the form on screen (for example a recipe titled "New", whose page address is the create form's own).
 - Importing from a URL no longer fails with `Failed to fetch URL: HTTP 403` on every import after the first until the API is restarted (reported with allrecipes.com). URL imports and photo downloads now use their own HTTP(S) agents with no keep-alive and no TLS session caching: Node's shared agent resumed the previous TLS session on every request after the first, which would make repeat fetches look different from the first one. This was not reproducible against allrecipes.com from CI, so it rests on the "restart fixes it" behavior plus a local check that the shared agent resumes sessions and the new agent does not.
 - Recipe list/search pagination no longer accepts an unbounded page size (e.g. `?limit=0` previously returned the entire recipe collection in one response).
 - Fixed a bug where viewing a recipe's steps could silently reorder them in a way that persisted incorrectly in some cases (cache mutation during render).

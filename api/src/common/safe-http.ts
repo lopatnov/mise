@@ -71,6 +71,8 @@ const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 // Own agents instead of Node's shared ones: those cache TLS sessions for the life of the process, so every
 // fetch after the first resumes the previous session. allrecipes.com answered 403 to every import after the
 // first until the API was restarted. A fresh connection and full handshake each time keeps repeat fetches identical.
+// keepAlive stays off on purpose: imports are rare, so a pooled socket would usually be one the server has already
+// closed, which fails the next fetch with ECONNRESET.
 const httpAgent = new HttpAgent({ keepAlive: false });
 const httpsAgent = new HttpsAgent({ keepAlive: false, maxCachedSessions: 0 });
 

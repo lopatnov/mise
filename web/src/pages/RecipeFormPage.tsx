@@ -40,11 +40,15 @@ export default function RecipeFormPage() {
   const [importedImageUrl, setImportedImageUrl] = useState('');
   const [photoPreviewFailed, setPhotoPreviewFailed] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const markDirty = () => setIsDirty(true);
-
   // setIsDirty(false) only lands on the next render, but navigate() runs in the same tick and the
   // blocker would still see a dirty form, so a saved form would prompt "unsaved changes" on its own redirect.
   const savedRef = useRef(false);
+  // Any edit re-arms the guard: the form can stay on screen after a save (a recipe titled "New" redirects back
+  // to this same route), and edits made after that must not leave unguarded.
+  const markDirty = () => {
+    savedRef.current = false;
+    setIsDirty(true);
+  };
   const blocker = useBlocker(() => isDirty && !savedRef.current);
 
   useEffect(() => {
@@ -105,12 +109,17 @@ export default function RecipeFormPage() {
       setSteps(
         data.steps.map((s) => ({ _id: crypto.randomUUID(), text: s.text, externalImageUrl: s.externalImageUrl ?? '' })),
       );
-    // Always replace it: a later import without a photo must not keep the previous import's photo.
-    setImportedImageUrl(data.externalImageUrl ?? '');
-    setPhotoPreviewFailed(false);
     markDirty();
     setShowImport(false);
     setShowTextImport(false);
+  }
+
+  // Only a URL import owns the photo: a page without one must not keep the previous import's photo, while a
+  // text import never carries a photo and has to leave the one from an earlier URL import alone.
+  function applyUrlImport(data: Partial<Recipe>) {
+    setImportedImageUrl(data.externalImageUrl ?? '');
+    setPhotoPreviewFailed(false);
+    applyImport(data);
   }
 
   const saveMut = useMutation({
@@ -165,7 +174,7 @@ export default function RecipeFormPage() {
 
   return (
     <div className="page-container">
-      {showImport && <ImportUrlDialog onImport={applyImport} onClose={() => setShowImport(false)} />}
+      {showImport && <ImportUrlDialog onImport={applyUrlImport} onClose={() => setShowImport(false)} />}
       {showTextImport && <ImportTextDialog onImport={applyImport} onClose={() => setShowTextImport(false)} />}
       {blocker.state === 'blocked' && (
         <ConfirmDialog

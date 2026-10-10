@@ -65,10 +65,11 @@ describeTls('fetchPinned over TLS', () => {
     safe = { url: new URL(`https://localhost:${port}/`), address: '127.0.0.1', family: 4 };
   });
 
+  // Guarded so a failure in beforeAll (e.g. openssl erroring) is not buried under a second error here.
   afterAll(async () => {
-    tls.setDefaultCACertificates(originalCAs);
-    await new Promise((resolve) => server.close(resolve));
-    rmSync(dir, { recursive: true, force: true });
+    if (originalCAs) tls.setDefaultCACertificates(originalCAs);
+    if (server) await new Promise((resolve) => server.close(resolve));
+    if (dir) rmSync(dir, { recursive: true, force: true });
   });
 
   beforeEach(() => {

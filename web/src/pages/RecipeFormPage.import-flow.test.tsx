@@ -64,6 +64,7 @@ describe('recipe import → save → import again', () => {
     vi.clearAllMocks();
     // clearAllMocks keeps queued *Once values; drain them so one failing test cannot leak into the next.
     vi.mocked(recipesApi.importFromUrl).mockReset();
+    vi.mocked(recipesApi.importFromText).mockReset();
     vi.mocked(recipesApi.create).mockReset();
     vi.mocked(recipesApi.create).mockImplementation(
       async (data) =>
@@ -143,6 +144,50 @@ describe('recipe import → save → import again', () => {
 
     await waitFor(() => expect(recipesApi.create).toHaveBeenCalled());
     expect(vi.mocked(recipesApi.create).mock.calls[0][0].externalImageUrl).toBeUndefined();
+  });
+
+  it('keeps the photo from a URL import when more ingredients are then pasted as text', async () => {
+    vi.mocked(recipesApi.importFromUrl).mockResolvedValueOnce(ziti as never);
+    // A text import carries no title and no photo: it only adds ingredients and steps.
+    vi.mocked(recipesApi.importFromText).mockResolvedValueOnce({
+      title: '',
+      ingredients: [{ name: 'salt', amount: 1, unit: 'tsp' }],
+      steps: [],
+    } as never);
+    renderApp();
+
+    await importFrom('https://example.test/ziti');
+    await waitFor(() => expect(titleField()).toHaveValue('Easy Baked Ziti'));
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.import.textButton' }));
+    await userEvent.type(screen.getByLabelText('recipe.import.ingredientsLabel'), '1 tsp salt');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.import.import' }));
+    await waitFor(() => expect(recipesApi.importFromText).toHaveBeenCalled());
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.create' }));
+
+    await waitFor(() => expect(recipesApi.create).toHaveBeenCalled());
+    expect(vi.mocked(recipesApi.create).mock.calls[0][0].externalImageUrl).toBe('https://img.example/ziti.jpg');
+  });
+
+  it('keeps guarding edits made after a save that leaves the same form on screen', async () => {
+    // A recipe titled "New" gets the slug "new", so saving redirects to /recipes/new: the create form again.
+    vi.mocked(recipesApi.importFromUrl).mockResolvedValueOnce({ ...soup, title: 'New' } as never);
+    vi.mocked(recipesApi.create).mockResolvedValueOnce({ _id: 'id-new', slug: 'new' } as never);
+    const router = renderApp();
+
+    await importFrom('https://example.test/new');
+    await waitFor(() => expect(titleField()).toHaveValue('New'));
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.create' }));
+    await waitFor(() => expect(recipesApi.create).toHaveBeenCalled());
+    await waitFor(() => expect(router.state.location.key).not.toBe('default'));
+    expect(unsavedPrompt()).not.toBeInTheDocument();
+
+    await userEvent.type(titleField(), ' pasta');
+    await act(async () => {
+      await router.navigate('/recipes/elsewhere');
+    });
+
+    expect(await screen.findByText(/recipe\.form\.unsavedMessage/)).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/recipes/new');
   });
 
   it('still asks before leaving when the form has edits that were never saved', async () => {

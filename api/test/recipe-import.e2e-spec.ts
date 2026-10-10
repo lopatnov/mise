@@ -34,9 +34,10 @@ const PNG = Buffer.from(
 );
 
 /**
- * The flow that broke for a real user: import a recipe by URL, save it, then import again. Every step goes
- * through the real HTTP API, and each recipe page and its photo are fetched from a local fixture site so the
- * test can also count that the repeat imports really reached it.
+ * End-to-end coverage of the flow a user follows: import a recipe by URL, save it with its photo, then import
+ * again. Every step goes through the real HTTP API, and each recipe page and its photo are fetched from a local
+ * plain-HTTP fixture site, so the test can also count that the repeat imports really reached it. It does not
+ * reproduce the allrecipes.com failure itself: TLS session resumption is covered by safe-http.tls.spec.ts.
  */
 describe('Recipe import → create → import again (e2e)', () => {
   let app: INestApplication<App>;
