@@ -1,21 +1,14 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
+import { createQueryWrapper } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
   useParams: vi.fn(() => ({})),
   useBlocker: vi.fn(() => ({ state: 'unblocked' })),
 }));
-
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
-
-vi.mock('../hooks/usePageTitle', () => ({ usePageTitle: vi.fn() }));
 
 vi.mock('../api/categories', () => ({
   categoriesApi: { list: vi.fn().mockResolvedValue([]) },
@@ -49,13 +42,8 @@ vi.mock('../components/ImportTextDialog', () => ({
 const { default: RecipeFormPage } = await import('./RecipeFormPage');
 const { useParams } = await import('react-router-dom');
 
-function Wrapper({ children }: { children: ReactNode }) {
-  const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return <QueryClientProvider client={qc}>{children}</QueryClientProvider>;
-}
-
 function renderPage() {
-  return render(<RecipeFormPage />, { wrapper: Wrapper });
+  return render(<RecipeFormPage />, { wrapper: createQueryWrapper() });
 }
 
 describe('RecipeFormPage — create mode', () => {
