@@ -18,13 +18,22 @@ const EXT_BY_MIME: Record<string, string> = {
 
 export const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 
+/**
+ * Extension for an accepted image MIME type, undefined for anything else. Own-property lookup on
+ * purpose: the MIME type can come straight from a remote server's Content-Type header, and a plain
+ * `EXT_BY_MIME[mime]` would hand back inherited members for "constructor", "toString", "__proto__".
+ */
+export function photoExtension(mimetype: string): string | undefined {
+  return Object.hasOwn(EXT_BY_MIME, mimetype) ? EXT_BY_MIME[mimetype] : undefined;
+}
+
 export function isAllowedPhotoType(mimetype: string): boolean {
-  return Object.hasOwn(EXT_BY_MIME, mimetype);
+  return photoExtension(mimetype) !== undefined;
 }
 
 /** Random storage name for an accepted upload, with the extension of its validated MIME type */
 export function photoFilename(mimetype: string): string {
-  return `${uuidv4()}${EXT_BY_MIME[mimetype] ?? ''}`;
+  return `${uuidv4()}${photoExtension(mimetype) ?? ''}`;
 }
 
 /** Shared multer config for every photo upload endpoint — one place for the size limit and allowed types */

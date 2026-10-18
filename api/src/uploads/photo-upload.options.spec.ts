@@ -1,4 +1,10 @@
-import { isAllowedPhotoType, MAX_PHOTO_BYTES, photoFilename, photoUploadOptions } from './photo-upload.options';
+import {
+  isAllowedPhotoType,
+  MAX_PHOTO_BYTES,
+  photoExtension,
+  photoFilename,
+  photoUploadOptions,
+} from './photo-upload.options';
 
 describe('photo upload options', () => {
   describe('isAllowedPhotoType', () => {
@@ -13,6 +19,16 @@ describe('photo upload options', () => {
     it('does not accept inherited Object properties as MIME types', () => {
       expect(isAllowedPhotoType('constructor')).toBe(false);
       expect(isAllowedPhotoType('toString')).toBe(false);
+    });
+  });
+
+  describe('photoExtension', () => {
+    it('maps an accepted type to its extension', () => {
+      expect(photoExtension('image/webp')).toBe('.webp');
+    });
+
+    it.each(['text/html', '', 'constructor', 'toString', '__proto__'])('returns undefined for %s', (mime) => {
+      expect(photoExtension(mime)).toBeUndefined();
     });
   });
 

@@ -4,6 +4,20 @@ import * as bcrypt from 'bcrypt';
 import type { Model } from 'mongoose';
 import { User, type UserDocument } from './user.schema';
 
+/** Fields updateById may write — runtime counterpart of its parameter type */
+const UPDATABLE_USER_FIELDS = [
+  'isActive',
+  'role',
+  'displayName',
+  'passwordHash',
+  'resetToken',
+  'resetTokenExpiresAt',
+  'isEmailVerified',
+  'emailVerificationToken',
+  'emailVerificationTokenExpiresAt',
+] as const satisfies readonly (keyof User)[];
+type UpdatableUserField = (typeof UPDATABLE_USER_FIELDS)[number];
+
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
@@ -55,26 +69,14 @@ export class UsersService {
       .lean();
   }
 
-  async updateById(
-    id: string,
-    update: Partial<
-      Pick<
-        User,
-        | 'isActive'
-        | 'role'
-        | 'displayName'
-        | 'passwordHash'
-        | 'resetToken'
-        | 'resetTokenExpiresAt'
-        | 'isEmailVerified'
-        | 'emailVerificationToken'
-        | 'emailVerificationTokenExpiresAt'
-      >
-    >,
-  ): Promise<UserDocument | null> {
+  async updateById(id: string, update: Partial<Pick<User, UpdatableUserField>>): Promise<UserDocument | null> {
     const $set: Record<string, unknown> = {};
     const $unset: Record<string, ''> = {};
-    for (const [key, val] of Object.entries(update)) {
+    // Walk the fixed field list, not the keys of `update`: a field name that came from a request body
+    // (or an array body's stray `constructor` key) must never become a $set/$unset path.
+    for (const key of UPDATABLE_USER_FIELDS) {
+      if (!Object.hasOwn(update, key)) continue;
+      const val = update[key];
       if (val === undefined) $unset[key] = '';
       else $set[key] = val;
     }
