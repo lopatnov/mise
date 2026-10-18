@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { unlink, writeFile } from 'node:fs/promises';
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { mkdirSync } from 'fs';
-import { dirname, join, resolve } from 'path';
+import { join, resolve, sep } from 'path';
 import { fetchPinned, isSsrfSafe } from '../common/safe-http';
 import { MAX_PHOTO_BYTES, photoExtension } from './photo-upload.options';
 
@@ -52,7 +52,7 @@ export class UploadsService implements OnModuleInit {
     // misses: '.' and '..' (which name directories) and, on Windows, backslash separators and drive paths.
     const root = resolve(this.uploadsDir);
     const target = resolve(root, filename);
-    if (dirname(target) !== root) return;
+    if (!target.startsWith(root + sep)) return;
     try {
       await unlink(target);
     } catch {
