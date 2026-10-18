@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- Triaged the open CodeQL code-scanning alerts (#17–#22, in `uploads`, `admin`/`auth` email and `users`). None was exploitable as reported — the upload-directory ones trace only to the operator-set `UPLOAD_DIR` environment variable, not request input — but the code next to them had real gaps, now closed:
+  - Importing a recipe photo by URL accepted a remote `Content-Type` of `constructor`, `toString` or `__proto__` as an image type and wrote a non-image file with a junk name; the lookup now only accepts the four allowed image types, the same as for direct uploads.
+  - Deleting a stored photo now only ever removes a file directly inside the uploads directory (`.`, `..` and backslash/drive paths are refused).
+  - User updates write only a fixed list of fields, so no key from a request body can become a database update path.
+  - The links in verification and password-reset emails are HTML-escaped (the base URL is a free-form admin setting).
+  - Verification and password-reset emails are sent to the address the account is stored under, not the raw request string (lookup lowercases, so the two could differ).
 - Upgraded `react-router-dom` 7.14.0 → 7.18.2, closing 8 known advisories including a high-severity (CVSS 8.1) unauthenticated remote code execution issue in `react-router`'s vendored `turbo-stream` deserialization (GHSA-49rj-9fvp-4h2h) — that specific advisory only affects apps running React Router's Framework Mode, which Mise's frontend doesn't use (it's a plain client-side SPA on Data Mode/`createBrowserRouter`), but the upgrade is applied regardless as routine hygiene.
 - Fixed two moderate-severity `qs` advisories (GHSA-x5fp-wj9c-mxmx array-limit bypass, GHSA-4mjr-xmp4-gh2g denial-of-service via attacker-controlled `isBuffer`) — `qs` parses query strings on every incoming API request via Express (`@nestjs/platform-express`); also reachable through `body-parser` and, in tests only, `supertest`'s `superagent`. Not a version pin that needed forcing — all three already declared `qs` ranges wide enough to accept the fix (`6.16.0`); the lockfile just hadn't re-resolved to it yet.
 - Fixed a high-severity arbitrary file read / SSRF vulnerability in the email-sending dependency (nodemailer), only patched in version 9.x and later (GHSA-p6gq-j5cr-w38f).

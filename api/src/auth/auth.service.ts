@@ -62,7 +62,8 @@ export class AuthService {
     const safeLink = escapeHtml(verifyLink);
     const html = `<p>Welcome to Mise! Click the link to verify your email address (valid 24 hours):</p><p><a href="${safeLink}">${safeLink}</a></p>`;
 
-    const sent = await this.adminService.sendEmail(email, 'Verify your email — Mise', html);
+    // user.email is the normalised address the account is stored under; the raw request string can differ from it
+    const sent = await this.adminService.sendEmail(user.email, 'Verify your email — Mise', html);
 
     if (!sent) {
       return {
@@ -101,7 +102,7 @@ export class AuthService {
     const safeLink = escapeHtml(resetLink);
     const html = `<p>Click the link to reset your password (valid 1 hour):</p><p><a href="${safeLink}">${safeLink}</a></p>`;
 
-    const sent = await this.adminService.sendEmail(email, 'Password reset — Mise', html);
+    const sent = await this.adminService.sendEmail(user.email, 'Password reset — Mise', html);
 
     if (!sent) {
       // SMTP not configured — return link in response for dev/self-hosted without email
