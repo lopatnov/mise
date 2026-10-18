@@ -19,18 +19,19 @@ export interface CookNote {
   rating?: number;
   createdAt: string;
 }
+/** Fields typed `| null` are ones an edit can clear: an update leaves omitted fields untouched, so clearing sends null */
 export interface Recipe {
   _id: string;
   slug?: string;
   title: string;
-  description?: string;
+  description?: string | null;
   ingredients: Ingredient[];
   steps: Step[];
   tags: string[];
-  categoryId?: string;
-  rating?: number;
-  prepTime?: number;
-  cookTime?: number;
+  categoryId?: string | null;
+  rating?: number | null;
+  prepTime?: number | null;
+  cookTime?: number | null;
   servings: number;
   photoUrl?: string;
   isPublic?: boolean;

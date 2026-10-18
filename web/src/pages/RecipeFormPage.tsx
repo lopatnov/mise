@@ -15,6 +15,7 @@ import type { StepRow } from '../components/StepsEditor';
 import StepsEditor, { newStepRow } from '../components/StepsEditor';
 import TagChips from '../components/TagChips';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { categoryLabel } from '../i18n/categoryLabel';
 
 export default function RecipeFormPage() {
   const { t } = useTranslation();
@@ -128,25 +129,28 @@ export default function RecipeFormPage() {
       savedRef.current = true;
       setIsDirty(false);
       qc.invalidateQueries({ queryKey: ['recipes'] });
-      qc.invalidateQueries({ queryKey: ['recipe', saved._id] });
+      // The recipe page caches a recipe under whatever its URL held (usually the slug, not _id), so refresh every one
+      qc.invalidateQueries({ queryKey: ['recipe'] });
       navigate(`/recipes/${saved.slug ?? saved._id}`);
     },
   });
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    // An update leaves every field it is not sent untouched, so a field emptied while editing has to go as null
+    const cleared = isEdit ? null : undefined;
     saveMut.mutate({
       title,
-      description: description || undefined,
+      description: description || cleared,
       servings,
-      prepTime: prepTime ? Number(prepTime) : undefined,
-      cookTime: cookTime ? Number(cookTime) : undefined,
-      rating: rating ? Number(rating) : undefined,
+      prepTime: prepTime ? Number(prepTime) : cleared,
+      cookTime: cookTime ? Number(cookTime) : cleared,
+      rating: rating ? Number(rating) : cleared,
       tags: tags
         .split(',')
         .map((tag) => tag.trim())
         .filter(Boolean),
-      categoryId: categoryId || undefined,
+      categoryId: categoryId || cleared,
       isPublic,
       ingredients: ingredients.filter((i) => i.name).map(({ _id, ...ing }) => ing),
       steps: steps
@@ -298,7 +302,7 @@ export default function RecipeFormPage() {
               <option value="">{t('recipe.form.noCategory')}</option>
               {categories?.map((c) => (
                 <option key={c._id} value={c._id}>
-                  {c.icon} {c.slug ? t(`categories.${c.slug}`, c.name) : c.name}
+                  {c.icon} {categoryLabel(c, t)}
                 </option>
               ))}
             </select>

@@ -18,10 +18,13 @@ export default function CookLog({ recipeId, notes }: CookLogProps) {
   const [text, setText] = useState('');
   const [rating, setRating] = useState('');
 
+  // The recipe page caches the recipe under its URL id (usually the slug, not recipeId), so refresh every cached recipe
+  const refreshRecipe = () => qc.invalidateQueries({ queryKey: ['recipe'] });
+
   const addMut = useMutation({
     mutationFn: () => recipesApi.addCookNote(recipeId, text.trim(), rating ? Number(rating) : undefined),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['recipe', recipeId] });
+      refreshRecipe();
       setText('');
       setRating('');
     },
@@ -30,7 +33,7 @@ export default function CookLog({ recipeId, notes }: CookLogProps) {
 
   const removeMut = useMutation({
     mutationFn: (noteId: string) => recipesApi.removeCookNote(recipeId, noteId),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['recipe', recipeId] }),
+    onSuccess: refreshRecipe,
     onError: () => toast.error(t('recipe.cookLog.removeError')),
   });
 

@@ -41,6 +41,8 @@ vi.mock('../components/ImportTextDialog', () => ({
 // Lazy import after mocks are set up
 const { default: RecipeFormPage } = await import('./RecipeFormPage');
 const { useParams } = await import('react-router-dom');
+const { recipesApi } = await import('../api/recipes');
+const { categoriesApi } = await import('../api/categories');
 
 function renderPage() {
   return render(<RecipeFormPage />, { wrapper: createQueryWrapper() });
@@ -48,6 +50,7 @@ function renderPage() {
 
 describe('RecipeFormPage — create mode', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(useParams).mockReturnValue({});
   });
 
@@ -117,10 +120,23 @@ describe('RecipeFormPage — create mode', () => {
     await userEvent.click(screen.getByRole('button', { name: 'mock-import-url-success' }));
     expect(screen.queryByRole('button', { name: 'mock-import-url-success' })).not.toBeInTheDocument();
   });
+
+  it('leaves optional fields that were never filled in out of a new recipe', async () => {
+    renderPage();
+    await userEvent.type(screen.getByTitle('recipe.form.titleLabel'), 'Toast');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.create' }));
+
+    await waitFor(() => expect(recipesApi.create).toHaveBeenCalled());
+    const [payload] = vi.mocked(recipesApi.create).mock.calls[0];
+    for (const field of ['description', 'prepTime', 'cookTime', 'rating', 'categoryId'] as const) {
+      expect(payload[field]).toBeUndefined();
+    }
+  });
 });
 
 describe('RecipeFormPage — edit mode', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(useParams).mockReturnValue({ id: 'abc123' });
   });
 
@@ -145,7 +161,6 @@ describe('RecipeFormPage — edit mode', () => {
   });
 
   it("keeps each step's original order as sourceOrder in the update payload after reordering, decoupled from its new position", async () => {
-    const { recipesApi } = await import('../api/recipes');
     vi.mocked(recipesApi.get).mockResolvedValueOnce({
       _id: 'abc123',
       title: 'Soup',
@@ -186,5 +201,60 @@ describe('RecipeFormPage — edit mode', () => {
       { order: 1, text: 'Step two', externalImageUrl: undefined, sourceOrder: 2 },
       { order: 2, text: 'Step one', externalImageUrl: undefined, sourceOrder: 1 },
     ]);
+  });
+
+  it('sends fields emptied while editing as null, so the update clears them instead of keeping the old values', async () => {
+    vi.mocked(categoriesApi.list).mockResolvedValueOnce([{ _id: 'c1', name: 'Soup' }]);
+    vi.mocked(recipesApi.get).mockResolvedValueOnce({
+      _id: 'abc123',
+      title: 'Soup',
+      description: 'Old notes',
+      prepTime: 10,
+      cookTime: 20,
+      rating: 4,
+      categoryId: 'c1',
+      ingredients: [],
+      steps: [],
+      tags: [],
+      servings: 2,
+      createdAt: new Date().toISOString(),
+    });
+
+    renderPage();
+    await screen.findByDisplayValue('Old notes');
+    await screen.findByRole('option', { name: /Soup/ });
+
+    await userEvent.clear(screen.getByTitle('recipe.form.description'));
+    await userEvent.clear(screen.getByTitle('recipe.form.prepTime'));
+    await userEvent.clear(screen.getByTitle('recipe.form.rating'));
+    await userEvent.selectOptions(screen.getByTitle('recipe.form.category'), '');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
+
+    await waitFor(() => expect(recipesApi.update).toHaveBeenCalled());
+    const [, payload] = vi.mocked(recipesApi.update).mock.calls[0];
+    expect(payload).toMatchObject({ description: null, prepTime: null, rating: null, categoryId: null, cookTime: 20 });
+  });
+
+  it('refreshes the recipe cached under its slug after saving an edit opened by that slug', async () => {
+    vi.mocked(useParams).mockReturnValue({ id: 'soup' });
+    vi.mocked(recipesApi.get).mockResolvedValueOnce({
+      _id: 'r-1',
+      slug: 'soup',
+      title: 'Soup',
+      ingredients: [],
+      steps: [],
+      tags: [],
+      servings: 2,
+      createdAt: new Date().toISOString(),
+    });
+    vi.mocked(recipesApi.update).mockResolvedValueOnce({ _id: 'r-1', slug: 'soup' } as Recipe);
+
+    renderPage();
+    await screen.findByDisplayValue('Soup');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
+
+    // Without the refetch the recipe page, keyed by the slug, would keep showing the recipe as it was before the edit
+    await waitFor(() => expect(recipesApi.get).toHaveBeenCalledTimes(2));
+    expect(recipesApi.get).toHaveBeenLastCalledWith('soup');
   });
 });
