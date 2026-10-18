@@ -27,6 +27,11 @@ describe('photo upload options', () => {
       expect(photoExtension('image/webp')).toBe('.webp');
     });
 
+    it('ignores the case of the media type', () => {
+      expect(photoExtension('Image/PNG')).toBe('.png');
+      expect(photoExtension('IMAGE/JPEG')).toBe('.jpg');
+    });
+
     it.each(['text/html', '', 'constructor', 'toString', '__proto__'])('returns undefined for %s', (mime) => {
       expect(photoExtension(mime)).toBeUndefined();
     });

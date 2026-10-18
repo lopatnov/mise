@@ -18,8 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Triaged the open CodeQL code-scanning alerts (#17–#22, in `uploads`, `admin`/`auth` email and `users`). None was exploitable as reported — the upload-directory ones trace only to the operator-set `UPLOAD_DIR` environment variable, not request input — but the code next to them had real gaps, now closed:
-  - Importing a recipe photo by URL accepted a remote `Content-Type` of `constructor`, `toString` or `__proto__` as an image type and wrote a non-image file with a junk name; the lookup now only accepts the four allowed image types, the same as for direct uploads.
-  - Deleting a stored photo now only ever removes a file directly inside the uploads directory (`.`, `..` and backslash/drive paths are refused).
+  - Importing a recipe photo by URL accepted a remote `Content-Type` of `constructor`, `toString` or `__proto__` as an image type and wrote a non-image file with a junk name; the lookup now only accepts the four allowed image types (matched case-insensitively, so a server sending `Image/PNG` works), the same as for direct uploads.
+  - Deleting a stored photo now only ever removes a file directly inside the uploads directory (`.` and `..` are refused, and so are backslash and drive-letter paths on Windows).
   - User updates write only a fixed list of fields, so no key from a request body can become a database update path.
   - The links in verification and password-reset emails are HTML-escaped (the base URL is a free-form admin setting).
   - Verification and password-reset emails are sent to the address the account is stored under, not the raw request string (lookup lowercases, so the two could differ).

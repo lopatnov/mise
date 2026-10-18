@@ -22,9 +22,11 @@ export const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
  * Extension for an accepted image MIME type, undefined for anything else. Own-property lookup on
  * purpose: the MIME type can come straight from a remote server's Content-Type header, and a plain
  * `EXT_BY_MIME[mime]` would hand back inherited members for "constructor", "toString", "__proto__".
+ * Case-insensitive, since media types are ("Image/PNG" is a valid image/png).
  */
 export function photoExtension(mimetype: string): string | undefined {
-  return Object.hasOwn(EXT_BY_MIME, mimetype) ? EXT_BY_MIME[mimetype] : undefined;
+  const type = mimetype.toLowerCase();
+  return Object.hasOwn(EXT_BY_MIME, type) ? EXT_BY_MIME[type] : undefined;
 }
 
 export function isAllowedPhotoType(mimetype: string): boolean {
