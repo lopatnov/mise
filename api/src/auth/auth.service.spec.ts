@@ -85,6 +85,32 @@ describe('AuthService', () => {
       expect((result as { devLink?: string }).devLink).toContain('/verify-email?token=');
     });
 
+    it('HTML-escapes the configured app URL in the verification email', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(null);
+      mockUsersService.create.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.getAppUrl.mockResolvedValueOnce('https://mise.test/?a=1&b="><img src=x onerror=alert(1)>');
+
+      await service.register('a@b.com', 'pass123');
+
+      const html = mockAdminService.sendEmail.mock.calls[0][2] as string;
+      expect(html).not.toContain('<img');
+      expect(html).toContain('a=1&amp;b=&quot;&gt;&lt;img');
+    });
+
+    it('mails the stored address, not the raw request string', async () => {
+      // the account is stored lowercased; a request such as "A@B.com" must not receive mail at that other spelling
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(null);
+      mockUsersService.create.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+
+      await service.register('A@B.com', 'pass123');
+
+      expect(mockAdminService.sendEmail).toHaveBeenCalledWith('a@b.com', expect.any(String), expect.any(String));
+    });
+
     it('throws ConflictException when email is already registered', async () => {
       mockUsersService.findByEmail.mockResolvedValue({ email: 'a@b.com' });
 
@@ -171,6 +197,30 @@ describe('AuthService', () => {
         String(user._id),
         expect.objectContaining({ resetToken: expect.any(String), resetTokenExpiresAt: expect.any(Date) }),
       );
+    });
+
+    it('HTML-escapes the configured app URL in the reset email', async () => {
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+      mockAdminService.getAppUrl.mockResolvedValueOnce('https://mise.test/?a=1&b="><img src=x onerror=alert(1)>');
+
+      await service.forgotPassword('a@b.com');
+
+      const html = mockAdminService.sendEmail.mock.calls[0][2] as string;
+      expect(html).not.toContain('<img');
+      expect(html).toContain('a=1&amp;b=&quot;&gt;&lt;img');
+    });
+
+    it('mails the stored address, not the raw request string', async () => {
+      // findByEmail lowercases, so "A@B.com" finds the account stored as "a@b.com"; the token must go to the latter
+      const user = { _id: new Types.ObjectId(), email: 'a@b.com' };
+      mockUsersService.findByEmail.mockResolvedValue(user);
+      mockUsersService.updateById.mockResolvedValue(undefined);
+
+      await service.forgotPassword('A@B.com');
+
+      expect(mockAdminService.sendEmail).toHaveBeenCalledWith('a@b.com', expect.any(String), expect.any(String));
     });
 
     it('returns a safe message without devLink when email is sent successfully', async () => {

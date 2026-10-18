@@ -2,17 +2,11 @@ import { randomUUID } from 'node:crypto';
 import { unlink, writeFile } from 'node:fs/promises';
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { mkdirSync } from 'fs';
-import { join } from 'path';
+import { join, resolve, sep } from 'path';
 import { fetchPinned, isSsrfSafe } from '../common/safe-http';
-import { MAX_PHOTO_BYTES } from './photo-upload.options';
+import { MAX_PHOTO_BYTES, photoExtension } from './photo-upload.options';
 
 const DOWNLOAD_TIMEOUT_MS = 10_000;
-const EXT_BY_MIME: Record<string, string> = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/webp': '.webp',
-  'image/gif': '.gif',
-};
 
 @Injectable()
 export class UploadsService implements OnModuleInit {
@@ -40,7 +34,7 @@ export class UploadsService implements OnModuleInit {
       const res = await fetchPinned(safe, { timeoutMs: DOWNLOAD_TIMEOUT_MS, maxBytes: MAX_PHOTO_BYTES });
       if (!res.ok) return undefined;
       const mime = (res.getHeader('content-type') ?? '').split(';')[0].trim();
-      const ext = EXT_BY_MIME[mime];
+      const ext = photoExtension(mime);
       if (!ext) return undefined;
       const filename = `imported-${randomUUID()}${ext}`;
       await writeFile(join(this.uploadsDir, filename), await res.buffer());
@@ -54,8 +48,13 @@ export class UploadsService implements OnModuleInit {
     if (!photoUrl) return;
     const filename = photoUrl.replace(/^\/uploads\//, '');
     if (!filename || filename.includes('/')) return;
+    // Stored names are plain files directly inside uploadsDir. Resolving also catches what the '/' check
+    // misses: '.' and '..' (which name directories) and, on Windows, backslash separators and drive paths.
+    const root = resolve(this.uploadsDir);
+    const target = resolve(root, filename);
+    if (!target.startsWith(root + sep)) return;
     try {
-      await unlink(join(this.uploadsDir, filename));
+      await unlink(target);
     } catch {
       // file already gone — ignore
     }

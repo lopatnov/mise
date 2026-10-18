@@ -154,6 +154,21 @@ describe('UsersService', () => {
       );
     });
 
+    it('ignores keys that are not updatable user fields', async () => {
+      mockModel.findByIdAndUpdate.mockReturnValue({ lean: jest.fn().mockResolvedValue({}) });
+
+      // `constructor` is what an array request body leaves on the validated DTO; the rest simulate a
+      // caller that bypassed the DTO whitelist
+      await service.updateById('abc123', {
+        isActive: true,
+        constructor: null,
+        _id: 'other',
+        unknownField: 'x',
+      } as never);
+
+      expect(mockModel.findByIdAndUpdate).toHaveBeenCalledWith('abc123', { $set: { isActive: true } }, { new: true });
+    });
+
     it('omits $unset when no undefined values are passed', async () => {
       mockModel.findByIdAndUpdate.mockReturnValue({ lean: jest.fn().mockResolvedValue({}) });
 

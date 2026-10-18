@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { type Types } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { AdminService } from '../admin/admin.service';
+import { escapeHtml } from '../common/escape-html';
 import { UsersService } from '../users/users.service';
 
 interface SignTokenUser {
@@ -57,9 +58,12 @@ export class AuthService {
 
     const appUrl = await this.adminService.getAppUrl();
     const verifyLink = `${appUrl}/verify-email?token=${verificationToken}`;
-    const html = `<p>Welcome to Mise! Click the link to verify your email address (valid 24 hours):</p><p><a href="${verifyLink}">${verifyLink}</a></p>`;
+    // appUrl is a free-form admin setting — escape it so a stray quote or angle bracket can't alter the markup
+    const safeLink = escapeHtml(verifyLink);
+    const html = `<p>Welcome to Mise! Click the link to verify your email address (valid 24 hours):</p><p><a href="${safeLink}">${safeLink}</a></p>`;
 
-    const sent = await this.adminService.sendEmail(email, 'Verify your email — Mise', html);
+    // user.email is the normalised address the account is stored under; the raw request string can differ from it
+    const sent = await this.adminService.sendEmail(user.email, 'Verify your email — Mise', html);
 
     if (!sent) {
       return {
@@ -95,9 +99,10 @@ export class AuthService {
 
     const appUrl = await this.adminService.getAppUrl();
     const resetLink = `${appUrl}/reset-password?token=${token}`;
-    const html = `<p>Click the link to reset your password (valid 1 hour):</p><p><a href="${resetLink}">${resetLink}</a></p>`;
+    const safeLink = escapeHtml(resetLink);
+    const html = `<p>Click the link to reset your password (valid 1 hour):</p><p><a href="${safeLink}">${safeLink}</a></p>`;
 
-    const sent = await this.adminService.sendEmail(email, 'Password reset — Mise', html);
+    const sent = await this.adminService.sendEmail(user.email, 'Password reset — Mise', html);
 
     if (!sent) {
       // SMTP not configured — return link in response for dev/self-hosted without email

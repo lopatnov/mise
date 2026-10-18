@@ -82,6 +82,16 @@ describe('UploadsService', () => {
       expect(writeFile).not.toHaveBeenCalled();
     });
 
+    it.each(['constructor', 'toString', '__proto__'])(
+      'rejects the inherited Object property "%s" sent as a content type',
+      async (contentType) => {
+        jest.mocked(fetchPinned).mockResolvedValue(imageResponse(contentType));
+
+        await expect(service.savePhotoFromUrl('https://example.com/photo.png')).resolves.toBeUndefined();
+        expect(writeFile).not.toHaveBeenCalled();
+      },
+    );
+
     it('passes the photo size cap through to fetchPinned', async () => {
       jest.mocked(fetchPinned).mockResolvedValue(imageResponse('image/png'));
 
@@ -148,5 +158,13 @@ describe('UploadsService', () => {
       await service.deletePhoto('/uploads/../secret.txt');
       expect(unlink).not.toHaveBeenCalled();
     });
+
+    it.each(['/uploads/..', '/uploads/.', '..', '.'])(
+      'never unlinks the directory that "%s" resolves to',
+      async (url) => {
+        await service.deletePhoto(url);
+        expect(unlink).not.toHaveBeenCalled();
+      },
+    );
   });
 });
