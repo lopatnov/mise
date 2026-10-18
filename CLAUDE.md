@@ -71,7 +71,7 @@
 
 | Layer          | Technology                                          |
 | -------------- | ---------------------------------------------------- |
-| Backend        | Node.js 24, NestJS 11, TypeScript                    |
+| Backend        | Node.js 24, NestJS 12, TypeScript                    |
 | Database       | MongoDB 8, Mongoose                                  |
 | Auth           | JWT Bearer (`@nestjs/jwt`, `passport-jwt`), bcrypt    |
 | Frontend       | React 19, Vite 8, TanStack Query 5, Zustand 5         |

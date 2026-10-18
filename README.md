@@ -33,7 +33,7 @@ Scale servings, search by text, filter by tag and category, import from any reci
 
 | Layer          | Technology                                 |
 | -------------- | ------------------------------------------ |
-| Backend        | Node.js 24, NestJS 11, TypeScript          |
+| Backend        | Node.js 24, NestJS 12, TypeScript          |
 | Database       | MongoDB 8, Mongoose                        |
 | Auth           | JWT Bearer, bcrypt                         |
 | Frontend       | React 19, Vite 8, React Query 5, Zustand 5 |
