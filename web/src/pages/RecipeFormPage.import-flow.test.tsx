@@ -2,7 +2,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, Link, RouterProvider } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createQueryWrapper } from '../test-utils';
+import { QueryWrapper } from '../test-utils';
 
 vi.mock('../api/categories', () => ({
   categoriesApi: { list: vi.fn().mockResolvedValue([]) },
@@ -46,7 +46,7 @@ function renderApp() {
     ],
     { initialEntries: ['/recipes/new'] },
   );
-  render(<RouterProvider router={router} />, { wrapper: createQueryWrapper() });
+  render(<RouterProvider router={router} />, { wrapper: QueryWrapper });
   return router;
 }
 
