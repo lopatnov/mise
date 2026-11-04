@@ -162,7 +162,7 @@ JWT_EXPIRES_IN=7d
 ```yaml
 services:
   mongodb:
-    image: mongo:8
+    image: mongo:8.0
     container_name: mise-mongodb
     volumes:
       - mise_mongo_data:/data/db
@@ -286,7 +286,7 @@ docker compose -f docker-compose.prod.yml down -v
 docker run --rm \
   -v mise_mongo_data:/data/db \
   -v $(pwd)/backup:/backup \
-  mongo:8 mongodump --out /backup
+  mongo:8.0 mongodump --out /backup
 ```
 
 **Restore MongoDB:**
@@ -295,7 +295,7 @@ docker run --rm \
 docker run --rm \
   -v mise_mongo_data:/data/db \
   -v $(pwd)/backup:/backup \
-  mongo:8 mongorestore /backup
+  mongo:8.0 mongorestore /backup
 ```
 
 **Back up uploads:**
@@ -381,6 +381,7 @@ GET  /api/categories             List categories
 | 500 on login                      | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
 | Images not loading in Docker      | Old named volume for uploads                 | The volume should be a bind mount — see `docker-compose.prod.yml`                                                           |
 | `npm error ECONNRESET` during `--build`  | Transient network drop from npm registry | Re-run `docker compose -f docker-compose.prod.yml up -d --build` — the error is intermittent and usually clears on retry   |
+| `mise-mongodb` keeps restarting; its log says `MongoDB cannot start: Linux kernel versions 6.19 and newer ...` | Host kernel 6.19 to 7.0.13, or an Ubuntu `7.0.0-*` kernel that MongoDB 8.0 misreads as one (SERVER-131779) | Uncomment `GLIBC_TUNABLES: glibc.pthread.rseq=1` under `mongodb` → `environment` in your compose file (unofficial; back up first), or run a kernel 6.18 or older, or 7.0.14 or newer. Remove the line once `mongo:8.0` is at 8.0.35 or newer (`docker compose pull`) |
 
 ---
 
