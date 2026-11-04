@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Step } from '../api/recipes';
+import HiddenPhotoInput from './HiddenPhotoInput';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
@@ -75,16 +76,10 @@ export default function RecipeSteps({ steps, canEdit, onPhotoSelected, onPhotoOp
         ))}
       </ol>
       {canEdit && (
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          aria-label={t('recipe.detail.changePhoto')}
-          className="visually-hidden"
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f && pendingOrder.current !== null) onPhotoSelected(pendingOrder.current, f);
-            e.target.value = '';
+        <HiddenPhotoInput
+          inputRef={fileRef}
+          onFile={(file) => {
+            if (pendingOrder.current !== null) onPhotoSelected(pendingOrder.current, file);
           }}
         />
       )}

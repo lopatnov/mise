@@ -235,30 +235,8 @@ describe('RecipeFormPage — edit mode', () => {
     expect(payload).toMatchObject({ description: null, prepTime: null, rating: null, categoryId: null, cookTime: 20 });
   });
 
-  it('refreshes the recipe cached under its slug after saving an edit opened by that slug', async () => {
-    vi.mocked(useParams).mockReturnValue({ id: 'soup' });
-    vi.mocked(recipesApi.get).mockResolvedValueOnce({
-      _id: 'r-1',
-      slug: 'soup',
-      title: 'Soup',
-      ingredients: [],
-      steps: [],
-      tags: [],
-      servings: 2,
-      createdAt: new Date().toISOString(),
-    });
-    vi.mocked(recipesApi.update).mockResolvedValueOnce({ _id: 'r-1', slug: 'soup' } as Recipe);
-
-    renderPage();
-    await screen.findByDisplayValue('Soup');
-    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
-
-    // Without the refetch the recipe page, keyed by the slug, would keep showing the recipe as it was before the edit
-    await waitFor(() => expect(recipesApi.get).toHaveBeenCalledTimes(2));
-    expect(recipesApi.get).toHaveBeenLastCalledWith('soup');
-  });
-
-  it('refreshes the tag list after saving, so a tag added by this save is offered at once', async () => {
+  /** Open the edit form for the recipe "soup" by its slug, then save it unchanged */
+  async function saveEditOpenedBySlug() {
     vi.mocked(useParams).mockReturnValue({ id: 'soup' });
     vi.mocked(recipesApi.get).mockResolvedValueOnce({
       _id: 'r-1',
@@ -276,6 +254,18 @@ describe('RecipeFormPage — edit mode', () => {
     renderPage();
     await screen.findByDisplayValue('Soup');
     await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
+  }
+
+  it('refreshes the recipe cached under its slug after saving an edit opened by that slug', async () => {
+    await saveEditOpenedBySlug();
+
+    // Without the refetch the recipe page, keyed by the slug, would keep showing the recipe as it was before the edit
+    await waitFor(() => expect(recipesApi.get).toHaveBeenCalledTimes(2));
+    expect(recipesApi.get).toHaveBeenLastCalledWith('soup');
+  });
+
+  it('refreshes the tag list after saving, so a tag added by this save is offered at once', async () => {
+    await saveEditOpenedBySlug();
 
     // Once on mount, once more after the save invalidated it
     await waitFor(() => expect(recipesApi.getTags).toHaveBeenCalledTimes(2));

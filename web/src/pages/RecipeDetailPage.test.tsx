@@ -3,8 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Recipe } from '../api/recipes';
-import { createQueryWrapper } from '../test-utils';
+import { createQueryWrapper, makeRecipe } from '../test-utils';
 
 // The id in the URL: the recipe's _id in most tests, its slug where the difference matters
 let mockRouteId = 'r1';
@@ -35,19 +34,6 @@ vi.mock('../api/recipes', () => ({ recipesApi }));
 
 // Lazy import after mocks are set up
 const { default: RecipeDetailPage } = await import('./RecipeDetailPage');
-
-function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
-  return {
-    _id: 'r1',
-    title: 'Borsch',
-    servings: 4,
-    tags: [],
-    createdAt: '2024-01-01T00:00:00.000Z',
-    ingredients: [],
-    steps: [],
-    ...overrides,
-  };
-}
 
 function renderPage() {
   return render(<RecipeDetailPage />, { wrapper: createQueryWrapper() });

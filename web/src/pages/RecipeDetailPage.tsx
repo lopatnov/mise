@@ -7,6 +7,7 @@ import type { Recipe } from '../api/recipes';
 import { recipesApi } from '../api/recipes';
 import ConfirmDialog from '../components/ConfirmDialog';
 import CookLog from '../components/CookLog';
+import HiddenPhotoInput from '../components/HiddenPhotoInput';
 import Lightbox from '../components/Lightbox';
 import RecipeSteps from '../components/RecipeSteps';
 import { useMetaTags } from '../hooks/useMetaTags';
@@ -168,20 +169,7 @@ export default function RecipeDetailPage() {
         />
       )}
 
-      {canEdit && (
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          aria-label={t('recipe.detail.changePhoto')}
-          className="visually-hidden"
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) photoMut.mutate(f);
-            e.target.value = '';
-          }}
-        />
-      )}
+      {canEdit && <HiddenPhotoInput inputRef={fileRef} onFile={(file) => photoMut.mutate(file)} />}
 
       {/* Action bar: full width */}
       <div className="recipe-actions no-print">

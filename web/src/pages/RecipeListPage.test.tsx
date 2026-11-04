@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
-import { createQueryWrapper } from '../test-utils';
+import { createQueryWrapper, makeRecipe } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   Link: ({ children }: { children: ReactNode }) => <a href="/">{children}</a>,
@@ -23,19 +23,6 @@ const recipesApi = { listPublic: vi.fn(), getTags: vi.fn().mockResolvedValue([])
 vi.mock('../api/recipes', () => ({ recipesApi }));
 
 const { default: RecipeListPage } = await import('./RecipeListPage');
-
-function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
-  return {
-    _id: 'r1',
-    title: 'Borsch',
-    servings: 4,
-    tags: [],
-    createdAt: '2024-01-01T00:00:00.000Z',
-    ingredients: [],
-    steps: [],
-    ...overrides,
-  };
-}
 
 function renderWith(items: Recipe[]) {
   recipesApi.listPublic.mockResolvedValue({ items, total: items.length, page: 1, limit: 12 });
