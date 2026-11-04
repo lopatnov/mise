@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
@@ -23,7 +24,7 @@ vi.mock('../store/toastStore', () => ({ useToast: () => toast }));
 
 vi.mock('../api/categories', () => ({ categoriesApi: { list: vi.fn().mockResolvedValue([]) } }));
 
-const recipesApi = { get: vi.fn(), addCookNote: vi.fn(), removeCookNote: vi.fn(), addFavorite: vi.fn() };
+const recipesApi = { get: vi.fn(), create: vi.fn(), addCookNote: vi.fn(), removeCookNote: vi.fn(), addFavorite: vi.fn() };
 vi.mock('../api/recipes', () => ({ recipesApi }));
 
 // Lazy import after mocks are set up
@@ -204,6 +205,24 @@ describe('RecipeDetailPage', () => {
 
     await waitFor(() => expect(toast.error).toHaveBeenCalledWith('error.message'));
     expect(toast.error).not.toHaveBeenCalledWith('recipe.detail.deleteError');
+  });
+
+  it('pre-fills the edit form under the slug it navigates to after saving a copy', async () => {
+    mockUser = { id: 'reader' };
+    recipesApi.get.mockResolvedValue(makeRecipe({ authorId: 'author-1' }));
+    const copy = makeRecipe({ _id: 'copy-id', slug: 'borsch-copy' });
+    recipesApi.create.mockResolvedValue(copy);
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+
+    render(
+      <QueryClientProvider client={client}>
+        <RecipeDetailPage />
+      </QueryClientProvider>,
+    );
+    await userEvent.click(await screen.findByRole('button', { name: 'recipe.detail.duplicate' }));
+
+    // The edit page reads its recipe under the slug from the URL, so that is where the copy has to be cached
+    await waitFor(() => expect(client.getQueryData(['recipe', 'borsch-copy'])).toEqual(copy));
   });
 
   it('shows no stray 0 for a zero prep or cook time', async () => {

@@ -104,7 +104,8 @@ export default function RecipeDetailPage() {
       });
     },
     onSuccess: (saved) => {
-      qc.setQueryData(['recipe', saved._id], saved);
+      // Keyed like the edit page's own query: by the slug in the URL we navigate to, not the _id
+      qc.setQueryData(['recipe', saved.slug ?? saved._id], saved);
       qc.invalidateQueries({ queryKey: ['recipes'] });
       navigate(`/recipes/${saved.slug ?? saved._id}/edit`);
     },
