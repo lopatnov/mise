@@ -7,7 +7,7 @@ interface HiddenPhotoInputProps {
 }
 
 /** A visually hidden file input a visible button opens through `inputRef.current?.click()` */
-export default function HiddenPhotoInput({ inputRef, onFile }: HiddenPhotoInputProps) {
+export default function HiddenPhotoInput({ inputRef, onFile }: Readonly<HiddenPhotoInputProps>) {
   const { t } = useTranslation();
   return (
     <input

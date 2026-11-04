@@ -13,7 +13,7 @@ interface RecipeStepsProps {
 }
 
 /** The recipe's steps in order, each with its photo — an editor can add a photo to a step or replace it */
-export default function RecipeSteps({ steps, canEdit, onPhotoSelected, onPhotoOpen }: RecipeStepsProps) {
+export default function RecipeSteps({ steps, canEdit, onPhotoSelected, onPhotoOpen }: Readonly<RecipeStepsProps>) {
   const { t } = useTranslation();
   const fileRef = useRef<HTMLInputElement>(null);
   // One hidden file input serves every step, so remember which step's button opened it
