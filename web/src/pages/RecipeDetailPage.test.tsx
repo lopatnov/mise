@@ -24,7 +24,13 @@ vi.mock('../store/toastStore', () => ({ useToast: () => toast }));
 
 vi.mock('../api/categories', () => ({ categoriesApi: { list: vi.fn().mockResolvedValue([]) } }));
 
-const recipesApi = { get: vi.fn(), create: vi.fn(), addCookNote: vi.fn(), removeCookNote: vi.fn(), addFavorite: vi.fn() };
+const recipesApi = {
+  get: vi.fn(),
+  create: vi.fn(),
+  addCookNote: vi.fn(),
+  removeCookNote: vi.fn(),
+  addFavorite: vi.fn(),
+};
 vi.mock('../api/recipes', () => ({ recipesApi }));
 
 // Lazy import after mocks are set up
