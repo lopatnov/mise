@@ -257,4 +257,27 @@ describe('RecipeFormPage — edit mode', () => {
     await waitFor(() => expect(recipesApi.get).toHaveBeenCalledTimes(2));
     expect(recipesApi.get).toHaveBeenLastCalledWith('soup');
   });
+
+  it('refreshes the tag list after saving, so a tag added by this save is offered at once', async () => {
+    vi.mocked(useParams).mockReturnValue({ id: 'soup' });
+    vi.mocked(recipesApi.get).mockResolvedValueOnce({
+      _id: 'r-1',
+      slug: 'soup',
+      title: 'Soup',
+      ingredients: [],
+      steps: [],
+      tags: [],
+      servings: 2,
+      createdAt: new Date().toISOString(),
+    });
+    vi.mocked(recipesApi.update).mockResolvedValueOnce({ _id: 'r-1', slug: 'soup' } as Recipe);
+    vi.mocked(recipesApi.getTags).mockClear();
+
+    renderPage();
+    await screen.findByDisplayValue('Soup');
+    await userEvent.click(screen.getByRole('button', { name: 'recipe.form.save' }));
+
+    // Once on mount, once more after the save invalidated it
+    await waitFor(() => expect(recipesApi.getTags).toHaveBeenCalledTimes(2));
+  });
 });

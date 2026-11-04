@@ -131,6 +131,8 @@ export default function RecipeFormPage() {
       qc.invalidateQueries({ queryKey: ['recipes'] });
       // The recipe page caches a recipe under whatever its URL held (usually the slug, not _id), so refresh every one
       qc.invalidateQueries({ queryKey: ['recipe'] });
+      // A tag added by this save should be offered in the filters and the tag suggestions right away
+      qc.invalidateQueries({ queryKey: ['recipe-tags'] });
       navigate(`/recipes/${saved.slug ?? saved._id}`);
     },
   });

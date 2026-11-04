@@ -195,4 +195,33 @@ describe('Recipes update (e2e)', () => {
     expect(persisted.title).toBe('Updated Recipe Title');
     expect(persisted.ingredients).toMatchObject([{ name: 'Flour', amount: 250, unit: 'g' }]);
   });
+
+  // ── Clearing a field: an update leaves omitted fields alone, so RecipeFormPage sends null for an emptied one ──
+
+  it('PATCH /api/recipes/:id with null clears description, prepTime, cookTime and rating', async () => {
+    await request(app.getHttpServer())
+      .patch(`/api/recipes/${recipeId}`)
+      .set('Authorization', `Bearer ${ownerToken}`)
+      .send({ title: 'Clearing test title', description: 'To be cleared', prepTime: 5, cookTime: 15, rating: 3 })
+      .expect(200);
+
+    await request(app.getHttpServer())
+      .patch(`/api/recipes/${recipeId}`)
+      .set('Authorization', `Bearer ${ownerToken}`)
+      .send({ description: null, prepTime: null, cookTime: null, rating: null })
+      .expect(200);
+
+    const refetch = await request(app.getHttpServer())
+      .get(`/api/recipes/${recipeId}`)
+      .set('Authorization', `Bearer ${ownerToken}`)
+      .expect(200);
+    const persisted = refetch.body as Record<string, unknown>;
+    // Cleared means no value; null and absent are the same to the web app
+    expect(persisted.description ?? null).toBeNull();
+    expect(persisted.prepTime ?? null).toBeNull();
+    expect(persisted.cookTime ?? null).toBeNull();
+    expect(persisted.rating ?? null).toBeNull();
+    // ...while fields the update did not mention are untouched
+    expect(persisted.title).toBe('Clearing test title');
+  });
 });
