@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgraded the API to NestJS 12 (`@nestjs/*` 11 → 12, including the CLI, schematics and testing packages). NestJS 12 packages are ESM-only, so the Jest transform now also converts `@nestjs/*` to CommonJS, the same way it already does for `uuid`. Unit tests (223), e2e tests, lint and build all pass. `mongoose` stays held at `~9.9.5` (see #129).
 
+- The bundled MongoDB image is pinned to `mongo:8.0` (it was the floating `mongo:8`, which moved to the 8.3 rapid-release line on 2026-10-27) in both compose files and the README commands. **If your database volume was first created after that date, it is already at 8.3 and MongoDB 8.0 cannot open it**: set the image back to `mongo:8.3`, or dump and restore into 8.0 (README → Troubleshooting).
+
+### Fixed
+
+- `mongod` refuses to start on host kernels 6.19 to 7.0.13 (and on Ubuntu `7.0.0-*` kernels it misreads as that range, SERVER-131779), so `mise-mongodb` restarts in a loop. The README Troubleshooting table now covers it, and the compose files carry a commented, opt-in `GLIBC_TUNABLES` workaround.
+
 ### Security
 
 - Triaged the open CodeQL code-scanning alerts (#17–#22, in `uploads`, `admin`/`auth` email and `users`). None was exploitable as reported — the upload-directory ones trace only to the operator-set `UPLOAD_DIR` environment variable, not request input — but the code next to them had real gaps, now closed:
