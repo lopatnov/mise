@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
-import { createQueryWrapper } from '../test-utils';
+import { QueryWrapper } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
@@ -40,7 +40,7 @@ function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
 }
 
 function renderPage() {
-  return render(<RecipeDetailPage />, { wrapper: createQueryWrapper() });
+  return render(<RecipeDetailPage />, { wrapper: QueryWrapper });
 }
 
 describe('RecipeDetailPage', () => {
