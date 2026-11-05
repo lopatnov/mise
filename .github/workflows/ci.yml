@@ -12,16 +12,28 @@ permissions:
 jobs:
   api:
     name: API — lint, test, build
-    runs-on: ubuntu-latest
+    # Not ubuntu-latest: since runner image 20261018 the 24.04 and 26.04 images run kernel 7.0.0-azure, which
+    # mongod's startup guard misreads as the broken 6.19-7.0.13 range (SERVER-131779) and refuses to start,
+    # so every e2e hook timed out and the job hung until the 6 h limit (actions/runner-images#15005).
+    # Return to ubuntu-latest once mongo:8.0 reaches 8.0.35+, and before ubuntu-22.04 is retired in April 2027.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: api
 
     services:
       mongodb:
-        image: mongo:8
+        # mongo:8 has moved to the 8.3 line; stay on the 8.0 line the app is built and tested against
+        image: mongo:8.0
         ports:
           - 27017:27017
+        # Fail fast if mongod dies at startup instead of letting the job wait on a database that is not there
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ping:1})'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
 
     env:
       MONGODB_URI: mongodb://localhost:27017/mise-test
