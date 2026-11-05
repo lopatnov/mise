@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { categoriesApi } from '../api/categories';
 import { recipesApi } from '../api/recipes';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { categoryLabel } from '../i18n/categoryLabel';
 import { useAuthStore } from '../store/authStore';
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
@@ -114,6 +115,7 @@ export default function RecipeListPage() {
   });
 
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 1;
+  const selectedCategory = categories?.find((c) => c._id === category);
 
   function goToPage(p: number) {
     setPage(p);
@@ -154,7 +156,7 @@ export default function RecipeListPage() {
             <option value="">{t('recipe.list.allCategories')}</option>
             {categories?.map((c) => (
               <option key={c._id} value={c._id}>
-                {c.icon} {c.slug ? t(`categories.${c.slug}`, c.name) : c.name}
+                {c.icon} {categoryLabel(c, t)}
               </option>
             ))}
           </select>
@@ -196,10 +198,7 @@ export default function RecipeListPage() {
           )}
           {category && (
             <span className="filter-chip">
-              📂 {(() => {
-                const c = categories?.find((x) => x._id === category);
-                return c ? (c.slug ? t(`categories.${c.slug}`, c.name) : c.name) : category;
-              })()}
+              📂 {selectedCategory ? categoryLabel(selectedCategory, t) : category}
               <button type="button" onClick={() => changeCategory('')}>
                 ×
               </button>
@@ -252,9 +251,10 @@ export default function RecipeListPage() {
                   ) : (
                     <div className="recipe-card__placeholder">🍽</div>
                   )}
-                  {(r.prepTime || r.cookTime) && (
+                  {/* Ternary, not &&: a zero cook time would otherwise render as a bare 0 on the photo */}
+                  {r.prepTime || r.cookTime ? (
                     <span className="card-time-badge">⏱ {(r.prepTime ?? 0) + (r.cookTime ?? 0)} min</span>
-                  )}
+                  ) : null}
                 </div>
                 <div className="recipe-card__body">
                   <h3 className="recipe-card__title">{r.title}</h3>
@@ -262,7 +262,7 @@ export default function RecipeListPage() {
                   <div className="recipe-card__meta">
                     {cat && (
                       <span className="recipe-card__category">
-                        {cat.icon} {cat.slug ? t(`categories.${cat.slug}`, cat.name) : cat.name}
+                        {cat.icon} {categoryLabel(cat, t)}
                       </span>
                     )}
                     {r.tags.slice(0, 3).map((tg) => (

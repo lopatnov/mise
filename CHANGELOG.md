@@ -46,6 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- After editing a recipe, its page showed the version from before the edit for up to 30 seconds when it had been opened by its slug (the usual case from the list): the cache refresh targeted the recipe id instead. A newly added or removed cook note had the same problem. Both now refresh correctly, and a tag added by the save shows up in the filters at once instead of up to 30 seconds later.
+- A description, prep time, cook time, rating or category emptied while editing a recipe was never actually cleared: the form sent nothing for it and the update leaves omitted fields alone, so the old value came back. Emptied fields are now cleared (checked end to end against MongoDB).
+- A recipe with a prep or cook time of 0 showed a stray "0" on its page and on the list card.
+- A failed favourite toggle on the recipe page said "Failed to delete recipe"; it now shows the generic error message.
+- Readers who cannot edit a recipe no longer get hidden photo-upload file inputs in their tab order, and the button that opens a step photo full size is now announced as "Step N" instead of "Add photo".
 - Saving a recipe no longer shows an "Unsaved changes. Leave anyway?" prompt on the redirect to the saved recipe. The form cleared its unsaved flag and navigated in the same tick, so the router's leave-guard still saw a dirty form. The existing tests stubbed the guard, which hid it; a new test runs against the real router.
 - Importing a second recipe from a URL into the same form no longer saves it with the first import's photo. A URL import now takes the photo from that page and clears the previous one when the page has none; an "Import from text" leaves the existing photo as it is.
 - The "unsaved changes" guard stays active for edits made after a save that leaves the form on screen (for example a recipe titled "New", whose page address is the create form's own).
