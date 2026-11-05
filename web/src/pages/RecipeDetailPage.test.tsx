@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createQueryWrapper, makeRecipe } from '../test-utils';
+import { makeRecipe, QueryWrapper } from '../test-utils';
 
 // The id in the URL: the recipe's _id in most tests, its slug where the difference matters
 let mockRouteId = 'r1';
@@ -36,7 +36,7 @@ vi.mock('../api/recipes', () => ({ recipesApi }));
 const { default: RecipeDetailPage } = await import('./RecipeDetailPage');
 
 function renderPage() {
-  return render(<RecipeDetailPage />, { wrapper: createQueryWrapper() });
+  return render(<RecipeDetailPage />, { wrapper: QueryWrapper });
 }
 
 describe('RecipeDetailPage', () => {

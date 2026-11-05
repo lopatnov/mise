@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
-import { createQueryWrapper, makeRecipe } from '../test-utils';
+import { makeRecipe, QueryWrapper } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   Link: ({ children }: { children: ReactNode }) => <a href="/">{children}</a>,
@@ -26,7 +26,7 @@ const { default: RecipeListPage } = await import('./RecipeListPage');
 
 function renderWith(items: Recipe[]) {
   recipesApi.listPublic.mockResolvedValue({ items, total: items.length, page: 1, limit: 12 });
-  return render(<RecipeListPage />, { wrapper: createQueryWrapper() });
+  return render(<RecipeListPage />, { wrapper: QueryWrapper });
 }
 
 describe('RecipeListPage', () => {

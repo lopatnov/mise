@@ -162,7 +162,7 @@ JWT_EXPIRES_IN=7d
 ```yaml
 services:
   mongodb:
-    image: mongo:8
+    image: mongo:8.0
     container_name: mise-mongodb
     volumes:
       - mise_mongo_data:/data/db
@@ -286,7 +286,7 @@ docker compose -f docker-compose.prod.yml down -v
 docker run --rm \
   -v mise_mongo_data:/data/db \
   -v $(pwd)/backup:/backup \
-  mongo:8 mongodump --out /backup
+  mongo:8.0 mongodump --out /backup
 ```
 
 **Restore MongoDB:**
@@ -295,7 +295,7 @@ docker run --rm \
 docker run --rm \
   -v mise_mongo_data:/data/db \
   -v $(pwd)/backup:/backup \
-  mongo:8 mongorestore /backup
+  mongo:8.0 mongorestore /backup
 ```
 
 **Back up uploads:**
@@ -381,6 +381,22 @@ GET  /api/categories             List categories
 | 500 on login                      | User created before `isActive` field existed | `docker exec -it mise-mongodb mongosh mise --eval 'db.users.updateMany({isActive:{$exists:false}},{$set:{isActive:true}})'` |
 | Images not loading in Docker      | Old named volume for uploads                 | The volume should be a bind mount — see `docker-compose.prod.yml`                                                           |
 | `npm error ECONNRESET` during `--build`  | Transient network drop from npm registry | Re-run `docker compose -f docker-compose.prod.yml up -d --build` — the error is intermittent and usually clears on retry   |
+| `mise-mongodb` keeps restarting; its log says `MongoDB cannot start: Linux kernel versions 6.19 and newer ...` | Host kernel 6.19 to 7.0.13, or an Ubuntu `7.0.0-*` kernel that MongoDB 8.0 misreads as one (SERVER-131779) | Uncomment `GLIBC_TUNABLES: glibc.pthread.rseq=1` under `mongodb` → `environment` in your compose file (unofficial; back up first), or run a kernel 6.18 or older, or 7.0.14 or newer. Remove the line once `mongo:8.0` is at 8.0.35 or newer (`docker compose pull`) |
+| `mise-mongodb` exits right after you switch the image from `mongo:8` to `mongo:8.0` | The volume was first created while `mongo:8` meant MongoDB 8.3 (from 2026-10-27). A new data directory starts at its own version, and MongoDB 8.0 cannot open files written by 8.3 | Keep your data: set the image back to `mongo:8.3`. Or move to 8.0 with a dump and restore, see below |
+
+**Moving an existing database from MongoDB 8.3 to 8.0.** Only needed if the row above applies to you. Do the dump while the old 8.3 container is still the one running (or set the image back to `mongo:8.3` and start it again), because the data cannot be read by 8.0 directly:
+
+```bash
+docker exec mise-mongodb mongodump --db=mise --archive=/tmp/mise.archive
+docker cp mise-mongodb:/tmp/mise.archive ./mise.archive
+docker compose down -v          # wipes the database volume: only after the dump above succeeded
+# set the image to mongo:8.0 in your compose file, then:
+docker compose up -d mongodb
+docker cp ./mise.archive mise-mongodb:/tmp/mise.archive
+docker exec mise-mongodb mongorestore --archive=/tmp/mise.archive
+```
+
+If you enabled MongoDB authentication, add `--username=… --password=… --authenticationDatabase=admin` to both MongoDB commands. Use `docker compose -f docker-compose.prod.yml` for the production stack.
 
 ---
 

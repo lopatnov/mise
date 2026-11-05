@@ -69,7 +69,7 @@ export class UsersService {
       .lean();
   }
 
-  async updateById(id: string, update: Partial<Pick<User, UpdatableUserField>>): Promise<UserDocument | null> {
+  updateById(id: string, update: Partial<Pick<User, UpdatableUserField>>): Promise<UserDocument | null> {
     const $set: Record<string, unknown> = {};
     const $unset: Record<string, ''> = {};
     // Walk the fixed field list, not the keys of `update`: a field name that came from a request body

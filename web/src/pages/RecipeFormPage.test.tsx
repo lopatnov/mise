@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Recipe } from '../api/recipes';
-import { createQueryWrapper } from '../test-utils';
+import { QueryWrapper } from '../test-utils';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(() => vi.fn()),
@@ -45,7 +45,7 @@ const { recipesApi } = await import('../api/recipes');
 const { categoriesApi } = await import('../api/categories');
 
 function renderPage() {
-  return render(<RecipeFormPage />, { wrapper: createQueryWrapper() });
+  return render(<RecipeFormPage />, { wrapper: QueryWrapper });
 }
 
 describe('RecipeFormPage — create mode', () => {

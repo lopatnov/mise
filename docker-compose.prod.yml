@@ -15,13 +15,17 @@
 
 services:
   mongodb:
-    image: mongo:8
+    image: mongo:8.0
     container_name: mise-mongodb
     # No external port — only reachable by other containers in this Compose project.
     volumes:
       - mise_mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: mise
+      # Only if mongod will not start and its log says "Linux kernel versions 6.19 and newer ..." (see
+      # Troubleshooting in the README). Unofficial workaround: back up first, and remove it once mongo:8.0
+      # is at 8.0.35 or newer.
+      # GLIBC_TUNABLES: glibc.pthread.rseq=1
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
@@ -81,7 +85,7 @@ services:
           memory: 64M
 
   db-backup:
-    image: mongo:8
+    image: mongo:8.0
     container_name: mise-db-backup
     entrypoint: ["/bin/bash", "-c"]
     # Set MONGO_USER / MONGO_PASS in .env.prod when MongoDB auth is enabled.
@@ -119,4 +123,4 @@ volumes:
     # Daily mongodump backups, retained for 7 days.
     # To restore a backup: docker run --rm \
     #   -v mise_mongo_backups:/backups -v mise_mongo_data:/data/db \
-    #   mongo:8 mongorestore --host=mongodb:27017 /backups/mise_<STAMP>
+    #   mongo:8.0 mongorestore --host=mongodb:27017 /backups/mise_<STAMP>

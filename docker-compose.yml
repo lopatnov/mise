@@ -6,7 +6,7 @@
 
 services:
   mongodb:
-    image: mongo:8
+    image: mongo:8.0
     container_name: mise-mongodb
     ports:
       - "27017:27017"
@@ -14,6 +14,10 @@ services:
       - mise_mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: mise
+      # Only if mongod will not start and its log says "Linux kernel versions 6.19 and newer ..." (see
+      # Troubleshooting in the README). Unofficial workaround: back up first, and remove it once mongo:8.0
+      # is at 8.0.35 or newer.
+      # GLIBC_TUNABLES: glibc.pthread.rseq=1
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
